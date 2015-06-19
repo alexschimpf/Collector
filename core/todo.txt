@@ -1,0 +1,20 @@
+----------------------------------
+TileMap to GameWorld Rules
+----------------------------------
+- Non-objects will stay in the TileMap and be rendered independently from entities
+	- However, [Shape]MapObjects with the type "body" will be added to the physics world, 
+	  detached from everything.
+- All entities SHOULD be derived from TextureMapObjects (until further notice)
+	- These will be EXTRACTED from the TileMap, processed, and inserted into the GameWorld
+	- The physics body size will be determined from the object size UNLESS:
+		- The object has a property "body_skeleton_ref", whose value is the name of shape MapObject with type "body_skeleton"
+	- Animated entities will just override get_sprite
+		- The texture region from the TileMap is just used for visualization in Tiled
+		- It will be ignored when the entity is created 
+	- Each entity will have a static function: buildFromMapObject(TextureMapObject mapObject)
+		- From this, we can get the id, position, texture region, and custom properties
+		- The custom properties will be validated against EntityPropertyValidator
+	- An entity's id will be derived from a MapObject's name (not id)
+		- The name is not part of the MapObject's properties
+	- An entity's type will be derived from a MapObject's type property
+	
