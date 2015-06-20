@@ -43,4 +43,8 @@ public final class Globals {
 	public static Player getPlayer() {
 		return getGameWorld().getPlayer();
 	}
+	
+	public static GameWorld.State getGameState() {
+		return getGameWorld().getState();
+	}
 }

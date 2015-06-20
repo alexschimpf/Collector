@@ -15,4 +15,36 @@ public class Player extends Entity {
 	public String getType() {
 		return "player";
 	}
+	
+	public void jump() {
+		
+	}
+	
+	public void stopJump() {
+		
+	}
+	
+	public void moveLeft() {
+		
+	}
+	
+	public void moveRight() {
+		
+	}
+	
+	public void stopMove() {
+		
+	}
+	
+	public void shoot() {
+		
+	}
+	
+	public void incrementFootContacts() {
+		
+	}
+	
+	public void decrementFootContacts() {
+		
+	}
 }

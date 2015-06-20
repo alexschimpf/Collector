@@ -18,6 +18,11 @@ import entity.Player;
 
 public final class GameWorld implements IRender, IUpdate {
 
+	public static enum State {
+		RUNNING,
+		PAUSED
+	};
+	
 	private final static float DEFAULT_GRAVITY = 10;
 	
 	public static GameWorld instance;
@@ -26,6 +31,7 @@ public final class GameWorld implements IRender, IUpdate {
 	private final ConcurrentHashMap<String, Entity> ENTITY_MAP = new ConcurrentHashMap<String, Entity>();
 	
 	private Player player;
+	private State state;
 	
 	public static GameWorld getInstance() {
 		if(instance == null) {
@@ -39,6 +45,8 @@ public final class GameWorld implements IRender, IUpdate {
 		World.setVelocityThreshold(0.5f);
 		
 		PHYSICS_WORLD.setContactListener(new CollisionListener());
+		
+		state = State.RUNNING;
 	}
 	
 	@Override
@@ -105,5 +113,9 @@ public final class GameWorld implements IRender, IUpdate {
 	
 	public World getWorld() {
 		return PHYSICS_WORLD;
+	}
+	
+	public State getState() {
+		return state;
 	}
 }

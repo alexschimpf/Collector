@@ -1,6 +1,7 @@
 package screen;
 
 import misc.Globals;
+import misc.InputListener;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -14,6 +15,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader.Parameters;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import core.GameWorld;
 import core.GameWorldLoader;
@@ -25,22 +28,25 @@ public final class GameScreen implements Screen {
 	private final SpriteBatch SPRITE_BATCH = new SpriteBatch();
 	private final Box2DDebugRenderer DEBUG_RENDERER = new Box2DDebugRenderer();
 	private final Matrix4 DEBUG_MATRIX = new Matrix4();
-	
-	private TiledMap tileMap;
-	private OrthogonalTiledMapRenderer tileMapRenderer;
+	private final TiledMap TILE_MAP;
+	private final OrthogonalTiledMapRenderer TILE_MAP_RENDERER;
+	private final Stage HUD_STAGE;
+	private final InputListener INPUT_LISTENER = new InputListener();
 	
 	public GameScreen() {
-		// stage
-		// game world
-		// input listener
 		// music
+		// background
 
 		Parameters tileMapParams = new Parameters();
 		tileMapParams.flipY = false;
-		tileMap = new TmxMapLoader().load("tile_map_1.tmx", tileMapParams);
-		tileMapRenderer = new OrthogonalTiledMapRenderer(tileMap, Globals.getCamera().getTileMapScale());
+		TILE_MAP = new TmxMapLoader().load("tile_map_1.tmx", tileMapParams);
+		TILE_MAP_RENDERER = new OrthogonalTiledMapRenderer(TILE_MAP, Globals.getCamera().getTileMapScale());
 		
-		GameWorldLoader gameWorldLoader = new GameWorldLoader(tileMap);
+		HUD_STAGE = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+		HUD_STAGE.addListener(INPUT_LISTENER);
+		Gdx.input.setInputProcessor(HUD_STAGE);
+		
+		GameWorldLoader gameWorldLoader = new GameWorldLoader(TILE_MAP);
 		gameWorldLoader.load();
 	}
 	
@@ -70,7 +76,8 @@ public final class GameScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		TheCamera.getInstance().resizeViewport(width, height);
+		TheCamera.getInstance().resizeViewport(width, height);		
+		HUD_STAGE.getViewport().update(width, height, false);
 	}
 
 	@Override
@@ -90,21 +97,9 @@ public final class GameScreen implements Screen {
 	}
 	
 	private void update() {
-		if(Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			Gdx.app.exit();
-		} else if(Gdx.input.isKeyPressed(Keys.Z)) {
-			Globals.getCamera().getRawCamera().zoom -= 0.05f;
-		} else if(Gdx.input.isKeyPressed(Keys.X)) {
-			Globals.getCamera().getRawCamera().zoom += 0.05f;
-		} 
-		
-		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
-			Globals.getPlayer().setLinearVelocity(-10, 0);
-		} else if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			Globals.getPlayer().setLinearVelocity(10, 0);
-		}
-		
+		INPUT_LISTENER.update();
 		Globals.getGameWorld().update();
+		HUD_STAGE.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 	}
 	
 	private void _render(float delta) {
@@ -115,8 +110,8 @@ public final class GameScreen implements Screen {
 		
 		SPRITE_BATCH.setProjectionMatrix(camera.combined);
 		
-		tileMapRenderer.setView(camera);
-		tileMapRenderer.render();
+		TILE_MAP_RENDERER.setView(camera);
+		TILE_MAP_RENDERER.render();
 		
 		SPRITE_BATCH.begin(); {
 			Globals.getGameWorld().render(SPRITE_BATCH);		

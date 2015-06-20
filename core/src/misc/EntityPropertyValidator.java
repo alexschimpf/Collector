@@ -1,8 +1,6 @@
 package misc;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -59,7 +57,7 @@ public final class EntityPropertyValidator {
 	
 	public void validateAndProcess(String entityType, MapProperties mapProperties) {
 		if(!ENTITY_PROPERTIES_MAP.containsKey(entityType)) {
-			throw new NullPointerException("Entity type " + entityType + " is not supported");
+			throw new NullPointerException("Entity type '" + entityType + "' is not supported");
 		}
 		
 		EntityProperties entityProperties = ENTITY_PROPERTIES_MAP.get(entityType);
@@ -69,7 +67,7 @@ public final class EntityPropertyValidator {
 		requiredPropertyNames.addAll(GLOBAL_PROPERTIES.getRequiredPropertyNames());
 		for(String requiredPropertyName : requiredPropertyNames) {
 			if(!mapProperties.containsKey(requiredPropertyName)) {
-				throw new NullPointerException("Entity of type " + entityType + " does not have required property " + requiredPropertyName);
+				throw new NullPointerException("Entity of type '" + entityType + "' does not have required property " + requiredPropertyName);
 			}
 		}
 		
@@ -78,7 +76,7 @@ public final class EntityPropertyValidator {
 		while(iter.hasNext()) {
 			String propertyName = iter.next();
 			if(!GLOBAL_PROPERTIES.isPropertyNameValid(propertyName) && !entityProperties.isPropertyNameValid(propertyName)) {
-				throw new NullPointerException("Entity of type " + entityType + " has invalid property " + propertyName);
+				throw new NullPointerException("Entity of type '" + entityType + "' has invalid property " + propertyName);
 			}
 		}
 		
@@ -178,7 +176,7 @@ public final class EntityPropertyValidator {
 			} else if(OPTIONAL_PROPERTY_MAP.containsKey(name)) {
 				return OPTIONAL_PROPERTY_MAP.get(name);
 			} else {
-				throw new NullPointerException("Entity property " + name + " is not valid!");
+				throw new NullPointerException("Entity property '" + name + "' is not valid!");
 			}
 		}
 		

@@ -10,8 +10,8 @@ public final class BodyData {
 		this.entity = entity;;
 	}
 
-	public void setNeedsRemoved() {
-		entity.getSprite().setAlpha(0);
+	public void markEntityDone() {
+		entity.markDone();
 	}
 	
 	public Entity getEntity() {

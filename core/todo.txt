@@ -18,3 +18,7 @@ TileMap to GameWorld Rules
 		- The name is not part of the MapObject's properties
 	- An entity's type will be derived from a MapObject's type property
 	
+---------------------------------------------------------------------------------------------------------------
+
+- GameWorldLoader support for polygons and sensor locations
+	
