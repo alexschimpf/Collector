@@ -21,8 +21,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public final class Player extends Entity {
 	
-	public static final float MOVE_SPEED = 18;
-	public static final float JUMP_IMPULSE = -80;
+	public static final float MOVE_SPEED = 15;
+	public static final float JUMP_IMPULSE = -82;
 	public static final float SHOOT_PERIOD = 150;
 	public static final float MASS = 5.69f;
 	
@@ -203,12 +203,18 @@ public final class Player extends Entity {
 			
 			// TODO: particle effects
 		}
+		
+		if(numFootContacts == 0 && !isJumpAnimationPlaying() && !isShooting() && !isBlinking()) {
+			ANIMATION_SYSTEM.switchToDefault();
+		}
 	}
 	
 	private void attachFootSensors(EntityBodyDef bodyDef) {	
+		Vector2 localBottom = body.getLocalPoint(new Vector2(getCenterX(), getBottom())).sub(0, getHeight() / 20);
+		
 		float width = bodyDef.size.x;
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(width / 2 * 0.9f, 0.1f, new Vector2(0, 1.5f), 0);
+		shape.setAsBox(width / 2 * 0.8f, getHeight() / 19.9f, localBottom, 0);
 		
 		Fixture fixture = body.createFixture(shape, 0);
 		fixture.setSensor(true);
