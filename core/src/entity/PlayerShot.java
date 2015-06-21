@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 public final class PlayerShot extends Entity {
 
-	public static final float SPEED = Player.MOVE_SPEED * 3;
+	public static final float SPEED = Player.MOVE_SPEED * 4;
 	public static final EntityBodyDef BODY_DEF = new EntityBodyDef();
 	public static final FixtureDef FIXTURE_DEF = new FixtureDef();
 	

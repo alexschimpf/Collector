@@ -11,14 +11,6 @@ import com.badlogic.gdx.utils.Array;
 
 public final class TextureManager {
 
-	private static final String[] IMAGE_KEYS = new String[] {	
-		"player", "shot"
-	};
-	
-	private static final String[] ANIMATION_KEYS = new String[] {
-		"player_jump", "player_blink", "player_move", "player_shoot"
-	};
-	
 	private static TextureManager instance;
 	
 	private final TextureAtlas ATLAS = new TextureAtlas(Gdx.files.internal("game.atlas"));
@@ -33,15 +25,16 @@ public final class TextureManager {
 		return instance;
 	}
 	
-	private TextureManager() {
-		for(String key : ANIMATION_KEYS) {
-			Array<AtlasRegion> textures = ATLAS.findRegions(key);
-			ANIMATION_TEXTURES_MAP.put(key, textures);
-		}
-		
-		for(String key : IMAGE_KEYS) {
-			AtlasRegion texture = ATLAS.findRegion(key);
-			IMAGE_TEXTURE_MAP.put(key, texture);
+	private TextureManager() {		
+		for(AtlasRegion region : ATLAS.getRegions()) {
+			String name = region.name;
+			Array<AtlasRegion> regions = ATLAS.findRegions(name);
+			if(!ANIMATION_TEXTURES_MAP.containsKey(name)) {
+				ANIMATION_TEXTURES_MAP.put(name, regions);
+			}
+			
+			String imageKey = region.name + (region.index > -1 ? "_" + region.index : "");
+			IMAGE_TEXTURE_MAP.put(imageKey, region);
 		}
 	}
 	
