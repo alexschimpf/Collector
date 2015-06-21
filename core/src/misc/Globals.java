@@ -12,7 +12,7 @@ import entity.Player;
 
 public final class Globals {
 
-	public static short PLAYER_COLLISION_MASK = 0x0002;
+	public static short PLAYER_NO_COLLIDE_MASK = 0x0002;
 	
 	public static GameWorld getGameWorld() {
 		return GameWorld.getInstance();

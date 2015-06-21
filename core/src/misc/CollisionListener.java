@@ -38,35 +38,29 @@ public final class CollisionListener implements ContactListener {
 		
 		Body bodyA = fixA.getBody();
 		Body bodyB = fixB.getBody();
-
 		BodyData dataA = (BodyData)bodyA.getUserData();
 		BodyData dataB = (BodyData)bodyB.getUserData();
-		if(dataA == null || dataB == null) {
-			if(beginContact) {
-				if(dataA == null || dataB == null) {
-					// Shot may have hit a non-entity body.
-					if(dataA != null || dataB != null) {
-						Entity entity = dataA != null ? dataA.getEntity() : dataB.getEntity();
-						if(Utils.isShot(entity)) {
-							entity.onBeginContact(null);
-						}
-					}
-					
-					return;
-				}
-			} else {
-				return;
-			}
-		}
-		
 		Entity a = dataA.getEntity();
 		Entity b = dataB.getEntity();
+		checkPlayerFootContacts(fixA, fixB, a, b, beginContact);
+		
 		if(a == null || b == null) {
+			if(Utils.isPlayerShot(a)) {
+				if(beginContact) {
+					a.onBeginContact(b);
+				} else {
+					a.onEndContact(b);
+				}
+			} else if(Utils.isPlayerShot(b)) {
+				if(beginContact) {
+					b.onBeginContact(a);
+				} else {
+					b.onEndContact(a);
+				}
+			}
 			return;
 		}
-		
-		checkFootContacts(fixA, fixB, a, b, beginContact);
-		
+
 		if(beginContact) {
 			a.onBeginContact(b);
 			b.onBeginContact(a);
@@ -76,20 +70,15 @@ public final class CollisionListener implements ContactListener {
 		}		
 	}
 	
-	private void checkFootContacts(Fixture fixA, Fixture fixB, Entity a, Entity b, boolean beginContact) {
-		if(fixA.isSensor() && fixB.isSensor()) {
-			return;
-		}
-		
-		boolean footContact = (fixA.isSensor() && Utils.isPlayer(a)) ||
-	                          (fixB.isSensor() && Utils.isPlayer(b)); 
-        if(footContact) {
-        	Player player = Globals.getPlayer();      	
+	private void checkPlayerFootContacts(Fixture fixA, Fixture fixB, Entity a, Entity b, boolean beginContact) {
+		if((fixA != null && fixA.isSensor() && Utils.isPlayer(a) && (fixB == null || !fixB.isSensor())) ||
+		   (fixB != null && fixB.isSensor() && Utils.isPlayer(b) && (fixA == null || !fixA.isSensor()))) {
+			Player player = Globals.getPlayer();      	
         	if(beginContact) {
         		player.incrementFootContacts();
         	} else {
         		player.decrementFootContacts();
         	}
-        }
+		} 
 	}
 }

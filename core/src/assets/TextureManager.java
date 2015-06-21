@@ -11,10 +11,12 @@ import com.badlogic.gdx.utils.Array;
 
 public final class TextureManager {
 
-	private static final String[] IMAGE_KEYS = new String[] {		
+	private static final String[] IMAGE_KEYS = new String[] {	
+		"player", "shot"
 	};
 	
 	private static final String[] ANIMATION_KEYS = new String[] {
+		"player_jump", "player_blink", "player_move", "player_shoot"
 	};
 	
 	private static TextureManager instance;

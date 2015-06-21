@@ -6,22 +6,34 @@ import misc.Animation.State;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public final class AnimationSystem implements IRender, IUpdate, IAnimate {
 	
 	private final HashMap<String, Animation> ANIMATION_MAP  = new HashMap<String, Animation>();
 
+	private final Sprite DEFAULT_SPRITE = new Sprite();
+	
+	private boolean useDefault = false;
 	private Animation animation;
 	
 	public AnimationSystem() {	
 	}
+ 	
+	public AnimationSystem(TextureRegion defaultRegion, float width, float height) {
+		if(defaultRegion != null) {
+			DEFAULT_SPRITE.setRegion(defaultRegion);
+			DEFAULT_SPRITE.setSize(width, height);
+		}
+	}
 	
-	public AnimationSystem(Animation[] animations) {
+	public AnimationSystem(Animation[] animations, TextureRegion defaultRegion) {
 		HashMap<String, Integer> suffixMap  = new HashMap<String, Integer>();
 		for(Animation animation : animations) {
 			String key = animation.getKey();
 			if(ANIMATION_MAP.containsKey(key)) {
 				int suffix = suffixMap.get(key);
+				animation.setKey(key + "_" + suffix);
 				ANIMATION_MAP.put(key + "_" + suffix, animation);
 				suffixMap.put(key, suffix + 1);
 			} else {
@@ -31,11 +43,20 @@ public final class AnimationSystem implements IRender, IUpdate, IAnimate {
 		}
 		
 		animation = animations[0];
+		
+		if(defaultRegion != null) {
+			DEFAULT_SPRITE.setRegion(defaultRegion);
+			DEFAULT_SPRITE.setSize(animation.getWidth(), animation.getHeight());
+		}
 	}
 	
 	@Override
 	public boolean update() {
 		animation.update();
+		
+		if(animation.isFinished() && DEFAULT_SPRITE.getTexture() != null) {
+			useDefault = true;
+		}
 		
 		return false;
 	}
@@ -55,6 +76,10 @@ public final class AnimationSystem implements IRender, IUpdate, IAnimate {
 	 */
 	public void addAnimation(Animation animation) {
 		ANIMATION_MAP.put(animation.getKey(), animation);
+		
+		if(this.animation == null) {
+			this.animation = animation;
+		}
 	}
 	
 	/**
@@ -65,14 +90,30 @@ public final class AnimationSystem implements IRender, IUpdate, IAnimate {
 	}
 	
 	public void addAnimation(String key, Animation animation) {
+		animation.setKey(key);
 		ANIMATION_MAP.put(key, animation);
+		
+		if(this.animation == null) {
+			this.animation = animation;
+		}
 	}
 	
 	public void removeAnimation(String key) {
 		ANIMATION_MAP.remove(key);
 	}
 	
+	public void setDefaultSprite(String imageKey, float width, float height) {
+		TextureRegion defaultRegion = Globals.getTextureManager().getImageTexture(imageKey);
+		DEFAULT_SPRITE.setRegion(defaultRegion);
+		DEFAULT_SPRITE.setSize(width, height);
+	}
+	
+	@Override
 	public Sprite getSprite() {
+		if(useDefault) {
+			return DEFAULT_SPRITE;
+		}
+		
 		return animation.getSprite();
 	}
 	
@@ -83,15 +124,29 @@ public final class AnimationSystem implements IRender, IUpdate, IAnimate {
 	public String getAnimationKey() {
 		return animation.getKey();
 	}
+
+	public void flipSprite(boolean hor, boolean vert) {
+		if(useDefault) {
+			DEFAULT_SPRITE.setFlip(hor, vert);
+		} else {
+			animation.flipSprite(hor, vert);
+		}
+	}
+	
+	public void switchToDefault() {
+		stop();
+		useDefault = true;
+	}
 	
 	public void switchAnimation(String key, boolean pauseCurrent, boolean playOnSwitch) {
+		useDefault = false;
+		
 		if(pauseCurrent) {
 			animation.pause();
 		}
 		
 		animation = ANIMATION_MAP.get(key);
 		if(playOnSwitch) {
-			// TODO: Do I need to reposition the new animation?
 			animation.play();
 		}
 	}

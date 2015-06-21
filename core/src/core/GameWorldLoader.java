@@ -3,19 +3,18 @@ package core;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import misc.BodyData;
 import misc.EntityBodyDef;
 import misc.EntityPropertyValidator;
 import misc.Globals;
 import misc.Utils;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.*;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Ellipse;
@@ -169,6 +168,8 @@ public final class GameWorldLoader {
 		Body body = Globals.getPhysicsWorld().createBody(bodyDef);
 		body.createFixture(fixtureDef);
 		
+		body.setUserData(new BodyData(null));
+		
 		fixtureDef.shape.dispose();
 	}
 	
@@ -181,6 +182,8 @@ public final class GameWorldLoader {
 		
 		Body body = Globals.getPhysicsWorld().createBody(bodyDef);
 		body.createFixture(fixtureDef);
+		
+		body.setUserData(new BodyData(null));
 		
 		fixtureDef.shape.dispose();
 	}
@@ -202,6 +205,8 @@ public final class GameWorldLoader {
 		Body body = Globals.getPhysicsWorld().createBody(bodyDef);
 		body.createFixture(fixtureDef);
 		
+		body.setUserData(new BodyData(null));
+		
 		fixtureDef.shape.dispose();
     }
     
@@ -222,6 +227,8 @@ public final class GameWorldLoader {
     			
 		Body body = Globals.getPhysicsWorld().createBody(bodyDef);
 		body.createFixture(fixtureDef);
+		
+		body.setUserData(new BodyData(null));
 		
 		fixtureDef.shape.dispose();
     }

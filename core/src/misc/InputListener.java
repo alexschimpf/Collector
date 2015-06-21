@@ -63,14 +63,13 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 			player.moveRight();
 		} else if(Gdx.input.isKeyPressed(Keys.LEFT)) {
 			player.moveLeft();
-		} else if(Gdx.app.getType() != ApplicationType.Android){
+		} else if(!Utils.usingAndroidContext()){
 			player.stopMove();
 		}
 		
-		if(Gdx.input.isKeyPressed(Keys.A)) {
-			player.shoot();
-		}
-		
+//		if(Gdx.input.isKeyPressed(Keys.A)) {
+//			player.shoot();
+//		}	
 		
 		if(Gdx.input.isKeyPressed(Keys.Z)) {
 			Globals.getCamera().getRawCamera().zoom += 0.05f;

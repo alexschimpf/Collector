@@ -1,5 +1,7 @@
 package misc;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -12,7 +14,6 @@ import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -24,14 +25,30 @@ import entity.Entity;
 public class Utils {
 	
 	public static boolean isPlayer(Entity entity) {
-		return entity.getType().equals("player");
+		return entity != null && entity.getType().equals("player");
 	}
 	
-	public static boolean isShot(Entity entity) {
-		return entity.getType().equals("player_shot");
+	public static boolean isPlayerShot(Entity entity) {
+		return entity != null && entity.getType().equals("player_shot");
+	}
+	
+	public static boolean usingAndroidContext() {
+		return Gdx.app.getType() == ApplicationType.Android;
+	}
+	
+	public static boolean usingDesktopContext() {
+		return Gdx.app.getType() == ApplicationType.Desktop;
 	}
 	
 	public static FixtureDef getFixtureDefFromBodySkeleton(MapObject object) {
+		return getFixtureDefFromBodySkeleton(object, 1);
+	}
+	
+	public static FixtureDef getScaledFixtureDefFromBodySkeleton(MapObject object, float scale) {
+		return getFixtureDefFromBodySkeleton(object, scale);
+	}
+	
+	private static FixtureDef getFixtureDefFromBodySkeleton(MapObject object, float scale) {
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.density = 1;
 		fixtureDef.friction = 0;
@@ -40,17 +57,17 @@ public class Utils {
 		Shape shape = null;
 		float unitScale = Globals.getCamera().getTileMapScale();
 		if(object instanceof TextureMapObject) {
-			shape = getTextureMapShape(object, unitScale);
+			shape = getTextureMapShape(object, unitScale, scale);
 		} else if(object instanceof RectangleMapObject) {
-			shape = getRectangleShape(object, unitScale);
+			shape = getRectangleShape(object, unitScale, scale);
 		} else if(object instanceof PolylineMapObject) {
-			shape = getPolylineShape(object, unitScale);
+			shape = getPolylineShape(object, unitScale, scale);
 		} else if(object instanceof CircleMapObject) {
-			shape = getCircleShape(object, unitScale);
+			shape = getCircleShape(object, unitScale, scale);
 		} else if(object instanceof EllipseMapObject) {
-			shape = getEllipseShape(object, unitScale);
+			shape = getEllipseShape(object, unitScale, scale);
 		} else if(object instanceof PolygonMapObject) {
-			shape = getPolygonShape(object, unitScale);
+			shape = getPolygonShape(object, unitScale, scale);
 		} 
 		
 		fixtureDef.shape = shape;
@@ -58,28 +75,28 @@ public class Utils {
 		return fixtureDef;
 	}
 	
-	private static Shape getTextureMapShape(MapObject object, float unitScale) {
+	private static Shape getTextureMapShape(MapObject object, float unitScale, float scale) {
 		TextureMapObject textureMapObject = (TextureMapObject)object;
 		float width = (Float)textureMapObject.getProperties().get("width");
 		float height = (Float)textureMapObject.getProperties().get("height");
 		
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(width / 2 * unitScale, height / 2 * unitScale);
+		shape.setAsBox(width / 2 * unitScale * scale, height / 2 * unitScale * scale);
 		return shape;
 	}
 	
-	private static Shape getRectangleShape(MapObject object, float unitScale) {
+	private static Shape getRectangleShape(MapObject object, float unitScale, float scale) {
 		Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(rectangle.width / 2 * unitScale, rectangle.height / 2 * unitScale);
+		shape.setAsBox(rectangle.width / 2 * unitScale * scale, rectangle.height / 2 * unitScale * scale);
 		return shape;
 	}
 	
-	private static Shape getPolylineShape(MapObject object, float unitScale) {
+	private static Shape getPolylineShape(MapObject object, float unitScale, float scale) {
 		Polyline polyline = ((PolylineMapObject)object).getPolyline();
 		float[] vertices = polyline.getTransformedVertices();
 		for(int i = 0; i < vertices.length; i++) {
-			vertices[i] *= Globals.getCamera().getTileMapScale();
+			vertices[i] *= Globals.getCamera().getTileMapScale() * scale;
 		}
 		
 		ChainShape shape = new ChainShape();
@@ -88,24 +105,24 @@ public class Utils {
 		return shape;
 	}
 	
-	private static Shape getCircleShape(MapObject object, float unitScale) {
+	private static Shape getCircleShape(MapObject object, float unitScale, float scale) {
 		Circle circle = ((CircleMapObject)object).getCircle();
     	CircleShape shape = new CircleShape();
-    	shape.setRadius(circle.radius * unitScale);
+    	shape.setRadius(circle.radius * unitScale * scale);
     	
     	return shape;
 	}
 	
 	// Just assume the ellipse is a circle.
-	private static Shape getEllipseShape(MapObject object, float unitScale) {
+	private static Shape getEllipseShape(MapObject object, float unitScale, float scale) {
 		Ellipse circle = ((EllipseMapObject)object).getEllipse();
 		CircleShape shape = new CircleShape();
-    	shape.setRadius(circle.width / 2 * unitScale);
+    	shape.setRadius(circle.width / 2 * unitScale * scale);
     	
     	return shape;
 	}
 	
-	private static Shape getPolygonShape(MapObject object, float unitScale) {
+	private static Shape getPolygonShape(MapObject object, float unitScale, float scale) {
 		Polygon polygon = ((PolygonMapObject)object).getPolygon();
 		return null;
 	}

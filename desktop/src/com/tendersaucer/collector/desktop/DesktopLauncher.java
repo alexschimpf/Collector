@@ -8,6 +8,10 @@ import core.TheGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.vSyncEnabled = true;
+		config.resizable = false;
+		config.title = "The Grid";
+		
 		new LwjglApplication(new TheGame(), config);
 	}
 }

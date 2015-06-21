@@ -4,7 +4,6 @@ import misc.Globals;
 import misc.InputListener;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,7 +17,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import core.GameWorld;
 import core.GameWorldLoader;
 import core.TheCamera;
 import core.TheGame;
@@ -36,6 +34,14 @@ public final class GameScreen implements Screen {
 	public GameScreen() {
 		// music
 		// background
+		
+		// Why does this work?
+		if(TheGame.FULLSCREEN) {
+			Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height, true);	
+		}
+		
+		Globals.getSoundManager();
+		Globals.getTextureManager();
 
 		Parameters tileMapParams = new Parameters();
 		tileMapParams.flipY = false;
@@ -54,11 +60,6 @@ public final class GameScreen implements Screen {
 	public void show() {
 		if(TheGame.MUSIC) {
 			// TODO: How to implement music?
-		}
-		
-		// Why does this work?
-		if(TheGame.FULLSCREEN) {
-			Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height, true);	
 		}
 	}
 

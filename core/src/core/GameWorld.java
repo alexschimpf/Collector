@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import misc.CollisionListener;
+import misc.Globals;
 import misc.IRender;
 import misc.IUpdate;
 
@@ -22,7 +23,7 @@ public final class GameWorld implements IRender, IUpdate {
 		RUNNING, PAUSED
 	};
 	
-	private final static float DEFAULT_GRAVITY = 10;
+	private final static float DEFAULT_GRAVITY = 15;
 	
 	public static GameWorld instance;
 	
@@ -60,7 +61,7 @@ public final class GameWorld implements IRender, IUpdate {
 	@Override
 	public boolean update() {
 		PHYSICS_WORLD.step(1 / 45.0f, 5, 5);
-		
+
 		updateEntities();
 		
 		return false;

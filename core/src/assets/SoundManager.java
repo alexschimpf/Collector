@@ -2,6 +2,8 @@ package assets;
 
 import java.util.HashMap;
 
+import misc.Utils;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
@@ -21,7 +23,13 @@ public final class SoundManager {
 	}
 	
 	private SoundManager() {
-		FileHandle[] soundFiles = Gdx.files.internal("sounds").list();
+		FileHandle[] soundFiles = null;
+		if(Utils.usingAndroidContext()) {
+			soundFiles = Gdx.files.internal("sounds").list();
+		} else if(Utils.usingDesktopContext()) {
+			soundFiles = Gdx.files.internal("./bin/sounds").list();
+		}
+	
 		for(FileHandle file : soundFiles) {
 			String filename = file.name();
 			addSound(filename);
@@ -39,7 +47,7 @@ public final class SoundManager {
 	
 	private void addSound(String filename) {
 		Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/" + filename));
-		String key = filename.substring(0, filename.lastIndexOf('.') - 1);
+		String key = filename.substring(0, filename.lastIndexOf('.'));
 		SOUND_MAP.put(key, sound);
 	}
 }

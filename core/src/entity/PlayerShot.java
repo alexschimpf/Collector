@@ -14,25 +14,25 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 public final class PlayerShot extends Entity {
 
-	public static final float SPEED = Player.MOVE_SPEED * 7;
+	public static final float SPEED = Player.MOVE_SPEED * 3;
 	public static final EntityBodyDef BODY_DEF = new EntityBodyDef();
 	public static final FixtureDef FIXTURE_DEF = new FixtureDef();
 	
 	static {
 		BODY_DEF.bodyType = BodyType.DynamicBody;
-		FIXTURE_DEF.density = 0.8f;
+		FIXTURE_DEF.density = 1f;
 		FIXTURE_DEF.friction = 0.2f;
 		FIXTURE_DEF.restitution = 0.2f;
-		FIXTURE_DEF.filter.categoryBits = Globals.PLAYER_COLLISION_MASK;
+		FIXTURE_DEF.filter.categoryBits = Globals.PLAYER_NO_COLLIDE_MASK;
 	}
 
 	public PlayerShot() {
-		TextureRegion textureRegion = Globals.getTextureManager().getImageTexture("player_shot");
+		TextureRegion textureRegion = Globals.getTextureManager().getImageTexture("shot");
 		
 		float size = BODY_DEF.size.x;
 		
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(size / 2, size / 2);
+		shape.setAsBox(size / 2 * 0.7f, size / 2 * 0.7f);
 		
 		FIXTURE_DEF.shape = shape;
 		
@@ -41,19 +41,19 @@ public final class PlayerShot extends Entity {
 		
 		body.setBullet(true);
 		body.setGravityScale(0);
-			
-		shape.dispose();
 	}
 	
 	public static void shootShot() {
 		Player player = Globals.getPlayer();
 		
-		float size = player.getHeight() / 4;
-		float x = player.getCenterX();
-		float y = player.getCenterY() - (size / 2);
+		float size = player.getHeight() / 3;
+		float x = player.getFrontX();
+		float y = player.getCenterY();
 		
-		if(!player.isFacingRight()) {
-			x -= size;
+		if(player.isFacingRight()) {
+			x -= size / 2;
+		} else {
+			x += size / 2;
 		}
 		
 		Vector2Pool vector2Pool = Vector2Pool.getIntance();
@@ -68,7 +68,7 @@ public final class PlayerShot extends Entity {
 		shot.shoot();
 		
 		vector2Pool.free(posVec);
-		vector2Pool.free(posVec);
+		vector2Pool.free(sizeVec);
 	}
 
 	@Override
@@ -78,23 +78,12 @@ public final class PlayerShot extends Entity {
 	
 	@Override
 	public void onBeginContact(Entity entity) {
-		Vector2 velocity = getLinearVelocity();
-		float y = getCenterY();
-		float x = velocity.x > 0 ? getRight() : getLeft();
-		if(velocity.y != 0) {
-			y = velocity.y > 0 ? getBottom() : getTop();
-		}
-		
 		if(entity == null) {
 			// TODO: particle effect
 			markDone();
 			return;
 		}
-		
-		if(entity instanceof Player) {
-			return;
-		}
-		
+
 		Body entityBody = entity.getBody();
 		Fixture fixture = entityBody.getFixtureList().get(0);
 		if(fixture != null && fixture.isSensor()) {
@@ -102,7 +91,7 @@ public final class PlayerShot extends Entity {
 		}
 		
 		// TODO: particle effect
-		
+
 		markDone();
 	}
 	
@@ -111,19 +100,13 @@ public final class PlayerShot extends Entity {
 		
 		Player player = Globals.getPlayer();
 		
-		float vy = player.getLinearVelocity().y * 0.75f;
-		float vx = PlayerShot.SPEED * 1.25f;
-		
-		if(vy > 0) {
-			vy = Math.min(vy, Math.abs(vx) * 0.75f);
-		}
-		
-		
+		float vy = Math.min(player.getLinearVelocity().y, 2.8f);
+		float vx = PlayerShot.SPEED;
+
 		if(!player.isFacingRight()) {
 			vx = 0 - vx;
 		}
 	
-		body.setAngularVelocity(0.2f * (vx < 0 ? 1 : -1));
 		setLinearVelocity(vx, vy);
 	}
 }

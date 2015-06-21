@@ -27,8 +27,7 @@ public final class Animation implements IRender, IUpdate, IAnimate {
 		loop = builder.loop;
 		
 		Array<AtlasRegion> regions = Globals.getTextureManager().getAnimationTextures(builder.animationKey);
-		int numFrames = regions.size;
-		float frameDuration = builder.totalDuration / numFrames;		
+		float frameDuration = builder.totalDuration / regions.size;
 		rawAnimation = new com.badlogic.gdx.graphics.g2d.Animation(frameDuration, regions);
 		
 		SPRITE.setPosition(builder.x, builder.y);
@@ -55,14 +54,18 @@ public final class Animation implements IRender, IUpdate, IAnimate {
 		
 		updateSprite();
 		
-		return !loop && rawAnimation.isAnimationFinished(stateTime);
+		if(!loop && rawAnimation.isAnimationFinished(stateTime)) {
+			state = State.FINISHED;
+		}
+		
+		return false;
 	}
 
 	@Override
 	public void done() {
-		state = State.FINISHED;
 	}
 	
+	@Override
 	public Sprite getSprite() {
 		return SPRITE;
 	}
@@ -70,6 +73,7 @@ public final class Animation implements IRender, IUpdate, IAnimate {
 	public Sprite getSprite(int frame) {
 		TextureRegion textureRegion = rawAnimation.getKeyFrames()[frame];
 		SPRITE.setRegion(textureRegion);
+		SPRITE.setFlip(false, true);
 		
 		return SPRITE;
 	}
@@ -94,32 +98,39 @@ public final class Animation implements IRender, IUpdate, IAnimate {
 		return SPRITE.getHeight();
 	}
 	
+	@Override
 	public void play() {
 		stateTime = 0;
 		state = State.PLAYING;
 	}
 	
+	@Override
 	public void resume() {
 		state = State.PLAYING;
 	}
 	
+	@Override
 	public void pause() {
 		state = State.PAUSED;
 	}
 	
+	@Override
 	public void stop() {
 		stateTime = 0;
 		state = State.STOPPED;
 	}
  
+	@Override
 	public State getState() {
 		return state;
 	}
 	
+	@Override
 	public boolean isPlaying() {
 		return state == State.PLAYING;
 	}
 	
+	@Override
 	public boolean isPaused() {
 		return state == State.PAUSED;
 	}
@@ -128,12 +139,17 @@ public final class Animation implements IRender, IUpdate, IAnimate {
 		return state == State.STOPPED;
 	}
 	
+	@Override
 	public boolean isFinished() {
 		return state == State.FINISHED;
 	}
 	
 	public String getKey() {
 		return key;
+	}
+	
+	public void setKey(String key) {
+		this.key = key;
 	}
 	
 	private void updateSprite() {
