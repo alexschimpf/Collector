@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
 public final class TextureManager {
@@ -44,6 +45,10 @@ public final class TextureManager {
 	
 	public Array<AtlasRegion> getAnimationTextures(String key) {
 		return ANIMATION_TEXTURES_MAP.get(key);
+	}
+	
+	public TextureRegion getImageTexture(String key) {
+		return IMAGE_TEXTURE_MAP.get(key);
 	}
 	
 	public Sprite getSprite(String key) {

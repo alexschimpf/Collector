@@ -5,15 +5,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-public final class Animation implements IRender, IUpdate {
+public final class Animation implements IRender, IUpdate, IAnimate {
 
 	public static enum State {
-		PLAYING,
-		PAUSED,
-		STOPPED,
-		FINISHED
+		PLAYING, PAUSED, STOPPED, FINISHED
 	}
 	
 	private final Sprite SPRITE = new Sprite();
@@ -21,15 +19,11 @@ public final class Animation implements IRender, IUpdate {
 	private float stateTime = 0;
 	private State state;
 	private final boolean loop;
+	private String key;
 	private com.badlogic.gdx.graphics.g2d.Animation rawAnimation;
 		
 	private Animation(AnimationBuilder builder) {
-		if(builder.playOnCreate) {
-			state = State.PLAYING;
-		} else {
-			state = State.STOPPED;
-		}
-		
+		key = builder.animationKey;
 		loop = builder.loop;
 		
 		Array<AtlasRegion> regions = Globals.getTextureManager().getAnimationTextures(builder.animationKey);
@@ -40,6 +34,12 @@ public final class Animation implements IRender, IUpdate {
 		SPRITE.setPosition(builder.x, builder.y);
 		SPRITE.setSize(builder.width, builder.height);
 		SPRITE.setOrigin(builder.width / 2, builder.height / 2);
+		
+		if(builder.playOnCreate) {
+			state = State.PLAYING;
+		} else {
+			state = State.STOPPED;
+		}
 	}
 	
 	@Override
@@ -72,6 +72,26 @@ public final class Animation implements IRender, IUpdate {
 		SPRITE.setRegion(textureRegion);
 		
 		return SPRITE;
+	}
+	
+	public void flipSprite(boolean hor, boolean vert) {
+		SPRITE.setFlip(hor, vert);
+	}
+	
+	public float getX() {
+		return SPRITE.getX();
+	}
+	
+	public float getY() {
+		return SPRITE.getY();
+	}
+	
+	public float getWidth() {
+		return SPRITE.getWidth();
+	}
+	
+	public float getHeight() {
+		return SPRITE.getHeight();
 	}
 	
 	public void play() {
@@ -112,6 +132,10 @@ public final class Animation implements IRender, IUpdate {
 		return state == State.FINISHED;
 	}
 	
+	public String getKey() {
+		return key;
+	}
+	
 	private void updateSprite() {
 		TextureRegion textureRegion = rawAnimation.getKeyFrame(stateTime, loop);
 		SPRITE.setRegion(textureRegion);
@@ -131,14 +155,13 @@ public final class Animation implements IRender, IUpdate {
 		private boolean loop = false;
 		private boolean playOnCreate = false;
 		
-		public AnimationBuilder(String animationKey, float x, float y, float width, float height, 
-				                float totalDuration) {
+		public AnimationBuilder(String animationKey, Vector2 pos, Vector2 size, float totalDuration) {
 			this.animationKey = animationKey;
 			this.totalDuration = totalDuration;
-			this.x = x;
-			this.y = y;
-			this.width = width;
-			this.height = height;
+			this.x = pos.x;
+			this.y = pos.y;
+			this.width = size.x;
+			this.height = size.y;
 		}
 		
 		public AnimationBuilder loop(boolean loop) {

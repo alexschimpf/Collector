@@ -9,6 +9,10 @@ public class EntityBodyDef {
 	public Vector2 size;
 	public BodyType bodyType;
 	
+	public EntityBodyDef() {
+		
+	}
+	
 	public EntityBodyDef(Vector2 position, Vector2 size, BodyType bodyType) {
 		this.position = position;
 		this.size = size;

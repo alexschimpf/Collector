@@ -47,7 +47,7 @@ public final class CollisionListener implements ContactListener {
 					// Shot may have hit a non-entity body.
 					if(dataA != null || dataB != null) {
 						Entity entity = dataA != null ? dataA.getEntity() : dataB.getEntity();
-						if(entity.getType().equals("shot")) {
+						if(Utils.isShot(entity)) {
 							entity.onBeginContact(null);
 						}
 					}
@@ -81,8 +81,8 @@ public final class CollisionListener implements ContactListener {
 			return;
 		}
 		
-		boolean footContact = (fixA.isSensor() && a.getType().equals("player")) ||
-	                          (fixB.isSensor() && b.getType().equals("player")); 
+		boolean footContact = (fixA.isSensor() && Utils.isPlayer(a)) ||
+	                          (fixB.isSensor() && Utils.isPlayer(b)); 
         if(footContact) {
         	Player player = Globals.getPlayer();      	
         	if(beginContact) {

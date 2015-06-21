@@ -30,6 +30,9 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	protected Body body;
 	protected Sprite sprite;
 	
+	public Entity() {
+	}
+	
 	public Entity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		if(!object.getName().isEmpty()) {
 			id = object.getName();
@@ -76,6 +79,10 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	
 	public String getId() {
 		return id;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	public float getWidth() {

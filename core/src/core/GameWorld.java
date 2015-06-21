@@ -19,8 +19,7 @@ import entity.Player;
 public final class GameWorld implements IRender, IUpdate {
 
 	public static enum State {
-		RUNNING,
-		PAUSED
+		RUNNING, PAUSED
 	};
 	
 	private final static float DEFAULT_GRAVITY = 10;
