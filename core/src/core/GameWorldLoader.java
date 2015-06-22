@@ -16,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Ellipse;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -233,7 +234,18 @@ public final class GameWorldLoader {
     }
     
     private void loadBodyFromPolygon(MapObject object) {
-    	// TODO: 
+    	BodyDef bodyDef = new BodyDef();
+	    bodyDef.position.set(0, 0);
+	    bodyDef.type = BodyType.StaticBody;
+	    
+	    FixtureDef fixtureDef = Utils.getFixtureDefFromBodySkeleton(object);
+		
+		Body body = Globals.getPhysicsWorld().createBody(bodyDef);
+		body.createFixture(fixtureDef);
+		
+		body.setUserData(new BodyData(null));
+		
+		fixtureDef.shape.dispose();
     }
     
     private EntityBodyDef getBodyDef(MapProperties properties) {

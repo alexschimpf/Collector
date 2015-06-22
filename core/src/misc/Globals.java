@@ -50,6 +50,10 @@ public final class Globals {
 		return MusicManager.getInstance();
 	}
 	
+	public static WeatherSystem getWeatherSystem() {
+		return WeatherSystem.getInstance();
+	}
+	
 	public static Vector2Pool getVector2Pool() {
 		return Vector2Pool.getIntance();
 	}

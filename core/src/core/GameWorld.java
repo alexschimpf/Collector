@@ -23,7 +23,7 @@ public final class GameWorld implements IRender, IUpdate {
 		RUNNING, PAUSED
 	};
 	
-	private final static float DEFAULT_GRAVITY = 15;
+	private final static float DEFAULT_GRAVITY = 20;
 	
 	public static GameWorld instance;
 	

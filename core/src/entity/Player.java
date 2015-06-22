@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 public final class Player extends Entity {
 	
 	public static final float MOVE_SPEED = 15;
-	public static final float JUMP_IMPULSE = -82;
+	public static final float JUMP_IMPULSE = -95;
 	public static final float SHOOT_PERIOD = 150;
 	public static final float MASS = 5.69f;
 	

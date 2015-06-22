@@ -124,6 +124,14 @@ public class Utils {
 	
 	private static Shape getPolygonShape(MapObject object, float unitScale, float scale) {
 		Polygon polygon = ((PolygonMapObject)object).getPolygon();
-		return null;
+		float[] vertices = polygon.getTransformedVertices();
+		for(int i = 0; i < vertices.length; i++) {
+			vertices[i] *= Globals.getCamera().getTileMapScale() * scale;
+		}
+		
+		PolygonShape shape = new PolygonShape();
+		shape.set(vertices);
+		
+		return shape;
 	}
 }

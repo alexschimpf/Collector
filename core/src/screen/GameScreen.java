@@ -45,6 +45,7 @@ public final class GameScreen implements Screen {
 		}
 		
 		Globals.getSoundManager();
+		Globals.getMusicManager();
 		Globals.getTextureManager();
 
 		Parameters tileMapParams = new Parameters();
@@ -118,21 +119,7 @@ public final class GameScreen implements Screen {
 			}
 		}
 		
-		// Always get vectors from vector pool.
-		// The particle effect will free them when done.
-		// The particles themselves should also be pooled.
-			// The builder obtains the particles from the pool.
-		    // When the particles are done, they free themselves (and any of their resources).
-
-		ParticleEffect effect = new ParticleEffect.Builder("image", new Vector2(), new Vector2(), new Vector2(), 
-				                                           new Vector2(), new Vector2(), new Vector2())
-		.fadeIn(true)
-		.minOffsets(0, 0)
-		.maxOffsets(0, 0)
-		.startEndAlphas(1, 0)
-		.build();
-		
-		effect.start();
+		Globals.getWeatherSystem().update();
 	}
 	
 	private void _render(float delta) {
@@ -147,6 +134,8 @@ public final class GameScreen implements Screen {
 		TILE_MAP_RENDERER.render();
 		
 		SPRITE_BATCH.begin(); {
+			Globals.getWeatherSystem().render(SPRITE_BATCH);
+			
 			Globals.getGameWorld().render(SPRITE_BATCH);	
 			
 			for(ParticleEffect particleEffect : PARTICLE_EFFECTS) {
