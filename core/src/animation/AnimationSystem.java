@@ -1,8 +1,11 @@
-package misc;
+package animation;
 
 import java.util.HashMap;
 
-import misc.Animation.State;
+import misc.Globals;
+import misc.IRender;
+import misc.IUpdate;
+import animation.Animation.State;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

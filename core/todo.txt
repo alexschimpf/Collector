@@ -21,4 +21,7 @@ TileMap to GameWorld Rules
 ---------------------------------------------------------------------------------------------------------------
 
 - GameWorldLoader support for polygons and sensor locations
-	
+- Logic for player dying and getting revived
+- Background
+- WeatherSystem
+- MusicManager

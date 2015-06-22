@@ -1,10 +1,9 @@
 package entity;
 
-import misc.Animation;
-import misc.AnimationSystem;
-import misc.EntityBodyDef;
 import misc.Globals;
 import misc.Utils;
+import animation.Animation;
+import animation.AnimationSystem;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
@@ -170,10 +169,10 @@ public final class Player extends Entity {
 		Vector2 pos = bodyDef.position;
 		Vector2 size = bodyDef.size;
 		
-		Animation blinkAnimation = new Animation.AnimationBuilder("player_blink", pos, size, 0.56f).build();
-		Animation jumpAnimation = new Animation.AnimationBuilder("player_jump", pos, size, 0.27f).build();		
-		Animation moveAnimation = new Animation.AnimationBuilder("player_move", pos, size, 0.2f).loop(true).build();
-		Animation shootAnimation = new Animation.AnimationBuilder("player_shoot", pos, size, 0.1f).build();
+		Animation blinkAnimation = new Animation.Builder("player_blink", pos, size, 0.56f).build();
+		Animation jumpAnimation = new Animation.Builder("player_jump", pos, size, 0.27f).build();		
+		Animation moveAnimation = new Animation.Builder("player_move", pos, size, 0.2f).loop(true).build();
+		Animation shootAnimation = new Animation.Builder("player_shoot", pos, size, 0.1f).build();
 		
 		ANIMATION_SYSTEM.addAnimation("blink", blinkAnimation);
 		ANIMATION_SYSTEM.addAnimation("jump", jumpAnimation);

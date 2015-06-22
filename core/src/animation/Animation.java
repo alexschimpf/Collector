@@ -1,4 +1,8 @@
-package misc;
+package animation;
+
+import misc.Globals;
+import misc.IRender;
+import misc.IUpdate;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -22,7 +26,7 @@ public final class Animation implements IRender, IUpdate, IAnimate {
 	private String key;
 	private com.badlogic.gdx.graphics.g2d.Animation rawAnimation;
 		
-	private Animation(AnimationBuilder builder) {
+	private Animation(Builder builder) {
 		key = builder.animationKey;
 		loop = builder.loop;
 		
@@ -157,21 +161,19 @@ public final class Animation implements IRender, IUpdate, IAnimate {
 		SPRITE.setRegion(textureRegion);
 	}
 	
-	public static class AnimationBuilder {
-		
-		// Required
+	public static class Builder {
+
 		private final String animationKey;
 		private final float totalDuration; 
 		private final float x;
 		private final float y;
 		private final float width;
 		private final float height;
-		
-		// Optional
+
 		private boolean loop = false;
 		private boolean playOnCreate = false;
 		
-		public AnimationBuilder(String animationKey, Vector2 pos, Vector2 size, float totalDuration) {
+		public Builder(String animationKey, Vector2 pos, Vector2 size, float totalDuration) {
 			this.animationKey = animationKey;
 			this.totalDuration = totalDuration;
 			this.x = pos.x;
@@ -180,12 +182,12 @@ public final class Animation implements IRender, IUpdate, IAnimate {
 			this.height = size.y;
 		}
 		
-		public AnimationBuilder loop(boolean loop) {
+		public Builder loop(boolean loop) {
 			this.loop = loop;
 			return this;
 		}
 		
-		public AnimationBuilder playOnCreate(boolean playOnCreate) {
+		public Builder playOnCreate(boolean playOnCreate) {
 			this.playOnCreate = playOnCreate;
 			return this;
 		}

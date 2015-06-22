@@ -1,5 +1,6 @@
 package screen;
 
+import particle.ParticleEffect;
 import misc.Globals;
 import misc.InputListener;
 
@@ -13,8 +14,10 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader.Parameters;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import core.GameWorldLoader;
@@ -30,6 +33,7 @@ public final class GameScreen implements Screen {
 	private final OrthogonalTiledMapRenderer TILE_MAP_RENDERER;
 	private final Stage HUD_STAGE;
 	private final InputListener INPUT_LISTENER = new InputListener();
+	private final Array<ParticleEffect> PARTICLE_EFFECTS = new Array<ParticleEffect>();
 	
 	public GameScreen() {
 		// music
@@ -61,6 +65,8 @@ public final class GameScreen implements Screen {
 		if(TheGame.MUSIC) {
 			// TODO: How to implement music?
 		}
+		
+		Globals.setGameScreen(this);
 	}
 
 	@Override
@@ -97,10 +103,36 @@ public final class GameScreen implements Screen {
 	public void dispose() {
 	}
 	
+	public void addParticleEffect(ParticleEffect particleEffect) {
+		PARTICLE_EFFECTS.add(particleEffect);
+	}
+	
 	private void update() {
 		INPUT_LISTENER.update();
 		Globals.getGameWorld().update();
 		HUD_STAGE.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		
+		for(ParticleEffect particleEffect : PARTICLE_EFFECTS) {
+			if(particleEffect.update()) {
+				particleEffect.done();
+			}
+		}
+		
+		// Always get vectors from vector pool.
+		// The particle effect will free them when done.
+		// The particles themselves should also be pooled.
+			// The builder obtains the particles from the pool.
+		    // When the particles are done, they free themselves (and any of their resources).
+
+		ParticleEffect effect = new ParticleEffect.Builder("image", new Vector2(), new Vector2(), new Vector2(), 
+				                                           new Vector2(), new Vector2(), new Vector2())
+		.fadeIn(true)
+		.minOffsets(0, 0)
+		.maxOffsets(0, 0)
+		.startEndAlphas(1, 0)
+		.build();
+		
+		effect.start();
 	}
 	
 	private void _render(float delta) {
@@ -115,7 +147,11 @@ public final class GameScreen implements Screen {
 		TILE_MAP_RENDERER.render();
 		
 		SPRITE_BATCH.begin(); {
-			Globals.getGameWorld().render(SPRITE_BATCH);		
+			Globals.getGameWorld().render(SPRITE_BATCH);	
+			
+			for(ParticleEffect particleEffect : PARTICLE_EFFECTS) {
+				particleEffect.render(SPRITE_BATCH);
+			}
 		} SPRITE_BATCH.end();
 		
 		if(TheGame.PHYSICS_DEBUG) {

@@ -1,6 +1,5 @@
 package entity;
 
-import misc.EntityBodyDef;
 import misc.Globals;
 import misc.Vector2Pool;
 

@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import misc.BodyData;
-import misc.EntityBodyDef;
-import misc.EntityPropertyValidator;
 import misc.Globals;
 import misc.Utils;
 
@@ -27,6 +25,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Array;
 
 import entity.Entity;
+import entity.EntityBodyDef;
 import entity.Player;
 
 public final class GameWorldLoader {

@@ -1,4 +1,4 @@
-package misc;
+package core;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
 import entity.Entity;
+import entity.EntityBodyDef;
 
 public final class EntityPropertyValidator {
 

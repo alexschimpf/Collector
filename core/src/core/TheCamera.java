@@ -22,7 +22,7 @@ public final class TheCamera implements IUpdate {
 	
 	private TheCamera() {
 		// This will get adjusted when the window is resized.
-		// 100 is used as a base that Box2D can handle efficiently.
+		// 50 is used as a base that Box2D can handle efficiently.
 		CAMERA.setToOrtho(true, 50, 50);
 	}
 
