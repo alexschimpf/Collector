@@ -25,6 +25,7 @@ public final class Particle implements IRender, IUpdate {
 	private float startAlpha;
 	private float endAlpha;
 	private float duration;
+	private Color startColor;
 	private Color endColor;
 	private boolean fadeIn;
 	private long startTime;
@@ -49,6 +50,7 @@ public final class Particle implements IRender, IUpdate {
 		endAlpha = builder.endAlpha;
 		
 		fadeIn = builder.fadeIn;
+		startColor = builder.startColor;
 		endColor = builder.endColor;
 				
 		startTime = TimeUtils.millis();
@@ -87,19 +89,19 @@ public final class Particle implements IRender, IUpdate {
 			sprite.setAlpha(alpha);
 		}
 		
-		Color color = sprite.getColor();
-		if(color != null && endColor != null && !color.equals(endColor)) {
-			float dr = endColor.r - color.r;
-			float dg = endColor.g - color.g;
-			float db = endColor.b - color.b;			
-			float r = color.r + (ageDurationRatio * dr);
-			float g = color.g + (ageDurationRatio * dg);
-			float b = color.b + (ageDurationRatio * db);		
+		Color currColor = sprite.getColor();
+		if(startColor != null && endColor != null && !currColor.equals(endColor)) {
+			float dr = endColor.r - startColor.r;
+			float dg = endColor.g - startColor.g;
+			float db = endColor.b - startColor.b;			
+			float r = startColor.r + (ageDurationRatio * dr);
+			float g = startColor.g + (ageDurationRatio * dg);
+			float b = startColor.b + (ageDurationRatio * db);		
 			r = r < 0 ? 0 : (r > 1 ? 1 : r);
 			g = g < 0 ? 0 : (g > 1 ? 1 : g);
 			b = b < 0 ? 0 : (b > 1 ? 1 : b);
 			
-			sprite.setColor(r, g, b, sprite.getColor().a);
+			sprite.setColor(r, g, b, currColor.a);
 		}
 
 		return age > duration;

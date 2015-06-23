@@ -1,8 +1,10 @@
 package entity;
 
+import particle.ParticleEffect;
 import misc.Globals;
 import misc.Vector2Pool;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -16,7 +18,7 @@ public final class PlayerShot extends Entity {
 	public static final float SPEED = Player.MOVE_SPEED * 4;
 	public static final EntityBodyDef BODY_DEF = new EntityBodyDef();
 	public static final FixtureDef FIXTURE_DEF = new FixtureDef();
-	
+
 	static {
 		BODY_DEF.bodyType = BodyType.DynamicBody;
 		FIXTURE_DEF.density = 1f;
@@ -78,7 +80,7 @@ public final class PlayerShot extends Entity {
 	@Override
 	public void onBeginContact(Entity entity) {
 		if(entity == null) {
-			// TODO: particle effect
+			startContactParticleEffect();
 			markDone();
 			return;
 		}
@@ -89,8 +91,7 @@ public final class PlayerShot extends Entity {
 			return;
 		}
 		
-		// TODO: particle effect
-
+		startContactParticleEffect();
 		markDone();
 	}
 	
@@ -107,5 +108,34 @@ public final class PlayerShot extends Entity {
 		}
 	
 		setLinearVelocity(vx, vy);
+	}
+	
+	private void startContactParticleEffect() {	
+		Vector2 v = getLinearVelocity();
+		float minVx = -v.x / 25;
+		float maxVx = -v.x / 20;
+		if(v.x > 0) {
+			float temp = minVx;
+			minVx = maxVx;
+			maxVx = temp;
+		}
+		
+		float x = getRight();
+		if(v.x < 0) {
+			x = getLeft();
+		}
+
+		Vector2Pool pool = Globals.getVector2Pool();
+		Vector2 pos = pool.obtain(x, getCenterY());
+		Vector2 minMaxSize = pool.obtain(getWidth() / 6, getWidth());
+		Vector2 minVelocity = pool.obtain(minVx, -SPEED / 15);
+		Vector2 maxVelocity = pool.obtain(maxVx, SPEED / 15);
+		Vector2 minMaxDuration = pool.obtain(400, 800);
+		Vector2 minMaxParticles = pool.obtain(7, 10);
+		ParticleEffect particleEffect = new ParticleEffect.Builder("shot", pos, minMaxSize, minVelocity, maxVelocity, 
+				                                                   minMaxDuration, minMaxParticles)
+		.startEndColors(Color.WHITE, Color.LIGHT_GRAY)
+		.build();
+		particleEffect.start();
 	}
 }

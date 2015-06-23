@@ -18,7 +18,7 @@ public final class ParticleEffect implements IRender, IUpdate {
 	private final Array<Particle> PARTICLES = new Array<Particle>();
 	
 	private ParticleEffect(Builder builder) {
-		int numParticles = (int)getRandomFromRange(builder.minMaxParticles);
+		float numParticles = MathUtils.round(getRandomFromRange(builder.minMaxParticles));
 		for(int i = 0; i < numParticles; i++) {
 			String imageKey = builder.imageKey;
 			float size = getRandomFromRange(builder.minMaxSize);

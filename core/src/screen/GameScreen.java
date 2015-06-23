@@ -129,18 +129,19 @@ public final class GameScreen implements Screen {
 		OrthographicCamera camera = Globals.getCamera().getRawCamera();
 		
 		SPRITE_BATCH.setProjectionMatrix(camera.combined);
-		
-		TILE_MAP_RENDERER.setView(camera);
-		TILE_MAP_RENDERER.render();
-		
 		SPRITE_BATCH.begin(); {
 			Globals.getWeatherSystem().render(SPRITE_BATCH);
-			
-			Globals.getGameWorld().render(SPRITE_BATCH);	
 			
 			for(ParticleEffect particleEffect : PARTICLE_EFFECTS) {
 				particleEffect.render(SPRITE_BATCH);
 			}
+		} SPRITE_BATCH.end();
+		
+		TILE_MAP_RENDERER.setView(camera);
+		TILE_MAP_RENDERER.render();
+		
+		SPRITE_BATCH.begin(); {		
+			Globals.getGameWorld().render(SPRITE_BATCH);	
 		} SPRITE_BATCH.end();
 		
 		if(TheGame.PHYSICS_DEBUG) {

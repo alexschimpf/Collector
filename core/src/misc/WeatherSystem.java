@@ -2,6 +2,9 @@ package misc;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * 
+ */
 public class WeatherSystem implements IRender, IUpdate {
 
 	public static WeatherSystem instance;

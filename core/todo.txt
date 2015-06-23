@@ -24,3 +24,4 @@ TileMap to GameWorld Rules
 - Logic for player dying and getting revived
 - Parallax background
 - WeatherSystem
+- What to do about collectables?

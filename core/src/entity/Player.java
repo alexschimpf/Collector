@@ -1,10 +1,13 @@
 package entity;
 
+import particle.ParticleEffect;
 import misc.Globals;
 import misc.Utils;
+import misc.Vector2Pool;
 import animation.Animation;
 import animation.AnimationSystem;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
@@ -69,7 +72,11 @@ public final class Player extends Entity {
 		
 		ANIMATION_SYSTEM.update();
 		sprite = ANIMATION_SYSTEM.getSprite();
-		ANIMATION_SYSTEM.flipSprite(!isFacingRight, true);
+		ANIMATION_SYSTEM.flipSprite(isFacingLeft(), true);
+		
+		if(isMoveAnimationPlaying()) {
+			startMoveParticleEffect();
+		}
 			
 		return super.update();
 	}
@@ -111,7 +118,7 @@ public final class Player extends Entity {
 	public void stopMove() {
 		setLinearVelocity(0, getLinearVelocity().y);
 		
-		if(!isJumping && !isShooting() && !isBlinking()) {
+		if(!isJumping && !isShootAnimationPlaying() && !isBlinkAnimationPlaying()) {
 			ANIMATION_SYSTEM.switchToDefault();
 		}
 	}
@@ -127,13 +134,17 @@ public final class Player extends Entity {
 		
 		PlayerShot.shootShot();
 		
-		if(!isShooting() && !isJumpAnimationPlaying()) {
+		if(!isShootAnimationPlaying() && !isJumpAnimationPlaying()) {
 			ANIMATION_SYSTEM.switchAnimation("shoot", false, true);
 		}
 	}
 	
 	public boolean isFacingRight() {
 		return isFacingRight;
+	}
+	
+	public boolean isFacingLeft() {
+		return !isFacingRight;
 	}
 	
 	public boolean isJumping() {
@@ -197,13 +208,11 @@ public final class Player extends Entity {
 		
 		setLinearVelocity(vx, getLinearVelocity().y);
 		
-		if(numFootContacts > 0 && !isJumping && !isMovingAnimationPlaying() && !isJumpAnimationPlaying() && !isShooting()) {
+		if(numFootContacts > 0 && !isJumping && !isMoveAnimationPlaying() && !isJumpAnimationPlaying() && !isShootAnimationPlaying()) {
 			ANIMATION_SYSTEM.switchAnimation("move", false, true);
-			
-			// TODO: particle effects
 		}
 		
-		if(numFootContacts == 0 && !isJumpAnimationPlaying() && !isShooting() && !isBlinking()) {
+		if(numFootContacts == 0 && !isJumpAnimationPlaying() && !isShootAnimationPlaying() && !isBlinkAnimationPlaying()) {
 			ANIMATION_SYSTEM.switchToDefault();
 		}
 	}
@@ -222,14 +231,14 @@ public final class Player extends Entity {
 	}
 	
 	private void tryBlink() {
-		if(!isJumping && !isMovingAnimationPlaying() && TimeUtils.timeSinceMillis(lastBlinkTime) > blinkPeriod) {
+		if(!isJumping && !isMoveAnimationPlaying() && TimeUtils.timeSinceMillis(lastBlinkTime) > blinkPeriod) {
 			lastBlinkTime = TimeUtils.millis();
 			blinkPeriod = MathUtils.random(1000, 5000);
 			ANIMATION_SYSTEM.switchAnimation("blink", false, true);
 		}
 	}
 	
-	private boolean isBlinking() {
+	private boolean isBlinkAnimationPlaying() {
 		return ANIMATION_SYSTEM.getAnimationKey().equals("blink") && ANIMATION_SYSTEM.isPlaying();
 	}
 	
@@ -240,11 +249,40 @@ public final class Player extends Entity {
 		return ANIMATION_SYSTEM.getAnimationKey().equals("jump") && ANIMATION_SYSTEM.isPlaying();
 	}
 	
-	private boolean isShooting() {
+	private boolean isShootAnimationPlaying() {
 		return ANIMATION_SYSTEM.getAnimationKey().equals("shoot") && ANIMATION_SYSTEM.isPlaying();
 	}
 	
-	private boolean isMovingAnimationPlaying() {
+	private boolean isMoveAnimationPlaying() {
 		return ANIMATION_SYSTEM.getAnimationKey().equals("move") && ANIMATION_SYSTEM.isPlaying();
+	}
+	
+	private void startMoveParticleEffect() {
+		Vector2 v = getLinearVelocity();
+		float minVx = -v.x / 13;
+		float maxVx = -v.x / 7;
+		if(v.x > 0) {
+			float temp = minVx;
+			minVx = maxVx;
+			maxVx = temp;
+		}
+		
+		float x = getLeft();
+		if(isFacingLeft()) {
+			x = getRight() - getWidth() / 2;
+		}
+
+		Vector2Pool pool = Globals.getVector2Pool();
+		Vector2 pos = pool.obtain(x, getBottom() - (getHeight() / 12));
+		Vector2 minMaxSize = pool.obtain(getWidth() / 6, getWidth() / 2);
+		Vector2 minVelocity = pool.obtain(minVx, 0);
+		Vector2 maxVelocity = pool.obtain(maxVx,  -Math.abs(v.x) / 3);
+		Vector2 minMaxDuration = pool.obtain(250, 500);
+		Vector2 minMaxParticles = pool.obtain(0, 1);
+		ParticleEffect particleEffect = new ParticleEffect.Builder("shot", pos, minMaxSize, minVelocity, maxVelocity, 
+				                                                   minMaxDuration, minMaxParticles)
+		.startEndColors(Color.WHITE, Color.LIGHT_GRAY)
+		.build();
+		particleEffect.start();
 	}
 }
