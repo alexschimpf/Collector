@@ -15,6 +15,8 @@ import entity.Player;
 public final class Globals {
 
 	public static short PLAYER_NO_COLLIDE_MASK = 0x0002;
+	public static int NUM_TILE_MAP_ROWS = 64;
+	public static int NUM_TILE_MAP_COLS = 64;
 	
 	private static GameScreen gameScreen;
 	
@@ -68,5 +70,9 @@ public final class Globals {
 	
 	public static GameWorld.State getGameState() {
 		return getGameWorld().getState();
+	}
+	
+	public static float getTileSize() {
+		return getCamera().getViewportWidth() / 16;
 	}
 }

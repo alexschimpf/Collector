@@ -33,7 +33,7 @@ public final class TextureManager {
 				ANIMATION_TEXTURES_MAP.put(name, regions);
 			}
 			
-			String imageKey = region.name + (region.index > -1 ? "_" + region.index : "");
+			String imageKey = region.name + (region.index > 0 ? "_" + region.index : "");
 			IMAGE_TEXTURE_MAP.put(imageKey, region);
 		}
 	}
@@ -52,6 +52,9 @@ public final class TextureManager {
 			return null;
 		}
 		
-		return new Sprite(region);
+		Sprite sprite = new Sprite(region);
+		sprite.setFlip(false, true);
+		
+		return sprite;
 	}
 }

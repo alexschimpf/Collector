@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Ellipse;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Rectangle;
@@ -38,6 +39,18 @@ public class Utils {
 	
 	public static boolean usingDesktopContext() {
 		return Gdx.app.getType() == ApplicationType.Desktop;
+	}
+	
+	public static float choose(float a, float b) {
+		return MathUtils.random() < 0.5f ? a : b;
+	}
+	
+	public static int choose(int a, int b) {
+		return MathUtils.random() < 0.5f ? a : b;
+	}
+	
+	public static String choose(String a, String b) {
+		return MathUtils.random() < 0.5f ? a : b;
 	}
 	
 	public static FixtureDef getFixtureDefFromBodySkeleton(MapObject object) {

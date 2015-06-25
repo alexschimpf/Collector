@@ -9,9 +9,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.Pool.Poolable;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public final class Particle implements IRender, IUpdate {
+public final class Particle implements IRender, IUpdate, Poolable {
 
 	private static final Pool<Particle> PARTICLE_POOL = new Pool<Particle>() {
 	    @Override
@@ -40,7 +41,13 @@ public final class Particle implements IRender, IUpdate {
 		duration = builder.duration;		
 		sprite = Globals.getTextureManager().getSprite(builder.imageKey);
 		sprite.setPosition(builder.x, builder.y);
-		sprite.setSize(builder.size, builder.size);
+		
+		float width = builder.size;
+		float height = builder.size;
+		if(builder.keepProportions) {
+			height = ((float)sprite.getRegionHeight() / (float)sprite.getRegionWidth()) * width;
+		} 
+		sprite.setSize(width, height);
 		
 		if(builder.startColor != null) {
 			sprite.setColor(builder.startColor);
@@ -58,6 +65,13 @@ public final class Particle implements IRender, IUpdate {
 	
 	@Override
 	public void render(SpriteBatch spriteBatch) {
+		// HACK: Couldn't figure out how alphas were getting set to 1
+		//       at start of fade-in.
+		long age = TimeUtils.timeSinceMillis(startTime);
+		if(fadeIn && age < 50 && sprite.getColor().a > 0.1f) {
+			sprite.setAlpha(0);
+		}
+		
 		sprite.draw(spriteBatch);
 	}
 	
@@ -112,6 +126,17 @@ public final class Particle implements IRender, IUpdate {
 		PARTICLE_POOL.free(this);
 	}
 	
+	@Override
+	public void reset() {
+		startColor = null;
+		endColor = null;
+		sprite = null;
+	}
+	
+	public void setTint(float r, float g, float b) {
+		sprite.setColor(r, g, b, sprite.getColor().a);
+	}
+	
 	public static class Builder {
 				
 		public final String imageKey;
@@ -123,6 +148,7 @@ public final class Particle implements IRender, IUpdate {
 		public final float duration;
 
 		private boolean fadeIn = false;
+		private boolean keepProportions = true;
 		private float startAlpha = 1;
 		private float endAlpha = 0;
 		private Color startColor = null;
@@ -147,6 +173,11 @@ public final class Particle implements IRender, IUpdate {
 		
 		public Builder fadeIn(boolean fadeIn) {
 			this.fadeIn = fadeIn;
+			return this;
+		}
+		
+		public Builder keepProportions(boolean keepProportions) {
+			this.keepProportions = keepProportions;
 			return this;
 		}
 		

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import misc.Globals;
 import misc.IRender;
 import misc.IUpdate;
+import misc.Utils;
 import misc.Vector2Pool;
 
 import com.badlogic.gdx.graphics.Color;
@@ -22,18 +23,20 @@ public final class ParticleEffect implements IRender, IUpdate {
 		for(int i = 0; i < numParticles; i++) {
 			String imageKey = builder.imageKey;
 			float size = getRandomFromRange(builder.minMaxSize);
+			
 			float duration = getRandomFromRange(builder.minMaxDuration);
 			float vx = getRandomFromRange(builder.minVelocity.x, builder.maxVelocity.x, builder.velocitySplits.x);
 			float vy = getRandomFromRange(builder.minVelocity.y, builder.maxVelocity.y, builder.velocitySplits.y);
 			
 			float offsetX = getRandomFromRange(builder.minOffsets.x, builder.maxOffsets.x, 0);
-			offsetX *= (MathUtils.random() < 0.5f ? 1 : -1);
+			offsetX *= Utils.choose(1, -1);
 			float offsetY = getRandomFromRange(builder.minOffsets.y, builder.maxOffsets.y, 0);
-			offsetY *= (MathUtils.random() < 0.5f ? 1 : -1);			
+			offsetY *= Utils.choose(1, -1);			
 			builder.pos.add(offsetX, offsetY);
 			
 			Particle particle = new Particle.Builder(imageKey, builder.pos.x, builder.pos.y, size, vx, vy, duration)
 			.fadeIn(builder.fadeIn)
+			.keepProportions(builder.keepProportions)
 			.startEndAlphas(builder.startEndAlphas.x, builder.startEndAlphas.y)
 			.startEndColors(builder.startColor, builder.endColor)
 			.build();
@@ -72,6 +75,12 @@ public final class ParticleEffect implements IRender, IUpdate {
 	public void start() {
 		Globals.getGameScreen().addParticleEffect(this);
 	}
+	
+	public void setTint(float r, float g, float b) {
+		for(Particle particle : PARTICLES) {
+			particle.setTint(r, g, b);
+		}
+	}
 
 	private float getRandomFromRange(Vector2 range) {
 		return MathUtils.random(range.x, range.y);
@@ -82,8 +91,7 @@ public final class ParticleEffect implements IRender, IUpdate {
 			return MathUtils.random(a, b);
 		}
 		
-		return MathUtils.random() < 0.5f ? MathUtils.random(a, -split) : 
-			                               MathUtils.random(split, b);
+		return Utils.choose(MathUtils.random(a, -split), MathUtils.random(split, b));
 	}
 	
 	public static class Builder {
@@ -97,6 +105,7 @@ public final class ParticleEffect implements IRender, IUpdate {
 		public final Vector2 maxVelocity;
 		
 		private boolean fadeIn = false;
+		private boolean keepProportions = true;
 		private Color startColor = null;
 		private Color endColor = null;
 		private Vector2 startEndAlphas = new Vector2(1, 0);
@@ -151,6 +160,11 @@ public final class ParticleEffect implements IRender, IUpdate {
 		
 		public Builder fadeIn(boolean fadeIn) {
 			this.fadeIn = fadeIn;
+			return this;
+		}
+		
+		public Builder keepProportions(boolean keepProportions) {
+			this.keepProportions = keepProportions;
 			return this;
 		}
 

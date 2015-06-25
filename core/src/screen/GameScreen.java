@@ -3,19 +3,33 @@ package screen;
 import particle.ParticleEffect;
 import misc.Globals;
 import misc.InputListener;
+import misc.WeatherSystem;
+import assets.TextureManager;
+import box2dLight.DirectionalLight;
+import box2dLight.Light;
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureWrap;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader.Parameters;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -34,12 +48,12 @@ public final class GameScreen implements Screen {
 	private final Stage HUD_STAGE;
 	private final InputListener INPUT_LISTENER = new InputListener();
 	private final Array<ParticleEffect> PARTICLE_EFFECTS = new Array<ParticleEffect>();
-	
+
 	public GameScreen() {
 		// music
 		// background
 		
-		// Why does this work?
+		// HACK: Why does this work?
 		if(TheGame.FULLSCREEN) {
 			Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height, true);	
 		}
@@ -123,10 +137,15 @@ public final class GameScreen implements Screen {
 	}
 	
 	private void _render(float delta) {
-		Gdx.gl.glClearColor((201.0f / 255), (238.0f / 255), (255.0f / 255), 1);
+		WeatherSystem weatherSystem = Globals.getWeatherSystem();
+		float light = weatherSystem.getLight();
+		
+		Gdx.gl.glClearColor((201.0f / 255) * light, (238.0f / 255) * light, light, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		OrthographicCamera camera = Globals.getCamera().getRawCamera();
+		
+		SPRITE_BATCH.setColor(light, light, light, 1);
 		
 		SPRITE_BATCH.setProjectionMatrix(camera.combined);
 		SPRITE_BATCH.begin(); {

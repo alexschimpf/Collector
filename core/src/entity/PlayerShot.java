@@ -76,7 +76,7 @@ public final class PlayerShot extends Entity {
 	public String getType() {
 		return "player_shot";
 	}
-	
+
 	@Override
 	public void onBeginContact(Entity entity) {
 		if(entity == null) {
@@ -99,15 +99,13 @@ public final class PlayerShot extends Entity {
 		Globals.getGameWorld().addEntity(this);
 		
 		Player player = Globals.getPlayer();
-		
-		float vy = Math.min(player.getLinearVelocity().y, 2.8f);
-		float vx = PlayerShot.SPEED;
 
+		float vx = PlayerShot.SPEED;
 		if(!player.isFacingRight()) {
 			vx = 0 - vx;
 		}
 	
-		setLinearVelocity(vx, vy);
+		setLinearVelocity(vx, 0);
 	}
 	
 	private void startContactParticleEffect() {	
@@ -126,7 +124,7 @@ public final class PlayerShot extends Entity {
 		}
 
 		Vector2Pool pool = Globals.getVector2Pool();
-		Vector2 pos = pool.obtain(x, getCenterY());
+		Vector2 pos = pool.obtain(x - (getWidth() / 2), getCenterY());
 		Vector2 minMaxSize = pool.obtain(getWidth() / 6, getWidth());
 		Vector2 minVelocity = pool.obtain(minVx, -SPEED / 15);
 		Vector2 maxVelocity = pool.obtain(maxVx, SPEED / 15);

@@ -118,4 +118,28 @@ public final class GameWorld implements IRender, IUpdate {
 	public State getState() {
 		return state;
 	}
+	
+	public float getLeft() {
+		return 0;
+	}
+	
+	public float getRight() {
+		return Globals.getTileSize() * Globals.NUM_TILE_MAP_COLS;
+	}
+	
+	public float getTop() {
+		return 0;
+	}
+	
+	public float getBottom() {
+		return Globals.getTileSize() * Globals.NUM_TILE_MAP_ROWS;
+	}
+	
+	public float getWidth() {
+		return getRight();
+	}
+	
+	public float getHeight() {
+		return getBottom();
+	}
 }

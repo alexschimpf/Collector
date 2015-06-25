@@ -74,7 +74,7 @@ public final class Player extends Entity {
 		sprite = ANIMATION_SYSTEM.getSprite();
 		ANIMATION_SYSTEM.flipSprite(isFacingLeft(), true);
 		
-		if(isMoveAnimationPlaying()) {
+		if(isMoveAnimationPlaying() && Math.abs(getLinearVelocity().x) == MOVE_SPEED) {
 			startMoveParticleEffect();
 		}
 			
@@ -118,7 +118,7 @@ public final class Player extends Entity {
 	public void stopMove() {
 		setLinearVelocity(0, getLinearVelocity().y);
 		
-		if(!isJumping && !isShootAnimationPlaying() && !isBlinkAnimationPlaying()) {
+		if(!isJumpAnimationPlaying() && !isShootAnimationPlaying() && !isBlinkAnimationPlaying()) {
 			ANIMATION_SYSTEM.switchToDefault();
 		}
 	}

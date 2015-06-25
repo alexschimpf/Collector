@@ -15,8 +15,11 @@ public final class Vector2Pool extends Pool<Vector2> {
 		return instance;
 	}
 	
+	public Vector2Pool() {
+	}
+	
 	public Vector2 obtain(float x, float y) {
-		return instance.obtain().set(x, y);
+		return obtain().set(x, y);
 	}
 	
 	@Override

@@ -20,8 +20,9 @@ TileMap to GameWorld Rules
 	
 ---------------------------------------------------------------------------------------------------------------
 
-- GameWorldLoader support for sensor locations
-- Logic for player dying and getting revived
-- Parallax background
 - WeatherSystem
+	- Clouds, rain, and night/day
+- Use tiled for background, split into smaller chunks
+- Logic for player dying and getting revived
 - What to do about collectables?
+- GameWorldLoader support for sensor locations
