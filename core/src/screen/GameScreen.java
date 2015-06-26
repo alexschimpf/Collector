@@ -2,8 +2,8 @@ package screen;
 
 import particle.ParticleEffect;
 import misc.Globals;
+import misc.Globals.State;
 import misc.InputListener;
-import misc.WeatherSystem;
 import assets.TextureManager;
 import box2dLight.DirectionalLight;
 import box2dLight.Light;
@@ -37,6 +37,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import core.GameWorldLoader;
 import core.TheCamera;
 import core.TheGame;
+import core.WeatherSystem;
 
 public final class GameScreen implements Screen {
 

@@ -1,7 +1,11 @@
-package misc;
+package core;
 
 import java.util.Iterator;
 
+import misc.Globals;
+import misc.IRender;
+import misc.IUpdate;
+import misc.Vector2Pool;
 import particle.ParticleEffect;
 
 import com.badlogic.gdx.Gdx;
@@ -10,12 +14,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-import core.GameWorld;
 import entity.Player;
 
 public class WeatherSystem implements IRender, IUpdate {
 	
-	public float TIME_SCALE = 0.1f;
+	public float TIME_SCALE = 0.02f;
 	
 	public static WeatherSystem instance;
 	
@@ -33,6 +36,8 @@ public class WeatherSystem implements IRender, IUpdate {
 	}
 	
 	public WeatherSystem() {
+		time = MathUtils.random(0.0f, 1.0f);
+		
 		tryCreateClouds(false);
 	}
 	

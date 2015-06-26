@@ -1,11 +1,14 @@
 package misc;
 
+import misc.Globals.State;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
 import core.GameWorld;
+import core.TheGame;
 import entity.Player;
 
 public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputListener implements IUpdate {
@@ -19,7 +22,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 			Gdx.app.exit();
 		}
 		
-		if(Globals.getGameState() != GameWorld.State.RUNNING) {
+		if(Globals.state != State.RUNNING) {
 			return false;
 		}
 		
@@ -31,6 +34,14 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 			case Keys.A:
 				player.shoot();
 				break;
+				
+			// For testing:
+			case Keys.D:
+				TheGame.PHYSICS_DEBUG = !TheGame.PHYSICS_DEBUG;
+				break;
+			case Keys.F:
+				TheGame.PRINT_FPS = !TheGame.PRINT_FPS;
+				break;
 		}
 		
 		return true;
@@ -38,7 +49,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 	
 	@Override
 	public boolean keyUp(InputEvent event, int keyCode) {
-		if(Globals.getGameState() != GameWorld.State.RUNNING) {
+		if(Globals.state != State.RUNNING) {
 			return false;
 		}
 		
@@ -54,7 +65,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 
 	@Override
 	public boolean update() {
-		if(Globals.getGameState() != GameWorld.State.RUNNING) {
+		if(Globals.state != State.RUNNING) {
 			return false;
 		}
 		
@@ -66,10 +77,6 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 		} else if(!Utils.usingAndroidContext()){
 			player.stopMove();
 		}
-		
-//		if(Gdx.input.isKeyPressed(Keys.A)) {
-//			player.shoot();
-//		}	
 		
 		if(Gdx.input.isKeyPressed(Keys.Z)) {
 			Globals.getCamera().getRawCamera().zoom += 0.05f;

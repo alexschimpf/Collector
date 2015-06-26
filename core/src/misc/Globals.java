@@ -10,13 +10,20 @@ import com.badlogic.gdx.physics.box2d.World;
 import core.EntityPropertyValidator;
 import core.GameWorld;
 import core.TheCamera;
+import core.WeatherSystem;
 import entity.Player;
 
 public final class Globals {
 
-	public static short PLAYER_NO_COLLIDE_MASK = 0x0002;
-	public static int NUM_TILE_MAP_ROWS = 64;
-	public static int NUM_TILE_MAP_COLS = 64;
+	public static enum State {
+		RUNNING, PAUSED
+	};
+	
+	public static final short PLAYER_NO_COLLIDE_MASK = 0x0002;
+	public static final int NUM_TILE_MAP_ROWS = 64;
+	public static final int NUM_TILE_MAP_COLS = 64;
+	
+	public static State state = State.RUNNING;
 	
 	private static GameScreen gameScreen;
 	
@@ -66,10 +73,6 @@ public final class Globals {
 	
 	public static Player getPlayer() {
 		return getGameWorld().getPlayer();
-	}
-	
-	public static GameWorld.State getGameState() {
-		return getGameWorld().getState();
 	}
 	
 	public static float getTileSize() {

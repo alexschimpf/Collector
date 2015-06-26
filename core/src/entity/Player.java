@@ -2,6 +2,7 @@ package entity;
 
 import particle.ParticleEffect;
 import misc.Globals;
+import misc.Globals.State;
 import misc.Utils;
 import misc.Vector2Pool;
 import animation.Animation;
@@ -20,6 +21,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 
 public final class Player extends Entity {
 	
@@ -27,6 +30,7 @@ public final class Player extends Entity {
 	public static final float JUMP_IMPULSE = -95;
 	public static final float SHOOT_PERIOD = 150;
 	public static final float MASS = 5.69f;
+	public static final float FALL_HEIGHT_LIMIT = Globals.getTileSize() * 6f;
 	
 	private final AnimationSystem ANIMATION_SYSTEM = new AnimationSystem();
 	
@@ -36,6 +40,8 @@ public final class Player extends Entity {
 	private long lastShotTime = 0;
 	private long lastBlinkTime = TimeUtils.millis();
 	private float blinkPeriod = MathUtils.random(1000, 6000);
+	private Vector2 lastValidPos = new Vector2();
+	private boolean isLastValidDirectionRight = true;
 	
 	public Player(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		TextureRegion textureRegion = object.getTextureRegion();
@@ -76,6 +82,11 @@ public final class Player extends Entity {
 		
 		if(isMoveAnimationPlaying() && Math.abs(getLinearVelocity().x) == MOVE_SPEED) {
 			startMoveParticleEffect();
+		}
+		
+		// TODO: Remove this... maybe.
+		if(getLinearVelocity().y > 60) {
+			respawnPlayer();
 		}
 			
 		return super.update();
@@ -162,6 +173,13 @@ public final class Player extends Entity {
 	public void incrementFootContacts() {
 		numFootContacts++;
 		isJumping = numFootContacts < 1;
+		
+		if(!isJumping && getCenterY() - lastValidPos.y > FALL_HEIGHT_LIMIT) {
+			respawnPlayer();
+		} else if(numFootContacts >= 1) {
+			isLastValidDirectionRight = isFacingRight();
+			lastValidPos.set(getCenterX(), getCenterY());
+		}
 	}
 	
 	public void decrementFootContacts() {
@@ -191,6 +209,8 @@ public final class Player extends Entity {
 		ANIMATION_SYSTEM.addAnimation("shoot", shootAnimation);
 		
 		ANIMATION_SYSTEM.setDefaultSprite("player", size.x, size.y);
+		
+		lastValidPos.set(pos.x, pos.y);
 	}
 	
 	protected void createBody(EntityBodyDef bodyDef, MapObject bodySkeleton) {
@@ -215,6 +235,21 @@ public final class Player extends Entity {
 		if(numFootContacts == 0 && !isJumpAnimationPlaying() && !isShootAnimationPlaying() && !isBlinkAnimationPlaying()) {
 			ANIMATION_SYSTEM.switchToDefault();
 		}
+	}
+	
+	private void respawnPlayer() {
+		Globals.state = State.PAUSED;
+		Timer timer = new Timer();
+		timer.scheduleTask(new Task() {
+			@Override
+			public void run() {
+				Globals.state = State.RUNNING;
+				Globals.getSoundManager().playSound("transport");
+				isFacingRight = isLastValidDirectionRight;
+				setLinearVelocity(0, 0);
+				setPosition(lastValidPos.x, lastValidPos.y);
+			}
+		}, 1);
 	}
 	
 	private void attachFootSensors(EntityBodyDef bodyDef) {	

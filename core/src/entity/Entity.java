@@ -1,5 +1,6 @@
 package entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -125,6 +126,15 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	
 	public boolean isVisible() {
 		return Globals.getCamera().isVisible(getLeft(), getTop(), getWidth(), getHeight());
+	}
+	
+	public void setPosition(final float centerX, final float centerY) {
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				body.setTransform(centerX, centerY, body.getAngle());
+			}
+		});
 	}
 	
 	public void setLinearVelocity(float vx, float vy) {
