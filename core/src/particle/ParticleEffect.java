@@ -37,6 +37,7 @@ public final class ParticleEffect implements IRender, IUpdate {
 			Particle particle = new Particle.Builder(imageKey, builder.pos.x, builder.pos.y, size, vx, vy, duration)
 			.fadeIn(builder.fadeIn)
 			.keepProportions(builder.keepProportions)
+			.sizeScale(builder.sizeScale.x, builder.sizeScale.y)
 			.startEndAlphas(builder.startEndAlphas.x, builder.startEndAlphas.y)
 			.startEndColors(builder.startColor, builder.endColor)
 			.build();
@@ -109,6 +110,7 @@ public final class ParticleEffect implements IRender, IUpdate {
 		private Color startColor = null;
 		private Color endColor = null;
 		private Vector2 startEndAlphas = new Vector2(1, 0);
+		private Vector2 sizeScale = new Vector2(1, 1);
 		private Vector2 velocitySplits = new Vector2(0, 0);
 		private Vector2 minOffsets = new Vector2(0, 0);
 		private Vector2 maxOffsets = new Vector2(0, 0);
@@ -129,26 +131,27 @@ public final class ParticleEffect implements IRender, IUpdate {
 		}
 
 		public Builder startEndAlphas(float startAlpha, float endAlpha) {
-			startEndAlphas.x = startAlpha;
-			startEndAlphas.y = endAlpha;
+			startEndAlphas.set(startAlpha, endAlpha);
+			return this;
+		}
+		
+		public Builder sizeScale(float scaleX, float scaleY) {
+			sizeScale.set(scaleX, scaleY);
 			return this;
 		}
 		
 		public Builder minOffsets(float minOffsetX, float minOffsetY) {
-			minOffsets.x = minOffsetX;
-			minOffsets.y = minOffsetY;
+			minOffsets.set(minOffsetX, minOffsetY);
 			return this;
 		}
 
 		public Builder maxOffsets(float maxOffsetX, float maxOffsetY) {
-			maxOffsets.x = maxOffsetX;
-			maxOffsets.y = maxOffsetY;
+			maxOffsets.set(maxOffsetX, maxOffsetY);
 			return this;
 		}
 		
 		public Builder vSplits(float vxSplit, float vySplit) {
-			velocitySplits.x = vxSplit;
-			velocitySplits.y = vySplit;
+			velocitySplits.set(vxSplit, vySplit);
 			return this;
 		}
 		
@@ -189,6 +192,7 @@ public final class ParticleEffect implements IRender, IUpdate {
 			pool.free(this.pos);
 			pool.free(this.startEndAlphas);
 			pool.free(this.velocitySplits);
+			pool.free(this.sizeScale);
 		}
 	}
 }

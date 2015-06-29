@@ -11,7 +11,7 @@ import core.EntityPropertyValidator;
 import core.GameWorld;
 import core.TheCamera;
 import core.WeatherSystem;
-import entity.Player;
+import entity.special.Player;
 
 public final class Globals {
 
@@ -25,6 +25,7 @@ public final class Globals {
 	
 	public static State state = State.RUNNING;
 	
+	private static int numCollected = 0;
 	private static GameScreen gameScreen;
 	
 	public static void setGameScreen(GameScreen gameScreen) {
@@ -77,5 +78,17 @@ public final class Globals {
 	
 	public static float getTileSize() {
 		return getCamera().getViewportWidth() / 16;
+	}
+	
+	public static int getNumCollected() {
+		return numCollected;
+	}
+	
+	public static void setNumCollected(int numCollected) {
+		Globals.numCollected = numCollected;
+	}
+	
+	public static void incrementNumCollected() {
+		numCollected++;
 	}
 }

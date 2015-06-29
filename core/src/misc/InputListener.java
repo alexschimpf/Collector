@@ -3,13 +3,11 @@ package misc;
 import misc.Globals.State;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
-import core.GameWorld;
 import core.TheGame;
-import entity.Player;
+import entity.special.Player;
 
 public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputListener implements IUpdate {
 

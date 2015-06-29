@@ -1,516 +1,167 @@
 
 game.png
-size: 1024,1024
+size: 1024,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-background
+cloud
   rotate: false
-  xy: 1, 157
-  size: 1000, 842
-  orig: 1000, 842
+  xy: 1, 55
+  size: 138, 52
+  orig: 138, 52
   offset: 0, 0
-  index: -1
+  index: 1
 cloud
   rotate: false
   xy: 1, 1
   size: 138, 52
   orig: 138, 52
   offset: 0, 0
-  index: 1
-programmable_block
-  rotate: false
-  xy: 1, 55
-  size: 200, 100
-  orig: 200, 100
-  offset: 0, 0
-  index: -1
-programmable_block1
-  rotate: false
-  xy: 203, 55
-  size: 200, 100
-  orig: 200, 100
-  offset: 0, 0
-  index: -1
-programmable_block2
-  rotate: false
-  xy: 405, 55
-  size: 200, 100
-  orig: 200, 100
-  offset: 0, 0
-  index: -1
-programmable_block3
-  rotate: false
-  xy: 607, 55
-  size: 200, 100
-  orig: 200, 100
-  offset: 0, 0
-  index: -1
-programmable_block4
-  rotate: false
-  xy: 809, 55
-  size: 200, 100
-  orig: 200, 100
-  offset: 0, 0
-  index: -1
-short_block
-  rotate: false
-  xy: 141, 17
-  size: 100, 36
-  orig: 100, 36
-  offset: 0, 0
-  index: -1
-shot
-  rotate: false
-  xy: 243, 3
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-
-game2.png
-size: 1024,512
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-UNKNOWN
-  rotate: false
-  xy: 1, 409
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
   index: 2
-active_on_bump
+cloud
   rotate: false
-  xy: 1, 307
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: -1
-ball
-  rotate: false
-  xy: 715, 209
-  size: 94, 96
-  orig: 94, 96
-  offset: 0, 0
-  index: -1
-block
-  rotate: false
-  xy: 103, 409
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 1
-block_chain
-  rotate: false
-  xy: 1, 205
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: -1
-cracked_block1
-  rotate: false
-  xy: 103, 307
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: -1
-cracked_block2
-  rotate: false
-  xy: 205, 409
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: -1
-cracked_block3
-  rotate: false
-  xy: 1, 103
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: -1
-cracked_block4
-  rotate: false
-  xy: 103, 205
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: -1
-disappearing_block
-  rotate: false
-  xy: 205, 307
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 1
-disappearing_block
-  rotate: false
-  xy: 307, 409
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 2
-disappearing_block
-  rotate: false
-  xy: 1, 1
-  size: 100, 100
-  orig: 100, 100
+  xy: 141, 9
+  size: 64, 32
+  orig: 64, 32
   offset: 0, 0
   index: 3
-disappearing_block
+collectable
   rotate: false
-  xy: 103, 103
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 4
-disappearing_block
-  rotate: false
-  xy: 205, 205
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 5
-disappearing_block
-  rotate: false
-  xy: 307, 307
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 6
-disappearing_block
-  rotate: false
-  xy: 409, 409
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 7
-disappearing_block
-  rotate: false
-  xy: 103, 1
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 8
-disappearing_block
-  rotate: false
-  xy: 205, 103
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 9
-disappearing_block
-  rotate: false
-  xy: 307, 205
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 10
-disappearing_block
-  rotate: false
-  xy: 409, 307
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 11
-filling_block
-  rotate: false
-  xy: 511, 409
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 1
-filling_block
-  rotate: false
-  xy: 205, 1
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 2
-filling_block
-  rotate: false
-  xy: 205, 1
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 3
-filling_block
-  rotate: false
-  xy: 307, 103
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 4
-filling_block
-  rotate: false
-  xy: 409, 205
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 5
-filling_block
-  rotate: false
-  xy: 511, 307
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 6
-filling_block
-  rotate: false
-  xy: 613, 409
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 7
-filling_block
-  rotate: false
-  xy: 307, 1
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 8
-filling_block
-  rotate: false
-  xy: 409, 103
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 9
-filling_block
-  rotate: false
-  xy: 511, 205
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 10
-inactive_block
-  rotate: false
-  xy: 613, 307
-  size: 100, 100
-  orig: 100, 100
+  xy: 141, 43
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 817, 307
-  size: 75, 100
-  orig: 75, 100
+  xy: 273, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
   index: -1
-player_blink
-  rotate: false
-  xy: 817, 307
-  size: 75, 100
-  orig: 75, 100
-  offset: 0, 0
-  index: 1
 player_jump
   rotate: false
-  xy: 817, 307
-  size: 75, 100
-  orig: 75, 100
+  xy: 273, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
   index: 1
 player_blink
   rotate: false
-  xy: 817, 307
-  size: 75, 100
-  orig: 75, 100
+  xy: 273, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
-  index: 7
+  index: 5
 player_jump
   rotate: false
-  xy: 817, 307
-  size: 75, 100
-  orig: 75, 100
-  offset: 0, 0
-  index: 9
-player_blink
-  rotate: false
-  xy: 919, 409
-  size: 75, 100
-  orig: 75, 100
-  offset: 0, 0
-  index: 2
-player_blink
-  rotate: false
-  xy: 919, 409
-  size: 75, 100
-  orig: 75, 100
-  offset: 0, 0
-  index: 6
-player_blink
-  rotate: false
-  xy: 613, 1
-  size: 75, 100
-  orig: 75, 100
-  offset: 0, 0
-  index: 3
-player_blink
-  rotate: false
-  xy: 613, 1
-  size: 75, 100
-  orig: 75, 100
+  xy: 273, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
   index: 5
 player_blink
   rotate: false
-  xy: 715, 107
-  size: 75, 100
-  orig: 75, 100
+  xy: 273, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
-  index: 4
-player_jump
+  index: 1
+player_blink
   rotate: false
-  xy: 894, 307
-  size: 75, 100
-  orig: 75, 100
+  xy: 321, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
   index: 2
-player_jump
+player_blink
   rotate: false
-  xy: 894, 307
-  size: 75, 100
-  orig: 75, 100
+  xy: 321, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
-  index: 8
-player_jump
+  index: 4
+player_blink
   rotate: false
-  xy: 811, 205
-  size: 75, 100
-  orig: 75, 100
+  xy: 369, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
   index: 3
 player_jump
   rotate: false
-  xy: 811, 205
-  size: 75, 100
-  orig: 75, 100
+  xy: 417, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
-  index: 7
+  index: 2
 player_jump
   rotate: false
-  xy: 888, 205
-  size: 75, 100
-  orig: 75, 100
+  xy: 417, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
   index: 4
 player_jump
   rotate: false
-  xy: 888, 205
-  size: 75, 100
-  orig: 75, 100
+  xy: 465, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
-  index: 6
-player_jump
-  rotate: false
-  xy: 792, 103
-  size: 75, 100
-  orig: 75, 100
-  offset: 0, 0
-  index: 5
+  index: 3
 player_move
   rotate: false
-  xy: 869, 103
-  size: 75, 100
-  orig: 75, 100
+  xy: 513, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
   index: 1
 player_move
   rotate: false
-  xy: 690, 1
-  size: 75, 100
-  orig: 75, 100
+  xy: 561, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
   index: 2
 player_shoot
   rotate: false
-  xy: 767, 1
-  size: 75, 100
-  orig: 75, 100
+  xy: 609, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
   index: 1
 player_shoot
   rotate: false
-  xy: 844, 1
-  size: 75, 100
-  orig: 75, 100
-  offset: 0, 0
-  index: 2
-player_shoot
-  rotate: false
-  xy: 921, 1
-  size: 75, 100
-  orig: 75, 100
-  offset: 0, 0
-  index: 3
-portal
-  rotate: false
-  xy: 715, 409
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 1
-portal
-  rotate: false
-  xy: 409, 1
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 2
-portal
-  rotate: false
-  xy: 511, 103
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 3
-portal
-  rotate: false
-  xy: 613, 205
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 4
-trigger
-  rotate: false
-  xy: 715, 307
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 1
-trigger
-  rotate: false
-  xy: 715, 307
-  size: 100, 100
-  orig: 100, 100
+  xy: 609, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
   index: 5
-trigger
+player_shoot
   rotate: false
-  xy: 817, 409
-  size: 100, 100
-  orig: 100, 100
+  xy: 657, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
   index: 2
-trigger
+player_shoot
   rotate: false
-  xy: 817, 409
-  size: 100, 100
-  orig: 100, 100
+  xy: 657, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
   index: 4
-trigger
+player_shoot
   rotate: false
-  xy: 511, 1
-  size: 100, 100
-  orig: 100, 100
+  xy: 705, 43
+  size: 46, 64
+  orig: 46, 64
   offset: 0, 0
   index: 3
-up_arrow_block
+player_shot
   rotate: false
-  xy: 613, 103
-  size: 100, 100
-  orig: 100, 100
+  xy: 207, 43
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1

@@ -9,24 +9,24 @@
             <property name="x" />
             <property name="y" />
         </required>
-        <optional>   
+        <optional>
+            <property name="body_type" default="static" />
         </optional>
     </global_properties>
     <entity_properties>
-        <entity type="player" class="entity.Player">
-            <optional>
-                <property name="body_type" default="dynamic" />
-            </optional>
+        <entity type="player" class="entity.special.Player">
+            <override>
+                <property name="body_type" value="dynamic" />
+            </override>           
         </entity>
+        <entity type="collectable" class="entity.CollectableEntity" />
         <entity type="breakable" class="BreakableEntity">
             <optional>
-                <property name="body_type" default="static" />
                 <property name="health" default="1" note="1 shot collision = 1 health point" />
             </optional>
         </entity>
         <entity type="disappearing" class="entity.DisappearingEntity" >
             <optional>
-                <property name="body_type" default="static" />
                 <property name="recreate" default="false" />
                 <property name="disappearOnTouch" default="true" />
             </optional>
@@ -37,12 +37,14 @@
                 <property name="interval" note="in ms" />
             </required>
             <optional>
-                <property name="body_type" default="kinematic" />
 				<property name="fixed" default="false" />
 				<property name="start_on_create" default="false" />
 				<property name="fixed__reverse_on_done" default="true" />
 				<property name="fixed__reverse_on_blocked" default="false" />
             </optional>
+            <override>
+                <property name="body_type" value="kinematic" />
+            </override>
         </entity>
     </entities>
 </properties>

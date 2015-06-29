@@ -7,16 +7,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import misc.CollisionListener;
 import misc.Globals;
+import misc.Globals.State;
 import misc.IRender;
 import misc.IUpdate;
-import misc.Globals.State;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
 import entity.Entity;
-import entity.Player;
+import entity.special.Player;
 
 public final class GameWorld implements IRender, IUpdate {
 	
@@ -46,9 +46,7 @@ public final class GameWorld implements IRender, IUpdate {
 	@Override
 	public void render(SpriteBatch spriteBatch) {
 		for(Entity entity : getEntities()) {
-			if(entity.isVisible()) {
-				entity.render(spriteBatch);
-			}
+			entity.render(spriteBatch);
 		}
 	}
 	

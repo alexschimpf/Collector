@@ -3,6 +3,7 @@ package core;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
@@ -62,6 +63,13 @@ public final class EntityPropertyValidator {
 		}
 		
 		EntityProperties entityProperties = ENTITY_PROPERTIES_MAP.get(entityType);
+		
+		// Fill in override property values.
+		for(Entry<String, String> override : entityProperties.OVERRIDE_MAP.entrySet()) {
+			String name = override.getKey();
+			String value = override.getValue();
+			mapProperties.put(name, value);
+		}		
 		
 		// Check to see if all required properties are set.
 		Array<String> requiredPropertyNames = entityProperties.getRequiredPropertyNames();		
@@ -145,6 +153,16 @@ public final class EntityPropertyValidator {
 				}
 				
 			}
+			
+			Element overrideChild = entityElem.getChildByName("override");
+			if(overrideChild != null) {
+				Array<Element> overrideElems = overrideChild.getChildrenByName("property");
+				for(Element elem : overrideElems) {
+					String name = elem.get("name");
+					String value = elem.get("value");
+					properties.addOverride(name, value);
+				}
+			}
 
 			ENTITY_PROPERTIES_MAP.put(entityType, properties);
 		}
@@ -167,6 +185,7 @@ public final class EntityPropertyValidator {
 		
 		public final HashMap<String, EntityProperty> REQUIRED_PROPERTY_MAP = new HashMap<String, EntityProperty>();
 		public final HashMap<String, EntityProperty> OPTIONAL_PROPERTY_MAP = new HashMap<String, EntityProperty>();
+		public final HashMap<String, String> OVERRIDE_MAP = new HashMap<String, String>();
 		
 		public EntityProperties() {		
 		}
@@ -201,6 +220,19 @@ public final class EntityPropertyValidator {
 			}
 			
 			return names;
+		}
+		
+		public Array<String> getOverridePropertyNames() {
+			Array<String> names = new Array<String>();
+			for(String name : OVERRIDE_MAP.keySet()) {
+				names.add(name);
+			}
+
+			return names;
+		}
+		
+		public void addOverride(String name, String value) {
+			OVERRIDE_MAP.put(name, value);
 		}
 		
 		public void addProperty(EntityProperty property) {

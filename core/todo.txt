@@ -21,7 +21,9 @@ TileMap to GameWorld Rules
 ---------------------------------------------------------------------------------------------------------------
 
 - WeatherSystem
-	- Clouds, rain, and night/day
-- Use tiled for background, split into smaller chunks
-- What to do about collectables?
+	- Clouds, rain, and night/day???
+- Use tiled for background, split into smaller chunk
 - GameWorldLoader support for sensor locations
+
+- Keep track of last touched body for player respawn, instead of position
+	- Then just center the player on that body when respawned.

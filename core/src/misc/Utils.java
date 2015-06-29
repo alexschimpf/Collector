@@ -1,7 +1,7 @@
 package misc;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -15,6 +15,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -52,7 +54,7 @@ public class Utils {
 	public static String choose(String a, String b) {
 		return MathUtils.random() < 0.5f ? a : b;
 	}
-	
+
 	public static FixtureDef getFixtureDefFromBodySkeleton(MapObject object) {
 		return getFixtureDefFromBodySkeleton(object, 1);
 	}

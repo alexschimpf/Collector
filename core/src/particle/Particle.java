@@ -21,10 +21,14 @@ public final class Particle implements IRender, IUpdate, Poolable {
 	    }
 	};
 	
+	private float startWidth;
+	private float startHeight;
 	private float vx;
 	private float vy;
 	private float startAlpha;
 	private float endAlpha;
+	private float scaleX;
+	private float scaleY;
 	private float duration;
 	private Color startColor;
 	private Color endColor;
@@ -40,21 +44,26 @@ public final class Particle implements IRender, IUpdate, Poolable {
 		vy = builder.vy;
 		duration = builder.duration;		
 		sprite = Globals.getTextureManager().getSprite(builder.imageKey);
-		sprite.setPosition(builder.x, builder.y);
 		
-		float width = builder.size;
-		float height = builder.size;
+		startWidth = builder.size;
+		startHeight = builder.size;
+		
 		if(builder.keepProportions) {
-			height = ((float)sprite.getRegionHeight() / (float)sprite.getRegionWidth()) * width;
+			startHeight = ((float)sprite.getRegionHeight() / (float)sprite.getRegionWidth()) * startWidth;
 		} 
-		sprite.setSize(width, height);
+		sprite.setSize(startWidth, startHeight);
 		
 		if(builder.startColor != null) {
 			sprite.setColor(builder.startColor);
 		}
+
+		sprite.setPosition(builder.x - (startWidth / 2), builder.y - (startHeight / 2));
 		
 		startAlpha = builder.startAlpha;
 		endAlpha = builder.endAlpha;
+		
+		scaleX = builder.scaleX;
+		scaleY = builder.scaleY;
 		
 		fadeIn = builder.fadeIn;
 		startColor = builder.startColor;
@@ -83,6 +92,12 @@ public final class Particle implements IRender, IUpdate, Poolable {
 		float x = sprite.getX();
 		float y = sprite.getY();
 		sprite.setPosition(x + (Gdx.graphics.getDeltaTime() * vx), y + (Gdx.graphics.getDeltaTime() * vy));
+		
+		float endWidth = startWidth * scaleX;
+		float endHeight = startHeight * scaleY;
+		float width = startWidth + ((endWidth - startWidth) * ageDurationRatio);		
+		float height = startHeight + ((endHeight - startHeight) * ageDurationRatio);
+		sprite.setSize(width, height);
 		
 		if(fadeIn) {
 			float fadeTimeRatio = Math.min(1, age / (duration / 2));
@@ -151,6 +166,8 @@ public final class Particle implements IRender, IUpdate, Poolable {
 		private boolean keepProportions = true;
 		private float startAlpha = 1;
 		private float endAlpha = 0;
+		private float scaleX = 1;
+		private float scaleY = 1;
 		private Color startColor = null;
 		private Color endColor = null;
 
@@ -190,6 +207,12 @@ public final class Particle implements IRender, IUpdate, Poolable {
 		public Builder startEndAlphas(float startAlpha, float endAlpha) {
 			this.startAlpha = startAlpha;
 			this.endAlpha = endAlpha;
+			return this;
+		}
+		
+		public Builder sizeScale(float scaleX, float scaleY) {
+			this.scaleX = scaleX;
+			this.scaleY = scaleY;
 			return this;
 		}
 	}

@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 import entity.Entity;
-import entity.Player;
+import entity.special.Player;
 
 public final class CollisionListener implements ContactListener {
 
@@ -42,42 +42,44 @@ public final class CollisionListener implements ContactListener {
 		BodyData dataB = (BodyData)bodyB.getUserData();
 		Entity a = dataA.getEntity();
 		Entity b = dataB.getEntity();
-		checkPlayerFootContacts(fixA, fixB, a, b, beginContact);
+		checkPlayerFootContacts(contact, a, b, beginContact);
 		
 		if(a == null || b == null) {
 			if(Utils.isPlayerShot(a)) {
 				if(beginContact) {
-					a.onBeginContact(b);
+					a.onBeginContact(contact, b);
 				} else {
-					a.onEndContact(b);
+					a.onEndContact(contact, b);
 				}
 			} else if(Utils.isPlayerShot(b)) {
 				if(beginContact) {
-					b.onBeginContact(a);
+					b.onBeginContact(contact, a);
 				} else {
-					b.onEndContact(a);
+					b.onEndContact(contact, a);
 				}
 			}
 			return;
 		}
 
 		if(beginContact) {
-			a.onBeginContact(b);
-			b.onBeginContact(a);
+			a.onBeginContact(contact, b);
+			b.onBeginContact(contact, a);
 		} else {
-			a.onEndContact(b);
-			b.onEndContact(a);
+			a.onEndContact(contact, b);
+			b.onEndContact(contact, a);
 		}		
 	}
 	
-	private void checkPlayerFootContacts(Fixture fixA, Fixture fixB, Entity a, Entity b, boolean beginContact) {
-		if((fixA != null && fixA.isSensor() && Utils.isPlayer(a) && (fixB == null || !fixB.isSensor())) ||
-		   (fixB != null && fixB.isSensor() && Utils.isPlayer(b) && (fixA == null || !fixA.isSensor()))) {
-			Player player = Globals.getPlayer();      	
+	private void checkPlayerFootContacts(Contact contact, Entity a, Entity b, boolean beginContact) {
+		Fixture fixA = contact.getFixtureA();
+		Fixture fixB = contact.getFixtureB();
+		if((fixA.isSensor() && Utils.isPlayer(a) && !fixB.isSensor()) ||
+		   (fixB.isSensor() && Utils.isPlayer(b) && !fixA.isSensor())) {
+			Player player = Globals.getPlayer();
         	if(beginContact) {
-        		player.incrementFootContacts();
+        		player.incrementFootContacts(contact);
         	} else {
-        		player.decrementFootContacts();
+        		player.decrementFootContacts(contact);
         	}
 		} 
 	}

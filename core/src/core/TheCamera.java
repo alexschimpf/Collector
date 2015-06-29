@@ -4,7 +4,8 @@ import misc.Globals;
 import misc.IUpdate;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import entity.Player;
+
+import entity.special.Player;
 
 public final class TheCamera implements IUpdate {
 

@@ -1,10 +1,10 @@
-package entity;
+package entity.special;
 
-import particle.ParticleEffect;
 import misc.Globals;
 import misc.Globals.State;
 import misc.Utils;
 import misc.Vector2Pool;
+import particle.ParticleEffect;
 import animation.Animation;
 import animation.AnimationSystem;
 
@@ -14,21 +14,28 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.WorldManifold;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+
+import entity.Entity;
+import entity.EntityBodyDef;
 
 public final class Player extends Entity {
 	
 	public static final float MOVE_SPEED = 15;
 	public static final float JUMP_IMPULSE = -95;
 	public static final float SHOOT_PERIOD = 150;
+	public static final float MOVE_PARTICLE_DELAY = 100;
 	public static final float MASS = 5.69f;
 	public static final float FALL_HEIGHT_LIMIT = Globals.getTileSize() * 6f;
 	
@@ -39,6 +46,7 @@ public final class Player extends Entity {
 	private int numFootContacts = 0;
 	private long lastShotTime = 0;
 	private long lastBlinkTime = TimeUtils.millis();
+	private long lastStartMoveTime = 0;
 	private float blinkPeriod = MathUtils.random(1000, 6000);
 	private Vector2 lastValidPos = new Vector2();
 	private boolean isLastValidDirectionRight = true;
@@ -80,7 +88,8 @@ public final class Player extends Entity {
 		sprite = ANIMATION_SYSTEM.getSprite();
 		ANIMATION_SYSTEM.flipSprite(isFacingLeft(), true);
 		
-		if(isMoveAnimationPlaying() && Math.abs(getLinearVelocity().x) == MOVE_SPEED) {
+		if(isMoveAnimationPlaying() && Math.abs(getLinearVelocity().x) == MOVE_SPEED &&
+		   TimeUtils.timeSinceMillis(lastStartMoveTime) > MOVE_PARTICLE_DELAY) {
 			startMoveParticleEffect();
 		}
 		
@@ -170,19 +179,25 @@ public final class Player extends Entity {
 		return isFacingRight ? getLeft() : getRight();
 	}
 	
-	public void incrementFootContacts() {
+	public void incrementFootContacts(Contact contact) {
 		numFootContacts++;
 		isJumping = numFootContacts < 1;
 		
+		Fixture fixture = contact.getFixtureA();
+		if(fixture.getBody().equals(body)) {
+			fixture = contact.getFixtureB();
+		}
+		
 		if(!isJumping && getCenterY() - lastValidPos.y > FALL_HEIGHT_LIMIT) {
+			startDieParticleEffect();
 			respawnPlayer();
-		} else if(numFootContacts >= 1) {
+		} else if(numFootContacts >= 1 && fixture.getBody().getType() == BodyType.StaticBody) {
 			isLastValidDirectionRight = isFacingRight();
 			lastValidPos.set(getCenterX(), getCenterY());
 		}
 	}
 	
-	public void decrementFootContacts() {
+	public void decrementFootContacts(Contact contact) {
 		numFootContacts--;
 		if(numFootContacts < 0) {
 			numFootContacts = 0;
@@ -213,12 +228,17 @@ public final class Player extends Entity {
 		lastValidPos.set(pos.x, pos.y);
 	}
 	
+	@Override
 	protected void createBody(EntityBodyDef bodyDef, MapObject bodySkeleton) {
 		FixtureDef fixtureDef = Utils.getScaledFixtureDefFromBodySkeleton(bodySkeleton, 0.95f);
 		createBody(bodyDef, fixtureDef);
 	}
 	
 	private void move(boolean right) {
+		if(getLinearVelocity().x == 0) {
+			lastStartMoveTime = TimeUtils.millis();
+		}
+		
 		isFacingRight = right;
 		
 		float vx = Player.MOVE_SPEED;
@@ -235,21 +255,6 @@ public final class Player extends Entity {
 		if(numFootContacts == 0 && !isJumpAnimationPlaying() && !isShootAnimationPlaying() && !isBlinkAnimationPlaying()) {
 			ANIMATION_SYSTEM.switchToDefault();
 		}
-	}
-	
-	private void respawnPlayer() {
-		Globals.state = State.PAUSED;
-		Timer timer = new Timer();
-		timer.scheduleTask(new Task() {
-			@Override
-			public void run() {
-				Globals.state = State.RUNNING;
-				Globals.getSoundManager().playSound("transport");
-				isFacingRight = isLastValidDirectionRight;
-				setLinearVelocity(0, 0);
-				setPosition(lastValidPos.x, lastValidPos.y);
-			}
-		}, 1);
 	}
 	
 	private void attachFootSensors(EntityBodyDef bodyDef) {	
@@ -292,32 +297,73 @@ public final class Player extends Entity {
 		return ANIMATION_SYSTEM.getAnimationKey().equals("move") && ANIMATION_SYSTEM.isPlaying();
 	}
 	
+	private void respawnPlayer() {
+		setVisible(false);
+		Globals.state = State.PAUSED;
+		Timer timer = new Timer();
+		timer.scheduleTask(new Task() {
+			@Override
+			public void run() {
+				setVisible(true);
+				Globals.state = State.RUNNING;
+				Globals.getSoundManager().playSound("transport");
+				isFacingRight = isLastValidDirectionRight;
+				ANIMATION_SYSTEM.switchToDefault();
+				setLinearVelocity(0, 0);
+				setPosition(lastValidPos.x, lastValidPos.y);
+			}
+		}, 1f);
+	}
+	
 	private void startMoveParticleEffect() {
-		Vector2 v = getLinearVelocity();
-		float minVx = -v.x / 13;
-		float maxVx = -v.x / 7;
-		if(v.x > 0) {
-			float temp = minVx;
-			minVx = maxVx;
-			maxVx = temp;
-		}
+//		if(Math.random() < 0.4f) {
+//			return;
+//		}
+//		
+//		Vector2 v = getLinearVelocity();
+//		float minVx = -v.x / 13;
+//		float maxVx = -v.x / 7;
+//		if(v.x > 0) {
+//			float temp = minVx;
+//			minVx = maxVx;
+//			maxVx = temp;
+//		}
+//		
+//		float x = getLeft();
+//		if(isFacingLeft()) {
+//			x = getRight() - getWidth() / 2;
+//		}
+//
+//		Vector2Pool pool = Globals.getVector2Pool();
+//		Vector2 pos = pool.obtain(x, getBottom() + (getHeight() / 12));
+//		Vector2 minMaxSize = pool.obtain(getWidth() / 6, getWidth() / 2);
+//		Vector2 minVelocity = pool.obtain(minVx, 0);
+//		Vector2 maxVelocity = pool.obtain(maxVx,  -Math.abs(v.x) / 3);
+//		Vector2 minMaxDuration = pool.obtain(250, 500);
+//		Vector2 minMaxParticles = pool.obtain(1, 1);
+//		new ParticleEffect.Builder("player_shot", pos, minMaxSize, minVelocity, maxVelocity, 
+//				                   minMaxDuration, minMaxParticles)
+//		.startEndColors(Color.WHITE, Color.GRAY)
+//		.build()
+//		.start();
+	}
+	
+	private void startDieParticleEffect() {
+		float vx = MOVE_SPEED / 3;
+		float vy = -vx * 2;
 		
-		float x = getLeft();
-		if(isFacingLeft()) {
-			x = getRight() - getWidth() / 2;
-		}
-
 		Vector2Pool pool = Globals.getVector2Pool();
-		Vector2 pos = pool.obtain(x, getBottom() - (getHeight() / 12));
-		Vector2 minMaxSize = pool.obtain(getWidth() / 6, getWidth() / 2);
-		Vector2 minVelocity = pool.obtain(minVx, 0);
-		Vector2 maxVelocity = pool.obtain(maxVx,  -Math.abs(v.x) / 3);
-		Vector2 minMaxDuration = pool.obtain(250, 500);
-		Vector2 minMaxParticles = pool.obtain(0, 1);
-		ParticleEffect particleEffect = new ParticleEffect.Builder("shot", pos, minMaxSize, minVelocity, maxVelocity, 
-				                                                   minMaxDuration, minMaxParticles)
-		.startEndColors(Color.WHITE, Color.LIGHT_GRAY)
-		.build();
-		particleEffect.start();
+		Vector2 pos = pool.obtain(getCenterX(), getBottom() - getHeight() / 5);
+		Vector2 minMaxSize = pool.obtain(getWidth() / 2, getWidth());
+		Vector2 minVelocity = pool.obtain(-vx, vy / 3);
+		Vector2 maxVelocity = pool.obtain(vx,  vy / 1.5f);
+		Vector2 minMaxDuration = pool.obtain(500, 1000);
+		Vector2 minMaxParticles = pool.obtain(20, 30);
+		new ParticleEffect.Builder("player_shot", pos, minMaxSize, minVelocity, maxVelocity, 
+				                   minMaxDuration, minMaxParticles)
+		.vSplits(vx / 4, 0)
+		.startEndColors(Color.WHITE, Color.RED)
+		.build()
+		.start();
 	}
 }

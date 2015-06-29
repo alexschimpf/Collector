@@ -1,17 +1,21 @@
-package entity;
+package entity.special;
 
-import particle.ParticleEffect;
 import misc.Globals;
 import misc.Vector2Pool;
+import particle.ParticleEffect;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+
+import entity.Entity;
+import entity.EntityBodyDef;
 
 public final class PlayerShot extends Entity {
 
@@ -28,7 +32,7 @@ public final class PlayerShot extends Entity {
 	}
 
 	public PlayerShot() {
-		TextureRegion textureRegion = Globals.getTextureManager().getImageTexture("shot");
+		TextureRegion textureRegion = Globals.getTextureManager().getImageTexture("player_shot");
 		
 		float size = BODY_DEF.size.x;
 		
@@ -47,7 +51,7 @@ public final class PlayerShot extends Entity {
 	public static void shootShot() {
 		Player player = Globals.getPlayer();
 		
-		float size = player.getHeight() / 3;
+		float size = player.getHeight() * 0.25f;
 		float x = player.getFrontX();
 		float y = player.getCenterY();
 		
@@ -78,7 +82,7 @@ public final class PlayerShot extends Entity {
 	}
 
 	@Override
-	public void onBeginContact(Entity entity) {
+	public void onBeginContact(Contact contact, Entity entity) {
 		if(entity == null) {
 			startContactParticleEffect();
 			markDone();
@@ -124,16 +128,16 @@ public final class PlayerShot extends Entity {
 		}
 
 		Vector2Pool pool = Globals.getVector2Pool();
-		Vector2 pos = pool.obtain(x - (getWidth() / 2), getCenterY());
+		Vector2 pos = pool.obtain(x, getCenterY());
 		Vector2 minMaxSize = pool.obtain(getWidth() / 6, getWidth());
 		Vector2 minVelocity = pool.obtain(minVx, -SPEED / 15);
 		Vector2 maxVelocity = pool.obtain(maxVx, SPEED / 15);
 		Vector2 minMaxDuration = pool.obtain(400, 800);
 		Vector2 minMaxParticles = pool.obtain(7, 10);
-		ParticleEffect particleEffect = new ParticleEffect.Builder("shot", pos, minMaxSize, minVelocity, maxVelocity, 
-				                                                   minMaxDuration, minMaxParticles)
+		new ParticleEffect.Builder("player_shot", pos, minMaxSize, minVelocity, maxVelocity, 
+				                   minMaxDuration, minMaxParticles)
 		.startEndColors(Color.WHITE, Color.LIGHT_GRAY)
-		.build();
-		particleEffect.start();
+		.build()
+		.start();
 	}
 }

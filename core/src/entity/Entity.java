@@ -1,5 +1,12 @@
 package entity;
 
+import misc.BodyData;
+import misc.Globals;
+import misc.ICollide;
+import misc.IRender;
+import misc.IUpdate;
+import misc.Utils;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,14 +17,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-
-import misc.BodyData;
-import misc.Globals;
-import misc.ICollide;
-import misc.IRender;
-import misc.IUpdate;
-import misc.Utils;
 
 public abstract class Entity implements IRender, IUpdate, ICollide {
 
@@ -25,6 +26,7 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	
 	protected int numContacts = 0;
 	protected boolean markedDone = false;
+	protected boolean isVisible = true;
 	protected String id;
 	protected Body body;
 	protected Sprite sprite;
@@ -33,7 +35,7 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	}
 	
 	public Entity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
-		if(!object.getName().isEmpty()) {
+		if(object.getName() != null && !object.getName().isEmpty()) {
 			id = object.getName();
 		} else {
 			id = String.valueOf(object.hashCode());
@@ -48,7 +50,7 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	
 	@Override
 	public void render(SpriteBatch spriteBatch) {
-		if(sprite.getTexture() != null) {
+		if(isVisible() && sprite.getTexture() != null) {
 			sprite.draw(spriteBatch);
 		}
 	}
@@ -67,12 +69,12 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	}
 	
 	@Override
-	public void onBeginContact(Entity entity) {
+	public void onBeginContact(Contact contact, Entity entity) {
 		numContacts++;
 	}
 	
 	@Override
-	public void onEndContact(Entity entity) {
+	public void onEndContact(Contact contact, Entity entity) {
 		numContacts--;
 	}
 	
@@ -125,7 +127,7 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	}
 	
 	public boolean isVisible() {
-		return Globals.getCamera().isVisible(getLeft(), getTop(), getWidth(), getHeight());
+		return isVisible && Globals.getCamera().isVisible(getLeft(), getTop(), getWidth(), getHeight());
 	}
 	
 	public void setPosition(final float centerX, final float centerY) {
@@ -143,6 +145,10 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	
 	public Vector2 getLinearVelocity() {
 		return body.getLinearVelocity();
+	}
+	
+	public void setVisible(boolean visible) {
+		isVisible = visible;
 	}
 	
 	public BodyData getBodyData() {

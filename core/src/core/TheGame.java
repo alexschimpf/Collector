@@ -10,6 +10,7 @@ public final class TheGame extends Game {
 	public static boolean FULLSCREEN = true;
 	public static boolean PHYSICS_DEBUG = false;
 	public static boolean PRINT_FPS = false;
+	public static boolean PACK_TEXTURES = false;
 	
 	private GameScreen gameScreen;
 	
