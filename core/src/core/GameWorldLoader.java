@@ -6,6 +6,7 @@ import java.util.Iterator;
 import misc.BodyData;
 import misc.Globals;
 import misc.Utils;
+import animation.Animation;
 
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
@@ -55,6 +56,7 @@ public final class GameWorldLoader {
 	private void loadLayer(MapLayer layer) {
 		Array<MapObject> bodyObjects = new Array<MapObject>();
 		Array<TextureMapObject> entityObjects = new Array<TextureMapObject>();
+		Array<MapObject> animationObjects = new Array<MapObject>();
 		
 		if(layer instanceof TiledMapTileLayer) {
 			TiledMapTileLayer tileLayer = (TiledMapTileLayer)layer;
@@ -76,29 +78,23 @@ public final class GameWorldLoader {
 			if(object instanceof TextureMapObject) {
 				TextureMapObject textureObject = (TextureMapObject)object;
 				entityObjects.add(textureObject);
-			} else {
-				if(type != null && type.equals("body_skeleton")) {
-					BODY_SKELETON_MAP.put(object.getName(), object);
-				} else {
+			} else {				
+				if(type == null) {
 					bodyObjects.add(object);
+					continue;
+				}
+				
+				if(type.equals("body_skeleton")) {
+					BODY_SKELETON_MAP.put(object.getName(), object);
+				} else if(type.equals("animation")) {
+					animationObjects.add(object);
 				}
 			}
 		}
 		
-		for(MapObject object : bodyObjects) {
-			layer.getObjects().remove(object);
-		}
-		
-		for(MapObject object : entityObjects) {
-			layer.getObjects().remove(object);
-		}
-		
-		for(MapObject object : BODY_SKELETON_MAP.values()) {
-			layer.getObjects().remove(object);
-		}
-		
 		loadBodies(bodyObjects);
 		loadEntities(entityObjects, BODY_SKELETON_MAP);
+		loadAnimations(animationObjects);
 	}
 	
 	private void loadBodies(Array<MapObject> objects) {
@@ -151,6 +147,31 @@ public final class GameWorldLoader {
 			}
 
 			Globals.getGameWorld().addEntity(entity);
+		}
+	}
+	
+	private void loadAnimations(Array<MapObject> animationObjects) {
+		for(MapObject object : animationObjects) {
+			MapProperties properties = object.getProperties();
+			if(!properties.containsKey("animation_key")) {
+				throw new NullPointerException("Animation object does not contain an 'animation_key' property");
+			} else if(!properties.containsKey("total_duration")) {
+				throw new NullPointerException("Animation object does not contain an 'total_duration' property");
+			}
+			
+			String animationKey = (String)properties.get("animation_key");
+			if(Globals.getTextureManager().getAnimationTextures(animationKey) == null) {
+				throw new NullPointerException("Animation with key '" + animationKey + "' does not exist");
+			}
+			
+			Float totalDuration = (Float)properties.get("total_duration");	
+			Boolean loop = (Boolean)properties.get("loop");
+			Globals.getGameScreen().addAnimation(
+        		new Animation.Builder(animationKey, getObjectPosition(properties), getObjectSize(properties), totalDuration)
+        		.loop(loop != null ? loop : true)
+        		.playOnCreate(true)
+        		.build()
+			);
 		}
 	}
 	
@@ -269,16 +290,28 @@ public final class GameWorldLoader {
     	} else {
     		throw new NullPointerException("TextureMapObject does not contain valid 'body_type' property");
     	}
-    	
+ 
+    	return new EntityBodyDef(getObjectPosition(properties), getObjectSize(properties), bodyType);
+    }
+    
+    private Vector2 getObjectSize(MapProperties properties) {
     	float unitScale = Globals.getCamera().getTileMapScale();
-    	float x = (Float)properties.get("x") * unitScale;
-    	float y = (Float)properties.get("y") * unitScale;
     	float width = (Float)properties.get("width") * unitScale;
     	float height = (Float)properties.get("height") * unitScale;
     	
+    	return new Vector2(width, height);
+    }
+    
+    private Vector2 getObjectPosition(MapProperties properties) {
+    	float unitScale = Globals.getCamera().getTileMapScale();
+    	float width = (Float)properties.get("width") * unitScale;
+    	float height = (Float)properties.get("height") * unitScale;
+    	float x = (Float)properties.get("x") * unitScale;
+    	float y = (Float)properties.get("y") * unitScale;
+    	
     	x += width / 2;
     	y -= height / 2;
- 
-    	return new EntityBodyDef(new Vector2(x, y), new Vector2(width, height), bodyType);
+    	
+    	return new Vector2(x, y);
     }
 }

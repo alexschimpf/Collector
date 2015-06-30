@@ -8,6 +8,7 @@ import misc.IUpdate;
 import misc.Vector2Pool;
 import particle.ParticleEffect;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -48,8 +49,8 @@ public class WeatherSystem implements IRender, IUpdate {
 	@Override
 	public boolean update() {
 //		time += TIME_SCALE * Gdx.graphics.getDeltaTime();		
-//		light = Math.min(Math.max(Math.abs(MathUtils.sin(time)), 0.3f), 0.8f);
-//		
+//		light = Math.min(Math.max(Math.abs(MathUtils.sin(time)), 0.3f), 1f);
+		
 		Iterator<ParticleEffect> cloudIter = CLOUDS.iterator();
 		while(cloudIter.hasNext()) {
 			ParticleEffect cloud = cloudIter.next();

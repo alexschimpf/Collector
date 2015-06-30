@@ -3,9 +3,11 @@ package screen;
 import misc.Globals;
 import misc.InputListener;
 import particle.ParticleEffect;
+import animation.Animation;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,6 +28,7 @@ import core.WeatherSystem;
 
 public final class GameScreen implements Screen {
 
+	private final TheGame THE_GAME;
 	private final SpriteBatch SPRITE_BATCH = new SpriteBatch();
 	private final Box2DDebugRenderer DEBUG_RENDERER = new Box2DDebugRenderer();
 	private final Matrix4 DEBUG_MATRIX = new Matrix4();
@@ -34,14 +37,18 @@ public final class GameScreen implements Screen {
 	private final Stage HUD_STAGE;
 	private final InputListener INPUT_LISTENER = new InputListener();
 	private final Array<ParticleEffect> PARTICLE_EFFECTS = new Array<ParticleEffect>();
+	private final Array<Animation> ANIMATIONS = new Array<Animation>();
 
-	public GameScreen() {
+	public GameScreen(TheGame theGame) {
 		// music
 		// background
 		
+		THE_GAME = theGame;
+		
 		// HACK: Why does this work?
 		if(TheGame.FULLSCREEN) {
-			Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height, true);	
+			Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, 
+					                    Gdx.graphics.getDesktopDisplayMode().height, true);	
 		}
 		
 		Globals.getSoundManager();
@@ -108,10 +115,20 @@ public final class GameScreen implements Screen {
 		PARTICLE_EFFECTS.add(particleEffect);
 	}
 	
+	public void addAnimation(Animation animation) {
+		ANIMATIONS.add(animation);
+	}
+	
 	private void update() {
 		INPUT_LISTENER.update();
 		Globals.getGameWorld().update();
 		HUD_STAGE.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		
+		for(Animation animation : ANIMATIONS) {
+			if(animation.update()) {
+				animation.done();
+			}
+		}
 		
 		for(ParticleEffect particleEffect : PARTICLE_EFFECTS) {
 			if(particleEffect.update()) {
@@ -136,6 +153,10 @@ public final class GameScreen implements Screen {
 		SPRITE_BATCH.setProjectionMatrix(camera.combined);
 		SPRITE_BATCH.begin(); {
 			Globals.getWeatherSystem().render(SPRITE_BATCH);
+			
+			for(Animation animation : ANIMATIONS) {
+				animation.render(SPRITE_BATCH);
+			}
 			
 			for(ParticleEffect particleEffect : PARTICLE_EFFECTS) {
 				particleEffect.render(SPRITE_BATCH);
