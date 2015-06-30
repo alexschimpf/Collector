@@ -12,7 +12,7 @@
         <optional>
             <property name="body_type" default="static" />
         </optional>
-    </global_properties>
+    </global_properti nmm,.µ÷¬…es>
     <entity_properties>
         <entity type="player" class="entity.special.Player">
             <override>

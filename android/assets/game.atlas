@@ -1,166 +1,173 @@
 
 game.png
-size: 1024,128
+size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+background
+  rotate: false
+  xy: 1, 67
+  size: 533, 181
+  orig: 533, 181
+  offset: 0, 0
+  index: -1
 cloud
   rotate: false
-  xy: 1, 55
+  xy: 1, 13
   size: 138, 52
   orig: 138, 52
   offset: 0, 0
   index: 1
 cloud
   rotate: false
-  xy: 1, 1
+  xy: 536, 196
   size: 138, 52
   orig: 138, 52
   offset: 0, 0
   index: 2
-cloud
-  rotate: false
-  xy: 141, 9
-  size: 64, 32
-  orig: 64, 32
-  offset: 0, 0
-  index: 3
 collectable
   rotate: false
-  xy: 141, 43
+  xy: 536, 130
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 273, 43
+  xy: 602, 64
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: -1
 player_jump
   rotate: false
-  xy: 273, 43
-  size: 46, 64
-  orig: 46, 64
-  offset: 0, 0
-  index: 1
-player_blink
-  rotate: false
-  xy: 273, 43
+  xy: 602, 64
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 5
+player_blink
+  rotate: false
+  xy: 602, 64
+  size: 46, 64
+  orig: 46, 64
+  offset: 0, 0
+  index: 5
+player_blink
+  rotate: false
+  xy: 602, 64
+  size: 46, 64
+  orig: 46, 64
+  offset: 0, 0
+  index: 1
 player_jump
   rotate: false
-  xy: 273, 43
-  size: 46, 64
-  orig: 46, 64
-  offset: 0, 0
-  index: 5
-player_blink
-  rotate: false
-  xy: 273, 43
+  xy: 602, 64
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 1
 player_blink
   rotate: false
-  xy: 321, 43
+  xy: 676, 184
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 2
 player_blink
   rotate: false
-  xy: 321, 43
+  xy: 676, 184
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 4
 player_blink
   rotate: false
-  xy: 369, 43
+  xy: 724, 184
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 3
 player_jump
   rotate: false
-  xy: 417, 43
+  xy: 772, 184
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 2
 player_jump
   rotate: false
-  xy: 417, 43
+  xy: 772, 184
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 4
 player_jump
   rotate: false
-  xy: 465, 43
+  xy: 820, 184
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 3
 player_move
   rotate: false
-  xy: 513, 43
+  xy: 868, 184
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 1
 player_move
   rotate: false
-  xy: 561, 43
+  xy: 916, 184
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 2
 player_shoot
   rotate: false
-  xy: 609, 43
+  xy: 964, 184
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 1
 player_shoot
   rotate: false
-  xy: 609, 43
+  xy: 964, 184
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 5
 player_shoot
   rotate: false
-  xy: 657, 43
+  xy: 141, 1
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 2
 player_shoot
   rotate: false
-  xy: 657, 43
+  xy: 141, 1
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 4
 player_shoot
   rotate: false
-  xy: 705, 43
+  xy: 189, 1
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 3
 player_shot
   rotate: false
-  xy: 207, 43
+  xy: 602, 130
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+square_outline
+  rotate: false
+  xy: 536, 64
   size: 64, 64
   orig: 64, 64
   offset: 0, 0

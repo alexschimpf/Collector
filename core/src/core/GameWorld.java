@@ -52,9 +52,7 @@ public final class GameWorld implements IRender, IUpdate {
 	
 	@Override
 	public boolean update() {
-		if(Globals.state == State.RUNNING) {
-			PHYSICS_WORLD.step(1 / 45.0f, 5, 5);
-		}
+		PHYSICS_WORLD.step(1 / 45.0f, 5, 5);
 
 		updateEntities();
 		

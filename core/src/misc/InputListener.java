@@ -21,7 +21,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 		}
 		
 		if(Globals.state != State.RUNNING) {
-			return false;
+			return true;
 		}
 		
 		Player player = Globals.getPlayer();
@@ -48,7 +48,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 	@Override
 	public boolean keyUp(InputEvent event, int keyCode) {
 		if(Globals.state != State.RUNNING) {
-			return false;
+			return true;
 		}
 		
 		Player player = Globals.getPlayer();

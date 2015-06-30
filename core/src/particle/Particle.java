@@ -21,6 +21,8 @@ public final class Particle implements IRender, IUpdate, Poolable {
 	    }
 	};
 	
+	private float startX;
+	private float startY;
 	private float startWidth;
 	private float startHeight;
 	private float vx;
@@ -33,6 +35,7 @@ public final class Particle implements IRender, IUpdate, Poolable {
 	private Color startColor;
 	private Color endColor;
 	private boolean fadeIn;
+	private boolean keepCenter;
 	private long startTime;
 	private Sprite sprite;
 	
@@ -57,6 +60,8 @@ public final class Particle implements IRender, IUpdate, Poolable {
 			sprite.setColor(builder.startColor);
 		}
 
+		startX = builder.x;
+		startY = builder.y;
 		sprite.setPosition(builder.x - (startWidth / 2), builder.y - (startHeight / 2));
 		
 		startAlpha = builder.startAlpha;
@@ -66,6 +71,7 @@ public final class Particle implements IRender, IUpdate, Poolable {
 		scaleY = builder.scaleY;
 		
 		fadeIn = builder.fadeIn;
+		keepCenter = builder.keepCenter;
 		startColor = builder.startColor;
 		endColor = builder.endColor;
 				
@@ -89,15 +95,21 @@ public final class Particle implements IRender, IUpdate, Poolable {
 		long age = TimeUtils.timeSinceMillis(startTime);
 		float ageDurationRatio = Math.min(1, age / duration);
 		
-		float x = sprite.getX();
-		float y = sprite.getY();
-		sprite.setPosition(x + (Gdx.graphics.getDeltaTime() * vx), y + (Gdx.graphics.getDeltaTime() * vy));
-		
 		float endWidth = startWidth * scaleX;
 		float endHeight = startHeight * scaleY;
 		float width = startWidth + ((endWidth - startWidth) * ageDurationRatio);		
 		float height = startHeight + ((endHeight - startHeight) * ageDurationRatio);
 		sprite.setSize(width, height);
+		
+		if(keepCenter) {
+			float dx = age * vx;
+			float dy = age * vy;
+			sprite.setPosition(startX - (width / 2) + dx, startY - (height / 2) + dy);
+		} else {
+			float x = sprite.getX();
+			float y = sprite.getY();
+			sprite.setPosition(x + (Gdx.graphics.getDeltaTime() * vx), y + (Gdx.graphics.getDeltaTime() * vy));
+		}
 		
 		if(fadeIn) {
 			float fadeTimeRatio = Math.min(1, age / (duration / 2));
@@ -111,7 +123,7 @@ public final class Particle implements IRender, IUpdate, Poolable {
 				age = 0;
 				duration /= 2;
 			}
-		} else {
+		} else if(startAlpha != endAlpha) {
 			float alpha = startAlpha + ((endAlpha - startAlpha) * ageDurationRatio);
 			alpha = alpha < 0 ? 0 : (alpha > 1 ? 1 : alpha);
 
@@ -163,6 +175,7 @@ public final class Particle implements IRender, IUpdate, Poolable {
 		public final float duration;
 
 		private boolean fadeIn = false;
+		private boolean keepCenter = false;
 		private boolean keepProportions = true;
 		private float startAlpha = 1;
 		private float endAlpha = 0;
@@ -190,6 +203,11 @@ public final class Particle implements IRender, IUpdate, Poolable {
 		
 		public Builder fadeIn(boolean fadeIn) {
 			this.fadeIn = fadeIn;
+			return this;
+		}
+		
+		public Builder keepCenter(boolean keepCenter) {
+			this.keepCenter = keepCenter;
 			return this;
 		}
 		

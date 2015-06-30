@@ -213,8 +213,8 @@ public final class Player extends Entity {
 		Vector2 pos = bodyDef.position;
 		Vector2 size = bodyDef.size;
 		
-		Animation blinkAnimation = new Animation.Builder("player_blink", pos, size, 0.56f).build();
-		Animation jumpAnimation = new Animation.Builder("player_jump", pos, size, 0.27f).build();		
+		Animation blinkAnimation = new Animation.Builder("player_blink", pos, size, 0.5f).build();
+		Animation jumpAnimation = new Animation.Builder("player_jump", pos, size, 0.3f).build();		
 		Animation moveAnimation = new Animation.Builder("player_move", pos, size, 0.2f).loop(true).build();
 		Animation shootAnimation = new Animation.Builder("player_shoot", pos, size, 0.1f).build();
 		
@@ -298,19 +298,22 @@ public final class Player extends Entity {
 	}
 	
 	private void respawnPlayer() {
-		setVisible(false);
 		Globals.state = State.PAUSED;
+		setVisible(false);
+		setLinearVelocity(0, 0);
+		
 		Timer timer = new Timer();
 		timer.scheduleTask(new Task() {
 			@Override
 			public void run() {
-				setVisible(true);
-				Globals.state = State.RUNNING;
 				Globals.getSoundManager().playSound("transport");
+				
+				setVisible(true);
 				isFacingRight = isLastValidDirectionRight;
 				ANIMATION_SYSTEM.switchToDefault();
-				setLinearVelocity(0, 0);
 				setPosition(lastValidPos.x, lastValidPos.y);
+				
+				Globals.state = State.RUNNING;
 			}
 		}, 1f);
 	}

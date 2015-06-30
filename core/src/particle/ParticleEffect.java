@@ -36,6 +36,7 @@ public final class ParticleEffect implements IRender, IUpdate {
 			
 			Particle particle = new Particle.Builder(imageKey, builder.pos.x, builder.pos.y, size, vx, vy, duration)
 			.fadeIn(builder.fadeIn)
+			.keepCenter(builder.keepCenter)
 			.keepProportions(builder.keepProportions)
 			.sizeScale(builder.sizeScale.x, builder.sizeScale.y)
 			.startEndAlphas(builder.startEndAlphas.x, builder.startEndAlphas.y)
@@ -106,6 +107,7 @@ public final class ParticleEffect implements IRender, IUpdate {
 		public final Vector2 maxVelocity;
 		
 		private boolean fadeIn = false;
+		private boolean keepCenter = false;
 		private boolean keepProportions = true;
 		private Color startColor = null;
 		private Color endColor = null;
@@ -163,6 +165,11 @@ public final class ParticleEffect implements IRender, IUpdate {
 		
 		public Builder fadeIn(boolean fadeIn) {
 			this.fadeIn = fadeIn;
+			return this;
+		}
+		
+		public Builder keepCenter(boolean keepCenter) {
+			this.keepCenter = keepCenter;
 			return this;
 		}
 		

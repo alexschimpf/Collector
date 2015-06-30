@@ -201,7 +201,8 @@ public final class EntityPropertyValidator {
 		}
 		
 		public boolean isPropertyNameValid(String name) {
-			return REQUIRED_PROPERTY_MAP.containsKey(name) || OPTIONAL_PROPERTY_MAP.containsKey(name);
+			return REQUIRED_PROPERTY_MAP.containsKey(name) || OPTIONAL_PROPERTY_MAP.containsKey(name) ||
+				   name.equals("body_skeleton_id");
 		}
 		
 		public Array<String> getRequiredPropertyNames() {

@@ -35,6 +35,8 @@ import entity.special.Player;
 
 public final class GameWorldLoader {
 	
+	private final HashMap<String, MapObject> BODY_SKELETON_MAP = new HashMap<String, MapObject>();
+	
 	private TiledMap tileMap;
 	
 	public GameWorldLoader(TiledMap tileMap) {
@@ -53,7 +55,6 @@ public final class GameWorldLoader {
 	private void loadLayer(MapLayer layer) {
 		Array<MapObject> bodyObjects = new Array<MapObject>();
 		Array<TextureMapObject> entityObjects = new Array<TextureMapObject>();
-		HashMap<String, MapObject> bodySkeletonMap = new HashMap<String, MapObject>();
 		
 		if(layer instanceof TiledMapTileLayer) {
 			TiledMapTileLayer tileLayer = (TiledMapTileLayer)layer;
@@ -77,7 +78,7 @@ public final class GameWorldLoader {
 				entityObjects.add(textureObject);
 			} else {
 				if(type != null && type.equals("body_skeleton")) {
-					bodySkeletonMap.put(object.getName(), object);
+					BODY_SKELETON_MAP.put(object.getName(), object);
 				} else {
 					bodyObjects.add(object);
 				}
@@ -92,12 +93,12 @@ public final class GameWorldLoader {
 			layer.getObjects().remove(object);
 		}
 		
-		for(MapObject object : bodySkeletonMap.values()) {
+		for(MapObject object : BODY_SKELETON_MAP.values()) {
 			layer.getObjects().remove(object);
 		}
 		
 		loadBodies(bodyObjects);
-		loadEntities(entityObjects, bodySkeletonMap);
+		loadEntities(entityObjects, BODY_SKELETON_MAP);
 	}
 	
 	private void loadBodies(Array<MapObject> objects) {
@@ -126,9 +127,9 @@ public final class GameWorldLoader {
 			
 			MapObject bodySkeleton = null;
 			if(properties.containsKey("body_skeleton_id")) {
-				String bodySkeletonId = (String)properties.get("body_skeleton_id");
+				String bodySkeletonId = (String)properties.get("body_skeleton_id");			
 				if(!bodySkeletonMap.containsKey(bodySkeletonId)) {
-					throw new NullPointerException("Body skeleton id " + bodySkeletonId + " is not valid");
+					throw new NullPointerException("Body skeleton id '" + bodySkeletonId + "' is not valid");
 				}
 				
 				bodySkeleton = bodySkeletonMap.get(bodySkeletonId);

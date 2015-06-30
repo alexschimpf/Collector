@@ -31,15 +31,12 @@ public class CollectableEntity extends Entity {
 		}
 		
 		contact.setEnabled(false);
-		
-		Globals.incrementNumCollected();
-		
+		Globals.incrementNumCollected();		
 		startContactParticleEffect();
-		
 		markDone();
 	}
 	
-	private void startContactParticleEffect() {
+	private void startContactParticleEffect() {		
 		float v = Player.MOVE_SPEED / 5;
 		Vector2Pool pool = Globals.getVector2Pool();
 		Vector2 pos = pool.obtain(getCenterX(), getCenterY());
@@ -55,4 +52,22 @@ public class CollectableEntity extends Entity {
 		.build()
 		.start();
 	}
+	
+//	private void startContactParticleEffect() {
+//		Vector2Pool pool = Globals.getVector2Pool();
+//		Vector2 pos = pool.obtain(getCenterX(), getCenterY());
+//		Vector2 minMaxSize = pool.obtain(getWidth(), getWidth());
+//		Vector2 minVelocity = pool.obtain(0, 0);
+//		Vector2 maxVelocity = pool.obtain(0, 0);
+//		Vector2 minMaxDuration = pool.obtain(500, 500);
+//		Vector2 minMaxParticles = pool.obtain(1, 1);
+//		new ParticleEffect.Builder("square_outline", pos, minMaxSize, minVelocity, maxVelocity, 
+//				                   minMaxDuration, minMaxParticles)
+//		.startEndColors(Color.WHITE, Color.GRAY)
+//		.startEndAlphas(1, 1)
+//		.sizeScale(3, 3)
+//		.keepCenter(true)
+//		.build()
+//		.start();
+//	}
 }

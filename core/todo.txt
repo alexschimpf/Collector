@@ -20,6 +20,10 @@ TileMap to GameWorld Rules
 	
 ---------------------------------------------------------------------------------------------------------------
 
+- How to assign ordering to drawing layers?
+	- Need a foreground layer
+- Functionality in Tiled to specify where animations go 
+
 - WeatherSystem
 	- Clouds, rain, and night/day???
 - Use tiled for background, split into smaller chunk
