@@ -6,14 +6,20 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import misc.CollisionListener;
+import misc.GenericCallback;
 import misc.Globals;
 import misc.Globals.State;
 import misc.IRender;
 import misc.IUpdate;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 import entity.Entity;
 import entity.special.Player;
@@ -103,8 +109,34 @@ public final class GameWorld implements IRender, IUpdate {
  		}
 	}
 	
+	// TODO: Optimize this.
+	private final Rectangle r1 = new Rectangle();
+	private final Rectangle r2 = new Rectangle();
+	public boolean isEntityAt(float left, float top, float width, float height, Entity ignore) {
+		r1.set(left, top, width, height);
+		
+		for(Entity entity : getEntities()) {
+			if(ignore != null && entity.equals(ignore)) {
+				continue;
+			}
+			
+			r2.set(entity.getLeft(), entity.getTop(), entity.getWidth(), entity.getHeight());
+			if(r1.overlaps(r2)) {
+				return true;
+			}
+		}
+			
+		return false;
+	}
+	
 	public World getWorld() {
 		return PHYSICS_WORLD;
+	}
+	
+	public Array<Body> getBodies() {
+		Array<Body> bodies = new Array<Body>();
+		PHYSICS_WORLD.getBodies(bodies);
+		return bodies;
 	}
 
 	public float getLeft() {

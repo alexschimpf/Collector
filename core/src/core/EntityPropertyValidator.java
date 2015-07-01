@@ -201,8 +201,9 @@ public final class EntityPropertyValidator {
 		}
 		
 		public boolean isPropertyNameValid(String name) {
+			// TODO: Create ignore_properties node in entity_properties.xml
 			return REQUIRED_PROPERTY_MAP.containsKey(name) || OPTIONAL_PROPERTY_MAP.containsKey(name) ||
-				   name.equals("body_skeleton_id");
+				   name.equals("body_skeleton_id") || name.equals("image_key");
 		}
 		
 		public Array<String> getRequiredPropertyNames() {

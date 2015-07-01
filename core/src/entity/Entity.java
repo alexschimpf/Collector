@@ -12,8 +12,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -41,7 +43,16 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 			id = String.valueOf(object.hashCode());
 		}
 		
-		TextureRegion textureRegion = object.getTextureRegion();
+		MapProperties properties = object.getProperties();
+		
+		TextureRegion textureRegion;
+		if(properties.containsKey("image_key")) {
+			String imageKey = (String)properties.get("image_key");
+			textureRegion = Globals.getTextureManager().getImageTexture(imageKey);
+		} else {
+			textureRegion = object.getTextureRegion();
+		}		
+
 		createSprite(bodyDef, textureRegion);	
 		createBody(bodyDef, bodySkeleton);
 	}

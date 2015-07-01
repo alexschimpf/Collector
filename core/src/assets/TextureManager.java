@@ -46,6 +46,10 @@ public final class TextureManager {
 		return IMAGE_TEXTURE_MAP.get(key);
 	}
 	
+	public TextureRegion getImageTexture(String key, int index) {
+		return getImageTexture(key + "_" + index);
+	}
+	
 	public Sprite getSprite(String key) {
 		AtlasRegion region = IMAGE_TEXTURE_MAP.get(key);
 		if(region == null) {

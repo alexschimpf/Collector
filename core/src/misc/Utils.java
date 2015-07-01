@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -25,6 +26,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.utils.Array;
 
 import entity.Entity;
 
@@ -56,6 +58,69 @@ public class Utils {
 	
 	public static String choose(String a, String b) {
 		return MathUtils.random() < 0.5f ? a : b;
+	}
+	
+	public static boolean getPropertyBoolean(MapProperties properties, String key) {
+		return Boolean.parseBoolean(properties.get(key).toString());
+	}
+	
+	public static int getPropertyInt(MapProperties properties, String key) {
+		return Integer.parseInt(properties.get(key).toString());
+	}
+	
+	public static float getPropertyFloat(MapProperties properties, String key) {
+		return Float.parseFloat(properties.get(key).toString());
+	}
+	
+	public static String getPropertyString(MapProperties properties, String key) {
+		return properties.get(key).toString();
+	}
+	
+	public static boolean[] getPropertyBooleanArray(MapProperties properties, String key, String delim) {
+		String full = getPropertyString(properties, key);
+		
+		String[] strArr = full.split(delim);
+		boolean[] booleanArr = new boolean[strArr.length];
+		
+		int i = 0;
+		for(String elem : strArr) {
+			booleanArr[i++] = Boolean.parseBoolean(elem);
+		}
+		
+		return booleanArr;
+	}
+	
+	public static int[] getPropertyIntArray(MapProperties properties, String key, String delim) {
+		String full = getPropertyString(properties, key);
+		
+		String[] strArr = full.split(delim);
+		int[] intArr = new int[strArr.length];
+		
+		int i = 0;
+		for(String elem : strArr) {
+			intArr[i++] = Integer.parseInt(elem);
+		}
+		
+		return intArr;
+	}
+	
+	public static float[] getPropertyFloatArray(MapProperties properties, String key, String delim) {
+		String full = getPropertyString(properties, key);
+		
+		String[] strArr = full.split(delim);
+		float[] floatArr = new float[strArr.length];
+		
+		int i = 0;
+		for(String elem : strArr) {
+			floatArr[i++] = Float.parseFloat(elem);
+		}
+		
+		return floatArr;
+	}
+	
+	public static String[] getPropertyStringArray(MapProperties properties, String key, String delim) {
+		String full = getPropertyString(properties, key);
+		return full.split(delim);
 	}
 
 	public static FixtureDef getFixtureDefFromBodySkeleton(MapObject object) {

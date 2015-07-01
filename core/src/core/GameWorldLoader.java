@@ -123,14 +123,14 @@ public final class GameWorldLoader {
 	private void loadEntities(Array<TextureMapObject> objects, HashMap<String, MapObject> bodySkeletonMap) {
 		for(TextureMapObject object : objects) {
 			MapProperties properties = object.getProperties();
-			String type = (String)properties.get("type");
+			String type = Utils.getPropertyString(properties, "type");
 			if(type == null) {
 				throw new NullPointerException("TextureMapObject has no type");
 			}
 			
 			MapObject bodySkeleton = null;
 			if(properties.containsKey("body_skeleton_id")) {
-				String bodySkeletonId = (String)properties.get("body_skeleton_id");			
+				String bodySkeletonId = Utils.getPropertyString(properties, "body_skeleton_id");			
 				if(!bodySkeletonMap.containsKey(bodySkeletonId)) {
 					throw new NullPointerException("Body skeleton id '" + bodySkeletonId + "' is not valid");
 				}
@@ -166,13 +166,13 @@ public final class GameWorldLoader {
 				throw new NullPointerException("Animation object does not contain an 'total_duration' property");
 			}
 			
-			String animationKey = (String)properties.get("animation_key");
+			String animationKey = Utils.getPropertyString(properties, "animation_key");
 			if(Globals.getTextureManager().getAnimationTextures(animationKey) == null) {
 				throw new NullPointerException("Animation with key '" + animationKey + "' does not exist");
 			}
 			
-			Float totalDuration = (Float)properties.get("total_duration");	
-			Boolean loop = (Boolean)properties.get("loop");
+			Float totalDuration = Utils.getPropertyFloat(properties, "total_duration");	
+			Boolean loop = Utils.getPropertyBoolean(properties, "loop");
 			Globals.getGameScreen().addAnimation(
         		new Animation.Builder(animationKey, getObjectPosition(properties), getObjectSize(properties), totalDuration)
         		.loop(loop != null ? loop : true)
@@ -286,7 +286,7 @@ public final class GameWorldLoader {
     		throw new NullPointerException("TextureMapObject does not contain property 'body_type'");
     	}
     		
-    	String bodyTypeStr = (String)properties.get("body_type");
+    	String bodyTypeStr = Utils.getPropertyString(properties, "body_type");
     	BodyType bodyType;
     	if(bodyTypeStr.equals("static")) {
     		bodyType = BodyType.StaticBody;
@@ -303,18 +303,18 @@ public final class GameWorldLoader {
     
     private Vector2 getObjectSize(MapProperties properties) {
     	float unitScale = Globals.getCamera().getTileMapScale();
-    	float width = (Float)properties.get("width") * unitScale;
-    	float height = (Float)properties.get("height") * unitScale;
+    	float width = Utils.getPropertyFloat(properties, "width") * unitScale;
+    	float height = Utils.getPropertyFloat(properties, "height") * unitScale;
     	
     	return new Vector2(width, height);
     }
     
     private Vector2 getObjectPosition(MapProperties properties) {
     	float unitScale = Globals.getCamera().getTileMapScale();
-    	float width = (Float)properties.get("width") * unitScale;
-    	float height = (Float)properties.get("height") * unitScale;
-    	float x = (Float)properties.get("x") * unitScale;
-    	float y = (Float)properties.get("y") * unitScale;
+    	float width = Utils.getPropertyFloat(properties, "width") * unitScale;
+    	float height = Utils.getPropertyFloat(properties, "height") * unitScale;
+    	float x = Utils.getPropertyFloat(properties, "x") * unitScale;
+    	float y = Utils.getPropertyFloat(properties, "y") * unitScale;
     	
     	x += width / 2;
     	y -= height / 2;

@@ -106,7 +106,7 @@ public final class Player extends Entity {
 			return false;
 		}
 		
-		isJumping = true;
+//		isJumping = true;
 		
 		// TODO: Vertically moving block hack
 
@@ -228,6 +228,12 @@ public final class Player extends Entity {
 		lastValidPos.set(pos.x, pos.y);
 	}
 	
+	@Override
+	protected void createBody(EntityBodyDef bodyDef, MapObject bodySkeleton) {
+		FixtureDef fixtureDef = Utils.getScaledFixtureDefFromBodySkeleton(bodySkeleton, 0.98f);
+		createBody(bodyDef, fixtureDef);
+	}
+	
 	private void move(boolean right) {
 		if(getLinearVelocity().x == 0) {
 			lastStartMoveTime = TimeUtils.millis();
@@ -252,11 +258,11 @@ public final class Player extends Entity {
 	}
 	
 	private void attachFootSensors(EntityBodyDef bodyDef) {	
-		Vector2 localBottom = body.getLocalPoint(new Vector2(getCenterX(), getBottom())).sub(0, getHeight() / 20);
+		Vector2 localBottom = body.getLocalPoint(new Vector2(getCenterX(), getBottom()));
 		
 		float width = bodyDef.size.x;
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(width / 2 * 0.8f, getHeight() / 19.9f, localBottom, 0);
+		shape.setAsBox(width / 2 * 0.8f, getHeight() / 25f, localBottom, 0);
 		
 		Fixture fixture = body.createFixture(shape, 0);
 		fixture.setSensor(true);
@@ -359,7 +365,7 @@ public final class Player extends Entity {
 		new ParticleEffect.Builder("player_shot", pos, minMaxSize, minVelocity, maxVelocity, 
 				                   minMaxDuration, minMaxParticles)
 		.vSplits(vx / 4, 0)
-		.startEndColors(Color.WHITE, Color.RED)
+		.startEndColors(Color.WHITE, Color.WHITE)
 		.build()
 		.start();
 	}

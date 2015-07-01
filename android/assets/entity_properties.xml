@@ -25,6 +25,18 @@
                 <property name="health" default="1" note="1 shot collision = 1 health point" />
             </optional>
         </entity>
+        <entity type="programmable" class="entity.ProgrammableEntity">
+            <required>
+                <property name="max_left" />
+                <property name="max_right" />
+                <property name="max_up" />
+                <property name="max_down" />
+            </required>
+            <override>
+                <property name="image_key" value="programmable_1" />
+                <property name="body_type" value="kinematic" />
+            </override>
+        </entity>
         <entity type="disappearing" class="entity.DisappearingEntity" >
             <optional>
                 <property name="recreate" default="false" />
