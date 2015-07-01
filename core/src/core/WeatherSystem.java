@@ -101,7 +101,6 @@ public class WeatherSystem implements IRender, IUpdate {
 		.fadeIn(fadeIn)
 		.vSplits(0.05f, 0)
 		.build();
-		cloud.start();
 		
 		CLOUDS.add(cloud);
 	}

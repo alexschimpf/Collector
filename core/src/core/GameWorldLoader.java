@@ -2,6 +2,7 @@ package core;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import misc.BodyData;
 import misc.Globals;
@@ -9,7 +10,6 @@ import misc.Utils;
 import animation.Animation;
 
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.CircleMapObject;
@@ -46,10 +46,17 @@ public final class GameWorldLoader {
 	}
 	
 	public void load() {
-		MapLayers layers = tileMap.getLayers();
-		Iterator<MapLayer> layerIter = layers.iterator();
-		while(layerIter.hasNext()) {
-			loadLayer(layerIter.next());
+		LinkedList<MapLayer> orderedLayers = new LinkedList<MapLayer>();
+		for(MapLayer layer : tileMap.getLayers()) {
+			if(layer.getName().equals("Bodies")) {
+				orderedLayers.addFirst(layer);
+			} else {
+				orderedLayers.addLast(layer);
+			}
+		}
+		
+		for(MapLayer layer : orderedLayers) {
+			loadLayer(layer);
 		}
 	}
 	

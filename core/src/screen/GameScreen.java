@@ -24,6 +24,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import core.GameWorldLoader;
 import core.TheCamera;
 import core.TheGame;
+import core.TileMap;
+import core.TileMap.TileMapLayerType;
 import core.WeatherSystem;
 
 public final class GameScreen implements Screen {
@@ -32,10 +34,9 @@ public final class GameScreen implements Screen {
 	private final SpriteBatch SPRITE_BATCH = new SpriteBatch();
 	private final Box2DDebugRenderer DEBUG_RENDERER = new Box2DDebugRenderer();
 	private final Matrix4 DEBUG_MATRIX = new Matrix4();
-	private final TiledMap TILE_MAP;
-	private final OrthogonalTiledMapRenderer TILE_MAP_RENDERER;
 	private final Stage HUD_STAGE;
 	private final InputListener INPUT_LISTENER = new InputListener();
+	private final TileMap TILE_MAP;
 	private final Array<ParticleEffect> PARTICLE_EFFECTS = new Array<ParticleEffect>();
 	private final Array<Animation> ANIMATIONS = new Array<Animation>();
 
@@ -55,16 +56,13 @@ public final class GameScreen implements Screen {
 		Globals.getMusicManager();
 		Globals.getTextureManager();
 
-		Parameters tileMapParams = new Parameters();
-		tileMapParams.flipY = false;
-		TILE_MAP = new TmxMapLoader().load("tile_map_1.tmx", tileMapParams);
-		TILE_MAP_RENDERER = new OrthogonalTiledMapRenderer(TILE_MAP, Globals.getCamera().getTileMapScale());
+		TILE_MAP = new TileMap("tile_map_1");
 		
 		HUD_STAGE = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		HUD_STAGE.addListener(INPUT_LISTENER);
 		Gdx.input.setInputProcessor(HUD_STAGE);
 		
-		GameWorldLoader gameWorldLoader = new GameWorldLoader(TILE_MAP);
+		GameWorldLoader gameWorldLoader = new GameWorldLoader(TILE_MAP.getRawTileMap());
 		gameWorldLoader.load();
 	}
 	
@@ -148,31 +146,71 @@ public final class GameScreen implements Screen {
 		
 		OrthographicCamera camera = Globals.getCamera().getRawCamera();
 		
-		SPRITE_BATCH.setColor(light, light, light, 1);
-		
+//		SPRITE_BATCH.setColor(light, light, light, 1);
+		TILE_MAP.setView(camera);
 		SPRITE_BATCH.setProjectionMatrix(camera.combined);
-		SPRITE_BATCH.begin(); {
-			Globals.getWeatherSystem().render(SPRITE_BATCH);
-			
-			for(Animation animation : ANIMATIONS) {
-				animation.render(SPRITE_BATCH);
-			}
-			
-			for(ParticleEffect particleEffect : PARTICLE_EFFECTS) {
-				particleEffect.render(SPRITE_BATCH);
-			}
-		} SPRITE_BATCH.end();
-		
-		TILE_MAP_RENDERER.setView(camera);
-		TILE_MAP_RENDERER.render();
-		
-		SPRITE_BATCH.begin(); {		
-			Globals.getGameWorld().render(SPRITE_BATCH);	
-		} SPRITE_BATCH.end();
+
+		renderLayers();
 		
 		if(TheGame.PHYSICS_DEBUG) {
 			DEBUG_MATRIX.set(camera.combined);
 			DEBUG_RENDERER.render(Globals.getPhysicsWorld(), DEBUG_MATRIX);
 		}
+	}
+	
+	private void renderLayers() {
+			renderBackgroundTiles();
+			renderWeather();
+			renderEnclosingTiles();
+			renderParticleEffects();
+			renderNormalTiles();
+			renderWorldAndAnimations();
+			renderForeground();
+	}
+	
+	private void renderBackgroundTiles() {
+		TILE_MAP.render(TileMapLayerType.BACKGROUND, SPRITE_BATCH);
+	}
+	
+	private void renderWeather() {
+		SPRITE_BATCH.begin();
+		
+		Globals.getWeatherSystem().render(SPRITE_BATCH);
+		
+		SPRITE_BATCH.end();
+	}
+	
+	private void renderEnclosingTiles() {
+		TILE_MAP.render(TileMapLayerType.ENCLOSING, SPRITE_BATCH);
+	}
+	
+	private void renderNormalTiles() {
+		TILE_MAP.render(TileMapLayerType.NORMAL, SPRITE_BATCH);
+	}
+	
+	private void renderParticleEffects() {
+		SPRITE_BATCH.begin();
+		
+		for(ParticleEffect particleEffect : PARTICLE_EFFECTS) {
+			particleEffect.render(SPRITE_BATCH);
+		}
+		
+		SPRITE_BATCH.end();
+	}
+	
+	private void renderWorldAndAnimations() {		
+		SPRITE_BATCH.begin();
+		
+		for(Animation animation : ANIMATIONS) {
+			animation.render(SPRITE_BATCH);
+		}
+		
+		Globals.getGameWorld().render(SPRITE_BATCH);	
+		
+		SPRITE_BATCH.end();
+	}
+	
+	private void renderForeground() {
+		TILE_MAP.render(TileMapLayerType.FOREGROUND, SPRITE_BATCH);
 	}
 }

@@ -228,12 +228,6 @@ public final class Player extends Entity {
 		lastValidPos.set(pos.x, pos.y);
 	}
 	
-	@Override
-	protected void createBody(EntityBodyDef bodyDef, MapObject bodySkeleton) {
-		FixtureDef fixtureDef = Utils.getScaledFixtureDefFromBodySkeleton(bodySkeleton, 0.95f);
-		createBody(bodyDef, fixtureDef);
-	}
-	
 	private void move(boolean right) {
 		if(getLinearVelocity().x == 0) {
 			lastStartMoveTime = TimeUtils.millis();

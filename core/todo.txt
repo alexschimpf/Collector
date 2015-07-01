@@ -21,13 +21,17 @@ TileMap to GameWorld Rules
 ---------------------------------------------------------------------------------------------------------------
 
 - How to assign ordering to drawing layers?
-	- Need a foreground layer
-- Functionality in Tiled to specify where animations go 
+	- Foreground (e.g. grass)
+	- Solid Bodies (e.g. entities, ground)
+	- Particle Effects (e.g. dying effect)
+	- Animations (e.g. waterfall)
+	- Enclosing Walls (e.g. dirt wall)
+	- Clouds (e.g. clouds)
+	- Background (e.g. mountains)
+
 
 - WeatherSystem
 	- Clouds, rain, and night/day???
-- Use tiled for background, split into smaller chunk
 - GameWorldLoader support for sensor locations
-
 - Keep track of last touched body for player respawn, instead of position
 	- Then just center the player on that body when respawned.
