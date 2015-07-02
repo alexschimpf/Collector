@@ -2,6 +2,8 @@ package entity.special;
 
 import misc.Globals;
 import misc.Globals.State;
+import misc.BodyData;
+import misc.IInteractive;
 import misc.Utils;
 import misc.Vector2Pool;
 import particle.ParticleEffect;
@@ -22,6 +24,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.WorldManifold;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
@@ -157,6 +160,35 @@ public final class Player extends Entity {
 		if(!isShootAnimationPlaying() && !isJumpAnimationPlaying()) {
 			ANIMATION_SYSTEM.switchAnimation("shoot", false, true);
 		}
+	}
+	
+	public void interact() {
+		float dist = Globals.getTileSize() / 4;
+		
+		float upperX, lowerX;
+		if(isFacingRight()) {
+			lowerX = getRight();
+			upperX = getRight() + dist;
+		} else {
+			lowerX = getLeft() - dist;
+			upperX = getLeft();
+		}
+
+		Globals.getPhysicsWorld().QueryAABB(new QueryCallback() {
+			@Override
+			public boolean reportFixture(Fixture fixture) {
+				if(!Utils.isFromEntity(fixture) || fixture.equals(this)) {
+					return true;
+				}
+				
+				Entity entity = Utils.getEntity(fixture);
+				if(entity != null && entity instanceof IInteractive) {
+					((IInteractive)entity).interactWith();
+				}
+				
+				return true;
+			}			
+		}, lowerX, getTop(), upperX, getBottom());
 	}
 	
 	public boolean isFacingRight() {

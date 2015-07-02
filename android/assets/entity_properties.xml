@@ -12,19 +12,27 @@
         <optional>
             <property name="body_type" default="static" />
         </optional>
-    </global_properti nmm,.µ÷¬…es>
+    </global_properties>
     <entity_properties>
+        
+        <!-- Player -->
         <entity type="player" class="entity.special.Player">
             <override>
                 <property name="body_type" value="dynamic" />
             </override>           
         </entity>
+        
+        <!-- Collectable -->
         <entity type="collectable" class="entity.CollectableEntity" />
+        
+        <!-- Breakable -->
         <entity type="breakable" class="BreakableEntity">
             <optional>
                 <property name="health" default="1" note="1 shot collision = 1 health point" />
             </optional>
         </entity>
+        
+        <!-- Programmable -->
         <entity type="programmable" class="entity.ProgrammableEntity">
             <required>
                 <property name="max_left" />
@@ -32,17 +40,32 @@
                 <property name="max_up" />
                 <property name="max_down" />
             </required>
+            <optional>
+                <property name="other_ids" default="" />
+            </optional>
             <override>
                 <property name="image_key" value="programmable_1" />
                 <property name="body_type" value="kinematic" />
             </override>
         </entity>
+        
+        <!-- Programmable Trigger -->
+        <entity type="programmable_trigger" class="entity.ProgrammableTriggerEntity">
+            <required>
+                <property name="target_ids" />
+                <property name="trigger_type" note="allowed: 'reset' or 'move'" />
+            </required>
+        </entity>
+        
+        <!-- Disappearing -->
         <entity type="disappearing" class="entity.DisappearingEntity" >
             <optional>
                 <property name="recreate" default="false" />
                 <property name="disappearOnTouch" default="true" />
             </optional>
         </entity>
+        
+        <!-- Moving -->
         <entity type="moving" class="entity.MovingEntity" >
             <required>
                 <property name="path_cells" note="format: (rowA,colA),...,(rowZ,colZ)" />
@@ -58,5 +81,6 @@
                 <property name="body_type" value="kinematic" />
             </override>
         </entity>
+        
     </entities>
 </properties>

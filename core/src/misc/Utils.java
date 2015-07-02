@@ -23,6 +23,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
@@ -38,6 +39,16 @@ public class Utils {
 	
 	public static boolean isPlayerShot(Entity entity) {
 		return entity != null && entity.getType().equals("player_shot");
+	}
+	
+	public static boolean isFromEntity(Fixture fixture) {
+		BodyData bodyData = ((BodyData)fixture.getBody().getUserData());
+		return bodyData.getEntity() != null;		
+	}
+	
+	public static Entity getEntity(Fixture fixture) {
+		BodyData bodyData = ((BodyData)fixture.getBody().getUserData());
+		return bodyData.getEntity();
 	}
 	
 	public static boolean usingAndroidContext() {
@@ -79,6 +90,10 @@ public class Utils {
 	public static boolean[] getPropertyBooleanArray(MapProperties properties, String key, String delim) {
 		String full = getPropertyString(properties, key);
 		
+		if(full.isEmpty()) {
+			return new boolean[0];
+		}
+		
 		String[] strArr = full.split(delim);
 		boolean[] booleanArr = new boolean[strArr.length];
 		
@@ -92,6 +107,10 @@ public class Utils {
 	
 	public static int[] getPropertyIntArray(MapProperties properties, String key, String delim) {
 		String full = getPropertyString(properties, key);
+		
+		if(full.isEmpty()) {
+			return new int[0];
+		}
 		
 		String[] strArr = full.split(delim);
 		int[] intArr = new int[strArr.length];
@@ -107,6 +126,10 @@ public class Utils {
 	public static float[] getPropertyFloatArray(MapProperties properties, String key, String delim) {
 		String full = getPropertyString(properties, key);
 		
+		if(full.isEmpty()) {
+			return new float[0];
+		}
+		
 		String[] strArr = full.split(delim);
 		float[] floatArr = new float[strArr.length];
 		
@@ -120,6 +143,11 @@ public class Utils {
 	
 	public static String[] getPropertyStringArray(MapProperties properties, String key, String delim) {
 		String full = getPropertyString(properties, key);
+		
+		if(full.isEmpty()) {
+			return new String[0];
+		}
+		
 		return full.split(delim);
 	}
 

@@ -20,15 +20,10 @@ TileMap to GameWorld Rules
 	
 ---------------------------------------------------------------------------------------------------------------
 
-- How to assign ordering to drawing layers?
-	- Foreground (e.g. grass)
-	- Solid Bodies (e.g. entities, ground)
-	- Particle Effects (e.g. dying effect)
-	- Animations (e.g. waterfall)
-	- Enclosing Walls (e.g. dirt wall)
-	- Clouds (e.g. clouds)
-	- Background (e.g. mountains)
-
+- Add 'accepted values' check in EntityPropertyValidator
+- Load particle effects from file
+- Add rotation functionality to particle effects
+- Fix texture-flipping issue
 
 - WeatherSystem
 	- Clouds, rain, and night/day???
