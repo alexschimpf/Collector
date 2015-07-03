@@ -113,31 +113,31 @@ public final class PlayerShot extends Entity {
 	}
 	
 	private void startContactParticleEffect() {	
-		Vector2 v = getLinearVelocity();
-		float minVx = -v.x / 25;
-		float maxVx = -v.x / 20;
-		if(v.x > 0) {
-			float temp = minVx;
-			minVx = maxVx;
-			maxVx = temp;
-		}
-		
-		float x = getRight();
-		if(v.x < 0) {
-			x = getLeft();
-		}
-
-		Vector2Pool pool = Globals.getVector2Pool();
-		Vector2 pos = pool.obtain(x, getCenterY());
-		Vector2 minMaxSize = pool.obtain(getWidth() / 6, getWidth());
-		Vector2 minVelocity = pool.obtain(minVx, -SPEED / 15);
-		Vector2 maxVelocity = pool.obtain(maxVx, SPEED / 15);
-		Vector2 minMaxDuration = pool.obtain(400, 800);
-		Vector2 minMaxParticles = pool.obtain(7, 10);
-		new ParticleEffect.Builder("player_shot", pos, minMaxSize, minVelocity, maxVelocity, 
-				                   minMaxDuration, minMaxParticles)
-		.startEndColors(Color.WHITE, Color.LIGHT_GRAY)
-		.build()
-		.start();
+//		Vector2 v = getLinearVelocity();
+//		float minVx = -v.x / 25;
+//		float maxVx = -v.x / 20;
+//		if(v.x > 0) {
+//			float temp = minVx;
+//			minVx = maxVx;
+//			maxVx = temp;
+//		}
+//		
+//		float x = getRight();
+//		if(v.x < 0) {
+//			x = getLeft();
+//		}
+//
+//		Vector2Pool pool = Globals.getVector2Pool();
+//		Vector2 pos = pool.obtain(x, getCenterY());
+//		Vector2 minMaxSize = pool.obtain(getWidth() / 6, getWidth());
+//		Vector2 minVelocity = pool.obtain(minVx, -SPEED / 15);
+//		Vector2 maxVelocity = pool.obtain(maxVx, SPEED / 15);
+//		Vector2 minMaxDuration = pool.obtain(400, 800);
+//		Vector2 minMaxParticles = pool.obtain(7, 10);
+//		new ParticleEffect.Builder("player_shot", pos, minMaxSize, minVelocity, maxVelocity, 
+//				                   minMaxDuration, minMaxParticles)
+//		.startEndColors(Color.WHITE, Color.LIGHT_GRAY)
+//		.build()
+//		.start();
 	}
 }

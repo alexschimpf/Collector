@@ -1,0 +1,78 @@
+<particle_effects_data>
+    <properties>
+        <!-- Required -->
+        <property name="image_key"         required="true" type="String"  method="imageKey" />
+        <property name="min_max_size"      required="true" type="Vector2" method="minMaxSize" />
+        <property name="min_max_duration"  required="true" type="Vector2" method="minMaxDuration" />
+        <property name="min_max_particles" required="true" type="Vector2" method="minMaxParticles" />
+        <property name="min_velocity"      required="true" type="Vector2" method="minVelocity" />
+        <property name="max_velocity"      required="true" type="Vector2" method="maxVelocity" />
+        
+        <!-- Optional -->
+        <property name="fade_in"          required="false" type="Boolean" method="fadeIn" />
+        <property name="keep_center"      required="false" type="Boolean" method="keepCenter" />
+        <property name="keep_proportions" required="false" type="Boolean" method="keepProportions" />
+        <property name="start_color"      required="false" type="Color"   method="startColor" />
+        <property name="end_color"        required="false" type="Color"   method="endColor" />
+        <property name="start_end_alphas" required="false" type="Vector2" method="startEndAlphas" />
+        <property name="size_scale"       required="false" type="Vector2" method="sizeScale" />
+        <property name="velocity_splits"  required="false" type="Vector2" method="velocitySplits" />
+        <property name="min_offsets"      required="false" type="Vector2" method="minOffsets" />
+        <property name="max_offsets"      required="false" type="Vector2" method="maxOffsets" />
+    </properties>
+    
+    <particle_effects>
+        <!-- Player Dying -->
+        <particle_effect name="player_dying">
+            <properties>
+                <!-- Preset -->
+                <property name="image_key"         custom="false" value="player_shot" />
+                <property name="min_max_duration"  custom="false" value="500, 1000" />
+                <property name="min_max_particles" custom="false" value="20, 30" />
+                <property name="min_velocity"      custom="false" value="-5, -4" />
+                <property name="max_velocity"      custom="false" value="5, -2" />
+                <property name="velocity_splits"   custom="false" value="1, 0" />
+                <property name="start_color"       custom="false" value="1, 1, 1" />
+                <property name="end_color"         custom="false" value="0.8, 0.8, 0.8" />
+                
+                <!-- Custom -->
+                <property name="min_max_size" custom="true" />
+            </properties>                                         
+        </particle_effect>    
+        
+        <!-- Cloud-->
+        <particle_effect name="cloud">
+            <properties>
+                <!-- Preset -->
+                <property name="image_key"         custom="false" value="cloud_1" />
+                <property name="min_max_duration"  custom="false" value="30000, 150000" />
+                <property name="min_max_particles" custom="false" value="1, 1" />
+                <property name="min_velocity"      custom="false" value="-0.1, 0" />
+                <property name="max_velocity"      custom="false" value="0.1, 0" />
+                <property name="velocity_splits"   custom="false" value="0.05, 0" />
+                
+                <!-- Custom -->
+                <property name="min_max_size" custom="true" />
+            </properties>                                         
+        </particle_effect>   
+
+        <!-- Collectable -->
+        <particle_effect name="collectable">
+            <properties>
+                <!-- Preset -->
+                <property name="image_key"         custom="false" value="player_shot" />
+                <property name="min_max_duration"  custom="false" value="500, 1000" />
+                <property name="min_max_particles" custom="false" value="8, 12" />
+                <property name="min_velocity"      custom="false" value="-3, -3" />
+                <property name="max_velocity"      custom="false" value="3, 3" />
+                <property name="velocity_splits"   custom="false" value="1, 1" />
+                <property name="start_color"       custom="false" value="0.7, 0.7, 0.7" />
+                <property name="end_color"         custom="false" value="0.7, 0, 0" />
+                
+                <!-- Custom -->
+                <property name="min_max_size" custom="true" />
+            </properties>                                         
+        </particle_effect> 
+          
+    </particle_effects>
+</particle_effect_data>

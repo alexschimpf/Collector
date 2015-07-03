@@ -3,6 +3,7 @@ package screen;
 import misc.Globals;
 import misc.InputListener;
 import particle.ParticleEffect;
+import particle.ParticleEffectLoader;
 import animation.Animation;
 
 import com.badlogic.gdx.Gdx;
@@ -54,7 +55,8 @@ public final class GameScreen implements Screen {
 		
 		Globals.getSoundManager();
 		Globals.getMusicManager();
-		Globals.getTextureManager();
+		Globals.getTextureManager();	
+		new ParticleEffectLoader().load();
 
 		TILE_MAP = new TileMap("tile_map_1");
 		

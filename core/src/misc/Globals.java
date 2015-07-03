@@ -1,5 +1,6 @@
 package misc;
 
+import particle.ParticleEffectManager;
 import screen.GameScreen;
 import assets.MusicManager;
 import assets.SoundManager;
@@ -58,6 +59,10 @@ public final class Globals {
 	
 	public static MusicManager getMusicManager() {
 		return MusicManager.getInstance();
+	}
+	
+	public static ParticleEffectManager getParticleEffectManager() {
+		return ParticleEffectManager.getInstance();
 	}
 	
 	public static WeatherSystem getWeatherSystem() {

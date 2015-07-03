@@ -31,7 +31,7 @@ import com.badlogic.gdx.utils.Array;
 
 import entity.Entity;
 
-public class Utils {
+public final class Utils {
 	
 	public static boolean isPlayer(Entity entity) {
 		return entity != null && entity.getType().equals("player");
@@ -59,6 +59,10 @@ public class Utils {
 		return Gdx.app.getType() == ApplicationType.Desktop;
 	}
 	
+	public static boolean choose(boolean a, boolean b) {
+		return MathUtils.random() < 0.5f ? a : b;
+	}
+	
 	public static float choose(float a, float b) {
 		return MathUtils.random() < 0.5f ? a : b;
 	}
@@ -69,6 +73,18 @@ public class Utils {
 	
 	public static String choose(String a, String b) {
 		return MathUtils.random() < 0.5f ? a : b;
+	}
+	
+	public static float getRandomFromRange(Vector2 range) {
+		return MathUtils.random(range.x, range.y);
+	}
+
+	public static float getRandomFromRange(float a, float b, float split) {
+		if(split == 0) {
+			return MathUtils.random(a, b);
+		}
+		
+		return Utils.choose(MathUtils.random(a, -split), MathUtils.random(split, b));
 	}
 	
 	public static boolean getPropertyBoolean(MapProperties properties, String key) {

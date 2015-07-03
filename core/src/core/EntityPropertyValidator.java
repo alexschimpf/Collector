@@ -18,7 +18,7 @@ import entity.EntityBodyDef;
 
 public final class EntityPropertyValidator {
 
-	private static final String PROPERTIES_FILENAME = "entity_properties.xml";
+	private static final String CONFIG_FILENAME = "entity_properties.xml";
 	
 	private static EntityPropertyValidator instance;
 	
@@ -37,7 +37,7 @@ public final class EntityPropertyValidator {
 	private EntityPropertyValidator() {
 		try {
 			XmlReader reader = new XmlReader();
-			Element root = reader.parse(Gdx.files.internal(PROPERTIES_FILENAME));
+			Element root = reader.parse(Gdx.files.internal(CONFIG_FILENAME));
 			buildModel(root);
 		} catch(Exception e) {
 			Gdx.app.error("collector", "EntityPropertyValidator", e);

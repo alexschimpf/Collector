@@ -1,6 +1,6 @@
 package misc;
 
-public class Tuple<X, Y> {
+public final class Tuple<X, Y> {
 
 	public X x;
 	public Y y;

@@ -91,11 +91,6 @@ public final class Player extends Entity {
 		sprite = ANIMATION_SYSTEM.getSprite();
 		ANIMATION_SYSTEM.flipSprite(isFacingLeft(), true);
 		
-		if(isMoveAnimationPlaying() && Math.abs(getLinearVelocity().x) == MOVE_SPEED &&
-		   TimeUtils.timeSinceMillis(lastStartMoveTime) > MOVE_PARTICLE_DELAY) {
-			startMoveParticleEffect();
-		}
-		
 		// TODO: Remove this... maybe.
 		if(getLinearVelocity().y > 60) {
 			respawnPlayer();
@@ -108,9 +103,7 @@ public final class Player extends Entity {
 		if(isJumping) {
 			return false;
 		}
-		
-//		isJumping = true;
-		
+
 		// TODO: Vertically moving block hack
 
 		Globals.getSoundManager().playSound("jump");
@@ -294,7 +287,7 @@ public final class Player extends Entity {
 		
 		float width = bodyDef.size.x;
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(width / 2 * 0.8f, getHeight() / 25f, localBottom, 0);
+		shape.setAsBox(width / 2 * 0.8f, 0.001f, localBottom, 0);
 		
 		Fixture fixture = body.createFixture(shape, 0);
 		fixture.setSensor(true);
@@ -350,55 +343,11 @@ public final class Player extends Entity {
 		}, 1f);
 	}
 	
-	private void startMoveParticleEffect() {
-//		if(Math.random() < 0.4f) {
-//			return;
-//		}
-//		
-//		Vector2 v = getLinearVelocity();
-//		float minVx = -v.x / 13;
-//		float maxVx = -v.x / 7;
-//		if(v.x > 0) {
-//			float temp = minVx;
-//			minVx = maxVx;
-//			maxVx = temp;
-//		}
-//		
-//		float x = getLeft();
-//		if(isFacingLeft()) {
-//			x = getRight() - getWidth() / 2;
-//		}
-//
-//		Vector2Pool pool = Globals.getVector2Pool();
-//		Vector2 pos = pool.obtain(x, getBottom() + (getHeight() / 12));
-//		Vector2 minMaxSize = pool.obtain(getWidth() / 6, getWidth() / 2);
-//		Vector2 minVelocity = pool.obtain(minVx, 0);
-//		Vector2 maxVelocity = pool.obtain(maxVx,  -Math.abs(v.x) / 3);
-//		Vector2 minMaxDuration = pool.obtain(250, 500);
-//		Vector2 minMaxParticles = pool.obtain(1, 1);
-//		new ParticleEffect.Builder("player_shot", pos, minMaxSize, minVelocity, maxVelocity, 
-//				                   minMaxDuration, minMaxParticles)
-//		.startEndColors(Color.WHITE, Color.GRAY)
-//		.build()
-//		.start();
-	}
-	
 	private void startDieParticleEffect() {
-		float vx = MOVE_SPEED / 3;
-		float vy = -vx * 2;
-		
-		Vector2Pool pool = Globals.getVector2Pool();
-		Vector2 pos = pool.obtain(getCenterX(), getBottom() - getHeight() / 5);
-		Vector2 minMaxSize = pool.obtain(getWidth() / 2, getWidth());
-		Vector2 minVelocity = pool.obtain(-vx, vy / 3);
-		Vector2 maxVelocity = pool.obtain(vx,  vy / 1.5f);
-		Vector2 minMaxDuration = pool.obtain(500, 1000);
-		Vector2 minMaxParticles = pool.obtain(20, 30);
-		new ParticleEffect.Builder("player_shot", pos, minMaxSize, minVelocity, maxVelocity, 
-				                   minMaxDuration, minMaxParticles)
-		.vSplits(vx / 4, 0)
-		.startEndColors(Color.WHITE, Color.WHITE)
-		.build()
-		.start();
+		float x = getCenterX();
+		float y = getBottom() - getHeight() / 5;
+		ParticleEffect particleEffect = Globals.getParticleEffectManager().getParticleEffect("player_dying", x, y);
+		particleEffect.minMaxSize(getWidth() / 2, getWidth());
+		particleEffect.addToScreen();
 	}
 }

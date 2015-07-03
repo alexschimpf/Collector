@@ -24,6 +24,7 @@ TileMap to GameWorld Rules
 - Load particle effects from file
 - Add rotation functionality to particle effects
 - Fix texture-flipping issue
+- Save "ground-level" y position, for where to put clouds
 
 - WeatherSystem
 	- Clouds, rain, and night/day???

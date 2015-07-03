@@ -31,43 +31,12 @@ public class CollectableEntity extends Entity {
 		}
 		
 		contact.setEnabled(false);
-		Globals.incrementNumCollected();		
-		startContactParticleEffect();
+		Globals.incrementNumCollected();
+
+		ParticleEffect particleEffect = Globals.getParticleEffectManager().getParticleEffect("collectable", getCenterX(), getCenterY());
+		particleEffect.minMaxSize(getWidth() / 5, getWidth());
+		particleEffect.addToScreen();
+		
 		markDone();
 	}
-	
-	private void startContactParticleEffect() {		
-		float v = Player.MOVE_SPEED / 5;
-		Vector2Pool pool = Globals.getVector2Pool();
-		Vector2 pos = pool.obtain(getCenterX(), getCenterY());
-		Vector2 minMaxSize = pool.obtain(getWidth() / 5, getWidth());
-		Vector2 minVelocity = pool.obtain(-v, -v);
-		Vector2 maxVelocity = pool.obtain(v, v);
-		Vector2 minMaxDuration = pool.obtain(500, 1000);
-		Vector2 minMaxParticles = pool.obtain(5, 10);
-		new ParticleEffect.Builder("player_shot", pos, minMaxSize, minVelocity, maxVelocity, 
-				                   minMaxDuration, minMaxParticles)
-		.vSplits(v / 4, v / 4)
-		.startEndColors(Color.WHITE, Color.RED)
-		.build()
-		.start();
-	}
-	
-//	private void startContactParticleEffect() {
-//		Vector2Pool pool = Globals.getVector2Pool();
-//		Vector2 pos = pool.obtain(getCenterX(), getCenterY());
-//		Vector2 minMaxSize = pool.obtain(getWidth(), getWidth());
-//		Vector2 minVelocity = pool.obtain(0, 0);
-//		Vector2 maxVelocity = pool.obtain(0, 0);
-//		Vector2 minMaxDuration = pool.obtain(500, 500);
-//		Vector2 minMaxParticles = pool.obtain(1, 1);
-//		new ParticleEffect.Builder("square_outline", pos, minMaxSize, minVelocity, maxVelocity, 
-//				                   minMaxDuration, minMaxParticles)
-//		.startEndColors(Color.WHITE, Color.GRAY)
-//		.startEndAlphas(1, 1)
-//		.sizeScale(3, 3)
-//		.keepCenter(true)
-//		.build()
-//		.start();
-//	}
 }

@@ -6,45 +6,72 @@ import misc.Globals;
 import misc.IRender;
 import misc.IUpdate;
 import misc.Utils;
-import misc.Vector2Pool;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.TimeUtils;
 
-public final class ParticleEffect implements IRender, IUpdate {
+public class ParticleEffect implements IRender, IUpdate {
+
+	private static final Pool<Particle> PARTICLE_POOL = new Pool<Particle>() {
+	    @Override
+	    protected Particle newObject() {
+	        return new Particle();
+	    }
+	};
 	
 	private final Array<Particle> PARTICLES = new Array<Particle>();
 	
-	private ParticleEffect(Builder builder) {
-		float numParticles = MathUtils.round(getRandomFromRange(builder.minMaxParticles));
-		for(int i = 0; i < numParticles; i++) {
-			String imageKey = builder.imageKey;
-			float size = getRandomFromRange(builder.minMaxSize);
-			
-			float duration = getRandomFromRange(builder.minMaxDuration);
-			float vx = getRandomFromRange(builder.minVelocity.x, builder.maxVelocity.x, builder.velocitySplits.x);
-			float vy = getRandomFromRange(builder.minVelocity.y, builder.maxVelocity.y, builder.velocitySplits.y);
-			
-			float offsetX = getRandomFromRange(builder.minOffsets.x, builder.maxOffsets.x, 0);
-			offsetX *= Utils.choose(1, -1);
-			float offsetY = getRandomFromRange(builder.minOffsets.y, builder.maxOffsets.y, 0);
-			offsetY *= Utils.choose(1, -1);			
-			builder.pos.add(offsetX, offsetY);
-			
-			Particle particle = new Particle.Builder(imageKey, builder.pos.x, builder.pos.y, size, vx, vy, duration)
-			.fadeIn(builder.fadeIn)
-			.keepCenter(builder.keepCenter)
-			.keepProportions(builder.keepProportions)
-			.sizeScale(builder.sizeScale.x, builder.sizeScale.y)
-			.startEndAlphas(builder.startEndAlphas.x, builder.startEndAlphas.y)
-			.startEndColors(builder.startColor, builder.endColor)
-			.build();
-			
-			PARTICLES.add(particle);
-		}
+	// Required
+	public String  imageKey;
+	public Vector2 position        = new Vector2();
+	public Vector2 minMaxSize      = new Vector2();
+	public Vector2 minMaxDuration  = new Vector2();
+	public Vector2 minMaxParticles = new Vector2();
+	public Vector2 minVelocity     = new Vector2();
+	public Vector2 maxVelocity     = new Vector2();
+	
+	// Optional
+	public boolean fadeIn          = false;
+	public boolean keepCenter      = false;
+	public boolean keepProportions = true;
+	public Color   startColor      = null;
+	public Color   endColor        = null;
+	public Vector2 startEndAlphas  = new Vector2(1, 0);
+	public Vector2 sizeScale       = new Vector2(1, 1);
+	public Vector2 velocitySplits  = new Vector2(0, 0);
+	public Vector2 minOffsets      = new Vector2(0, 0);
+	public Vector2 maxOffsets      = new Vector2(0, 0);
+	
+	public ParticleEffect() {
+		
+	}
+	
+	public ParticleEffect clone() {
+		ParticleEffect particleEffect = new ParticleEffect();
+		particleEffect.imageKey = imageKey;
+		particleEffect.fadeIn = fadeIn;
+		particleEffect.keepCenter = keepCenter;
+		particleEffect.keepProportions = keepProportions;
+		particleEffect.startColor = startColor;
+		particleEffect.endColor = endColor;
+		particleEffect.sizeScale = sizeScale;		
+		particleEffect.position.set(position);
+		particleEffect.minMaxSize.set(minMaxSize);
+		particleEffect.minMaxDuration.set(minMaxDuration);
+		particleEffect.minMaxParticles.set(minMaxParticles);
+		particleEffect.minVelocity.set(minVelocity);
+		particleEffect.maxVelocity.set(maxVelocity);
+		particleEffect.startEndAlphas.set(startEndAlphas);
+		particleEffect.velocitySplits.set(velocitySplits);
+		particleEffect.minOffsets.set(minOffsets);
+		particleEffect.maxOffsets.set(maxOffsets);
+		
+		return particleEffect;
 	}
 	
 	@Override
@@ -60,8 +87,7 @@ public final class ParticleEffect implements IRender, IUpdate {
 		while(particleIter.hasNext()) {
 			Particle particle = particleIter.next();
 			if(particle.update()) {
-				particle.done();
-				
+				PARTICLE_POOL.free(particle);			
 				particleIter.remove();
 			}
 		}
@@ -71,135 +97,127 @@ public final class ParticleEffect implements IRender, IUpdate {
 
 	@Override
 	public void done() {
-
 	}
 	
-	public void start() {
+	public void addToScreen() {
+		buildParticles();
 		Globals.getGameScreen().addParticleEffect(this);
 	}
 	
-	public void setTint(float r, float g, float b) {
-		for(Particle particle : PARTICLES) {
-			particle.setTint(r, g, b);
-		}
-	}
+	public void buildParticles() {
+		float numParticles = MathUtils.round(Utils.getRandomFromRange(minMaxParticles));
+		for(int i = 0; i < numParticles; i++) {
+			float offsetX = Utils.getRandomFromRange(minOffsets.x, maxOffsets.x, 0) * Utils.choose(1, -1);
+			float offsetY = Utils.getRandomFromRange(minOffsets.y, maxOffsets.y, 0) * Utils.choose(1, -1);	
 
-	private float getRandomFromRange(Vector2 range) {
-		return MathUtils.random(range.x, range.y);
-	}
+			Particle particle = PARTICLE_POOL.obtain();
+			particle.sprite = Globals.getTextureManager().getSprite(imageKey);
+			float startWidth = Utils.getRandomFromRange(minMaxSize);
+			float startHeight = startWidth;
+			if(keepProportions) {
+				startHeight = ((float)particle.sprite.getRegionHeight() / (float)particle.sprite.getRegionWidth()) * startWidth;
+			}
+			particle.sprite.setSize(startWidth, startHeight);
+			if(startColor != null) {
+				particle.sprite.setColor(startColor);
+			}
+			
+			float startX = position.x + offsetX;
+			float startY = position.y + offsetY;
+			particle.startX = startX;
+			particle.startY = startY;
+			particle.sprite.setPosition(startX - (startWidth / 2), startY - (startHeight / 2));
+			
+			particle.startWidth = startWidth;
+			particle.startHeight = startHeight;
+			particle.duration = Utils.getRandomFromRange(minMaxDuration);
+			particle.startAlpha = startEndAlphas.x;
+			particle.endAlpha = startEndAlphas.y;
+			particle.startColor = startColor;
+			particle.endColor = endColor;
+			particle.fadeIn = fadeIn;
+			particle.keepCenter = keepCenter;
+			particle.scaleX = sizeScale.x;
+			particle.scaleY = sizeScale.y;			
+			particle.vx = Utils.getRandomFromRange(minVelocity.x, maxVelocity.x, velocitySplits.x);
+			particle.vy = Utils.getRandomFromRange(minVelocity.y, maxVelocity.y, velocitySplits.y);			
+			particle.startTime = TimeUtils.millis();
 
-	private float getRandomFromRange(float a, float b, float split) {
-		if(split == 0) {
-			return MathUtils.random(a, b);
+			PARTICLES.add(particle);
 		}
-		
-		return Utils.choose(MathUtils.random(a, -split), MathUtils.random(split, b));
 	}
 	
-	public static class Builder {
-		
-		public final String imageKey;
-		public final Vector2 pos;
-		public final Vector2 minMaxSize;
-		public final Vector2 minMaxDuration;
-		public final Vector2 minMaxParticles;
-		public final Vector2 minVelocity;
-		public final Vector2 maxVelocity;
-		
-		private boolean fadeIn = false;
-		private boolean keepCenter = false;
-		private boolean keepProportions = true;
-		private Color startColor = null;
-		private Color endColor = null;
-		private Vector2 startEndAlphas = new Vector2(1, 0);
-		private Vector2 sizeScale = new Vector2(1, 1);
-		private Vector2 velocitySplits = new Vector2(0, 0);
-		private Vector2 minOffsets = new Vector2(0, 0);
-		private Vector2 maxOffsets = new Vector2(0, 0);
-		
-		/**
-		 * All Vector2 parameters should be obtained from the Vector2Pool instance.
-		 * They will be freed automatically, so the caller does not have to.
-		 */
-		public Builder(String imageKey, Vector2 pos, Vector2 minMaxSize, Vector2 minVelocity, Vector2 maxVelocity,
-                	   Vector2 minMaxDuration, Vector2 minMaxParticles) {
-			this.imageKey = imageKey;
-			this.pos = pos;
-			this.minMaxSize = minMaxSize;
-			this.minVelocity = minVelocity;
-			this.maxVelocity = maxVelocity;
-			this.minMaxDuration = minMaxDuration;
-			this.minMaxParticles = minMaxParticles;
-		}
-
-		public Builder startEndAlphas(float startAlpha, float endAlpha) {
-			startEndAlphas.set(startAlpha, endAlpha);
-			return this;
-		}
-		
-		public Builder sizeScale(float scaleX, float scaleY) {
-			sizeScale.set(scaleX, scaleY);
-			return this;
-		}
-		
-		public Builder minOffsets(float minOffsetX, float minOffsetY) {
-			minOffsets.set(minOffsetX, minOffsetY);
-			return this;
-		}
-
-		public Builder maxOffsets(float maxOffsetX, float maxOffsetY) {
-			maxOffsets.set(maxOffsetX, maxOffsetY);
-			return this;
-		}
-		
-		public Builder vSplits(float vxSplit, float vySplit) {
-			velocitySplits.set(vxSplit, vySplit);
-			return this;
-		}
-		
-		public Builder startEndColors(Color startColor, Color endColor) {
-			this.startColor = startColor;
-			this.endColor = endColor;
-			return this;
-		}
-		
-		public Builder fadeIn(boolean fadeIn) {
-			this.fadeIn = fadeIn;
-			return this;
-		}
-		
-		public Builder keepCenter(boolean keepCenter) {
-			this.keepCenter = keepCenter;
-			return this;
-		}
-		
-		public Builder keepProportions(boolean keepProportions) {
-			this.keepProportions = keepProportions;
-			return this;
-		}
-
-		public ParticleEffect build() {
-			ParticleEffect particleEffect = new ParticleEffect(this);
-			
-			freeResources();
-			
-			return particleEffect;
-		}
-		
-		private void freeResources() {
-			Vector2Pool pool = Globals.getVector2Pool();
-			pool.free(pos);
-			pool.free(this.maxOffsets);
-			pool.free(this.maxVelocity);
-			pool.free(this.minMaxDuration);
-			pool.free(this.minMaxParticles);
-			pool.free(this.minMaxSize);
-			pool.free(this.minOffsets);
-			pool.free(this.minVelocity);
-			pool.free(this.pos);
-			pool.free(this.startEndAlphas);
-			pool.free(this.velocitySplits);
-			pool.free(this.sizeScale);
-		}
+	public void imageKey(String imageKey) {
+		this.imageKey = imageKey;
 	}
+	
+	public void position(Float x, Float y) {
+		position.set(x, y);
+	}
+	
+	public void minMaxSize(Float x, Float y) {
+		this.minMaxSize.set(x, y);
+	}
+	
+	public void minMaxDuration(Float x, Float y) {
+		this.minMaxDuration.set(x, y);
+	}
+	
+	public void minMaxParticles(Float x, Float y) {
+		this.minMaxParticles.set(x, y);
+	}
+	
+	public void minVelocity(Float x, Float y) {
+		this.minVelocity.set(x, y);
+	}
+	
+	public void maxVelocity(Float x, Float y) {
+		this.maxVelocity.set(x, y);
+	}
+	
+	public void velocitySplits(Float x, Float y) {
+		this.velocitySplits.set(x, y);
+	}
+
+	public void fadeIn(Boolean fadeIn) {
+		this.fadeIn = fadeIn;
+	}
+	
+	public void keepCenter(Boolean keepCenter) {
+		this.keepCenter = keepCenter;
+	}
+	
+	public void keepProportions(Boolean keepProportions) {
+		this.keepProportions = keepProportions;
+	}
+	
+	public void startColor(Color startColor) {
+		this.startColor = startColor;
+	}
+	
+	public void endColor(Color endColor) {
+		this.endColor = endColor;
+	}
+	
+	public void print() {
+		System.out.println();
+		System.out.println("IMAGE_KEY: " + imageKey);    
+        System.out.println("POSITION: " + position);     
+        System.out.println("MIN_MAX_SIZE: " + minMaxSize);     
+        System.out.println("MIN_MAX_DURATION: " + minMaxDuration); 
+        System.out.println("MIN_MAX_PARTICLES: " + minMaxParticles); 
+        System.out.println("MIN_VELOCITY: " + minVelocity); 
+        System.out.println("MAX_VELOCITY: " + maxVelocity);   
+        System.out.println("FADE_IN: " + fadeIn); 
+        System.out.println("KEEP_CENTER: " + keepCenter);      
+        System.out.println("KEEP_PROPORTIONS: " + keepProportions); 
+        System.out.println("START_COLOR: " + startColor); 
+        System.out.println("END_COLOR: " + endColor);       
+        System.out.println("START_END_ALPHAS: " + startEndAlphas);  
+        System.out.println("SIZE_SCALE: " + sizeScale); 
+        System.out.println("VELOCITY_SPLITS: " + velocitySplits);  
+        System.out.println("MIN_OFFSETS: " + minOffsets);  
+        System.out.println("MAX_OFFSETS: " + maxOffsets);
+        System.out.println();
+	} 
 }

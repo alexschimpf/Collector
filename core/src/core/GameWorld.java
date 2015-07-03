@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import misc.CollisionListener;
-import misc.GenericCallback;
 import misc.Globals;
 import misc.Globals.State;
 import misc.IRender;

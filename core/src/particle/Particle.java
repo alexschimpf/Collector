@@ -1,6 +1,5 @@
 package particle;
 
-import misc.Globals;
 import misc.IRender;
 import misc.IUpdate;
 
@@ -8,73 +7,30 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public final class Particle implements IRender, IUpdate, Poolable {
+public class Particle implements IRender, IUpdate, Poolable {
 
-	private static final Pool<Particle> PARTICLE_POOL = new Pool<Particle>() {
-	    @Override
-	    protected Particle newObject() {
-	        return new Particle();
-	    }
-	};
-	
-	private float startX;
-	private float startY;
-	private float startWidth;
-	private float startHeight;
-	private float vx;
-	private float vy;
-	private float startAlpha;
-	private float endAlpha;
-	private float scaleX;
-	private float scaleY;
-	private float duration;
-	private Color startColor;
-	private Color endColor;
-	private boolean fadeIn;
-	private boolean keepCenter;
-	private long startTime;
-	private Sprite sprite;
-	
-	public Particle() {
-	}
-	
-	public void set(Builder builder) {
-		vx = builder.vx;
-		vy = builder.vy;
-		duration = builder.duration;		
-		sprite = Globals.getTextureManager().getSprite(builder.imageKey);
-		
-		startWidth = builder.size;
-		startHeight = builder.size;
-		
-		if(builder.keepProportions) {
-			startHeight = ((float)sprite.getRegionHeight() / (float)sprite.getRegionWidth()) * startWidth;
-		} 
-		sprite.setSize(startWidth, startHeight);
-		
-		if(builder.startColor != null) {
-			sprite.setColor(builder.startColor);
-		}
+	public float startX;
+	public float startY;
+	public float startWidth;
+	public float startHeight;
+	public float vx;
+	public float vy;
+	public float startAlpha;
+	public float endAlpha;
+	public float scaleX;
+	public float scaleY;
+	public float duration;
+	public Color startColor;
+	public Color endColor;
+	public boolean fadeIn;
+	public boolean keepCenter;
+	public long startTime;
+	public Sprite sprite;
 
-		startX = builder.x;
-		startY = builder.y;
-		sprite.setPosition(builder.x - (startWidth / 2), builder.y - (startHeight / 2));
-		
-		startAlpha = builder.startAlpha;
-		endAlpha = builder.endAlpha;
-		
-		scaleX = builder.scaleX;
-		scaleY = builder.scaleY;
-		
-		fadeIn = builder.fadeIn;
-		keepCenter = builder.keepCenter;
-		startColor = builder.startColor;
-		endColor = builder.endColor;
-				
+	public Particle() {		
 		startTime = TimeUtils.millis();
 	}
 	
@@ -89,7 +45,7 @@ public final class Particle implements IRender, IUpdate, Poolable {
 		
 		sprite.draw(spriteBatch);
 	}
-	
+
 	@Override
 	public boolean update() {
 		long age = TimeUtils.timeSinceMillis(startTime);
@@ -150,88 +106,28 @@ public final class Particle implements IRender, IUpdate, Poolable {
 
 	@Override
 	public void done() {
-		PARTICLE_POOL.free(this);
 	}
-	
+
 	@Override
 	public void reset() {
+		startTime = TimeUtils.millis();
 		startColor = null;
 		endColor = null;
 		sprite = null;
 	}
 	
-	public void setTint(float r, float g, float b) {
-		sprite.setColor(r, g, b, sprite.getColor().a);
-	}
-	
-	public static class Builder {
-				
-		public final String imageKey;
-		public final float x;
-		public final float y;
-		public final float size;
-		public final float vx;
-		public final float vy;
-		public final float duration;
-
-		private boolean fadeIn = false;
-		private boolean keepCenter = false;
-		private boolean keepProportions = true;
-		private float startAlpha = 1;
-		private float endAlpha = 0;
-		private float scaleX = 1;
-		private float scaleY = 1;
-		private Color startColor = null;
-		private Color endColor = null;
-
-		public Builder(String imageKey, float x, float y, float size, float vx, float vy, float duration) {
-			this.imageKey = imageKey;
-			this.x = x;
-			this.y = y;
-			this.size = size;
-			this.vx = vx;
-			this.vy = vy;
-			this.duration = duration;
-		}
-		
-		public Particle build() {
-			Particle particle = PARTICLE_POOL.obtain();
-			particle.set(this);
-			
-			return particle;
-		}
-		
-		public Builder fadeIn(boolean fadeIn) {
-			this.fadeIn = fadeIn;
-			return this;
-		}
-		
-		public Builder keepCenter(boolean keepCenter) {
-			this.keepCenter = keepCenter;
-			return this;
-		}
-		
-		public Builder keepProportions(boolean keepProportions) {
-			this.keepProportions = keepProportions;
-			return this;
-		}
-		
-		public Builder startEndColors(Color startColor, Color endColor) {
-			this.startColor = startColor;
-			this.endColor = endColor;
-			return this;
-		}
-		
-		public Builder startEndAlphas(float startAlpha, float endAlpha) {
-			this.startAlpha = startAlpha;
-			this.endAlpha = endAlpha;
-			return this;
-		}
-		
-		public Builder sizeScale(float scaleX, float scaleY) {
-			this.scaleX = scaleX;
-			this.scaleY = scaleY;
-			return this;
-		}
+	public void print() {
+		System.out.println();
+		System.out.println("START_POSITION: " + startX + ", " + startX);
+		System.out.println("START_SIZE: " + startWidth + " x " + startHeight);
+		System.out.println("VELOCITY: " + vx + ", " + vy);
+		System.out.println("START_END_ALPHAS: " + startAlpha + ", " + endAlpha);
+		System.out.println("SIZE_SCALE: " + scaleX + ", " + scaleY);
+		System.out.println("DURATION: " + duration);
+		System.out.println("START_END_COLORS: " + startColor + ", " + endColor);
+		System.out.println("FADE_IN: " + fadeIn);
+		System.out.println("KEEP_CENTER: " + keepCenter);
+		System.out.println("START_TIME: " + startTime);
+		System.out.println();
 	}
 }
