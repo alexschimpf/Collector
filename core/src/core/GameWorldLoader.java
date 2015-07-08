@@ -128,6 +128,9 @@ public final class GameWorldLoader {
 				throw new NullPointerException("TextureMapObject has no type");
 			}
 			
+			EntityPropertyValidator validator = Globals.getEntityPropertyValidator();
+			validator.validateAndProcess(type, object.getProperties());
+			
 			MapObject bodySkeleton = null;
 			if(properties.containsKey("body_skeleton_id")) {
 				String bodySkeletonId = Utils.getPropertyString(properties, "body_skeleton_id");			
@@ -138,12 +141,20 @@ public final class GameWorldLoader {
 				bodySkeleton = bodySkeletonMap.get(bodySkeletonId);
 			}
 			
+			if(!properties.get("body_width").toString().isEmpty() && 
+			   !properties.get("body_height").toString().isEmpty()) {
+				float bodyWidth = Utils.getPropertyFloat(properties, "body_width");
+				float bodyHeight = Utils.getPropertyFloat(properties, "body_height");
+				RectangleMapObject rectMapObj = new RectangleMapObject();
+				rectMapObj.getRectangle().width = bodyWidth;
+				rectMapObj.getRectangle().height = bodyHeight;
+				
+				bodySkeleton = rectMapObj;
+			}
+			
 			if(bodySkeleton == null) {
 				bodySkeleton = object;
 			}
-			
-			EntityPropertyValidator validator = Globals.getEntityPropertyValidator();
-			validator.validateAndProcess(type, object.getProperties());
 			
 			EntityBodyDef bodyDef = getBodyDef(object.getProperties());
 			Entity entity = validator.getEntity(bodyDef, object, bodySkeleton);

@@ -30,6 +30,8 @@ public class CollectableEntity extends Entity {
 			return;
 		}
 		
+		Globals.getSoundManager().playSound("collect");
+		
 		contact.setEnabled(false);
 		Globals.incrementNumCollected();
 

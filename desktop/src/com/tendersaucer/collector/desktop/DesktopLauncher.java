@@ -17,7 +17,7 @@ public class DesktopLauncher {
 		if(TheGame.PACK_TEXTURES) {
 			Settings settings = new Settings();
 			settings.duplicatePadding = true;
-			TexturePacker.process(settings, "/Users/schimpf1/Desktop/Collector_Art/textures", "/Users/schimpf1/Desktop/Collector/android/assets", "game");	
+			TexturePacker.process(settings, "/Users/schimpf1/Desktop/Collector_Assets/textures", "/Users/schimpf1/Desktop/Collector/android/assets", "game");	
 		} else {
 			new LwjglApplication(new TheGame(), config);
 		}

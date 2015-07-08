@@ -125,13 +125,6 @@ player_shoot
   index: 1
 player_shoot
   rotate: false
-  xy: 953, 133
-  size: 46, 64
-  orig: 46, 64
-  offset: 0, 0
-  index: 5
-player_shoot
-  rotate: false
   xy: 401, 67
   size: 46, 64
   orig: 46, 64
@@ -139,18 +132,18 @@ player_shoot
   index: 2
 player_shoot
   rotate: false
-  xy: 401, 67
-  size: 46, 64
-  orig: 46, 64
-  offset: 0, 0
-  index: 4
-player_shoot
-  rotate: false
   xy: 449, 67
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 3
+player_shoot
+  rotate: false
+  xy: 497, 67
+  size: 46, 64
+  orig: 46, 64
+  offset: 0, 0
+  index: 4
 player_shot
   rotate: false
   xy: 401, 133

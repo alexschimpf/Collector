@@ -51,7 +51,7 @@ public final class PlayerShot extends Entity {
 	public static void shootShot() {
 		Player player = Globals.getPlayer();
 		
-		float size = player.getHeight() * 0.25f;
+		float size = player.getHeight() * 0.4f;
 		float x = player.getFrontX();
 		float y = player.getCenterY();
 		

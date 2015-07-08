@@ -1,0 +1,23 @@
+-------------------------------------------------------
+ Mechanics
+-------------------------------------------------------
+- Jumping
+- Moving left/right
+- Shooting from mouth
+- Navigating non-intuitive puzzles
+
+*** Optional ***
+- Entering rooms and reading text, which provides narrative
+
+
+-------------------------------------------------------
+ Story
+-------------------------------------------------------
+- A 'voice' just keeps ordering you to collect
+- In the end, there is a room FULL of things to collect
+- As you continue to collect, you get bigger until you explode
+
+- "You are a collector"
+- "You exist to collect"
+- "Can you imagine the uneasiness in a world without purpose?"
+- "

@@ -11,6 +11,8 @@
         </required>
         <optional>
             <property name="body_type" default="static" />
+            <property name="body_width" default="" />
+            <property name="body_height" default="" />
         </optional>
     </global_properties>
     <entity_properties>

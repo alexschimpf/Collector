@@ -58,7 +58,7 @@ public final class GameScreen implements Screen {
 		Globals.getTextureManager();	
 		new ParticleEffectLoader().load();
 
-		TILE_MAP = new TileMap("tile_map_1");
+		TILE_MAP = new TileMap("room_1_tile_map");
 		
 		HUD_STAGE = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		HUD_STAGE.addListener(INPUT_LISTENER);
@@ -143,7 +143,7 @@ public final class GameScreen implements Screen {
 		WeatherSystem weatherSystem = Globals.getWeatherSystem();
 		float light = weatherSystem.getLight();
 		
-		Gdx.gl.glClearColor((201.0f / 255) * light, (238.0f / 255) * light, light, 1);
+		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		OrthographicCamera camera = Globals.getCamera().getRawCamera();

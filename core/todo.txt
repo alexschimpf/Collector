@@ -20,8 +20,9 @@ TileMap to GameWorld Rules
 	
 ---------------------------------------------------------------------------------------------------------------
 
+- Text display system
+- How to deal with loading new Chapters?
 - Add 'accepted values' check in EntityPropertyValidator
-- Load particle effects from file
 - Add rotation functionality to particle effects
 - Fix texture-flipping issue
 - Save "ground-level" y position, for where to put clouds

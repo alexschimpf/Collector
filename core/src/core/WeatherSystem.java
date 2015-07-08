@@ -42,9 +42,9 @@ public class WeatherSystem implements IRender, IUpdate {
 	
 	@Override
 	public void render(SpriteBatch spriteBatch) {
-		for(ParticleEffect cloud : CLOUDS) {
-			cloud.render(spriteBatch);
-		}
+//		for(ParticleEffect cloud : CLOUDS) {
+//			cloud.render(spriteBatch);
+//		}
 	}
 	
 	@Override
@@ -81,7 +81,7 @@ public class WeatherSystem implements IRender, IUpdate {
 			float screenWidth = Globals.getCamera().getViewportWidth();
 			float screenHeight = Globals.getCamera().getViewportHeight();
 			float x = MathUtils.random(gameWorld.getLeft() - (screenWidth / 2), gameWorld.getRight());
-			float y = MathUtils.random(gameWorld.getTop(), gameWorld.getBottom() - screenHeight);
+			float y = MathUtils.random(gameWorld.getTop(), gameWorld.getBottom() - (24 * Globals.getTileSize()));
 			ParticleEffect cloud = Globals.getParticleEffectManager().getParticleEffect("cloud", x, y);
 			cloud.minMaxSize(screenWidth * 0.8f, screenWidth);
 			cloud.fadeIn(randomFadeIn ? Utils.choose(true, false) : true);

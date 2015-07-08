@@ -35,8 +35,8 @@ import entity.EntityBodyDef;
 
 public final class Player extends Entity {
 	
-	public static final float MOVE_SPEED = 15;
-	public static final float JUMP_IMPULSE = -95;
+	public static final float MOVE_SPEED = 10;
+	public static final float JUMP_IMPULSE = -90;
 	public static final float SHOOT_PERIOD = 150;
 	public static final float MOVE_PARTICLE_DELAY = 100;
 	public static final float MASS = 5.69f;
@@ -50,7 +50,7 @@ public final class Player extends Entity {
 	private long lastShotTime = 0;
 	private long lastBlinkTime = TimeUtils.millis();
 	private long lastStartMoveTime = 0;
-	private float blinkPeriod = MathUtils.random(1000, 6000);
+	private float blinkPeriod = MathUtils.random(5000, 10000);
 	private Vector2 lastValidPos = new Vector2();
 	private boolean isLastValidDirectionRight = true;
 	
@@ -213,10 +213,12 @@ public final class Player extends Entity {
 			fixture = contact.getFixtureB();
 		}
 		
+		Entity entity = Utils.getEntity(fixture);
 		if(!isJumping && getCenterY() - lastValidPos.y > FALL_HEIGHT_LIMIT) {
 			startDieParticleEffect();
 			respawnPlayer();
-		} else if(numFootContacts >= 1 && fixture.getBody().getType() == BodyType.StaticBody) {
+		} else if(numFootContacts >= 1 && fixture.getBody().getType() == BodyType.StaticBody &&
+			      (entity == null || !entity.getType().equals("collectable"))) {
 			isLastValidDirectionRight = isFacingRight();
 			lastValidPos.set(getCenterX(), getCenterY());
 		}
@@ -283,11 +285,11 @@ public final class Player extends Entity {
 	}
 	
 	private void attachFootSensors(EntityBodyDef bodyDef) {	
-		Vector2 localBottom = body.getLocalPoint(new Vector2(getCenterX(), getBottom()));
+		Vector2 localBottom = body.getLocalPoint(new Vector2(getCenterX(), getBottom() - ((4.0f / 64.0f) * getHeight())));
 		
 		float width = bodyDef.size.x;
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(width / 2 * 0.8f, 0.001f, localBottom, 0);
+		shape.setAsBox(width / 2 * 0.85f, 0.1f, localBottom, 0);
 		
 		Fixture fixture = body.createFixture(shape, 0);
 		fixture.setSensor(true);
@@ -298,7 +300,7 @@ public final class Player extends Entity {
 	private void tryBlink() {
 		if(!isJumping && !isMoveAnimationPlaying() && TimeUtils.timeSinceMillis(lastBlinkTime) > blinkPeriod) {
 			lastBlinkTime = TimeUtils.millis();
-			blinkPeriod = MathUtils.random(1000, 5000);
+			blinkPeriod = MathUtils.random(5000, 10000);
 			ANIMATION_SYSTEM.switchAnimation("blink", false, true);
 		}
 	}
@@ -306,10 +308,7 @@ public final class Player extends Entity {
 	private boolean isBlinkAnimationPlaying() {
 		return ANIMATION_SYSTEM.getAnimationKey().equals("blink") && ANIMATION_SYSTEM.isPlaying();
 	}
-	
-	/**
-	 * Note: This is different from isJumping().
-	 */
+
 	private boolean isJumpAnimationPlaying() {
 		return ANIMATION_SYSTEM.getAnimationKey().equals("jump") && ANIMATION_SYSTEM.isPlaying();
 	}
@@ -324,6 +323,8 @@ public final class Player extends Entity {
 	
 	private void respawnPlayer() {
 		Globals.state = State.PAUSED;
+		
+		Globals.getSoundManager().playSound("die");
 		setVisible(false);
 		setLinearVelocity(0, 0);
 		
@@ -333,10 +334,10 @@ public final class Player extends Entity {
 			public void run() {
 				Globals.getSoundManager().playSound("transport");
 				
-				setVisible(true);
 				isFacingRight = isLastValidDirectionRight;
 				ANIMATION_SYSTEM.switchToDefault();
 				setPosition(lastValidPos.x, lastValidPos.y);
+				setVisible(true);
 				
 				Globals.state = State.RUNNING;
 			}

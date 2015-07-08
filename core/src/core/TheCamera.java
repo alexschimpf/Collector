@@ -59,7 +59,7 @@ public final class TheCamera implements IUpdate {
 	public float getTileMapScale() {
 		// Each tile is originally 64 x 64.
 		// Each tile should be 1/16 of the screen's width.
-		return (CAMERA.viewportWidth / 16) / 64.0f;
+		return (CAMERA.viewportWidth / 20) / 64.0f;
 	}
 	
 	public float getTop() {
