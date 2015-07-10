@@ -91,7 +91,7 @@ public final class ProgrammableEntity extends Entity {
 			return;
 		}
 		
-		float amt = Globals.getTileSize();
+		float amt = getHeight();
 		switch(state) {
 			case DOWN:
 				setPosition(getCenterX(), getCenterY() + amt);

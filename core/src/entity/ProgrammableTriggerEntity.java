@@ -10,8 +10,9 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Contact;
 
-public final class ProgrammableTriggerEntity extends Entity implements IInteractive {
+public final class ProgrammableTriggerEntity extends Entity {
 
 	private enum TriggerType {
 		RESET, MOVE
@@ -53,7 +54,11 @@ public final class ProgrammableTriggerEntity extends Entity implements IInteract
 	}
 	
 	@Override
-	public void interactWith() {
+	public void onBeginContact(Contact contact, Entity entity) {
+		if(!Utils.isPlayerShot(entity)) {
+			return;
+		}
+		
 		animation.play();
 		
 		for(String targetId : TARGET_IDS) {

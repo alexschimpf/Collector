@@ -1,5 +1,6 @@
 package misc;
 
+import particle.ParticleEffect;
 import particle.ParticleEffectManager;
 import screen.GameScreen;
 import assets.MusicManager;
@@ -21,8 +22,8 @@ public final class Globals {
 	};
 	
 	public static final short PLAYER_NO_COLLIDE_MASK = 0x0002;
-	public static final int NUM_TILE_MAP_ROWS = 64;
-	public static final int NUM_TILE_MAP_COLS = 64;
+	public static final int NUM_TILE_MAP_ROWS = 32;
+	public static final int NUM_TILE_MAP_COLS = 32;
 	
 	public static State state = State.RUNNING;
 	
@@ -95,5 +96,9 @@ public final class Globals {
 	
 	public static void incrementNumCollected() {
 		numCollected++;
+	}
+	
+	public static ParticleEffect getParticleEffect(String particleEffectKey, float x, float y) {
+		return getParticleEffectManager().getParticleEffect(particleEffectKey, x, y);
 	}
 }

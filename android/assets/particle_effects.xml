@@ -38,7 +38,7 @@
                 <!-- Custom -->
                 <property name="min_max_size" custom="true" />
             </properties>                                         
-        </particle_effect>    
+        </particle_effect> 
         
         <!-- Cloud-->
         <particle_effect name="cloud">
@@ -66,13 +66,30 @@
                 <property name="min_velocity"      custom="false" value="-3, -3" />
                 <property name="max_velocity"      custom="false" value="3, 3" />
                 <property name="velocity_splits"   custom="false" value="1, 1" />
-                <property name="start_color"       custom="false" value="0.7, 0.7, 0.7" />
-                <property name="end_color"         custom="false" value="0.7, 0, 0" />
+                <property name="start_color"       custom="false" value="0.8, 0.8, 0.8" />
+                <property name="end_color"         custom="false" value="0.8, 0, 0" />
                 
                 <!-- Custom -->
                 <property name="min_max_size" custom="true" />
             </properties>                                         
         </particle_effect> 
-          
+
+        <!-- Player Shot Colliding -->
+        <particle_effect name="player_shot_colliding">
+            <properties>
+                <!-- Preset -->
+                <property name="image_key"         custom="false" value="player_shot" />
+                <property name="min_max_duration"  custom="false" value="300, 600" />
+                <property name="min_max_particles" custom="false" value="4, 8" />
+                <property name="velocity_splits"   custom="false" value="0.5, 0.5" />
+                <property name="start_color"       custom="false" value="1, 1, 1" />
+                <property name="end_color"         custom="false" value="0.8, 0.8, 0.8" />
+                
+                <!-- Custom -->
+                <property name="min_max_size" custom="true" />
+                <property name="min_velocity" custom="true" />
+                <property name="max_velocity" custom="true" />
+            </properties>
+        </particle_effect>     
     </particle_effects>
 </particle_effect_data>

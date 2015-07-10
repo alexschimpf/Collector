@@ -5,19 +5,26 @@ import misc.InputListener;
 import particle.ParticleEffect;
 import particle.ParticleEffectLoader;
 import animation.Animation;
+import box2dLight.DirectionalLight;
+import box2dLight.RayHandler;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader.Parameters;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -39,7 +46,8 @@ public final class GameScreen implements Screen {
 	private final InputListener INPUT_LISTENER = new InputListener();
 	private final TileMap TILE_MAP;
 	private final Array<ParticleEffect> PARTICLE_EFFECTS = new Array<ParticleEffect>();
-	private final Array<Animation> ANIMATIONS = new Array<Animation>();
+	private final Array<Animation> ANIMATIONS = new Array<Animation>();	
+	private final Sprite BACKGROUND_SPRITE;
 
 	public GameScreen(TheGame theGame) {
 		// music
@@ -66,6 +74,11 @@ public final class GameScreen implements Screen {
 		
 		GameWorldLoader gameWorldLoader = new GameWorldLoader(TILE_MAP.getRawTileMap());
 		gameWorldLoader.load();
+		
+		BACKGROUND_SPRITE = Globals.getTextureManager().getSprite("background");
+		float offsetX = -Globals.getTileSize() * 25;
+		BACKGROUND_SPRITE.setSize(Globals.getGameWorld().getWidth() + (-offsetX * 2), Globals.getGameWorld().getHeight());
+		BACKGROUND_SPRITE.setPosition(offsetX, 0);
 	}
 	
 	@Override
@@ -143,9 +156,9 @@ public final class GameScreen implements Screen {
 		WeatherSystem weatherSystem = Globals.getWeatherSystem();
 		float light = weatherSystem.getLight();
 		
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		OrthographicCamera camera = Globals.getCamera().getRawCamera();
 		
 //		SPRITE_BATCH.setColor(light, light, light, 1);
@@ -161,13 +174,17 @@ public final class GameScreen implements Screen {
 	}
 	
 	private void renderLayers() {
-			renderBackgroundTiles();
-			renderWeather();
-			renderEnclosingTiles();
-			renderParticleEffects();
-			renderNormalTiles();
-			renderWorldAndAnimations();
-			renderForeground();
+		SPRITE_BATCH.begin();
+		BACKGROUND_SPRITE.draw(SPRITE_BATCH);
+		SPRITE_BATCH.end();
+		
+		renderBackgroundTiles();
+		renderWeather();
+		renderEnclosingTiles();
+		renderParticleEffects();
+		renderNormalTiles();
+		renderWorldAndAnimations();
+		renderForeground();
 	}
 	
 	private void renderBackgroundTiles() {

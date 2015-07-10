@@ -59,6 +59,13 @@
             </required>
         </entity>
         
+        <!-- Bump Enable -->
+        <entity type="bump_enable" class="entity.BumpEnableEntity">
+            <optional>
+                <property name="enabled" default="false" />
+            </optional>
+        </entity>
+        
         <!-- Disappearing -->
         <entity type="disappearing" class="entity.DisappearingEntity" >
             <optional>

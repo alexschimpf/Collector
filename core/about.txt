@@ -21,3 +21,23 @@
 - "You exist to collect"
 - "Can you imagine the uneasiness in a world without purpose?"
 - "
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------
+ World 1
+-------------------------------------------------------
+- Simpler
+- No color
+- One goal is to teach the user the core mechanics
+
+----------------------------------------------------------------
+ --- Room 1 ---
+----------------------------------------------------------------
+- MovingEntity
+- ContactVisibilityEntity
+- ProgrammableEntity

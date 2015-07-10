@@ -207,7 +207,7 @@ public final class Player extends Entity {
 	public void incrementFootContacts(Contact contact) {
 		numFootContacts++;
 		isJumping = numFootContacts < 1;
-		
+
 		Fixture fixture = contact.getFixtureA();
 		if(fixture.getBody().equals(body)) {
 			fixture = contact.getFixtureB();
@@ -217,7 +217,7 @@ public final class Player extends Entity {
 		if(!isJumping && getCenterY() - lastValidPos.y > FALL_HEIGHT_LIMIT) {
 			startDieParticleEffect();
 			respawnPlayer();
-		} else if(numFootContacts >= 1 && fixture.getBody().getType() == BodyType.StaticBody &&
+		} else if(numFootContacts >= 1 && fixture.getBody().getType() != BodyType.DynamicBody &&
 			      (entity == null || !entity.getType().equals("collectable"))) {
 			isLastValidDirectionRight = isFacingRight();
 			lastValidPos.set(getCenterX(), getCenterY());
@@ -347,7 +347,7 @@ public final class Player extends Entity {
 	private void startDieParticleEffect() {
 		float x = getCenterX();
 		float y = getBottom() - getHeight() / 5;
-		ParticleEffect particleEffect = Globals.getParticleEffectManager().getParticleEffect("player_dying", x, y);
+		ParticleEffect particleEffect = Globals.getParticleEffect("player_dying", x, y);
 		particleEffect.minMaxSize(getWidth() / 2, getWidth());
 		particleEffect.addToScreen();
 	}

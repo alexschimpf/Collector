@@ -35,7 +35,7 @@ public class CollectableEntity extends Entity {
 		contact.setEnabled(false);
 		Globals.incrementNumCollected();
 
-		ParticleEffect particleEffect = Globals.getParticleEffectManager().getParticleEffect("collectable", getCenterX(), getCenterY());
+		ParticleEffect particleEffect = Globals.getParticleEffect("collectable", getCenterX(), getCenterY());
 		particleEffect.minMaxSize(getWidth() / 5, getWidth());
 		particleEffect.addToScreen();
 		

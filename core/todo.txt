@@ -20,12 +20,15 @@ TileMap to GameWorld Rules
 	
 ---------------------------------------------------------------------------------------------------------------
 
-- Text display system
-- How to deal with loading new Chapters?
+- Text/narration display system
 - Add 'accepted values' check in EntityPropertyValidator
 - Add rotation functionality to particle effects
 - Fix texture-flipping issue
 - Save "ground-level" y position, for where to put clouds
+- Validating particle effect properties
+- Loading rooms on the fly
+- More interesting animation when obtaining a collectable
+- Make Globals.NUM_TILE_MAP_COLS and Globals.NUM_TILE_MAP_ROWS determined at run-time, instead of hardcoded
 
 - WeatherSystem
 	- Clouds, rain, and night/day???
