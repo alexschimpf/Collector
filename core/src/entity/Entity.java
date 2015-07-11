@@ -48,7 +48,7 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 		TextureRegion textureRegion;
 		if(properties.containsKey("image_key")) {
 			String imageKey = (String)properties.get("image_key");
-			textureRegion = Globals.getTextureManager().getImageTexture(imageKey);
+			textureRegion = Globals.getImageTexture(imageKey);
 		} else {
 			textureRegion = object.getTextureRegion();
 		}		

@@ -106,7 +106,7 @@ public final class AnimationSystem implements IRender, IUpdate, IAnimate {
 	}
 	
 	public void setDefaultSprite(String imageKey, float width, float height) {
-		TextureRegion defaultRegion = Globals.getTextureManager().getImageTexture(imageKey);
+		TextureRegion defaultRegion = Globals.getImageTexture(imageKey);
 		DEFAULT_SPRITE.setRegion(defaultRegion);
 		DEFAULT_SPRITE.setSize(width, height);
 	}

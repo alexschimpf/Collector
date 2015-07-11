@@ -7,7 +7,11 @@ import assets.MusicManager;
 import assets.SoundManager;
 import assets.TextureManager;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 import core.EntityPropertyValidator;
 import core.GameWorld;
@@ -96,6 +100,22 @@ public final class Globals {
 	
 	public static void incrementNumCollected() {
 		numCollected++;
+	}
+	
+	public static Sprite getSprite(String textureKey) {
+		return getTextureManager().getSprite(textureKey);
+	}
+	
+	public static TextureRegion getImageTexture(String textureKey) {
+		return getTextureManager().getImageTexture(textureKey);
+	}
+	
+	public static TextureRegion getImageTexture(String textureKey, int index) {
+		return getTextureManager().getImageTexture(textureKey, index);
+	}
+	
+	public static Array<AtlasRegion> getAnimationTextures(String animationKey) {
+		return getTextureManager().getAnimationTextures(animationKey);
 	}
 	
 	public static ParticleEffect getParticleEffect(String particleEffectKey, float x, float y) {

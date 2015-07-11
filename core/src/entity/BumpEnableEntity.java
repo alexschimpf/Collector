@@ -48,7 +48,7 @@ public class BumpEnableEntity extends Entity {
 	
 	private void setEnabled(boolean enabled) {
 		int index = enabled ? 2 : 1;
-		sprite.setRegion(Globals.getTextureManager().getImageTexture("bump_enable", index));
+		sprite.setRegion(Globals.getImageTexture("bump_enable", index));
 		sprite.setFlip(false, true);
 		
 		Fixture fixture = body.getFixtureList().get(0);

@@ -176,7 +176,7 @@ public final class Player extends Entity {
 				
 				Entity entity = Utils.getEntity(fixture);
 				if(entity != null && entity instanceof IInteractive) {
-					((IInteractive)entity).interactWith();
+					((IInteractive)entity).onInteraction();
 				}
 				
 				return true;

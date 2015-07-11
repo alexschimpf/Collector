@@ -2,5 +2,5 @@ package misc;
 
 public interface IInteractive {
 
-	public void interactWith();
+	public void onInteraction();
 }

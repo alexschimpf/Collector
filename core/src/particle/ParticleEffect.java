@@ -111,7 +111,7 @@ public class ParticleEffect implements IRender, IUpdate {
 			float offsetY = Utils.getRandomFromRange(minOffsets.y, maxOffsets.y, 0) * Utils.choose(1, -1);	
 
 			Particle particle = PARTICLE_POOL.obtain();
-			particle.sprite = Globals.getTextureManager().getSprite(imageKey);
+			particle.sprite = Globals.getSprite(imageKey);
 			float startWidth = Utils.getRandomFromRange(minMaxSize);
 			float startHeight = startWidth;
 			if(keepProportions) {

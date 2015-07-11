@@ -30,7 +30,7 @@ public final class Animation implements IRender, IUpdate, IAnimate {
 		key = builder.animationKey;
 		loop = builder.loop;
 		
-		Array<AtlasRegion> regions = Globals.getTextureManager().getAnimationTextures(builder.animationKey);
+		Array<AtlasRegion> regions = Globals.getAnimationTextures(builder.animationKey);
 		float frameDuration = builder.totalDuration / regions.size;
 		rawAnimation = new com.badlogic.gdx.graphics.g2d.Animation(frameDuration, regions);
 		

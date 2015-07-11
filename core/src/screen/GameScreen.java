@@ -47,7 +47,6 @@ public final class GameScreen implements Screen {
 	private final TileMap TILE_MAP;
 	private final Array<ParticleEffect> PARTICLE_EFFECTS = new Array<ParticleEffect>();
 	private final Array<Animation> ANIMATIONS = new Array<Animation>();	
-	private final Sprite BACKGROUND_SPRITE;
 
 	public GameScreen(TheGame theGame) {
 		// music
@@ -74,11 +73,6 @@ public final class GameScreen implements Screen {
 		
 		GameWorldLoader gameWorldLoader = new GameWorldLoader(TILE_MAP.getRawTileMap());
 		gameWorldLoader.load();
-		
-		BACKGROUND_SPRITE = Globals.getTextureManager().getSprite("background");
-		float offsetX = -Globals.getTileSize() * 25;
-		BACKGROUND_SPRITE.setSize(Globals.getGameWorld().getWidth() + (-offsetX * 2), Globals.getGameWorld().getHeight());
-		BACKGROUND_SPRITE.setPosition(offsetX, 0);
 	}
 	
 	@Override
@@ -156,7 +150,7 @@ public final class GameScreen implements Screen {
 		WeatherSystem weatherSystem = Globals.getWeatherSystem();
 		float light = weatherSystem.getLight();
 		
-		Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1);
+		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		OrthographicCamera camera = Globals.getCamera().getRawCamera();
@@ -174,10 +168,6 @@ public final class GameScreen implements Screen {
 	}
 	
 	private void renderLayers() {
-		SPRITE_BATCH.begin();
-		BACKGROUND_SPRITE.draw(SPRITE_BATCH);
-		SPRITE_BATCH.end();
-		
 		renderBackgroundTiles();
 		renderWeather();
 		renderEnclosingTiles();

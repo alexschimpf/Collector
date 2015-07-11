@@ -30,7 +30,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 				player.jump();
 				break;
 			case Keys.A:
-				player.shoot();
+				player.interact();
 				break;
 				
 			// For testing:

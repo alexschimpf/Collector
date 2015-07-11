@@ -18,6 +18,26 @@ TileMap to GameWorld Rules
 		- The name is not part of the MapObject's properties
 	- An entity's type will be derived from a MapObject's type property
 	
+----------------------------------
+Design Route
+----------------------------------
+1. Figure out how the world's should progress
+	- Gets more and more colorful
+	- The environments become more detailed
+2. Create the rooms/puzzles with increasing difficulty
+	- After finishing a world, write the narration.
+3. Worry about the background / particle effects / extra details later
+	
+---------------------------------------------------------------------------------------------------------------
+
+ROOM 1 TODO:
+- What to do about programmable movement limits?
+- Background?
+- Dying?
+- How to interact with stuff?
+- 
+
+
 ---------------------------------------------------------------------------------------------------------------
 
 - Text/narration display system
@@ -29,9 +49,4 @@ TileMap to GameWorld Rules
 - Loading rooms on the fly
 - More interesting animation when obtaining a collectable
 - Make Globals.NUM_TILE_MAP_COLS and Globals.NUM_TILE_MAP_ROWS determined at run-time, instead of hardcoded
-
-- WeatherSystem
-	- Clouds, rain, and night/day???
-- GameWorldLoader support for sensor locations
-- Keep track of last touched body for player respawn, instead of position
-	- Then just center the player on that body when respawned.
+- Support for sensor locations

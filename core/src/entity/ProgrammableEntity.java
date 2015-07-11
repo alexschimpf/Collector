@@ -1,6 +1,7 @@
 package entity;
 
 import misc.Globals;
+import misc.IInteractive;
 import misc.Utils;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -172,7 +173,7 @@ public final class ProgrammableEntity extends Entity {
 	
 	private void updateSprite() {
 		int index = getStateIndex();
-		TextureRegion textureRegion = Globals.getTextureManager().getImageTexture("programmable", index);
+		TextureRegion textureRegion = Globals.getImageTexture("programmable", index);
 		sprite.setRegion(textureRegion);
 	}
 	
