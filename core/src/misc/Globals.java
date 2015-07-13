@@ -87,7 +87,7 @@ public final class Globals {
 	}
 	
 	public static float getTileSize() {
-		return getCamera().getViewportWidth() / 16;
+		return getCamera().getViewportWidth() / 20;
 	}
 	
 	public static int getNumCollected() {
@@ -101,7 +101,7 @@ public final class Globals {
 	public static void incrementNumCollected() {
 		numCollected++;
 	}
-	
+
 	public static Sprite getSprite(String textureKey) {
 		return getTextureManager().getSprite(textureKey);
 	}

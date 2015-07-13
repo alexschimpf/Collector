@@ -66,6 +66,16 @@
             </optional>
         </entity>
         
+        <!-- Chain -->
+        <entity type="chain" class="entity.ChainEntity">
+            <required>
+                <property name="chain_start_id" />
+                <property name="state_machine" />
+                <property name="activated_duration" />
+                <property name="chain_ids" />
+            </required>
+        </entity>
+        
         <!-- Disappearing -->
         <entity type="disappearing" class="entity.DisappearingEntity" >
             <optional>
@@ -77,14 +87,15 @@
         <!-- Moving -->
         <entity type="moving" class="entity.MovingEntity" >
             <required>
-                <property name="path_cells" note="format: (rowA,colA),...,(rowZ,colZ)" />
-                <property name="interval" note="in ms" />
+                <property name="path" note="format: (dx,dy) (dx,dy) ..." />
+                <property name="interval" />
             </required>
             <optional>
 				<property name="fixed" default="false" />
+				<property name="loop" default="true" />
 				<property name="start_on_create" default="false" />
-				<property name="fixed__reverse_on_done" default="true" />
-				<property name="fixed__reverse_on_blocked" default="false" />
+				<property name="fixed_reverse_on_done" default="true" />
+				<property name="fixed_reverse_on_blocked" default="false" />
             </optional>
             <override>
                 <property name="body_type" value="kinematic" />

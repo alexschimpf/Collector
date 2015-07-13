@@ -32,12 +32,11 @@ public final class ProgrammableEntity extends Entity {
 	
 	public ProgrammableEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);
-		
-		MapProperties properties = object.getProperties();
-		int maxLeft = Utils.getPropertyInt(properties, "max_left");
-		int maxRight = Utils.getPropertyInt(properties, "max_right");
-		int maxUp = Utils.getPropertyInt(properties, "max_up");
-		int maxDown = Utils.getPropertyInt(properties, "max_down");
+
+		int maxLeft = Utils.getPropertyInt(object, "max_left");
+		int maxRight = Utils.getPropertyInt(object, "max_right");
+		int maxUp = Utils.getPropertyInt(object, "max_up");
+		int maxDown = Utils.getPropertyInt(object, "max_down");
 		
 		LEFT_LIMIT = getLeft() - (maxLeft * Globals.getTileSize());
 		RIGHT_LIMIT = getLeft() + (maxRight * Globals.getTileSize());
@@ -47,7 +46,7 @@ public final class ProgrammableEntity extends Entity {
 		state = MoveState.NONE;		
 		ORIG_POS.set(bodyDef.position);
 		
-		OTHER_IDS = Utils.getPropertyStringArray(properties, "other_ids", ",");
+		OTHER_IDS = Utils.getPropertyStringArray(object, "other_ids", ",");
 	}
 	
 	@Override

@@ -12,13 +12,12 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 
 import entity.special.Player;
 
-public class BumpEnableEntity extends Entity {
+public final class BumpEnableEntity extends Entity {
 
 	public BumpEnableEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);
 		
-		MapProperties properties = object.getProperties();
-		boolean enabled = Utils.getPropertyBoolean(properties, "enabled");	
+		boolean enabled = Utils.getPropertyBoolean(object, "enabled");	
 		setEnabled(enabled);
 	}
 	

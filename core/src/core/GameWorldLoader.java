@@ -123,9 +123,14 @@ public final class GameWorldLoader {
 	private void loadEntities(Array<TextureMapObject> objects, HashMap<String, MapObject> bodySkeletonMap) {
 		for(TextureMapObject object : objects) {
 			MapProperties properties = object.getProperties();
-			String type = Utils.getPropertyString(properties, "type");
+			String type = Utils.getPropertyString(object, "type");
 			if(type == null) {
 				throw new NullPointerException("TextureMapObject has no type");
+			}
+			
+			if(properties.containsKey("is_script") && Utils.getPropertyBoolean(object, "is_script")) {
+				Globals.getGameWorld().addScriptTemplate(object);
+				continue;
 			}
 			
 			EntityPropertyValidator validator = Globals.getEntityPropertyValidator();
@@ -133,7 +138,7 @@ public final class GameWorldLoader {
 			
 			MapObject bodySkeleton = null;
 			if(properties.containsKey("body_skeleton_id")) {
-				String bodySkeletonId = Utils.getPropertyString(properties, "body_skeleton_id");			
+				String bodySkeletonId = Utils.getPropertyString(object, "body_skeleton_id");			
 				if(!bodySkeletonMap.containsKey(bodySkeletonId)) {
 					throw new NullPointerException("Body skeleton id '" + bodySkeletonId + "' is not valid");
 				}
@@ -143,8 +148,8 @@ public final class GameWorldLoader {
 			
 			if(!properties.get("body_width").toString().isEmpty() && 
 			   !properties.get("body_height").toString().isEmpty()) {
-				float bodyWidth = Utils.getPropertyFloat(properties, "body_width");
-				float bodyHeight = Utils.getPropertyFloat(properties, "body_height");
+				float bodyWidth = Utils.getPropertyFloat(object, "body_width");
+				float bodyHeight = Utils.getPropertyFloat(object, "body_height");
 				RectangleMapObject rectMapObj = new RectangleMapObject();
 				rectMapObj.getRectangle().width = bodyWidth;
 				rectMapObj.getRectangle().height = bodyHeight;
@@ -156,7 +161,7 @@ public final class GameWorldLoader {
 				bodySkeleton = object;
 			}
 			
-			EntityBodyDef bodyDef = getBodyDef(object.getProperties());
+			EntityBodyDef bodyDef = getBodyDef(object);
 			Entity entity = validator.getEntity(bodyDef, object, bodySkeleton);
 			entity.setBodyData();
 			
@@ -177,15 +182,15 @@ public final class GameWorldLoader {
 				throw new NullPointerException("Animation object does not contain an 'total_duration' property");
 			}
 			
-			String animationKey = Utils.getPropertyString(properties, "animation_key");
+			String animationKey = Utils.getPropertyString(object, "animation_key");
 			if(Globals.getTextureManager().getAnimationTextures(animationKey) == null) {
 				throw new NullPointerException("Animation with key '" + animationKey + "' does not exist");
 			}
 			
-			Float totalDuration = Utils.getPropertyFloat(properties, "total_duration");	
-			Boolean loop = Utils.getPropertyBoolean(properties, "loop");
+			Float totalDuration = Utils.getPropertyFloat(object, "total_duration");	
+			Boolean loop = Utils.getPropertyBoolean(object, "loop");
 			Globals.getGameScreen().addAnimation(
-        		new Animation.Builder(animationKey, getObjectPosition(properties), getObjectSize(properties), totalDuration)
+        		new Animation.Builder(animationKey, getObjectPosition(object), getObjectSize(object), totalDuration)
         		.loop(loop != null ? loop : true)
         		.playOnCreate(true)
         		.build()
@@ -292,12 +297,13 @@ public final class GameWorldLoader {
 		fixtureDef.shape.dispose();
     }
     
-    private EntityBodyDef getBodyDef(MapProperties properties) {
+    private EntityBodyDef getBodyDef(MapObject object) {
+    	MapProperties properties = object.getProperties();
     	if(!properties.containsKey("body_type")) {
     		throw new NullPointerException("TextureMapObject does not contain property 'body_type'");
     	}
     		
-    	String bodyTypeStr = Utils.getPropertyString(properties, "body_type");
+    	String bodyTypeStr = Utils.getPropertyString(object, "body_type");
     	BodyType bodyType;
     	if(bodyTypeStr.equals("static")) {
     		bodyType = BodyType.StaticBody;
@@ -309,23 +315,23 @@ public final class GameWorldLoader {
     		throw new NullPointerException("TextureMapObject does not contain valid 'body_type' property");
     	}
  
-    	return new EntityBodyDef(getObjectPosition(properties), getObjectSize(properties), bodyType);
+    	return new EntityBodyDef(getObjectPosition(object), getObjectSize(object), bodyType);
     }
     
-    private Vector2 getObjectSize(MapProperties properties) {
+    private Vector2 getObjectSize(MapObject object) {
     	float unitScale = Globals.getCamera().getTileMapScale();
-    	float width = Utils.getPropertyFloat(properties, "width") * unitScale;
-    	float height = Utils.getPropertyFloat(properties, "height") * unitScale;
+    	float width = Utils.getPropertyFloat(object, "width") * unitScale;
+    	float height = Utils.getPropertyFloat(object, "height") * unitScale;
     	
     	return new Vector2(width, height);
     }
     
-    private Vector2 getObjectPosition(MapProperties properties) {
+    private Vector2 getObjectPosition(MapObject object) {
     	float unitScale = Globals.getCamera().getTileMapScale();
-    	float width = Utils.getPropertyFloat(properties, "width") * unitScale;
-    	float height = Utils.getPropertyFloat(properties, "height") * unitScale;
-    	float x = Utils.getPropertyFloat(properties, "x") * unitScale;
-    	float y = Utils.getPropertyFloat(properties, "y") * unitScale;
+    	float width = Utils.getPropertyFloat(object, "width") * unitScale;
+    	float height = Utils.getPropertyFloat(object, "height") * unitScale;
+    	float x = Utils.getPropertyFloat(object, "x") * unitScale;
+    	float y = Utils.getPropertyFloat(object, "y") * unitScale;
     	
     	x += width / 2;
     	y -= height / 2;

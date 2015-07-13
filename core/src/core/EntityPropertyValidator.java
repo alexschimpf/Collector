@@ -50,7 +50,10 @@ public final class EntityPropertyValidator {
 			String className = ENTITY_TYPE_CLASS_MAP.get(type);
 			Class<?> c = Class.forName(className);
 			Constructor<?> constructor = c.getConstructor(EntityBodyDef.class, TextureMapObject.class, MapObject.class);
-			return (Entity)constructor.newInstance(bodyDef, object, bodySkeleton);
+			Entity entity = (Entity)constructor.newInstance(bodyDef, object, bodySkeleton);
+			entity.onPostCreate();
+			
+			return entity;
 		} catch(Exception e) {
 			Gdx.app.error("collector", "getEntity", e);
 			return null;

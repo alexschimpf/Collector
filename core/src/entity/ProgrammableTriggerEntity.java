@@ -26,8 +26,7 @@ public final class ProgrammableTriggerEntity extends Entity implements IInteract
 	public ProgrammableTriggerEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);
 		
-		MapProperties properties = object.getProperties();
-		String triggerTypeStr = Utils.getPropertyString(properties, "trigger_type");
+		String triggerTypeStr = Utils.getPropertyString(object, "trigger_type");
 		if(triggerTypeStr.equals("reset")) {
 			TRIGGER_TYPE = TriggerType.RESET;
 		} else if(triggerTypeStr.equals("move")) {
@@ -36,7 +35,7 @@ public final class ProgrammableTriggerEntity extends Entity implements IInteract
 			throw new NullPointerException("Trigger type '" + triggerTypeStr + "' is not valid");
 		}
 		
-		TARGET_IDS = Utils.getPropertyStringArray(properties, "target_ids", ",");
+		TARGET_IDS = Utils.getPropertyStringArray(object, "target_ids", ",");
 	}
 	
 	@Override

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import script.Script;
 import misc.CollisionListener;
 import misc.Globals;
 import misc.Globals.State;
@@ -12,6 +13,8 @@ import misc.IRender;
 import misc.IUpdate;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -31,6 +34,8 @@ public final class GameWorld implements IRender, IUpdate {
 	
 	private final World PHYSICS_WORLD = new World(new Vector2(0, DEFAULT_GRAVITY), true);
 	private final ConcurrentHashMap<String, Entity> ENTITY_MAP = new ConcurrentHashMap<String, Entity>();
+	private final ConcurrentHashMap<String, MapObject> SCRIPT_TEMPLATE_MAP = new ConcurrentHashMap<String, MapObject>();
+	private final Array<Script> ACTIVE_SCRIPTS = new Array<Script>();
 	
 	private Player player;
 	
@@ -59,6 +64,7 @@ public final class GameWorld implements IRender, IUpdate {
 	public boolean update() {
 		PHYSICS_WORLD.step(1 / 45.0f, 5, 5);
 
+		updateScripts();
 		updateEntities();
 		
 		return false;
@@ -85,6 +91,17 @@ public final class GameWorld implements IRender, IUpdate {
 		return ENTITY_MAP.get(id);
 	}
 	
+	public Script createScriptById(String id) {
+		MapObject template = SCRIPT_TEMPLATE_MAP.get(id);
+		return Script.build(template);	
+	}
+	
+	public void startScript(String id) {
+		Script script = createScriptById(id);
+		script.onStart();
+		ACTIVE_SCRIPTS.add(script);
+	}
+	
 	public void removeEntityById(String id) {
 		ENTITY_MAP.remove(id);
 	}
@@ -97,6 +114,14 @@ public final class GameWorld implements IRender, IUpdate {
 		ENTITY_MAP.put(entity.getId(), entity);
 	}
 	
+	public void addScriptTemplate(MapObject object) {
+		SCRIPT_TEMPLATE_MAP.put(object.getName(), object);
+	}
+
+	public boolean entityIdExists(String id) {
+		return ENTITY_MAP.containsKey(id);
+	}
+	
 	private void updateEntities() {
 		Iterator<Entry<String, Entity>> entitiesIter = ENTITY_MAP.entrySet().iterator();
 		while(entitiesIter.hasNext()) {
@@ -104,6 +129,17 @@ public final class GameWorld implements IRender, IUpdate {
 			if(entity.update()) {
 				entity.done();			
 				entitiesIter.remove();
+			}
+ 		}
+	}
+	
+	private void updateScripts() {
+		Iterator<Script> scriptsIter = ACTIVE_SCRIPTS.iterator();
+		while(scriptsIter.hasNext()) {
+			Script script = scriptsIter.next();
+			if(script.update()) {
+				script.done();			
+				scriptsIter.remove();
 			}
  		}
 	}

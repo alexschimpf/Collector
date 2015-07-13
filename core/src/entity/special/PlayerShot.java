@@ -68,7 +68,6 @@ public final class PlayerShot extends Entity {
 		BODY_DEF.size =  sizeVec;
 		
 		PlayerShot shot = new PlayerShot();
-		shot.setId(String.valueOf(shot.hashCode()));
 		shot.setBodyData();
 		shot.shoot();
 		

@@ -30,16 +30,16 @@ Design Route
 	
 ---------------------------------------------------------------------------------------------------------------
 
-ROOM 1 TODO:
-- What to do about programmable movement limits?
-- Background?
-- Dying?
-- How to interact with stuff?
+Room 2:
+- ChainEntity
 - 
-
 
 ---------------------------------------------------------------------------------------------------------------
 
+- How to check for collisions with terrain?
+- Think about cleaning up Utils/Globals
+	- Move some Globals stuff to Utils maybe?
+	- Add more methods like getEntityById()
 - Text/narration display system
 - Add 'accepted values' check in EntityPropertyValidator
 - Add rotation functionality to particle effects

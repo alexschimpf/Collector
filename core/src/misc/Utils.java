@@ -87,24 +87,28 @@ public final class Utils {
 		return Utils.choose(MathUtils.random(a, -split), MathUtils.random(split, b));
 	}
 	
-	public static boolean getPropertyBoolean(MapProperties properties, String key) {
+	public static boolean getPropertyBoolean(MapObject mapObject, String key) {
+		MapProperties properties = mapObject.getProperties();
 		return Boolean.parseBoolean(properties.get(key).toString());
 	}
 	
-	public static int getPropertyInt(MapProperties properties, String key) {
+	public static int getPropertyInt(MapObject mapObject, String key) {
+		MapProperties properties = mapObject.getProperties();
 		return Integer.parseInt(properties.get(key).toString());
 	}
 	
-	public static float getPropertyFloat(MapProperties properties, String key) {
+	public static float getPropertyFloat(MapObject mapObject, String key) {
+		MapProperties properties = mapObject.getProperties();
 		return Float.parseFloat(properties.get(key).toString());
 	}
 	
-	public static String getPropertyString(MapProperties properties, String key) {
+	public static String getPropertyString(MapObject mapObject, String key) {
+		MapProperties properties = mapObject.getProperties();
 		return properties.get(key).toString();
 	}
 	
-	public static boolean[] getPropertyBooleanArray(MapProperties properties, String key, String delim) {
-		String full = getPropertyString(properties, key);
+	public static boolean[] getPropertyBooleanArray(MapObject mapObject, String key, String delim) {
+		String full = getPropertyString(mapObject, key);
 		
 		if(full.isEmpty()) {
 			return new boolean[0];
@@ -121,8 +125,8 @@ public final class Utils {
 		return booleanArr;
 	}
 	
-	public static int[] getPropertyIntArray(MapProperties properties, String key, String delim) {
-		String full = getPropertyString(properties, key);
+	public static int[] getPropertyIntArray(MapObject mapObject, String key, String delim) {
+		String full = getPropertyString(mapObject, key);
 		
 		if(full.isEmpty()) {
 			return new int[0];
@@ -139,8 +143,8 @@ public final class Utils {
 		return intArr;
 	}
 	
-	public static float[] getPropertyFloatArray(MapProperties properties, String key, String delim) {
-		String full = getPropertyString(properties, key);
+	public static float[] getPropertyFloatArray(MapObject mapObject, String key, String delim) {
+		String full = getPropertyString(mapObject, key);
 		
 		if(full.isEmpty()) {
 			return new float[0];
@@ -157,8 +161,8 @@ public final class Utils {
 		return floatArr;
 	}
 	
-	public static String[] getPropertyStringArray(MapProperties properties, String key, String delim) {
-		String full = getPropertyString(properties, key);
+	public static String[] getPropertyStringArray(MapObject mapObject, String key, String delim) {
+		String full = getPropertyString(mapObject, key);
 		
 		if(full.isEmpty()) {
 			return new String[0];

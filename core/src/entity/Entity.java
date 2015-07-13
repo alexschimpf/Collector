@@ -24,30 +24,36 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 public abstract class Entity implements IRender, IUpdate, ICollide {
 
+	protected final String ID;
 	protected final Vector2 LEFT_TOP = new Vector2();
 	
 	protected int numContacts = 0;
 	protected boolean markedDone = false;
 	protected boolean isVisible = true;
-	protected String id;
 	protected Body body;
 	protected Sprite sprite;
 	
 	public Entity() {
+		String id;
+		do {
+			id = String.valueOf(getClass().getName() + MathUtils.random());
+		} while(Globals.getGameWorld().entityIdExists(id));
+		
+		ID = id;
 	}
 	
 	public Entity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		if(object.getName() != null && !object.getName().isEmpty()) {
-			id = object.getName();
+			ID = object.getName();
 		} else {
-			id = String.valueOf(object.hashCode());
+			ID = String.valueOf(object.hashCode());
 		}
 		
 		MapProperties properties = object.getProperties();
 		
 		TextureRegion textureRegion;
 		if(properties.containsKey("image_key")) {
-			String imageKey = (String)properties.get("image_key");
+			String imageKey = Utils.getPropertyString(object, "image_key");
 			textureRegion = Globals.getImageTexture(imageKey);
 		} else {
 			textureRegion = object.getTextureRegion();
@@ -58,6 +64,9 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	}
 	
 	public abstract String getType();
+	
+	public void onPostCreate() {
+	}
 	
 	@Override
 	public void render(SpriteBatch spriteBatch) {
@@ -90,13 +99,9 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	}
 	
 	public String getId() {
-		return id;
+		return ID;
 	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
-	
+
 	public float getWidth() {
 		return sprite.getWidth();
 	}
