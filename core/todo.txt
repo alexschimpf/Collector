@@ -36,6 +36,8 @@ Room 2:
 
 ---------------------------------------------------------------------------------------------------------------
 
+- How to do smooth scrolling with non-unit movement path pieces?
+	- Break non-unit pieces into multiple unit movements?
 - How to check for collisions with terrain?
 - Think about cleaning up Utils/Globals
 	- Move some Globals stuff to Utils maybe?

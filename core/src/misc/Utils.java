@@ -87,6 +87,11 @@ public final class Utils {
 		return Utils.choose(MathUtils.random(a, -split), MathUtils.random(split, b));
 	}
 	
+	public static boolean propertyExists(MapObject mapObject, String key) {
+		MapProperties properties = mapObject.getProperties();
+		return properties.containsKey(key);
+	}
+	
 	public static boolean getPropertyBoolean(MapObject mapObject, String key) {
 		MapProperties properties = mapObject.getProperties();
 		return Boolean.parseBoolean(properties.get(key).toString());

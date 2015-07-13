@@ -20,14 +20,12 @@ public class MovingEntity extends Entity {
 	public MovingEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);
 		
-		String[] path = Utils.getPropertyStringArray(object, "path", " ");
-		PATH = buildPath(path);
-		
-		// TODO: Add support for the other optional properties.
-		
 		INTERVAL = Utils.getPropertyFloat(object, "interval");
 		LOOP = Utils.getPropertyBoolean(object, "loop");
 		
+		String[] path = Utils.getPropertyStringArray(object, "path", " ");
+		PATH = buildPath(path);
+
 		started = Utils.getPropertyBoolean(object, "start_on_create");
 		
 		if(started) {
@@ -42,7 +40,7 @@ public class MovingEntity extends Entity {
 
 	@Override
 	public boolean update(){
-		if(!started || pathPos >= PATH.size - 1) {
+		if(!started || (atLastPos() && !LOOP)) {
 			return super.update();
 		}
 
@@ -55,6 +53,12 @@ public class MovingEntity extends Entity {
 		pathPos = 0;
 		updateVelocity();
 		started = true;
+	}
+	
+	public void setPath(String[] serializedPath) {
+		pathPos = 0;
+		PATH.clear();
+		PATH.addAll(buildPath(serializedPath));
 	}
 	
 	private Array<Vector2> buildPath(String[] serializedPath) {
@@ -73,6 +77,12 @@ public class MovingEntity extends Entity {
 			path.add(new Vector2(x, y));
 		}
 		
+		if(LOOP) {
+			for(int i = path.size - 2; i > 0; i--) {
+				path.add(path.get(i));
+			}
+		}
+		
 		return path;
 	}
 	
@@ -82,28 +92,40 @@ public class MovingEntity extends Entity {
 		
 		float x = getLeft();
 		float y = getTop();
-		Vector2 nextPos = PATH.get(pathPos + 1);
-
+		
+		Vector2 nextPos = PATH.get(getNextPathPos());
 		if((vx == 0 || (vx > 0 && x >= nextPos.x) || (vx < 0 && x <= nextPos.x)) &&
 		   (vy == 0 || (vy > 0 && y >= nextPos.y) || (vy < 0 && y <= nextPos.y))) {
-			pathPos++;
+			pathPos = getNextPathPos();
 			updateVelocity();
 		}
 	}
 	
 	private void updateVelocity() {
-		if(pathPos >= PATH.size - 1) {
+		if(atLastPos() && !LOOP) {
 			setLinearVelocity(0, 0);
 			return;
 		}
 		
 		Vector2 a = PATH.get(pathPos);
-		Vector2 b = PATH.get(pathPos + 1);			
+		Vector2 b = PATH.get(getNextPathPos());			
 		float intervalSeconds = INTERVAL / 1000;
 		float vx = (b.x - a.x) / intervalSeconds;
 		float vy = (b.y - a.y) / intervalSeconds;
 		
-		setLinearVelocity(vx, vy);
+		setLinearVelocity(vx, vy);		
+	}
+	
+	private boolean atLastPos() {
+		return pathPos >= PATH.size - 1;
+	}
+	
+	private int getNextPathPos() {
+		int nextIdx = pathPos + 1;
+		if(LOOP && nextIdx > PATH.size - 1) {
+			nextIdx = 0;
+		}
 		
+		return nextIdx;
 	}
 }

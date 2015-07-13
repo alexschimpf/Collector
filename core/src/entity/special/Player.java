@@ -289,7 +289,7 @@ public final class Player extends Entity {
 		
 		float width = bodyDef.size.x;
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(width / 2 * 0.85f, 0.1f, localBottom, 0);
+		shape.setAsBox(width / 2 * 0.88f, 0.1f, localBottom, 0);
 		
 		Fixture fixture = body.createFixture(shape, 0);
 		fixture.setSensor(true);

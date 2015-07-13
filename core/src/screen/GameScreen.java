@@ -65,7 +65,7 @@ public final class GameScreen implements Screen {
 		Globals.getTextureManager();	
 		new ParticleEffectLoader().load();
 
-		TILE_MAP = new TileMap("room_1_tile_map");
+		TILE_MAP = new TileMap("room_2_tile_map");
 		
 		HUD_STAGE = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		HUD_STAGE.addListener(INPUT_LISTENER);

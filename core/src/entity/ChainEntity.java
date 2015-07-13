@@ -54,7 +54,7 @@ public final class ChainEntity extends Entity {
 			return;
 		}
 		
-		if(Globals.getPlayer().getBottom() - (getHeight() / 10) <= getTop()) {
+		if(Globals.getPlayer().getBottom() - (getHeight() / 25) <= getTop()) {
 			deactivate();
 			activateNext();
 		}
@@ -84,8 +84,12 @@ public final class ChainEntity extends Entity {
 	}
 	
 	private void restartChain() {
-		deactivate();
 		state = 0;
+		if(isChainStart()) {
+			activate();
+		} else {
+			deactivate();
+		}
 		
 		for(String chainId : CHAIN_IDS) {
 			ChainEntity chainEntity = (ChainEntity)Globals.getGameWorld().getEntityById(chainId);
