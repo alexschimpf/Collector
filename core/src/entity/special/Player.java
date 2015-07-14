@@ -214,11 +214,13 @@ public final class Player extends Entity {
 		}
 		
 		Entity entity = Utils.getEntity(fixture);
+		BodyType bodyType = fixture.getBody().getType();
 		if(!isJumping && getCenterY() - lastValidPos.y > FALL_HEIGHT_LIMIT) {
 			startDieParticleEffect();
 			respawnPlayer();
-		} else if(numFootContacts >= 1 && fixture.getBody().getType() != BodyType.DynamicBody &&
-			      (entity == null || !entity.getType().equals("collectable"))) {
+		} else if(numFootContacts >= 1 && bodyType != BodyType.DynamicBody &&
+				 (bodyType != BodyType.KinematicBody || entity.getBody().getLinearVelocity().isZero()) &&
+			     (entity == null || !entity.getType().equals("collectable"))) {
 			isLastValidDirectionRight = isFacingRight();
 			lastValidPos.set(getCenterX(), getCenterY());
 		}
