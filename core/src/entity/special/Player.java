@@ -2,21 +2,18 @@ package entity.special;
 
 import misc.Globals;
 import misc.Globals.State;
-import misc.BodyData;
 import misc.IInteractive;
 import misc.Utils;
-import misc.Vector2Pool;
 import particle.ParticleEffect;
 import animation.Animation;
 import animation.AnimationSystem;
 
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -25,7 +22,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
-import com.badlogic.gdx.physics.box2d.WorldManifold;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
@@ -36,7 +32,7 @@ import entity.EntityBodyDef;
 public final class Player extends Entity {
 	
 	public static final float MOVE_SPEED = 10;
-	public static final float JUMP_IMPULSE = -90;
+	public static final float JUMP_IMPULSE = -98;
 	public static final float SHOOT_PERIOD = 150;
 	public static final float MOVE_PARTICLE_DELAY = 100;
 	public static final float MASS = 5.69f;
@@ -46,12 +42,13 @@ public final class Player extends Entity {
 	
 	private boolean isJumping = false;
 	private boolean isFacingRight = true;
+	private boolean isRespawning = false;
 	private int numFootContacts = 0;
 	private long lastShotTime = 0;
 	private long lastBlinkTime = TimeUtils.millis();
-	private long lastStartMoveTime = 0;
 	private float blinkPeriod = MathUtils.random(5000, 10000);
 	private Vector2 lastValidPos = new Vector2();
+	private Vector2 lastActualPos = new Vector2();
 	private boolean isLastValidDirectionRight = true;
 	
 	public Player(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
@@ -92,8 +89,8 @@ public final class Player extends Entity {
 		ANIMATION_SYSTEM.flipSprite(isFacingLeft(), true);
 		
 		// TODO: Remove this... maybe.
-		if(getLinearVelocity().y > 60) {
-			respawnPlayer();
+		if(getLinearVelocity().y > 50) {
+			respawn(false);
 		}
 			
 		return super.update();
@@ -166,6 +163,8 @@ public final class Player extends Entity {
 			lowerX = getLeft() - dist;
 			upperX = getLeft();
 		}
+		
+		float correction = getHeight() / 10;
 
 		Globals.getPhysicsWorld().QueryAABB(new QueryCallback() {
 			@Override
@@ -181,7 +180,7 @@ public final class Player extends Entity {
 				
 				return true;
 			}			
-		}, lowerX, getTop(), upperX, getBottom());
+		}, lowerX, getTop() + correction, upperX, getBottom() - correction);
 	}
 	
 	public boolean isFacingRight() {
@@ -215,14 +214,16 @@ public final class Player extends Entity {
 		
 		Entity entity = Utils.getEntity(fixture);
 		BodyType bodyType = fixture.getBody().getType();
-		if(!isJumping && getCenterY() - lastValidPos.y > FALL_HEIGHT_LIMIT) {
-			startDieParticleEffect();
-			respawnPlayer();
-		} else if(numFootContacts >= 1 && bodyType != BodyType.DynamicBody &&
-				 (bodyType != BodyType.KinematicBody || entity.getBody().getLinearVelocity().isZero()) &&
-			     (entity == null || !entity.getType().equals("collectable"))) {
-			isLastValidDirectionRight = isFacingRight();
-			lastValidPos.set(getCenterX(), getCenterY());
+		if(!isJumping && getCenterY() - lastActualPos.y > FALL_HEIGHT_LIMIT) {
+			respawn(true);
+		} else if(numFootContacts >= 1 && !fixture.isSensor()) {	 
+			if(bodyType != BodyType.DynamicBody && (bodyType != BodyType.KinematicBody || entity.getBody().getLinearVelocity().isZero()) &&
+			  (entity == null || entity.isValidForPlayerRespawn())) {
+				isLastValidDirectionRight = isFacingRight();
+				lastValidPos.set(getCenterX(), getCenterY());
+			}
+			
+			lastActualPos.set(getCenterX(), getCenterY());
 		}
 	}
 	
@@ -233,6 +234,10 @@ public final class Player extends Entity {
 		}
 		
 		isJumping = numFootContacts < 1;
+	}
+	
+	public boolean isRespawning() {
+		return isRespawning;
 	}
 	
 	@Override
@@ -254,6 +259,7 @@ public final class Player extends Entity {
 		
 		ANIMATION_SYSTEM.setDefaultSprite("player", size.x, size.y);
 		
+		lastActualPos.set(pos.x, pos.y);
 		lastValidPos.set(pos.x, pos.y);
 	}
 	
@@ -264,10 +270,6 @@ public final class Player extends Entity {
 	}
 	
 	private void move(boolean right) {
-		if(getLinearVelocity().x == 0) {
-			lastStartMoveTime = TimeUtils.millis();
-		}
-		
 		isFacingRight = right;
 		
 		float vx = Player.MOVE_SPEED;
@@ -323,21 +325,42 @@ public final class Player extends Entity {
 		return ANIMATION_SYSTEM.getAnimationKey().equals("move") && ANIMATION_SYSTEM.isPlaying();
 	}
 	
-	private void respawnPlayer() {
+	public void respawn(boolean collided) {
+		if(isRespawning) {
+			return;
+		}
+ 		
+		isRespawning = true;
+		
 		Globals.state = State.PAUSED;
 		
-		Globals.getSoundManager().playSound("die");
+		if(collided) {
+			Globals.getSoundManager().playSound("die");
+			startDieParticleEffect();
+		}
+		
 		setVisible(false);
 		setLinearVelocity(0, 0);
+		
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				body.setActive(false);
+			}		
+		});
 		
 		Timer timer = new Timer();
 		timer.scheduleTask(new Task() {
 			@Override
 			public void run() {
+				isRespawning = false;
+				
 				Globals.getSoundManager().playSound("transport");
 				
 				isFacingRight = isLastValidDirectionRight;
 				ANIMATION_SYSTEM.switchToDefault();
+				lastActualPos.set(lastValidPos.x, lastValidPos.y);
+				body.setActive(true);
 				setPosition(lastValidPos.x, lastValidPos.y);
 				setVisible(true);
 				
@@ -350,7 +373,7 @@ public final class Player extends Entity {
 		float x = getCenterX();
 		float y = getBottom() - getHeight() / 5;
 		ParticleEffect particleEffect = Globals.getParticleEffect("player_dying", x, y);
-		particleEffect.minMaxSize(getWidth() / 2, getWidth());
+		particleEffect.minMaxSize(getWidth() * 0.9f, getWidth());
 		particleEffect.addToScreen();
 	}
 }

@@ -15,6 +15,8 @@ public final class ChainEntity extends Entity {
 	private final String CHAIN_START_ID;
 	private final String[] STATE_MACHINE;
 	private final String[] CHAIN_IDS;
+	private final Color ACTIVE_COLOR = new Color(1, 0.4f, 0.4f, 1);
+	private final Color CHAIN_START_COLOR = new Color(0.4f, 1, 0.4f, 1);
 	
 	private int state = 0;
 	private boolean activated = false;
@@ -40,11 +42,18 @@ public final class ChainEntity extends Entity {
 	
 	@Override
 	public boolean update() {
-		float timeSinceActivated = TimeUtils.timeSinceMillis(activatedStartTime);
-		if(activated && timeSinceActivated > ACTIVATED_DURATION && !(isChainStart() && state == 0)) {
-			restartChain();
+		if(!activated || (isChainStart() && state == 0)) {
+			return super.update();
 		}
 		
+		float timeSinceActivated = TimeUtils.timeSinceMillis(activatedStartTime);
+		float ratio = Math.min(1, ACTIVE_COLOR.g + ((1 - ACTIVE_COLOR.g) * (timeSinceActivated / ACTIVATED_DURATION)));
+		sprite.setColor(1, ratio, ratio, 1);
+		
+		if(timeSinceActivated > ACTIVATED_DURATION) {
+			restartChain();
+		}
+
 		return super.update();
 	}
 	
@@ -61,7 +70,12 @@ public final class ChainEntity extends Entity {
 	}
 	
 	public void activate() {	
-		sprite.setColor(Color.RED);
+		if(isChainStart() && state == 0) {
+			sprite.setColor(CHAIN_START_COLOR);
+		} else {
+			sprite.setColor(ACTIVE_COLOR);
+		}
+		
 		activatedStartTime = TimeUtils.millis();
 		activated = true;
 	}
@@ -73,11 +87,11 @@ public final class ChainEntity extends Entity {
 	
 	private void activateNext() {
 		String nextId = STATE_MACHINE[state];
-		Entity nextEntity = Globals.getGameWorld().getEntityById(nextId);
+		Entity nextEntity = Globals.getCurrentRoom().getEntityById(nextId);
 		if(nextEntity != null && nextEntity.getType().equals("chain")) {
 			((ChainEntity)nextEntity).activate();
 		} else {
-			Globals.getGameWorld().startScript(nextId);
+			Globals.getCurrentRoom().startScript(nextId);
 		}
 		
 		state++;
@@ -92,7 +106,7 @@ public final class ChainEntity extends Entity {
 		}
 		
 		for(String chainId : CHAIN_IDS) {
-			ChainEntity chainEntity = (ChainEntity)Globals.getGameWorld().getEntityById(chainId);
+			ChainEntity chainEntity = (ChainEntity)Globals.getCurrentRoom().getEntityById(chainId);
 			chainEntity.state = 0;
 			
 			if(chainEntity.isChainStart()) {

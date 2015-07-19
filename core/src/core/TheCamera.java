@@ -9,6 +9,8 @@ import entity.special.Player;
 
 public final class TheCamera implements IUpdate {
 
+	public static final int NUM_TILES_PER_SCREEN_WIDTH = 18;
+	
 	private static TheCamera instance; 
 	
 	private final OrthographicCamera CAMERA = new OrthographicCamera();
@@ -30,6 +32,10 @@ public final class TheCamera implements IUpdate {
 	@Override
 	public boolean update() {
 		Player player = Globals.getPlayer();
+		if(player.isRespawning()) {
+			return false;
+		}
+		
 		CAMERA.position.x = player.getCenterX();
 		CAMERA.position.y = player.getCenterY();
 		
@@ -58,8 +64,8 @@ public final class TheCamera implements IUpdate {
 	
 	public float getTileMapScale() {
 		// Each tile is originally 64 x 64.
-		// Each tile should be 1/16 of the screen's width.
-		return (CAMERA.viewportWidth / 20) / 64.0f;
+		// Each tile should be 1/20 of the screen's width.
+		return (CAMERA.viewportWidth / NUM_TILES_PER_SCREEN_WIDTH) / 64.0f;
 	}
 	
 	public float getTop() {

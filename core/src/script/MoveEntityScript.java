@@ -29,7 +29,7 @@ public final class MoveEntityScript extends Script {
 	
 	@Override
 	public void onStart() {
-		MovingEntity entity = (MovingEntity)Globals.getGameWorld().getEntityById(TARGET_ID);
+		MovingEntity entity = (MovingEntity)Globals.getCurrentRoom().getEntityById(TARGET_ID);
 		
 		if(SERIALIZED_PATH != null) {
 			entity.setPath(SERIALIZED_PATH);

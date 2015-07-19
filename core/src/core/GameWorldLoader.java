@@ -1,7 +1,6 @@
 package core;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import misc.BodyData;
@@ -38,16 +37,23 @@ public final class GameWorldLoader {
 	
 	private final HashMap<String, MapObject> BODY_SKELETON_MAP = new HashMap<String, MapObject>();
 	
-	private TiledMap tileMap;
+	private final TiledMap TILE_MAP;
+	private final GameRoom ROOM;
 	
-	public GameWorldLoader(TiledMap tileMap) {
-		this.tileMap = tileMap;
+	public GameWorldLoader(TiledMap tileMap, boolean isLobby) {
+		TILE_MAP = tileMap;
+		ROOM = new GameRoom(isLobby);
+		
 		Globals.getPhysicsWorld();
 	}
 	
 	public void load() {
+		Globals.getGameWorld().clearPhysicsWorld();
+		
+		Globals.getGameWorld().setCurrentRoom(ROOM);		
+		
 		LinkedList<MapLayer> orderedLayers = new LinkedList<MapLayer>();
-		for(MapLayer layer : tileMap.getLayers()) {
+		for(MapLayer layer : TILE_MAP.getLayers()) {
 			if(layer.getName().equals("Bodies")) {
 				orderedLayers.addFirst(layer);
 			} else {
@@ -88,13 +94,12 @@ public final class GameWorldLoader {
 			} else {				
 				if(type == null) {
 					bodyObjects.add(object);
-					continue;
-				}
-				
-				if(type.equals("body_skeleton")) {
+				} else if(type.equals("body_skeleton")) {
 					BODY_SKELETON_MAP.put(object.getName(), object);
 				} else if(type.equals("animation")) {
 					animationObjects.add(object);
+				} else {
+					bodyObjects.add(object);
 				}
 			}
 		}
@@ -129,7 +134,7 @@ public final class GameWorldLoader {
 			}
 			
 			if(properties.containsKey("is_script") && Utils.getPropertyBoolean(object, "is_script")) {
-				Globals.getGameWorld().addScriptTemplate(object);
+				ROOM.addScriptTemplate(object);
 				continue;
 			}
 			
@@ -169,7 +174,7 @@ public final class GameWorldLoader {
 				Globals.getGameWorld().setPlayer((Player)entity);
 			}
 
-			Globals.getGameWorld().addEntity(entity);
+			ROOM.addEntity(entity);
 		}
 	}
 	
@@ -206,6 +211,13 @@ public final class GameWorldLoader {
 		float top = rectangle.y * unitScale;
 		float width = rectangle.width * unitScale;
 		float height = rectangle.height * unitScale;
+		
+		if(Utils.propertyExists(object, "type") && Utils.getPropertyString(object, "type").equals("room_entrance")) {
+			String tileMapName = Utils.getPropertyString(object, "room_tile_map");
+			Rectangle scaledRect = new Rectangle(left, top, width, height);
+			Globals.getCurrentRoom().addRoomEntranceLocation(tileMapName, scaledRect);
+			return;
+		}
 		
 		BodyDef bodyDef = new BodyDef();
 	    bodyDef.position.x = left + (width / 2);

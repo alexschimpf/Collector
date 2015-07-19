@@ -7,10 +7,8 @@ import animation.Animation;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Contact;
 
 public final class ProgrammableTriggerEntity extends Entity implements IInteractive {
 
@@ -57,7 +55,7 @@ public final class ProgrammableTriggerEntity extends Entity implements IInteract
 		animation.play();
 		
 		for(String targetId : TARGET_IDS) {
-			ProgrammableEntity target = (ProgrammableEntity)Globals.getGameWorld().getEntityById(targetId);
+			ProgrammableEntity target = (ProgrammableEntity)Globals.getCurrentRoom().getEntityById(targetId);
 			if(target.isActivated()) {
 				target.move();
 			}

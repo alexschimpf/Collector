@@ -78,9 +78,13 @@
         
         <!-- Disappearing -->
         <entity type="disappearing" class="entity.DisappearingEntity" >
+            <required>
+                <property name="disappear_duration" />
+            </required>
             <optional>
-                <property name="recreate" default="false" />
-                <property name="disappearOnTouch" default="true" />
+                <property name="recreate_delay" default="1000" />
+                <property name="recreate" default="true" />
+                <property name="disappear_on_touch" default="true" />
             </optional>
         </entity>
         
@@ -94,8 +98,6 @@
 				<property name="fixed" default="false" />
 				<property name="loop" default="true" />
 				<property name="start_on_create" default="false" />
-				<property name="fixed_reverse_on_done" default="true" />
-				<property name="fixed_reverse_on_blocked" default="false" />
             </optional>
             <override>
                 <property name="body_type" value="kinematic" />

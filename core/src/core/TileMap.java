@@ -30,7 +30,7 @@ public final class TileMap {
 	public TileMap(String tileMapName) {
 		Parameters tileMapParams = new Parameters();
 		tileMapParams.flipY = false;
-		TILE_MAP = new TmxMapLoader().load(tileMapName + ".tmx", tileMapParams);
+		TILE_MAP = new TmxMapLoader().load(tileMapName, tileMapParams);
 		RENDERER = new OrthogonalTiledMapRenderer(TILE_MAP, Globals.getCamera().getTileMapScale());
 
 		for(MapLayer layer : TILE_MAP.getLayers()) {

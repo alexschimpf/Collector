@@ -6,13 +6,10 @@ import misc.Globals;
 import misc.IRender;
 import misc.IUpdate;
 import misc.Utils;
-import misc.Vector2Pool;
 import particle.ParticleEffect;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 public class WeatherSystem implements IRender, IUpdate {

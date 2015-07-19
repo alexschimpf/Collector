@@ -5,31 +5,18 @@ import misc.InputListener;
 import particle.ParticleEffect;
 import particle.ParticleEffectLoader;
 import animation.Animation;
-import box2dLight.DirectionalLight;
-import box2dLight.RayHandler;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader.Parameters;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import core.GameWorldLoader;
 import core.TheCamera;
 import core.TheGame;
 import core.TileMap;
@@ -44,14 +31,12 @@ public final class GameScreen implements Screen {
 	private final Matrix4 DEBUG_MATRIX = new Matrix4();
 	private final Stage HUD_STAGE;
 	private final InputListener INPUT_LISTENER = new InputListener();
-	private final TileMap TILE_MAP;
 	private final Array<ParticleEffect> PARTICLE_EFFECTS = new Array<ParticleEffect>();
 	private final Array<Animation> ANIMATIONS = new Array<Animation>();	
+	
+	private TileMap tileMap;
 
 	public GameScreen(TheGame theGame) {
-		// music
-		// background
-		
 		THE_GAME = theGame;
 		
 		// HACK: Why does this work?
@@ -64,24 +49,21 @@ public final class GameScreen implements Screen {
 		Globals.getMusicManager();
 		Globals.getTextureManager();	
 		new ParticleEffectLoader().load();
-
-		TILE_MAP = new TileMap("room_2_tile_map");
 		
 		HUD_STAGE = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		HUD_STAGE.addListener(INPUT_LISTENER);
 		Gdx.input.setInputProcessor(HUD_STAGE);
-		
-		GameWorldLoader gameWorldLoader = new GameWorldLoader(TILE_MAP.getRawTileMap());
-		gameWorldLoader.load();
 	}
 	
 	@Override
 	public void show() {
+		Globals.setGameScreen(this);
+		
+		Globals.getGameWorld().loadRoom("world_1/world_start_tile_map.tmx", true);
+		
 		if(TheGame.MUSIC) {
 			// TODO: How to implement music?
 		}
-		
-		Globals.setGameScreen(this);
 	}
 
 	@Override
@@ -118,6 +100,10 @@ public final class GameScreen implements Screen {
 	public void dispose() {
 	}
 	
+	public void setTileMap(TileMap tileMap) {
+		this.tileMap = tileMap;
+	}
+	
 	public void addParticleEffect(ParticleEffect particleEffect) {
 		PARTICLE_EFFECTS.add(particleEffect);
 	}
@@ -150,13 +136,14 @@ public final class GameScreen implements Screen {
 		WeatherSystem weatherSystem = Globals.getWeatherSystem();
 		float light = weatherSystem.getLight();
 		
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+//		Gdx.gl.glClearColor(224 / 255.0f, 245 / 255.0f, 255 / 255.0f, 1);
+		Gdx.gl.glClearColor(240 / 255.0f, 250 / 255.0f, 255 / 255.0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		OrthographicCamera camera = Globals.getCamera().getRawCamera();
 		
 //		SPRITE_BATCH.setColor(light, light, light, 1);
-		TILE_MAP.setView(camera);
+		tileMap.setView(camera);
 		SPRITE_BATCH.setProjectionMatrix(camera.combined);
 
 		renderLayers();
@@ -178,7 +165,7 @@ public final class GameScreen implements Screen {
 	}
 	
 	private void renderBackgroundTiles() {
-		TILE_MAP.render(TileMapLayerType.BACKGROUND, SPRITE_BATCH);
+		tileMap.render(TileMapLayerType.BACKGROUND, SPRITE_BATCH);
 	}
 	
 	private void renderWeather() {
@@ -190,11 +177,11 @@ public final class GameScreen implements Screen {
 	}
 	
 	private void renderEnclosingTiles() {
-		TILE_MAP.render(TileMapLayerType.ENCLOSING, SPRITE_BATCH);
+		tileMap.render(TileMapLayerType.ENCLOSING, SPRITE_BATCH);
 	}
 	
 	private void renderNormalTiles() {
-		TILE_MAP.render(TileMapLayerType.NORMAL, SPRITE_BATCH);
+		tileMap.render(TileMapLayerType.NORMAL, SPRITE_BATCH);
 	}
 	
 	private void renderParticleEffects() {
@@ -220,6 +207,6 @@ public final class GameScreen implements Screen {
 	}
 	
 	private void renderForeground() {
-		TILE_MAP.render(TileMapLayerType.FOREGROUND, SPRITE_BATCH);
+		tileMap.render(TileMapLayerType.FOREGROUND, SPRITE_BATCH);
 	}
 }

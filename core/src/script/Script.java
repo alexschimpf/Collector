@@ -1,10 +1,9 @@
 package script;
 
-import com.badlogic.gdx.maps.MapObject;
-
-import misc.Globals;
 import misc.IUpdate;
 import misc.Utils;
+
+import com.badlogic.gdx.maps.MapObject;
 
 public abstract class Script implements IUpdate {
 

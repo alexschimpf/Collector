@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import core.EntityPropertyValidator;
+import core.GameRoom;
 import core.GameWorld;
 import core.TheCamera;
 import core.WeatherSystem;
@@ -44,6 +45,10 @@ public final class Globals {
 	
 	public static GameWorld getGameWorld() {
 		return GameWorld.getInstance();
+	}
+	
+	public static GameRoom getCurrentRoom() {
+		return getGameWorld().getCurrentRoom();
 	}
 	
 	public static World getPhysicsWorld() {
@@ -87,7 +92,7 @@ public final class Globals {
 	}
 	
 	public static float getTileSize() {
-		return getCamera().getViewportWidth() / 20;
+		return getCamera().getViewportWidth() / TheCamera.NUM_TILES_PER_SCREEN_WIDTH;
 	}
 	
 	public static int getNumCollected() {

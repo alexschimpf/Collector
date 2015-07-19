@@ -15,7 +15,6 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -37,7 +36,7 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 		String id;
 		do {
 			id = String.valueOf(getClass().getName() + MathUtils.random());
-		} while(Globals.getGameWorld().entityIdExists(id));
+		} while(Globals.getCurrentRoom().entityIdExists(id));
 		
 		ID = id;
 	}
@@ -190,6 +189,10 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	
 	public Sprite getSprite() {
 		return sprite;
+	}
+	
+	public boolean isValidForPlayerRespawn() {
+		return true;
 	}
 
 	protected void createSprite(EntityBodyDef bodyDef, TextureRegion textureRegion) {

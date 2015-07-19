@@ -3,7 +3,6 @@ package core;
 import screen.GameScreen;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Screen;
 
 public final class TheGame extends Game {
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
 import core.TheGame;
+import core.TileMap;
 import entity.special.Player;
 
 public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputListener implements IUpdate {
@@ -39,6 +40,15 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 				break;
 			case Keys.F:
 				TheGame.PRINT_FPS = !TheGame.PRINT_FPS;
+				break;
+			case Keys.UP:
+				String tileMapName = Globals.getCurrentRoom().checkForRoomEntrance();
+				if(tileMapName != null) {
+					Globals.getGameWorld().loadRoom(tileMapName, false);
+				}
+				break;
+			case Keys.Q:
+				Globals.getGameWorld().loadLobbyRoom();
 				break;
 		}
 		

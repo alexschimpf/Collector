@@ -27,6 +27,19 @@ Design Route
 2. Create the rooms/puzzles with increasing difficulty
 	- After finishing a world, write the narration.
 3. Worry about the background / particle effects / extra details later
+
+---------------------------------------------------------------------------------------------------------------
+
+GameWorld
+	- Has one Physics World
+	- Has one room specifically for the "start" of the world
+		- Here you can get to the all the other rooms
+		- The player will be initialized from this room's player entity object
+	- Has multiple GameRooms, loaded on the fly
+		- There is only one GameRoom loaded at once, so that we don't have to manually reset everything when you exit
+		- Need to move the entities/script maps/lists to that class
+		- You will need to add a player entity to each room
+		- Each room will just alter the position of that player entity, when loaded
 	
 ---------------------------------------------------------------------------------------------------------------
 
@@ -36,6 +49,7 @@ Room 2:
 
 ---------------------------------------------------------------------------------------------------------------
 
+- Add more entityExistsAt functions
 - How to do smooth scrolling with non-unit movement path pieces?
 	- Break non-unit pieces into multiple unit movements?
 - How to check for collisions with terrain?

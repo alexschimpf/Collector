@@ -4,7 +4,6 @@ import misc.Globals;
 import misc.Vector2Pool;
 import particle.ParticleEffect;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -99,7 +98,7 @@ public final class PlayerShot extends Entity {
 	}
 	
 	public void shoot() {
-		Globals.getGameWorld().addEntity(this);
+		Globals.getCurrentRoom().addEntity(this);
 		
 		Player player = Globals.getPlayer();
 

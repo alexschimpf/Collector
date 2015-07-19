@@ -49,6 +49,11 @@ public class MovingEntity extends Entity {
 		return super.update();
 	}
 	
+	@Override
+	public boolean isValidForPlayerRespawn() {
+		return false;
+	}
+	
 	public void start() {
 		pathPos = 0;
 		updateVelocity();

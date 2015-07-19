@@ -51,6 +51,7 @@ public class ParticleEffect implements IRender, IUpdate {
 		
 	}
 	
+	@Override
 	public ParticleEffect clone() {
 		ParticleEffect particleEffect = new ParticleEffect();
 		particleEffect.imageKey = imageKey;
@@ -156,23 +157,31 @@ public class ParticleEffect implements IRender, IUpdate {
 	}
 	
 	public void minMaxSize(Float x, Float y) {
-		this.minMaxSize.set(x, y);
+		minMaxSize.set(x, y);
 	}
 	
 	public void minMaxDuration(Float x, Float y) {
-		this.minMaxDuration.set(x, y);
+		minMaxDuration.set(x, y);
 	}
 	
 	public void minMaxParticles(Float x, Float y) {
-		this.minMaxParticles.set(x, y);
+		minMaxParticles.set(x, y);
 	}
 	
 	public void minVelocity(Float x, Float y) {
-		this.minVelocity.set(x, y);
+		minVelocity.set(x, y);
 	}
 	
 	public void maxVelocity(Float x, Float y) {
-		this.maxVelocity.set(x, y);
+		maxVelocity.set(x, y);
+	}
+	
+	public void minOffsets(Float x, Float y) {
+		minOffsets.set(x, y);
+	}
+	
+	public void maxOffsets(Float x, Float y) {
+		maxOffsets.set(x, y);
 	}
 	
 	public void velocitySplits(Float x, Float y) {

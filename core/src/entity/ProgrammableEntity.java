@@ -1,18 +1,16 @@
 package entity;
 
 import misc.Globals;
-import misc.IInteractive;
 import misc.Utils;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
-import core.GameWorld;
+import core.GameRoom;
 import entity.special.Player;
 
 public final class ProgrammableEntity extends Entity {
@@ -125,22 +123,22 @@ public final class ProgrammableEntity extends Entity {
 	}
 
 	private boolean isMoveValid() {
-		GameWorld world = Globals.getGameWorld();
+		GameRoom currRoom = Globals.getCurrentRoom();
 		
 		float newTop, newLeft;
 		switch(state) {
 			case DOWN:
 				newTop = getTop() + Globals.getTileSize();
-				return !world.isEntityAt(getLeft(), newTop, getWidth(), getHeight(), this) && newTop <= DOWN_LIMIT;
+				return !currRoom.isEntityAt(getLeft(), newTop, getWidth(), getHeight(), this) && newTop <= DOWN_LIMIT;
 			case LEFT:
 				newLeft = getLeft() - Globals.getTileSize();
-				return !world.isEntityAt(newLeft, getTop(), getWidth(), getHeight(), this) && newLeft >= LEFT_LIMIT;
+				return !currRoom.isEntityAt(newLeft, getTop(), getWidth(), getHeight(), this) && newLeft >= LEFT_LIMIT;
 			case RIGHT:
 				newLeft = getLeft() + Globals.getTileSize();
-				return !world.isEntityAt(newLeft, getTop(), getWidth(), getHeight(), this) && newLeft <= RIGHT_LIMIT;
+				return !currRoom.isEntityAt(newLeft, getTop(), getWidth(), getHeight(), this) && newLeft <= RIGHT_LIMIT;
 			case UP:
 				newTop = getTop() - Globals.getTileSize();
-				return !world.isEntityAt(getLeft(), newTop, getWidth(), getHeight(), this) && newTop >= UP_LIMIT;
+				return !currRoom.isEntityAt(getLeft(), newTop, getWidth(), getHeight(), this) && newTop >= UP_LIMIT;
 			default:
 				return false;
 		}
@@ -165,7 +163,7 @@ public final class ProgrammableEntity extends Entity {
 	
 	private void deactivateOthers() {
 		for(String otherId : OTHER_IDS) {
-			ProgrammableEntity other = (ProgrammableEntity)Globals.getGameWorld().getEntityById(otherId);
+			ProgrammableEntity other = (ProgrammableEntity)Globals.getCurrentRoom().getEntityById(otherId);
 			other.deactivate();
 		}
 	}
