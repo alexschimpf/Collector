@@ -44,6 +44,8 @@ public final class GameWorld implements IRender, IUpdate {
 	@Override
 	public void render(SpriteBatch spriteBatch) {
 		currRoom.render(spriteBatch);
+		
+		player.render(spriteBatch);
 	}
 	
 	@Override

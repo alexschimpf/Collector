@@ -35,7 +35,9 @@ public class GameRoom implements IRender, IUpdate {
 	@Override
 	public void render(SpriteBatch spriteBatch) {
 		for(Entity entity : getEntities()) {
-			entity.render(spriteBatch);
+			if(!entity.getType().equals("player")) {
+				entity.render(spriteBatch);
+			}
 		}
 	}
 	

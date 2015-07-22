@@ -5,6 +5,7 @@ import misc.Utils;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class DiscreteMovingEntity extends Entity implements IMovingEntity {
 
 	protected boolean RESTART_ON_BLOCKED;
+	protected final int[] ROTATIONS;
 	protected final Array<Vector2> PATH;
 	
 	protected float[] intervals;
@@ -22,6 +24,7 @@ public class DiscreteMovingEntity extends Entity implements IMovingEntity {
 	public DiscreteMovingEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);
 		
+		ROTATIONS = Utils.getPropertyIntArray(object, "rotations", ",");
 		RESTART_ON_BLOCKED = Utils.getPropertyBoolean(object, "restart_on_blocked");
 
 		intervals = Utils.getPropertyFloatArray(object, "intervals", ",");
@@ -60,6 +63,11 @@ public class DiscreteMovingEntity extends Entity implements IMovingEntity {
 	}
 	
 	@Override
+	public void pause() {
+		started = false;
+	}
+	
+	@Override
 	public void setPath(String[] serializedPath) {
 		pathPos = 0;
 		PATH.clear();
@@ -91,6 +99,14 @@ public class DiscreteMovingEntity extends Entity implements IMovingEntity {
 	}
 
 	protected void checkNextMove() {
+		if(ROTATIONS.length > 0) {
+			int angleDeg = ROTATIONS[pathPos] * 90;
+			float angleRad = MathUtils.degreesToRadians * angleDeg;
+			if(body.getAngle() != angleRad) {
+				setRotation(angleRad);
+			}
+		}
+		
 		float interval = intervals[pathPos];		
 		if(TimeUtils.timeSinceMillis(lastMoveTime) > interval) {
 			int nextPathPos = getNextPathPos();

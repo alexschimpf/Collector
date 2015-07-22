@@ -37,6 +37,8 @@ New room ideas:
 - Moving heavy blocks around
 - Keys to unlock doors
 - Different variations of moving blocks, and ones that can crush you
+- Diff state machine variations
+- Fatal lasers
 - 
 
 Room 4:
@@ -45,6 +47,7 @@ Room 4:
 - Moving entities that can crush you
 - Blocking a moving entity to force it to stick there, then using it as a stepping stone
 - Moving blocks that can fit through a space, but you have to get off and get back on when it next isn't blocked off
+- Moving blocks that rotate as they move, discretely or continuously
 
 ---------------------
 

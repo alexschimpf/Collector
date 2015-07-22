@@ -77,6 +77,12 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 	}
 	
 	@Override
+	public void pause() {
+		started = false;
+		setLinearVelocity(0, 0);
+	}
+	
+	@Override
 	public void setPath(String[] serializedPath) {
 		pathPos = 0;
 		PATH.clear();

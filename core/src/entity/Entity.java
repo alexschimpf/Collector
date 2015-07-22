@@ -166,6 +166,15 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 		});
 	}
 	
+	public void setRotation(final float angle) {
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				body.setTransform(getCenterX(), getCenterY(), angle);
+			}
+		});
+	}
+	
 	public void setLinearVelocity(float vx, float vy) {
 		body.setLinearVelocity(vx, vy);
 	}
