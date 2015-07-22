@@ -164,6 +164,10 @@ public class GameRoom implements IRender, IUpdate {
 		Rectangle b = new Rectangle();
 		
 		for(Entity entity : getEntities()) {
+			if(!entity.isActive() || !entity.isVisible()) {
+				continue;
+			}
+			
 			if(ignoreEntity != null && entity.equals(ignoreEntity)) {
 				continue;
 			}

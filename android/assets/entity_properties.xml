@@ -88,16 +88,31 @@
             </optional>
         </entity>
         
-        <!-- Moving -->
-        <entity type="moving" class="entity.MovingEntity" >
+        <!-- Smooth Moving -->
+        <entity type="smooth_moving" class="entity.SmoothMovingEntity" >
             <required>
                 <property name="path" note="format: (dx,dy) (dx,dy) ..." />
-                <property name="interval" />
+                <property name="intervals" note="should be one LESS than # of path elements" />
             </required>
             <optional>
-				<property name="fixed" default="false" />
 				<property name="loop" default="true" />
 				<property name="start_on_create" default="false" />
+				<property name="is_fatal" default="false" />
+            </optional>
+            <override>
+                <property name="body_type" value="kinematic" />
+            </override>
+        </entity>
+        
+        <!-- Discrete Moving -->
+        <entity type="discrete_moving" class="entity.DiscreteMovingEntity" >
+            <required>
+                <property name="path" note="format: (dx,dy) (dx,dy) ..." />
+                <property name="intervals" note="should be one MORE than # of path elements" />
+            </required>
+            <optional>
+				<property name="start_on_create" default="false" />
+				<property name="restart_on_blocked" default="false" />
             </optional>
             <override>
                 <property name="body_type" value="kinematic" />

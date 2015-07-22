@@ -5,12 +5,15 @@ import misc.Utils;
 
 import com.badlogic.gdx.maps.MapObject;
 
-import entity.MovingEntity;
+import entity.IMovingEntity;
+import entity.SmoothMovingEntity;
 
 public final class MoveEntityScript extends Script {
 
-	private String TARGET_ID;
-	private String[] SERIALIZED_PATH;
+	private final String TARGET_ID;
+	
+	private String[] serializedPath;
+	private float[] intervals;
 	
 	protected MoveEntityScript(MapObject object) {
 		super(object);
@@ -18,7 +21,11 @@ public final class MoveEntityScript extends Script {
 		TARGET_ID = Utils.getPropertyString(object, "target_id");
 		
 		if(Utils.propertyExists(object, "path")) {
-			SERIALIZED_PATH = Utils.getPropertyStringArray(object, "path", " ");
+			serializedPath = Utils.getPropertyStringArray(object, "path", " ");
+		}
+		
+		if(Utils.propertyExists(object, "intervals")) {
+			intervals = Utils.getPropertyFloatArray(object, "intervals", ",");
 		}
 	}
 
@@ -29,10 +36,14 @@ public final class MoveEntityScript extends Script {
 	
 	@Override
 	public void onStart() {
-		MovingEntity entity = (MovingEntity)Globals.getCurrentRoom().getEntityById(TARGET_ID);
+		IMovingEntity entity = (IMovingEntity)Globals.getCurrentRoom().getEntityById(TARGET_ID);
 		
-		if(SERIALIZED_PATH != null) {
-			entity.setPath(SERIALIZED_PATH);
+		if(serializedPath != null) {
+			entity.setPath(serializedPath);
+		}
+		
+		if(intervals != null) {
+			entity.setIntervals(intervals);
 		}
 		
 		entity.start();

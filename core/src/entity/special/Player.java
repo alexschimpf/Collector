@@ -90,7 +90,7 @@ public final class Player extends Entity {
 		
 		// TODO: Remove this... maybe.
 		if(getLinearVelocity().y > 50) {
-			respawn(false);
+			respawn(false, null);
 		}
 			
 		return super.update();
@@ -183,6 +183,60 @@ public final class Player extends Entity {
 		}, lowerX, getTop() + correction, upperX, getBottom() - correction);
 	}
 	
+	public void respawn(boolean collided, final Vector2 respawnPos) {
+		if(isRespawning) {
+			return;
+		}
+ 		
+		isRespawning = true;
+		
+		Globals.state = State.PAUSED;
+		
+		if(collided) {
+			Globals.getSoundManager().playSound("die");
+			startDieParticleEffect();
+		}
+		
+		setVisible(false);
+		setLinearVelocity(0, 0);
+		
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				body.setActive(false);
+			}		
+		});
+		
+		float respawnDelay = collided ? 1 : 0;
+		Timer timer = new Timer();
+		timer.scheduleTask(new Task() {
+			@Override
+			public void run() {
+				isRespawning = false;
+				
+				Globals.getSoundManager().playSound("transport");
+				
+				isFacingRight = isLastValidDirectionRight;
+				ANIMATION_SYSTEM.switchToDefault();
+				
+				body.setActive(true);
+				
+				if(respawnPos != null) {
+					lastActualPos.set(respawnPos.x, respawnPos.y);
+					setPosition(respawnPos.x, respawnPos.y);
+				} else {
+					lastActualPos.set(lastValidPos.x, lastValidPos.y);
+					setPosition(lastValidPos.x, lastValidPos.y);
+				}
+
+				
+				setVisible(true);
+				
+				Globals.state = State.RUNNING;
+			}
+		}, respawnDelay);
+	}
+	
 	public boolean isFacingRight() {
 		return isFacingRight;
 	}
@@ -215,7 +269,7 @@ public final class Player extends Entity {
 		Entity entity = Utils.getEntity(fixture);
 		BodyType bodyType = fixture.getBody().getType();
 		if(!isJumping && getCenterY() - lastActualPos.y > FALL_HEIGHT_LIMIT) {
-			respawn(true);
+			respawn(true, null);
 		} else if(numFootContacts >= 1 && !fixture.isSensor()) {	 
 			if(bodyType != BodyType.DynamicBody && (bodyType != BodyType.KinematicBody || entity.getBody().getLinearVelocity().isZero()) &&
 			  (entity == null || entity.isValidForPlayerRespawn())) {
@@ -323,50 +377,6 @@ public final class Player extends Entity {
 	
 	private boolean isMoveAnimationPlaying() {
 		return ANIMATION_SYSTEM.getAnimationKey().equals("move") && ANIMATION_SYSTEM.isPlaying();
-	}
-	
-	public void respawn(boolean collided) {
-		if(isRespawning) {
-			return;
-		}
- 		
-		isRespawning = true;
-		
-		Globals.state = State.PAUSED;
-		
-		if(collided) {
-			Globals.getSoundManager().playSound("die");
-			startDieParticleEffect();
-		}
-		
-		setVisible(false);
-		setLinearVelocity(0, 0);
-		
-		Gdx.app.postRunnable(new Runnable() {
-			@Override
-			public void run() {
-				body.setActive(false);
-			}		
-		});
-		
-		Timer timer = new Timer();
-		timer.scheduleTask(new Task() {
-			@Override
-			public void run() {
-				isRespawning = false;
-				
-				Globals.getSoundManager().playSound("transport");
-				
-				isFacingRight = isLastValidDirectionRight;
-				ANIMATION_SYSTEM.switchToDefault();
-				lastActualPos.set(lastValidPos.x, lastValidPos.y);
-				body.setActive(true);
-				setPosition(lastValidPos.x, lastValidPos.y);
-				setVisible(true);
-				
-				Globals.state = State.RUNNING;
-			}
-		}, 1f);
 	}
 	
 	private void startDieParticleEffect() {

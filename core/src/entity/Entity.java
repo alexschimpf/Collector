@@ -29,6 +29,7 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	protected int numContacts = 0;
 	protected boolean markedDone = false;
 	protected boolean isVisible = true;
+	protected boolean isActive = true;
 	protected Body body;
 	protected Sprite sprite;
 	
@@ -139,6 +140,17 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	
 	public Vector2 getLeftTop() {
 		return LEFT_TOP.set(getLeft(), getTop());
+	}
+	
+	/**
+	 * Used in function isEntityAt(...).
+	 */
+	public boolean isActive() {
+		return isActive;
+	}
+	
+	public void setActive(boolean active) {
+		isActive = active;
 	}
 	
 	public boolean isVisible() {
