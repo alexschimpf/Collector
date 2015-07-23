@@ -22,9 +22,9 @@ public final class EntityPropertyValidator {
 	
 	private static EntityPropertyValidator instance;
 	
-	private final EntityProperties GLOBAL_PROPERTIES = new EntityProperties();
-	private final HashMap<String, EntityProperties> ENTITY_PROPERTIES_MAP = new HashMap<String, EntityProperties>();
-	private final HashMap<String, String> ENTITY_TYPE_CLASS_MAP = new HashMap<String, String>();
+	private final EntityProperties _globalProperties = new EntityProperties();
+	private final HashMap<String, EntityProperties> _entityPropertiesMap = new HashMap<String, EntityProperties>();
+	private final HashMap<String, String> _entityTypeClassMap = new HashMap<String, String>();
 	
 	public static EntityPropertyValidator getInstance() {
 		if(instance == null) {
@@ -38,7 +38,7 @@ public final class EntityPropertyValidator {
 		try {
 			XmlReader reader = new XmlReader();
 			Element root = reader.parse(Gdx.files.internal(CONFIG_FILENAME));
-			buildModel(root);
+			_buildModel(root);
 		} catch(Exception e) {
 			Gdx.app.error("collector", "EntityPropertyValidator", e);
 		}
@@ -47,7 +47,7 @@ public final class EntityPropertyValidator {
 	public Entity getEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		try {
 			String type = (String)object.getProperties().get("type");
-			String className = ENTITY_TYPE_CLASS_MAP.get(type);
+			String className = _entityTypeClassMap.get(type);
 			Class<?> c = Class.forName(className);
 			Constructor<?> constructor = c.getConstructor(EntityBodyDef.class, TextureMapObject.class, MapObject.class);
 			Entity entity = (Entity)constructor.newInstance(bodyDef, object, bodySkeleton);
@@ -61,11 +61,11 @@ public final class EntityPropertyValidator {
 	}
 	
 	public void validateAndProcess(String entityType, MapProperties mapProperties) {
-		if(!ENTITY_PROPERTIES_MAP.containsKey(entityType)) {
+		if(!_entityPropertiesMap.containsKey(entityType)) {
 			throw new NullPointerException("Entity type '" + entityType + "' is not supported");
 		}
 		
-		EntityProperties entityProperties = ENTITY_PROPERTIES_MAP.get(entityType);
+		EntityProperties entityProperties = _entityPropertiesMap.get(entityType);
 		
 		// Fill in override property values.
 		for(Entry<String, String> override : entityProperties.OVERRIDE_MAP.entrySet()) {
@@ -76,7 +76,7 @@ public final class EntityPropertyValidator {
 		
 		// Check to see if all required properties are set.
 		Array<String> requiredPropertyNames = entityProperties.getRequiredPropertyNames();		
-		requiredPropertyNames.addAll(GLOBAL_PROPERTIES.getRequiredPropertyNames());
+		requiredPropertyNames.addAll(_globalProperties.getRequiredPropertyNames());
 		for(String requiredPropertyName : requiredPropertyNames) {
 			if(!mapProperties.containsKey(requiredPropertyName)) {
 				throw new NullPointerException("Entity of type '" + entityType + "' does not have required property " + requiredPropertyName);
@@ -87,19 +87,19 @@ public final class EntityPropertyValidator {
 		Iterator<String> iter = mapProperties.getKeys();
 		while(iter.hasNext()) {
 			String propertyName = iter.next();
-			if(!GLOBAL_PROPERTIES.isPropertyNameValid(propertyName) && !entityProperties.isPropertyNameValid(propertyName)) {
+			if(!_globalProperties.isPropertyNameValid(propertyName) && !entityProperties.isPropertyNameValid(propertyName)) {
 				throw new NullPointerException("Entity of type '" + entityType + "' has invalid property " + propertyName);
 			}
 		}
 		
 		// Fill in missing optional properties with default values.
 		Array<String> optionalPropertyNames = entityProperties.getOptionalPropertyNames();
-		optionalPropertyNames.addAll(GLOBAL_PROPERTIES.getOptionalPropertyNames());
+		optionalPropertyNames.addAll(_globalProperties.getOptionalPropertyNames());
 		for(String optionalPropertyName : optionalPropertyNames) {
 			if(!mapProperties.containsKey(optionalPropertyName)) {
 				EntityProperty property;
-				if(GLOBAL_PROPERTIES.isPropertyNameValid(optionalPropertyName)) {
-					property = GLOBAL_PROPERTIES.getProperty(optionalPropertyName);
+				if(_globalProperties.isPropertyNameValid(optionalPropertyName)) {
+					property = _globalProperties.getProperty(optionalPropertyName);
 				} else {
 					property = entityProperties.getProperty(optionalPropertyName);
 				}
@@ -109,32 +109,32 @@ public final class EntityPropertyValidator {
 		}
 	}
 	
-	private void buildModel(Element root) {
-		fillGlobalProperties(root.getChildByName("global_properties"));
-		fillEntityProperties(root.getChildByName("entity_properties"));
+	private void _buildModel(Element root) {
+		_fillGlobalProperties(root.getChildByName("global_properties"));
+		_fillEntityProperties(root.getChildByName("entity_properties"));
 	}
 	
-	private void fillGlobalProperties(Element globalPropertiesRoot) {
+	private void _fillGlobalProperties(Element globalPropertiesRoot) {
 		Array<Element> requiredElems = globalPropertiesRoot.getChildByName("required").getChildrenByName("property");
 		for(Element elem : requiredElems) {
-			EntityProperty property = buildRequiredPropertyFromXML(elem);
-			GLOBAL_PROPERTIES.addProperty(property);
+			EntityProperty property = _buildRequiredPropertyFromXML(elem);
+			_globalProperties.addProperty(property);
 		}
 		
 		Array<Element> optionalElems = globalPropertiesRoot.getChildByName("optional").getChildrenByName("property");
 		for(Element elem : optionalElems) {
-			EntityProperty property = buildOptionalPropertyFromXML(elem);
-			GLOBAL_PROPERTIES.addProperty(property);
+			EntityProperty property = _buildOptionalPropertyFromXML(elem);
+			_globalProperties.addProperty(property);
 		}
 	}
 	
-	private void fillEntityProperties(Element entityPropertiesRoot) {
+	private void _fillEntityProperties(Element entityPropertiesRoot) {
 		Array<Element> entityElems = entityPropertiesRoot.getChildrenByName("entity");
 		
 		for(Element entityElem : entityElems) {
 			String entityType = entityElem.get("type");
 			String entityClass = entityElem.get("class");		
-			ENTITY_TYPE_CLASS_MAP.put(entityType, entityClass);
+			_entityTypeClassMap.put(entityType, entityClass);
 					
 			EntityProperties properties = new EntityProperties();
 			
@@ -142,7 +142,7 @@ public final class EntityPropertyValidator {
 			if(requiredChild != null) {
 				Array<Element> requiredElems = requiredChild.getChildrenByName("property");
 				for(Element elem : requiredElems) {
-					EntityProperty property = buildRequiredPropertyFromXML(elem);
+					EntityProperty property = _buildRequiredPropertyFromXML(elem);
 					properties.addProperty(property);
 				}
 			}
@@ -151,7 +151,7 @@ public final class EntityPropertyValidator {
 			if(optionalChild != null) {
 				Array<Element> optionalElems = optionalChild.getChildrenByName("property");
 				for(Element elem : optionalElems) {
-					EntityProperty property = buildOptionalPropertyFromXML(elem);
+					EntityProperty property = _buildOptionalPropertyFromXML(elem);
 					properties.addProperty(property);
 				}
 				
@@ -167,17 +167,17 @@ public final class EntityPropertyValidator {
 				}
 			}
 
-			ENTITY_PROPERTIES_MAP.put(entityType, properties);
+			_entityPropertiesMap.put(entityType, properties);
 		}
 	}
 	
-	private EntityProperty buildRequiredPropertyFromXML(Element elem) {
+	private EntityProperty _buildRequiredPropertyFromXML(Element elem) {
 		String name = elem.get("name");
 		String note = elem.get("note", "");
 		return new EntityProperty(name, true, null, note);
 	}
 	
-	private EntityProperty buildOptionalPropertyFromXML(Element elem) {
+	private EntityProperty _buildOptionalPropertyFromXML(Element elem) {
 		String name = elem.get("name");
 		String defaultValue = elem.get("default");
 		String note = elem.get("note", "");

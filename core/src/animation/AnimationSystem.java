@@ -13,20 +13,19 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public final class AnimationSystem implements IRender, IUpdate, IAnimate {
 	
-	private final HashMap<String, Animation> ANIMATION_MAP  = new HashMap<String, Animation>();
-
-	private final Sprite DEFAULT_SPRITE = new Sprite();
+	private final HashMap<String, Animation> _animationMap = new HashMap<String, Animation>();
+	private final Sprite _defaultSprite = new Sprite();
 	
-	private boolean useDefault = false;
-	private Animation animation;
+	private boolean _useDefault = false;
+	private Animation _animation;
 	
 	public AnimationSystem() {	
 	}
  	
 	public AnimationSystem(TextureRegion defaultRegion, float width, float height) {
 		if(defaultRegion != null) {
-			DEFAULT_SPRITE.setRegion(defaultRegion);
-			DEFAULT_SPRITE.setSize(width, height);
+			_defaultSprite.setRegion(defaultRegion);
+			_defaultSprite.setSize(width, height);
 		}
 	}
 	
@@ -34,31 +33,31 @@ public final class AnimationSystem implements IRender, IUpdate, IAnimate {
 		HashMap<String, Integer> suffixMap  = new HashMap<String, Integer>();
 		for(Animation animation : animations) {
 			String key = animation.getKey();
-			if(ANIMATION_MAP.containsKey(key)) {
+			if(_animationMap.containsKey(key)) {
 				int suffix = suffixMap.get(key);
 				animation.setKey(key + "_" + suffix);
-				ANIMATION_MAP.put(key + "_" + suffix, animation);
+				_animationMap.put(key + "_" + suffix, animation);
 				suffixMap.put(key, suffix + 1);
 			} else {
-				ANIMATION_MAP.put(key, animation);
+				_animationMap.put(key, animation);
 				suffixMap.put(key, 2);
 			}
 		}
 		
-		animation = animations[0];
+		_animation = animations[0];
 		
 		if(defaultRegion != null) {
-			DEFAULT_SPRITE.setRegion(defaultRegion);
-			DEFAULT_SPRITE.setSize(animation.getWidth(), animation.getHeight());
+			_defaultSprite.setRegion(defaultRegion);
+			_defaultSprite.setSize(_animation.getWidth(), _animation.getHeight());
 		}
 	}
 	
 	@Override
 	public boolean update() {
-		animation.update();
+		_animation.update();
 		
-		if(animation.isFinished() && DEFAULT_SPRITE.getTexture() != null) {
-			useDefault = true;
+		if(_animation.isFinished() && _defaultSprite.getTexture() != null) {
+			_useDefault = true;
 		}
 		
 		return false;
@@ -71,17 +70,17 @@ public final class AnimationSystem implements IRender, IUpdate, IAnimate {
 
 	@Override
 	public void render(SpriteBatch spriteBatch) {
-		animation.render(spriteBatch);
+		_animation.render(spriteBatch);
 	}
 	
 	/**
 	 * This should only be used if this animation has a unique key.
 	 */
 	public void addAnimation(Animation animation) {
-		ANIMATION_MAP.put(animation.getKey(), animation);
+		_animationMap.put(animation.getKey(), animation);
 		
-		if(this.animation == null) {
-			this.animation = animation;
+		if(this._animation == null) {
+			this._animation = animation;
 		}
 	}
 	
@@ -89,108 +88,108 @@ public final class AnimationSystem implements IRender, IUpdate, IAnimate {
 	 * This should only be used if this animation has a unique key.
 	 */
 	public void removeAnimation(Animation animation) {
-		ANIMATION_MAP.remove(animation.getKey());
+		_animationMap.remove(animation.getKey());
 	}
 	
 	public void addAnimation(String key, Animation animation) {
 		animation.setKey(key);
-		ANIMATION_MAP.put(key, animation);
+		_animationMap.put(key, animation);
 		
-		if(this.animation == null) {
-			this.animation = animation;
+		if(this._animation == null) {
+			this._animation = animation;
 		}
 	}
 	
 	public void removeAnimation(String key) {
-		ANIMATION_MAP.remove(key);
+		_animationMap.remove(key);
 	}
 	
 	public void setDefaultSprite(String imageKey, float width, float height) {
 		TextureRegion defaultRegion = Globals.getImageTexture(imageKey);
-		DEFAULT_SPRITE.setRegion(defaultRegion);
-		DEFAULT_SPRITE.setSize(width, height);
+		_defaultSprite.setRegion(defaultRegion);
+		_defaultSprite.setSize(width, height);
 	}
 	
 	@Override
 	public Sprite getSprite() {
-		if(useDefault) {
-			return DEFAULT_SPRITE;
+		if(_useDefault) {
+			return _defaultSprite;
 		}
 		
-		return animation.getSprite();
+		return _animation.getSprite();
 	}
 	
 	public Animation getAnimation() {
-		return animation;
+		return _animation;
 	}
 	
 	public String getAnimationKey() {
-		return animation.getKey();
+		return _animation.getKey();
 	}
 
 	public void flipSprite(boolean hor, boolean vert) {
-		if(useDefault) {
-			DEFAULT_SPRITE.setFlip(hor, vert);
+		if(_useDefault) {
+			_defaultSprite.setFlip(hor, vert);
 		} else {
-			animation.flipSprite(hor, vert);
+			_animation.flipSprite(hor, vert);
 		}
 	}
 	
 	public void switchToDefault() {
 		stop();
-		useDefault = true;
+		_useDefault = true;
 	}
 	
 	public void switchAnimation(String key, boolean pauseCurrent, boolean playOnSwitch) {
-		useDefault = false;
+		_useDefault = false;
 		
 		if(pauseCurrent) {
-			animation.pause();
+			_animation.pause();
 		}
 		
-		animation = ANIMATION_MAP.get(key);
+		_animation = _animationMap.get(key);
 		if(playOnSwitch) {
-			animation.play();
+			_animation.play();
 		}
 	}
 	
 	@Override
 	public void play() {
-		animation.play();
+		_animation.play();
 	}
 
 	@Override
 	public void resume() {
-		animation.resume();
+		_animation.resume();
 	}
 
 	@Override
 	public void pause() {
-		animation.pause();
+		_animation.pause();
 	}
 
 	@Override
 	public void stop() {
-		animation.stop();
+		_animation.stop();
 	}
 
 	@Override
 	public State getState() {
-		return animation.getState();
+		return _animation.getState();
 	}
 
 	@Override
 	public boolean isPlaying() {
-		return animation.isPlaying();
+		return _animation.isPlaying();
 	}
 
 	@Override
 	public boolean isPaused() {
-		return animation.isPaused();
+		return _animation.isPaused();
 	}
 
 	@Override
 	public boolean isFinished() {
-		return animation.isFinished();
+		return _animation.isFinished();
 	}
 }

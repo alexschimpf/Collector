@@ -12,29 +12,29 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class DiscreteMovingEntity extends Entity implements IMovingEntity {
 
-	protected boolean RESTART_ON_BLOCKED;
-	protected final int[] ROTATIONS;
-	protected final Array<Vector2> PATH;
+	protected boolean _restartOnBlocked;
+	protected final int[] _rotations;
+	protected final Array<Vector2> _path;
 	
-	protected float[] intervals;
-	protected long lastMoveTime;
-	protected int pathPos;
-	protected boolean started = false;
+	protected float[] _intervals;
+	protected long _lastMoveTime;
+	protected int _pathPos;
+	protected boolean _started = false;
 	
 	public DiscreteMovingEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);
 		
-		ROTATIONS = Utils.getPropertyIntArray(object, "rotations", ",");
-		RESTART_ON_BLOCKED = Utils.getPropertyBoolean(object, "restart_on_blocked");
+		_rotations = Utils.getPropertyIntArray(object, "rotations", ",");
+		_restartOnBlocked = Utils.getPropertyBoolean(object, "restart_on_blocked");
 
-		intervals = Utils.getPropertyFloatArray(object, "intervals", ",");
+		_intervals = Utils.getPropertyFloatArray(object, "intervals", ",");
 		
 		String[] path = Utils.getPropertyStringArray(object, "path", " ");
-		PATH = buildPath(path);
+		_path = _buildPath(path);
 		
-		started = Utils.getPropertyBoolean(object, "start_on_create");
+		_started = Utils.getPropertyBoolean(object, "start_on_create");
 		
-		if(started) {
+		if(_started) {
 			start();
 		}
 	}
@@ -46,40 +46,40 @@ public class DiscreteMovingEntity extends Entity implements IMovingEntity {
 
 	@Override
 	public boolean update() {
-		if(!started) {
+		if(!_started) {
 			return super.update();
 		}
 		
-		checkNextMove();
+		_checkNextMove();
 		
 		return super.update();
 	}
 	
 	@Override
 	public void start() {
-		pathPos = 0;
-		lastMoveTime = TimeUtils.millis();
-		started = true;
+		_pathPos = 0;
+		_lastMoveTime = TimeUtils.millis();
+		_started = true;
 	}
 	
 	@Override
 	public void pause() {
-		started = false;
+		_started = false;
 	}
 	
 	@Override
 	public void setPath(String[] serializedPath) {
-		pathPos = 0;
-		PATH.clear();
-		PATH.addAll(buildPath(serializedPath));
+		_pathPos = 0;
+		_path.clear();
+		_path.addAll(_buildPath(serializedPath));
 	}
 	
 	@Override
 	public void setIntervals(float[] intervals) {
-		this.intervals = intervals;
+		this._intervals = intervals;
 	}
 	
-	protected Array<Vector2> buildPath(String[] serializedPath) {
+	protected Array<Vector2> _buildPath(String[] serializedPath) {
 		Array<Vector2> path = new Array<Vector2>();
 		
 		float x = getLeft();
@@ -98,34 +98,34 @@ public class DiscreteMovingEntity extends Entity implements IMovingEntity {
 		return path;
 	}
 
-	protected void checkNextMove() {
-		if(ROTATIONS.length > 0) {
-			int angleDeg = ROTATIONS[pathPos] * 90;
+	protected void _checkNextMove() {
+		if(_rotations.length > 0) {
+			int angleDeg = _rotations[_pathPos] * 90;
 			float angleRad = MathUtils.degreesToRadians * angleDeg;
-			if(body.getAngle() != angleRad) {
+			if(_body.getAngle() != angleRad) {
 				setRotation(angleRad);
 			}
 		}
 		
-		float interval = intervals[pathPos];		
-		if(TimeUtils.timeSinceMillis(lastMoveTime) > interval) {
-			int nextPathPos = getNextPathPos();
+		float interval = _intervals[_pathPos];		
+		if(TimeUtils.timeSinceMillis(_lastMoveTime) > interval) {
+			int nextPathPos = _getNextPathPos();
 			
-			Vector2 nextPos = PATH.get(nextPathPos);
+			Vector2 nextPos = _path.get(nextPathPos);
 			if(!Globals.getCurrentRoom().isEntityAt(nextPos.x, nextPos.y, getWidth(), getHeight())) {
 				setPosition(nextPos.x + (getWidth() / 2), nextPos.y + (getHeight() / 2));				
-				pathPos = nextPathPos;
-				lastMoveTime = TimeUtils.millis();
-			} else if(RESTART_ON_BLOCKED) {
-				nextPos = PATH.get(0);
+				_pathPos = nextPathPos;
+				_lastMoveTime = TimeUtils.millis();
+			} else if(_restartOnBlocked) {
+				nextPos = _path.get(0);
 				setPosition(nextPos.x + (getWidth() / 2), nextPos.y + (getHeight() / 2));				
-				pathPos = 0;
-				lastMoveTime = TimeUtils.millis();
+				_pathPos = 0;
+				_lastMoveTime = TimeUtils.millis();
 			}
 		}
 	}
 	
-	protected int getNextPathPos() {
-		return (pathPos + 1) % PATH.size;
+	protected int _getNextPathPos() {
+		return (_pathPos + 1) % _path.size;
 	}
 }

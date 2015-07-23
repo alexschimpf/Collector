@@ -14,10 +14,10 @@ public final class MusicManager {
 
 	private static MusicManager instance;
 	
-	private final HashMap<String, Music> MUSIC_MAP = new HashMap<String, Music>();
-	private final Array<Music> MUSIC_QUEUE = new Array<Music>();
+	private final HashMap<String, Music> _musicMap = new HashMap<String, Music>();
+	private final Array<Music> _musicQueue = new Array<Music>();
 	
-	private Music currMusic;
+	private Music _currMusic;
 	
 	public static MusicManager getInstance() {
 		if(instance == null) {
@@ -37,72 +37,72 @@ public final class MusicManager {
 	
 		for(FileHandle file : musicFiles) {
 			String filename = file.name();
-			addMusic(filename);
+			_addMusic(filename);
 		}
 	}
 	
 	public void setQueue(Array<String> keys) {
-		MUSIC_QUEUE.clear();
+		_musicQueue.clear();
 		
 		for(String key : keys) {
-			Music music = MUSIC_MAP.get(key);
-			MUSIC_QUEUE.add(music);
+			Music music = _musicMap.get(key);
+			_musicQueue.add(music);
 		}
 	}
 	
 	
 	public void playQueue(float volume, boolean shuffle) {
-		if(currMusic != null) {
-			currMusic.stop();
+		if(_currMusic != null) {
+			_currMusic.stop();
 		}
 		
 		if(shuffle) {
-			MUSIC_QUEUE.shuffle();
+			_musicQueue.shuffle();
 		}
 		
-		for(Music music : MUSIC_QUEUE) {
+		for(Music music : _musicQueue) {
 			music.setVolume(volume);
 			
 			music.setOnCompletionListener(new OnCompletionListener() {
 				@Override
 				public void onCompletion(Music music) {
-					playNext();
+					_playNext();
 				}				
 			});
 		}
 		
-		playNext();
+		_playNext();
 	}
 	
 	public void play(String key, float volume, boolean loop) {
-		if(currMusic != null) {
-			currMusic.stop();
+		if(_currMusic != null) {
+			_currMusic.stop();
 		}
 		
-		currMusic = MUSIC_MAP.get(key);
-		currMusic.setVolume(volume);
-		currMusic.setLooping(loop);
-		currMusic.play();
+		_currMusic = _musicMap.get(key);
+		_currMusic.setVolume(volume);
+		_currMusic.setLooping(loop);
+		_currMusic.play();
 	}
 	
 	public void pause() {
-		currMusic.pause();
+		_currMusic.pause();
 	}
 	
 	public void stop() {
-		currMusic.stop();
+		_currMusic.stop();
 	}
 	
-	private void playNext() {
-		currMusic = MUSIC_QUEUE.removeIndex(0);
-		MUSIC_QUEUE.add(currMusic);
+	private void _playNext() {
+		_currMusic = _musicQueue.removeIndex(0);
+		_musicQueue.add(_currMusic);
 		
-		currMusic.play();
+		_currMusic.play();
 	}
 
-	private void addMusic(String filename) {
+	private void _addMusic(String filename) {
 		Music music = Gdx.audio.newMusic(Gdx.files.internal("music/" + filename));
 		String key = filename.substring(0, filename.lastIndexOf('.'));
-		MUSIC_MAP.put(key, music);
+		_musicMap.put(key, music);
 	}
 }

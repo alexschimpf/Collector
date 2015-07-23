@@ -19,14 +19,14 @@ public final class ProgrammableEntity extends Entity {
 		LEFT, RIGHT, UP, DOWN, NONE
 	}
 	
-	private final float LEFT_LIMIT;
-	private final float RIGHT_LIMIT;
-	private final float UP_LIMIT;
-	private final float DOWN_LIMIT;
-	private final Vector2 ORIG_POS = new Vector2();
-	private final String[] OTHER_IDS;
+	private final float _leftLimit;
+	private final float _rightLimit;
+	private final float _upLimit;
+	private final float _downLimit;
+	private final Vector2 _origPos = new Vector2();
+	private final String[] _otherIds;
 	
-	private MoveState state;
+	private MoveState _state;
 	
 	public ProgrammableEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);
@@ -36,15 +36,15 @@ public final class ProgrammableEntity extends Entity {
 		int maxUp = Utils.getPropertyInt(object, "max_up");
 		int maxDown = Utils.getPropertyInt(object, "max_down");
 		
-		LEFT_LIMIT = getLeft() - (maxLeft * Globals.getTileSize());
-		RIGHT_LIMIT = getLeft() + (maxRight * Globals.getTileSize());
-		UP_LIMIT = getTop() - (maxUp * Globals.getTileSize());
-		DOWN_LIMIT = getTop() + (maxDown * Globals.getTileSize());
+		_leftLimit = getLeft() - (maxLeft * Globals.getTileSize());
+		_rightLimit = getLeft() + (maxRight * Globals.getTileSize());
+		_upLimit = getTop() - (maxUp * Globals.getTileSize());
+		_downLimit = getTop() + (maxDown * Globals.getTileSize());
 		
-		state = MoveState.NONE;		
-		ORIG_POS.set(bodyDef.position);
+		_state = MoveState.NONE;		
+		_origPos.set(bodyDef.position);
 		
-		OTHER_IDS = Utils.getPropertyStringArray(object, "other_ids", ",");
+		_otherIds = Utils.getPropertyStringArray(object, "other_ids", ",");
 	}
 	
 	@Override
@@ -54,7 +54,7 @@ public final class ProgrammableEntity extends Entity {
 	
 	@Override
 	public boolean update() {
-		if(isPlayerTouching()) {
+		if(_isPlayerTouching()) {
 			onBeginContact(null, Globals.getPlayer());
 		}
 		
@@ -71,26 +71,26 @@ public final class ProgrammableEntity extends Entity {
 		float width = getWidth();
 		float playerX = entity.getCenterX();
 		if(playerX < LEFT + (width / 4)) {
-			state = MoveState.LEFT;
+			_state = MoveState.LEFT;
 		} else if(playerX < LEFT + (width / 2)) {
-			state = MoveState.DOWN;
+			_state = MoveState.DOWN;
 		} else if(playerX < LEFT + ((3.0f / 4.0f) * width)) {
-			state = MoveState.UP;
+			_state = MoveState.UP;
 		} else {
-			state = MoveState.RIGHT;
+			_state = MoveState.RIGHT;
 		}
 		
-		updateSprite();
-		deactivateOthers();
+		_updateSprite();
+		_deactivateOthers();
 	}
 	
 	public void move() {
-		if(!isMoveValid()) {
+		if(!_isMoveValid()) {
 			return;
 		}
 		
 		float amt = getHeight();
-		switch(state) {
+		switch(_state) {
 			case DOWN:
 				setPosition(getCenterX(), getCenterY() + amt);
 				break;
@@ -109,43 +109,43 @@ public final class ProgrammableEntity extends Entity {
 	}
 	
 	public void reset() {
-		state = MoveState.NONE;
-		setPosition(ORIG_POS.x, ORIG_POS.y);
+		_state = MoveState.NONE;
+		setPosition(_origPos.x, _origPos.y);
 	}
 	
 	public boolean isActivated() {
-		return state != MoveState.NONE;
+		return _state != MoveState.NONE;
 	}
 	
 	public void deactivate() {
-		state = MoveState.NONE;
-		updateSprite();
+		_state = MoveState.NONE;
+		_updateSprite();
 	}
 
-	private boolean isMoveValid() {
+	private boolean _isMoveValid() {
 		GameRoom currRoom = Globals.getCurrentRoom();
 		
 		float newTop, newLeft;
-		switch(state) {
+		switch(_state) {
 			case DOWN:
 				newTop = getTop() + Globals.getTileSize();
-				return !currRoom.isEntityAt(getLeft(), newTop, getWidth(), getHeight(), this) && newTop <= DOWN_LIMIT;
+				return !currRoom.isEntityAt(getLeft(), newTop, getWidth(), getHeight(), this) && newTop <= _downLimit;
 			case LEFT:
 				newLeft = getLeft() - Globals.getTileSize();
-				return !currRoom.isEntityAt(newLeft, getTop(), getWidth(), getHeight(), this) && newLeft >= LEFT_LIMIT;
+				return !currRoom.isEntityAt(newLeft, getTop(), getWidth(), getHeight(), this) && newLeft >= _leftLimit;
 			case RIGHT:
 				newLeft = getLeft() + Globals.getTileSize();
-				return !currRoom.isEntityAt(newLeft, getTop(), getWidth(), getHeight(), this) && newLeft <= RIGHT_LIMIT;
+				return !currRoom.isEntityAt(newLeft, getTop(), getWidth(), getHeight(), this) && newLeft <= _rightLimit;
 			case UP:
 				newTop = getTop() - Globals.getTileSize();
-				return !currRoom.isEntityAt(getLeft(), newTop, getWidth(), getHeight(), this) && newTop >= UP_LIMIT;
+				return !currRoom.isEntityAt(getLeft(), newTop, getWidth(), getHeight(), this) && newTop >= _upLimit;
 			default:
 				return false;
 		}
 	}
 	
-	private int getStateIndex() {
-		switch(state) {
+	private int _getStateIndex() {
+		switch(_state) {
 			case NONE:
 				return 1;
 			case DOWN:
@@ -161,20 +161,20 @@ public final class ProgrammableEntity extends Entity {
 		}
 	}
 	
-	private void deactivateOthers() {
-		for(String otherId : OTHER_IDS) {
+	private void _deactivateOthers() {
+		for(String otherId : _otherIds) {
 			ProgrammableEntity other = (ProgrammableEntity)Globals.getCurrentRoom().getEntityById(otherId);
 			other.deactivate();
 		}
 	}
 	
-	private void updateSprite() {
-		int index = getStateIndex();
+	private void _updateSprite() {
+		int index = _getStateIndex();
 		TextureRegion textureRegion = Globals.getImageTexture("programmable", index);
-		sprite.setRegion(textureRegion);
+		_sprite.setRegion(textureRegion);
 	}
 	
-    private boolean isPlayerTouching() {
+    private boolean _isPlayerTouching() {
     	Player player = Globals.getPlayer();
     	Fixture fixture = getBody().getFixtureList().get(0);
     	return fixture.testPoint(player.getCenterX(), player.getBottom());

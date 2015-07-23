@@ -40,11 +40,11 @@ public final class PlayerShot extends Entity {
 		
 		FIXTURE_DEF.shape = shape;
 		
-		createSprite(BODY_DEF, textureRegion);	
-		createBody(BODY_DEF, FIXTURE_DEF);
+		_createSprite(BODY_DEF, textureRegion);	
+		_createBodyFromDef(BODY_DEF, FIXTURE_DEF);
 		
-		body.setBullet(true);
-		body.setGravityScale(0);
+		_body.setBullet(true);
+		_body.setGravityScale(0);
 	}
 	
 	public static void shootShot() {
@@ -82,7 +82,7 @@ public final class PlayerShot extends Entity {
 	@Override
 	public void onBeginContact(Contact contact, Entity entity) {
 		if(entity == null) {
-			startContactParticleEffect();
+			_startContactParticleEffect();
 			markDone();
 			return;
 		}
@@ -93,7 +93,7 @@ public final class PlayerShot extends Entity {
 			return;
 		}
 		
-		startContactParticleEffect();
+		_startContactParticleEffect();
 		markDone();
 	}
 	
@@ -110,7 +110,7 @@ public final class PlayerShot extends Entity {
 		setLinearVelocity(vx, 0);
 	}
 	
-	private void startContactParticleEffect() {	
+	private void _startContactParticleEffect() {	
 		Vector2 v = getLinearVelocity();
 		float minVx = -v.x / 20;
 		float maxVx = -v.x / 15;

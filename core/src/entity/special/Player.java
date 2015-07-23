@@ -38,36 +38,36 @@ public final class Player extends Entity {
 	public static final float MASS = 5.69f;
 	public static final float FALL_HEIGHT_LIMIT = Globals.getTileSize() * 6f;
 	
-	private final AnimationSystem ANIMATION_SYSTEM = new AnimationSystem();
+	private final AnimationSystem _animationSystem = new AnimationSystem();
 	
-	private boolean isJumping = false;
-	private boolean isFacingRight = true;
-	private boolean isRespawning = false;
-	private int numFootContacts = 0;
-	private long lastShotTime = 0;
-	private long lastBlinkTime = TimeUtils.millis();
-	private float blinkPeriod = MathUtils.random(5000, 10000);
-	private Vector2 lastValidPos = new Vector2();
-	private Vector2 lastActualPos = new Vector2();
-	private boolean isLastValidDirectionRight = true;
+	private boolean _isJumping = false;
+	private boolean _isFacingRight = true;
+	private boolean _isRespawning = false;
+	private int _numFootContacts = 0;
+	private long _lastShotTime = 0;
+	private long _lastBlinkTime = TimeUtils.millis();
+	private float _blinkPeriod = MathUtils.random(5000, 10000);
+	private Vector2 _lastValidPos = new Vector2();
+	private Vector2 _lastActualPos = new Vector2();
+	private boolean _isLastValidDirectionRight = true;
 	
 	public Player(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		TextureRegion textureRegion = object.getTextureRegion();
-		createSprite(bodyDef, textureRegion);	
-		createBody(bodyDef, bodySkeleton);
+		_createSprite(bodyDef, textureRegion);	
+		_createBody(bodyDef, bodySkeleton);
 		
-		body.setBullet(true);
+		_body.setBullet(true);
 		
-		MassData massData = body.getMassData();
+		MassData massData = _body.getMassData();
 		massData.mass = MASS;
-		body.setMassData(massData);
+		_body.setMassData(massData);
 		
-		attachFootSensors(bodyDef);
+		_attachFootSensors(bodyDef);
 		
 		Filter filter = new Filter();
 		filter.categoryBits = 0x0001;
 		filter.maskBits = (short)~Globals.PLAYER_NO_COLLIDE_MASK;
-		body.getFixtureList().get(0).setFilterData(filter);
+		_body.getFixtureList().get(0).setFilterData(filter);
 	}
 
 	@Override
@@ -82,11 +82,11 @@ public final class Player extends Entity {
 	
 	@Override
 	public boolean update() {
-		tryBlink();
+		_tryBlink();
 		
-		ANIMATION_SYSTEM.update();
-		sprite = ANIMATION_SYSTEM.getSprite();
-		ANIMATION_SYSTEM.flipSprite(isFacingLeft(), true);
+		_animationSystem.update();
+		_sprite = _animationSystem.getSprite();
+		_animationSystem.flipSprite(isFacingLeft(), true);
 		
 		// TODO: Remove this... maybe.
 		if(getLinearVelocity().y > 50) {
@@ -97,7 +97,7 @@ public final class Player extends Entity {
 	}
 	
 	public boolean jump() {
-		if(isJumping) {
+		if(_isJumping) {
 			return false;
 		}
 
@@ -105,11 +105,11 @@ public final class Player extends Entity {
 
 		Globals.getSoundManager().playSound("jump");
 		
-		float x = body.getWorldCenter().x;
-		float y = body.getWorldCenter().y;
-		body.applyLinearImpulse(0, JUMP_IMPULSE, x, y, true);
+		float x = _body.getWorldCenter().x;
+		float y = _body.getWorldCenter().y;
+		_body.applyLinearImpulse(0, JUMP_IMPULSE, x, y, true);
 		
-		ANIMATION_SYSTEM.switchAnimation("jump", false, true);
+		_animationSystem.switchAnimation("jump", false, true);
 		
 		return true;
 	}
@@ -121,34 +121,34 @@ public final class Player extends Entity {
 	}
 	
 	public void moveLeft() {
-		move(false);
+		_move(false);
 	}
 	
 	public void moveRight() {
-		move(true);
+		_move(true);
 	}
 	
 	public void stopMove() {
 		setLinearVelocity(0, getLinearVelocity().y);
 		
-		if(!isJumpAnimationPlaying() && !isShootAnimationPlaying() && !isBlinkAnimationPlaying()) {
-			ANIMATION_SYSTEM.switchToDefault();
+		if(!_isJumpAnimationPlaying() && !_isShootAnimationPlaying() && !_isBlinkAnimationPlaying()) {
+			_animationSystem.switchToDefault();
 		}
 	}
 	
 	public void shoot() {
-		if(TimeUtils.timeSinceMillis(lastShotTime) < SHOOT_PERIOD) {
+		if(TimeUtils.timeSinceMillis(_lastShotTime) < SHOOT_PERIOD) {
 			return;
 		}
 		
-		lastShotTime = TimeUtils.millis();
+		_lastShotTime = TimeUtils.millis();
 		
 		Globals.getSoundManager().playSound("shoot");
 		
 		PlayerShot.shootShot();
 		
-		if(!isShootAnimationPlaying() && !isJumpAnimationPlaying()) {
-			ANIMATION_SYSTEM.switchAnimation("shoot", false, true);
+		if(!_isShootAnimationPlaying() && !_isJumpAnimationPlaying()) {
+			_animationSystem.switchAnimation("shoot", false, true);
 		}
 	}
 	
@@ -184,17 +184,17 @@ public final class Player extends Entity {
 	}
 	
 	public void respawn(boolean collided, final Vector2 respawnPos) {
-		if(isRespawning) {
+		if(_isRespawning) {
 			return;
 		}
  		
-		isRespawning = true;
+		_isRespawning = true;
 		
 		Globals.state = State.PAUSED;
 		
 		if(collided) {
 			Globals.getSoundManager().playSound("die");
-			startDieParticleEffect();
+			_startDieParticleEffect();
 		}
 		
 		setVisible(false);
@@ -203,7 +203,7 @@ public final class Player extends Entity {
 		Gdx.app.postRunnable(new Runnable() {
 			@Override
 			public void run() {
-				body.setActive(false);
+				_body.setActive(false);
 			}		
 		});
 		
@@ -212,21 +212,21 @@ public final class Player extends Entity {
 		timer.scheduleTask(new Task() {
 			@Override
 			public void run() {
-				isRespawning = false;
+				_isRespawning = false;
 				
 				Globals.getSoundManager().playSound("transport");
 				
-				isFacingRight = isLastValidDirectionRight;
-				ANIMATION_SYSTEM.switchToDefault();
+				_isFacingRight = _isLastValidDirectionRight;
+				_animationSystem.switchToDefault();
 				
-				body.setActive(true);
+				_body.setActive(true);
 				
 				if(respawnPos != null) {
-					lastActualPos.set(respawnPos.x, respawnPos.y);
+					_lastActualPos.set(respawnPos.x, respawnPos.y);
 					setPosition(respawnPos.x, respawnPos.y);
 				} else {
-					lastActualPos.set(lastValidPos.x, lastValidPos.y);
-					setPosition(lastValidPos.x, lastValidPos.y);
+					_lastActualPos.set(_lastValidPos.x, _lastValidPos.y);
+					setPosition(_lastValidPos.x, _lastValidPos.y);
 				}
 
 				
@@ -238,65 +238,65 @@ public final class Player extends Entity {
 	}
 	
 	public boolean isFacingRight() {
-		return isFacingRight;
+		return _isFacingRight;
 	}
 	
 	public boolean isFacingLeft() {
-		return !isFacingRight;
+		return !_isFacingRight;
 	}
 	
 	public boolean isJumping() {
-		return isJumping;
+		return _isJumping;
 	}
 	
 	public float getFrontX() {
-		return isFacingRight ? getRight() : getLeft();
+		return _isFacingRight ? getRight() : getLeft();
 	}
 	
 	public float getBackX() {
-		return isFacingRight ? getLeft() : getRight();
+		return _isFacingRight ? getLeft() : getRight();
 	}
 	
 	public void incrementFootContacts(Contact contact) {
-		numFootContacts++;
-		isJumping = numFootContacts < 1;
+		_numFootContacts++;
+		_isJumping = _numFootContacts < 1;
 
 		Fixture fixture = contact.getFixtureA();
-		if(fixture.getBody().equals(body)) {
+		if(fixture.getBody().equals(_body)) {
 			fixture = contact.getFixtureB();
 		}
 		
 		Entity entity = Utils.getEntity(fixture);
 		BodyType bodyType = fixture.getBody().getType();
-		if(!isJumping && getCenterY() - lastActualPos.y > FALL_HEIGHT_LIMIT) {
+		if(!_isJumping && getCenterY() - _lastActualPos.y > FALL_HEIGHT_LIMIT) {
 			respawn(true, null);
-		} else if(numFootContacts >= 1 && !fixture.isSensor()) {	 
+		} else if(_numFootContacts >= 1 && !fixture.isSensor()) {	 
 			if(bodyType != BodyType.DynamicBody && (bodyType != BodyType.KinematicBody || entity.getBody().getLinearVelocity().isZero()) &&
 			  (entity == null || entity.isValidForPlayerRespawn())) {
-				isLastValidDirectionRight = isFacingRight();
-				lastValidPos.set(getCenterX(), getCenterY());
+				_isLastValidDirectionRight = isFacingRight();
+				_lastValidPos.set(getCenterX(), getCenterY());
 			}
 			
-			lastActualPos.set(getCenterX(), getCenterY());
+			_lastActualPos.set(getCenterX(), getCenterY());
 		}
 	}
 	
 	public void decrementFootContacts(Contact contact) {
-		numFootContacts--;
-		if(numFootContacts < 0) {
-			numFootContacts = 0;
+		_numFootContacts--;
+		if(_numFootContacts < 0) {
+			_numFootContacts = 0;
 		}
 		
-		isJumping = numFootContacts < 1;
+		_isJumping = _numFootContacts < 1;
 	}
 	
 	public boolean isRespawning() {
-		return isRespawning;
+		return _isRespawning;
 	}
 	
 	@Override
-	protected void createSprite(EntityBodyDef bodyDef, TextureRegion textureRegion) {
-		super.createSprite(bodyDef, textureRegion);
+	protected void _createSprite(EntityBodyDef bodyDef, TextureRegion textureRegion) {
+		super._createSprite(bodyDef, textureRegion);
 		
 		Vector2 pos = bodyDef.position;
 		Vector2 size = bodyDef.size;
@@ -306,25 +306,25 @@ public final class Player extends Entity {
 		Animation moveAnimation = new Animation.Builder("player_move", pos, size, 0.2f).loop(true).build();
 		Animation shootAnimation = new Animation.Builder("player_shoot", pos, size, 0.1f).build();
 		
-		ANIMATION_SYSTEM.addAnimation("blink", blinkAnimation);
-		ANIMATION_SYSTEM.addAnimation("jump", jumpAnimation);
-		ANIMATION_SYSTEM.addAnimation("move", moveAnimation);
-		ANIMATION_SYSTEM.addAnimation("shoot", shootAnimation);
+		_animationSystem.addAnimation("blink", blinkAnimation);
+		_animationSystem.addAnimation("jump", jumpAnimation);
+		_animationSystem.addAnimation("move", moveAnimation);
+		_animationSystem.addAnimation("shoot", shootAnimation);
 		
-		ANIMATION_SYSTEM.setDefaultSprite("player", size.x, size.y);
+		_animationSystem.setDefaultSprite("player", size.x, size.y);
 		
-		lastActualPos.set(pos.x, pos.y);
-		lastValidPos.set(pos.x, pos.y);
+		_lastActualPos.set(pos.x, pos.y);
+		_lastValidPos.set(pos.x, pos.y);
 	}
 	
 	@Override
-	protected void createBody(EntityBodyDef bodyDef, MapObject bodySkeleton) {
+	protected void _createBody(EntityBodyDef bodyDef, MapObject bodySkeleton) {
 		FixtureDef fixtureDef = Utils.getScaledFixtureDefFromBodySkeleton(bodySkeleton, 0.98f);
-		createBody(bodyDef, fixtureDef);
+		_createBodyFromDef(bodyDef, fixtureDef);
 	}
 	
-	private void move(boolean right) {
-		isFacingRight = right;
+	private void _move(boolean right) {
+		_isFacingRight = right;
 		
 		float vx = Player.MOVE_SPEED;
 		if(!right) {
@@ -333,53 +333,53 @@ public final class Player extends Entity {
 		
 		setLinearVelocity(vx, getLinearVelocity().y);
 		
-		if(numFootContacts > 0 && !isJumping && !isMoveAnimationPlaying() && !isJumpAnimationPlaying() && !isShootAnimationPlaying()) {
-			ANIMATION_SYSTEM.switchAnimation("move", false, true);
+		if(_numFootContacts > 0 && !_isJumping && !_isMoveAnimationPlaying() && !_isJumpAnimationPlaying() && !_isShootAnimationPlaying()) {
+			_animationSystem.switchAnimation("move", false, true);
 		}
 		
-		if(numFootContacts == 0 && !isJumpAnimationPlaying() && !isShootAnimationPlaying() && !isBlinkAnimationPlaying()) {
-			ANIMATION_SYSTEM.switchToDefault();
+		if(_numFootContacts == 0 && !_isJumpAnimationPlaying() && !_isShootAnimationPlaying() && !_isBlinkAnimationPlaying()) {
+			_animationSystem.switchToDefault();
 		}
 	}
 	
-	private void attachFootSensors(EntityBodyDef bodyDef) {	
-		Vector2 localBottom = body.getLocalPoint(new Vector2(getCenterX(), getBottom() - ((4.0f / 64.0f) * getHeight())));
+	private void _attachFootSensors(EntityBodyDef bodyDef) {	
+		Vector2 localBottom = _body.getLocalPoint(new Vector2(getCenterX(), getBottom() - ((4.0f / 64.0f) * getHeight())));
 		
 		float width = bodyDef.size.x;
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(width / 2 * 0.88f, 0.1f, localBottom, 0);
 		
-		Fixture fixture = body.createFixture(shape, 0);
+		Fixture fixture = _body.createFixture(shape, 0);
 		fixture.setSensor(true);
 		
 		shape.dispose();
 	}
 	
-	private void tryBlink() {
-		if(!isJumping && !isMoveAnimationPlaying() && TimeUtils.timeSinceMillis(lastBlinkTime) > blinkPeriod) {
-			lastBlinkTime = TimeUtils.millis();
-			blinkPeriod = MathUtils.random(5000, 10000);
-			ANIMATION_SYSTEM.switchAnimation("blink", false, true);
+	private void _tryBlink() {
+		if(!_isJumping && !_isMoveAnimationPlaying() && TimeUtils.timeSinceMillis(_lastBlinkTime) > _blinkPeriod) {
+			_lastBlinkTime = TimeUtils.millis();
+			_blinkPeriod = MathUtils.random(5000, 10000);
+			_animationSystem.switchAnimation("blink", false, true);
 		}
 	}
 	
-	private boolean isBlinkAnimationPlaying() {
-		return ANIMATION_SYSTEM.getAnimationKey().equals("blink") && ANIMATION_SYSTEM.isPlaying();
+	private boolean _isBlinkAnimationPlaying() {
+		return _animationSystem.getAnimationKey().equals("blink") && _animationSystem.isPlaying();
 	}
 
-	private boolean isJumpAnimationPlaying() {
-		return ANIMATION_SYSTEM.getAnimationKey().equals("jump") && ANIMATION_SYSTEM.isPlaying();
+	private boolean _isJumpAnimationPlaying() {
+		return _animationSystem.getAnimationKey().equals("jump") && _animationSystem.isPlaying();
 	}
 	
-	private boolean isShootAnimationPlaying() {
-		return ANIMATION_SYSTEM.getAnimationKey().equals("shoot") && ANIMATION_SYSTEM.isPlaying();
+	private boolean _isShootAnimationPlaying() {
+		return _animationSystem.getAnimationKey().equals("shoot") && _animationSystem.isPlaying();
 	}
 	
-	private boolean isMoveAnimationPlaying() {
-		return ANIMATION_SYSTEM.getAnimationKey().equals("move") && ANIMATION_SYSTEM.isPlaying();
+	private boolean _isMoveAnimationPlaying() {
+		return _animationSystem.getAnimationKey().equals("move") && _animationSystem.isPlaying();
 	}
 	
-	private void startDieParticleEffect() {
+	private void _startDieParticleEffect() {
 		float x = getCenterX();
 		float y = getBottom() - getHeight() / 5;
 		ParticleEffect particleEffect = Globals.getParticleEffect("player_dying", x, y);

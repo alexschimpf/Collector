@@ -18,10 +18,10 @@ public class WeatherSystem implements IRender, IUpdate {
 	
 	public static WeatherSystem instance;
 	
-	private final Array<ParticleEffect> CLOUDS = new Array<ParticleEffect>();
+	private final Array<ParticleEffect> _clouds = new Array<ParticleEffect>();
 	
-	private float time = 0;
-	private float light = 1;
+	private float _time = 0;
+	private float _light = 1;
 	
 	public static WeatherSystem getInstance() {
 		if(instance == null) {
@@ -32,9 +32,9 @@ public class WeatherSystem implements IRender, IUpdate {
 	}
 	
 	public WeatherSystem() {
-		time = MathUtils.random(0.0f, 1.0f);
+		_time = MathUtils.random(0.0f, 1.0f);
 		
-		tryCreateClouds(true);
+		_tryCreateClouds(true);
 	}
 	
 	@Override
@@ -49,7 +49,7 @@ public class WeatherSystem implements IRender, IUpdate {
 //		time += TIME_SCALE * Gdx.graphics.getDeltaTime();		
 //		light = Math.min(Math.max(Math.abs(MathUtils.sin(time)), 0.3f), 1f);
 		
-		Iterator<ParticleEffect> cloudIter = CLOUDS.iterator();
+		Iterator<ParticleEffect> cloudIter = _clouds.iterator();
 		while(cloudIter.hasNext()) {
 			ParticleEffect cloud = cloudIter.next();
 			if(cloud.update()) {
@@ -58,7 +58,7 @@ public class WeatherSystem implements IRender, IUpdate {
 			}
 		}
 
-		tryCreateClouds(false);
+		_tryCreateClouds(false);
 		
 		return false;
 	}
@@ -69,12 +69,12 @@ public class WeatherSystem implements IRender, IUpdate {
 	}
 	
 	public float getLight() {
-		return light;
+		return _light;
 	}
 	
-	private void tryCreateClouds(boolean randomFadeIn) {
+	private void _tryCreateClouds(boolean randomFadeIn) {
 		GameWorld gameWorld = Globals.getGameWorld();
-		while(CLOUDS.size < gameWorld.getWidth() * gameWorld.getHeight() / Globals.getCamera().getViewportWidth() / 20) {
+		while(_clouds.size < gameWorld.getWidth() * gameWorld.getHeight() / Globals.getCamera().getViewportWidth() / 20) {
 			float screenWidth = Globals.getCamera().getViewportWidth();
 			float screenHeight = Globals.getCamera().getViewportHeight();
 			float x = MathUtils.random(gameWorld.getLeft() - (screenWidth / 2), gameWorld.getRight());
@@ -84,7 +84,7 @@ public class WeatherSystem implements IRender, IUpdate {
 			cloud.fadeIn(randomFadeIn ? Utils.choose(true, false) : true);
             cloud.buildParticles();
 			
-			CLOUDS.add(cloud);
+			_clouds.add(cloud);
 		}
 	}
 }

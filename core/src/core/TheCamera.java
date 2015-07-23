@@ -13,7 +13,7 @@ public final class TheCamera implements IUpdate {
 	
 	private static TheCamera instance; 
 	
-	private final OrthographicCamera CAMERA = new OrthographicCamera();
+	private final OrthographicCamera _camera = new OrthographicCamera();
 	
 	public static TheCamera getInstance() {
 		if(instance == null) {
@@ -26,7 +26,7 @@ public final class TheCamera implements IUpdate {
 	private TheCamera() {
 		// This will get adjusted when the window is resized.
 		// 50 is used as a base that Box2D can handle efficiently.
-		CAMERA.setToOrtho(true, 50, 50);
+		_camera.setToOrtho(true, 50, 50);
 	}
 
 	@Override
@@ -36,10 +36,10 @@ public final class TheCamera implements IUpdate {
 			return false;
 		}
 		
-		CAMERA.position.x = player.getCenterX();
-		CAMERA.position.y = player.getCenterY();
+		_camera.position.x = player.getCenterX();
+		_camera.position.y = player.getCenterY();
 		
-		CAMERA.update();
+		_camera.update();
 		
 		return false;
 	}
@@ -50,56 +50,56 @@ public final class TheCamera implements IUpdate {
 	
 	public void resizeViewport(float screenWidth, float screenHeight) {
 		// Adjust the camera viewport height, while keeping the width set at 100.
-		CAMERA.viewportHeight = (CAMERA.viewportWidth / screenWidth) * screenHeight;
-		CAMERA.update();
+		_camera.viewportHeight = (_camera.viewportWidth / screenWidth) * screenHeight;
+		_camera.update();
 	}
 	
 	public float getViewportWidth() {
-		return CAMERA.viewportWidth;
+		return _camera.viewportWidth;
 	}
 	
 	public float getViewportHeight() {
-		return CAMERA.viewportHeight;
+		return _camera.viewportHeight;
 	}
 	
 	public float getTileMapScale() {
 		// Each tile is originally 64 x 64.
 		// Each tile should be 1/20 of the screen's width.
-		return (CAMERA.viewportWidth / NUM_TILES_PER_SCREEN_WIDTH) / 64.0f;
+		return (_camera.viewportWidth / NUM_TILES_PER_SCREEN_WIDTH) / 64.0f;
 	}
 	
 	public float getTop() {
-		return CAMERA.position.y - (getViewportHeight() / 2);
+		return _camera.position.y - (getViewportHeight() / 2);
 	}
 	
 	public float getBottom() {
-		return CAMERA.position.y + (getViewportHeight() / 2);
+		return _camera.position.y + (getViewportHeight() / 2);
 	}
 	
 	public float getLeft() {
-		return CAMERA.position.x + (getViewportWidth() / 2);
+		return _camera.position.x + (getViewportWidth() / 2);
 	}
 	
 	public float getRight() {
-		return CAMERA.position.x + (getViewportWidth() / 2);
+		return _camera.position.x + (getViewportWidth() / 2);
 	}
 	
 	public float getCenterX() {
-		return CAMERA.position.x;
+		return _camera.position.x;
 	}
 	
 	public float getCenterY() {
-		return CAMERA.position.y;
+		return _camera.position.y;
 	}
 	
 	public OrthographicCamera getRawCamera() {
-		return CAMERA;
+		return _camera;
 	}
 	
 	public boolean isVisible(float x, float y, float width, float height) {
-		return CAMERA.frustum.pointInFrustum(x, y, 0) ||
-			   CAMERA.frustum.pointInFrustum(x + width, y, 0) || 
-			   CAMERA.frustum.pointInFrustum(x, y + height, 0) ||
-			   CAMERA.frustum.pointInFrustum(x + width, y + height, 0);
+		return _camera.frustum.pointInFrustum(x, y, 0) ||
+			   _camera.frustum.pointInFrustum(x + width, y, 0) || 
+			   _camera.frustum.pointInFrustum(x, y + height, 0) ||
+			   _camera.frustum.pointInFrustum(x + width, y + height, 0);
 	}
 }

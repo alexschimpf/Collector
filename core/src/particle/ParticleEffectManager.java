@@ -6,7 +6,7 @@ public final class ParticleEffectManager {
 
 	private static ParticleEffectManager instance;
 	
-	private final HashMap<String, ParticleEffect> PARTICLE_EFFECT_MAP = new HashMap<String, ParticleEffect>();
+	private final HashMap<String, ParticleEffect> _particleEffectMap = new HashMap<String, ParticleEffect>();
 	
 	public static ParticleEffectManager getInstance() {
 		if(instance == null) {
@@ -21,7 +21,7 @@ public final class ParticleEffectManager {
 	}
 	
 	public ParticleEffect getParticleEffect(String key, float x, float y) {
-		ParticleEffect particleEffect = PARTICLE_EFFECT_MAP.get(key);
+		ParticleEffect particleEffect = _particleEffectMap.get(key);
 		ParticleEffect particleEffectClone = particleEffect.clone();
 		particleEffectClone.position(x, y);
 		
@@ -34,6 +34,6 @@ public final class ParticleEffectManager {
 	}
 	
 	public void addParticleEffect(String key, ParticleEffect particleEffect) {
-		PARTICLE_EFFECT_MAP.put(key, particleEffect);
+		_particleEffectMap.put(key, particleEffect);
 	}
 }

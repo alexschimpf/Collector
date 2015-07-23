@@ -25,19 +25,19 @@ import core.WeatherSystem;
 
 public final class GameScreen implements Screen {
 
-	private final TheGame THE_GAME;
-	private final SpriteBatch SPRITE_BATCH = new SpriteBatch();
-	private final Box2DDebugRenderer DEBUG_RENDERER = new Box2DDebugRenderer();
-	private final Matrix4 DEBUG_MATRIX = new Matrix4();
-	private final Stage HUD_STAGE;
-	private final InputListener INPUT_LISTENER = new InputListener();
-	private final Array<ParticleEffect> PARTICLE_EFFECTS = new Array<ParticleEffect>();
-	private final Array<Animation> ANIMATIONS = new Array<Animation>();	
+	private final TheGame _theGame;
+	private final SpriteBatch _spriteBatch = new SpriteBatch();
+	private final Box2DDebugRenderer _debugRenderer = new Box2DDebugRenderer();
+	private final Matrix4 _debugMatrix = new Matrix4();
+	private final Stage _HUDStage;
+	private final InputListener _inputListener = new InputListener();
+	private final Array<ParticleEffect> _particleEffects = new Array<ParticleEffect>();
+	private final Array<Animation> _animations = new Array<Animation>();	
 	
-	private TileMap tileMap;
+	private TileMap _tileMap;
 
 	public GameScreen(TheGame theGame) {
-		THE_GAME = theGame;
+		_theGame = theGame;
 		
 		// HACK: Why does this work?
 		if(TheGame.FULLSCREEN) {
@@ -50,9 +50,9 @@ public final class GameScreen implements Screen {
 		Globals.getTextureManager();	
 		new ParticleEffectLoader().load();
 		
-		HUD_STAGE = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-		HUD_STAGE.addListener(INPUT_LISTENER);
-		Gdx.input.setInputProcessor(HUD_STAGE);
+		_HUDStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+		_HUDStage.addListener(_inputListener);
+		Gdx.input.setInputProcessor(_HUDStage);
 	}
 	
 	@Override
@@ -74,14 +74,14 @@ public final class GameScreen implements Screen {
 		
 		Globals.getCamera().update();
 		
-		update();
+		_update();
 		_render(delta);	
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		TheCamera.getInstance().resizeViewport(width, height);		
-		HUD_STAGE.getViewport().update(width, height, false);
+		_HUDStage.getViewport().update(width, height, false);
 	}
 
 	@Override
@@ -101,29 +101,29 @@ public final class GameScreen implements Screen {
 	}
 	
 	public void setTileMap(TileMap tileMap) {
-		this.tileMap = tileMap;
+		this._tileMap = tileMap;
 	}
 	
 	public void addParticleEffect(ParticleEffect particleEffect) {
-		PARTICLE_EFFECTS.add(particleEffect);
+		_particleEffects.add(particleEffect);
 	}
 	
 	public void addAnimation(Animation animation) {
-		ANIMATIONS.add(animation);
+		_animations.add(animation);
 	}
 	
-	private void update() {
-		INPUT_LISTENER.update();
+	private void _update() {
+		_inputListener.update();
 		Globals.getGameWorld().update();
-		HUD_STAGE.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		_HUDStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		
-		for(Animation animation : ANIMATIONS) {
+		for(Animation animation : _animations) {
 			if(animation.update()) {
 				animation.done();
 			}
 		}
 		
-		for(ParticleEffect particleEffect : PARTICLE_EFFECTS) {
+		for(ParticleEffect particleEffect : _particleEffects) {
 			if(particleEffect.update()) {
 				particleEffect.done();
 			}
@@ -143,70 +143,70 @@ public final class GameScreen implements Screen {
 		OrthographicCamera camera = Globals.getCamera().getRawCamera();
 		
 //		SPRITE_BATCH.setColor(light, light, light, 1);
-		tileMap.setView(camera);
-		SPRITE_BATCH.setProjectionMatrix(camera.combined);
+		_tileMap.setView(camera);
+		_spriteBatch.setProjectionMatrix(camera.combined);
 
-		renderLayers();
+		_renderLayers();
 		
 		if(TheGame.PHYSICS_DEBUG) {
-			DEBUG_MATRIX.set(camera.combined);
-			DEBUG_RENDERER.render(Globals.getPhysicsWorld(), DEBUG_MATRIX);
+			_debugMatrix.set(camera.combined);
+			_debugRenderer.render(Globals.getPhysicsWorld(), _debugMatrix);
 		}
 	}
 	
-	private void renderLayers() {
-		renderBackgroundTiles();
-		renderWeather();
-		renderEnclosingTiles();
-		renderParticleEffects();
-		renderNormalTiles();
-		renderWorldAndAnimations();
-		renderForeground();
+	private void _renderLayers() {
+		_renderBackgroundTiles();
+		_renderWeather();
+		_renderEnclosingTiles();
+		_renderParticleEffects();
+		_renderNormalTiles();
+		_renderWorldAndAnimations();
+		_renderForeground();
 	}
 	
-	private void renderBackgroundTiles() {
-		tileMap.render(TileMapLayerType.BACKGROUND, SPRITE_BATCH);
+	private void _renderBackgroundTiles() {
+		_tileMap.render(TileMapLayerType.BACKGROUND, _spriteBatch);
 	}
 	
-	private void renderWeather() {
-		SPRITE_BATCH.begin();
+	private void _renderWeather() {
+		_spriteBatch.begin();
 		
-		Globals.getWeatherSystem().render(SPRITE_BATCH);
+		Globals.getWeatherSystem().render(_spriteBatch);
 		
-		SPRITE_BATCH.end();
+		_spriteBatch.end();
 	}
 	
-	private void renderEnclosingTiles() {
-		tileMap.render(TileMapLayerType.ENCLOSING, SPRITE_BATCH);
+	private void _renderEnclosingTiles() {
+		_tileMap.render(TileMapLayerType.ENCLOSING, _spriteBatch);
 	}
 	
-	private void renderNormalTiles() {
-		tileMap.render(TileMapLayerType.NORMAL, SPRITE_BATCH);
+	private void _renderNormalTiles() {
+		_tileMap.render(TileMapLayerType.NORMAL, _spriteBatch);
 	}
 	
-	private void renderParticleEffects() {
-		SPRITE_BATCH.begin();
+	private void _renderParticleEffects() {
+		_spriteBatch.begin();
 		
-		for(ParticleEffect particleEffect : PARTICLE_EFFECTS) {
-			particleEffect.render(SPRITE_BATCH);
+		for(ParticleEffect particleEffect : _particleEffects) {
+			particleEffect.render(_spriteBatch);
 		}
 		
-		SPRITE_BATCH.end();
+		_spriteBatch.end();
 	}
 	
-	private void renderWorldAndAnimations() {		
-		SPRITE_BATCH.begin();
+	private void _renderWorldAndAnimations() {		
+		_spriteBatch.begin();
 		
-		for(Animation animation : ANIMATIONS) {
-			animation.render(SPRITE_BATCH);
+		for(Animation animation : _animations) {
+			animation.render(_spriteBatch);
 		}
 		
-		Globals.getGameWorld().render(SPRITE_BATCH);	
+		Globals.getGameWorld().render(_spriteBatch);	
 		
-		SPRITE_BATCH.end();
+		_spriteBatch.end();
 	}
 	
-	private void renderForeground() {
-		tileMap.render(TileMapLayerType.FOREGROUND, SPRITE_BATCH);
+	private void _renderForeground() {
+		_tileMap.render(TileMapLayerType.FOREGROUND, _spriteBatch);
 	}
 }

@@ -98,6 +98,4 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 	@Override
 	public void done() {
 	}
-	
-	
 }

@@ -7,8 +7,8 @@ import com.badlogic.gdx.maps.MapObject;
 
 public abstract class Script implements IUpdate {
 
-	protected final String ID;
-	protected final MapObject MAP_OBJECT;
+	protected final String _id;
+	protected final MapObject _mapObject;
 
 	public static Script build(MapObject object) {
 		String type = Utils.getPropertyString(object, "type");
@@ -20,12 +20,12 @@ public abstract class Script implements IUpdate {
 	}
 	
 	protected Script(MapObject object) {
-		MAP_OBJECT = object;
+		_mapObject = object;
 		
 		if(object.getName() != null && !object.getName().isEmpty()) {
-			ID = object.getName();
+			_id = object.getName();
 		} else {
-			ID = String.valueOf(object.hashCode());
+			_id = String.valueOf(object.hashCode());
 		}
 	}
 
@@ -39,6 +39,6 @@ public abstract class Script implements IUpdate {
 	}
 	
 	public String getId() {
-		return ID;
+		return _id;
 	}
 }

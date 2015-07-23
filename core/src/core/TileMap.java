@@ -23,58 +23,58 @@ public final class TileMap {
 		BACKGROUND
 	}
 	
-	private final OrthogonalTiledMapRenderer RENDERER;	
-	private final TiledMap TILE_MAP;
-	private final HashMap<String, TiledMapTileLayer> LAYER_MAP = new HashMap<String, TiledMapTileLayer>();
+	private final OrthogonalTiledMapRenderer _renderer;	
+	private final TiledMap _tileMap;
+	private final HashMap<String, TiledMapTileLayer> _layerMap = new HashMap<String, TiledMapTileLayer>();
 	
 	public TileMap(String tileMapName) {
 		Parameters tileMapParams = new Parameters();
 		tileMapParams.flipY = false;
-		TILE_MAP = new TmxMapLoader().load(tileMapName, tileMapParams);
-		RENDERER = new OrthogonalTiledMapRenderer(TILE_MAP, Globals.getCamera().getTileMapScale());
+		_tileMap = new TmxMapLoader().load(tileMapName, tileMapParams);
+		_renderer = new OrthogonalTiledMapRenderer(_tileMap, Globals.getCamera().getTileMapScale());
 
-		for(MapLayer layer : TILE_MAP.getLayers()) {
+		for(MapLayer layer : _tileMap.getLayers()) {
 			if(!(layer instanceof TiledMapTileLayer)) {
 				continue;
 			}
 			
 			String layerName = layer.getName();
-			LAYER_MAP.put(layerName, (TiledMapTileLayer)layer);
+			_layerMap.put(layerName, (TiledMapTileLayer)layer);
 		}
 	}
 	
 	public void setView(OrthographicCamera camera) {
-		RENDERER.setView(camera);
+		_renderer.setView(camera);
 	}
 	
 	public void render(TileMapLayerType layerType, SpriteBatch spriteBatch) {
-		String layerName = getLayerName(layerType);
-		TiledMapTileLayer layer = LAYER_MAP.get(layerName);
+		String layerName = _getLayerName(layerType);
+		TiledMapTileLayer layer = _layerMap.get(layerName);
 		
 		getBatch().begin();
-		RENDERER.renderTileLayer(layer);
+		_renderer.renderTileLayer(layer);
 		getBatch().end();
 	}
 	
 	public void render(TileMapLayerType[] layerTypes, SpriteBatch spriteBatch) {
 		getBatch().begin();
 		for(TileMapLayerType layerType : layerTypes) {
-			String layerName = getLayerName(layerType);
-			TiledMapTileLayer layer = LAYER_MAP.get(layerName);
-			RENDERER.renderTileLayer(layer);
+			String layerName = _getLayerName(layerType);
+			TiledMapTileLayer layer = _layerMap.get(layerName);
+			_renderer.renderTileLayer(layer);
 		}
 		getBatch().end();
 	}
 	
 	public TiledMap getRawTileMap() {
-		return TILE_MAP;
+		return _tileMap;
 	}
 	
 	public Batch getBatch() {
-		return RENDERER.getBatch();
+		return _renderer.getBatch();
 	}
 	
-	private String getLayerName(TileMapLayerType layerType) {
+	private String _getLayerName(TileMapLayerType layerType) {
 		switch(layerType) {
 			case FOREGROUND:
 				return "Foreground";

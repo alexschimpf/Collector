@@ -26,28 +26,28 @@ public final class ParticleEffectLoader {
 		try {
 			XmlReader reader = new XmlReader();
 			Element root = reader.parse(Gdx.files.internal(CONFIG_FILENAME));
-			loadFromRoot(root);
+			_loadFromRoot(root);
 		} catch(Exception e) {
 			Gdx.app.error("collector", "ParticleEffectLoader", e);
 		}
 	}
 	
-	private void loadFromRoot(Element root) {
+	private void _loadFromRoot(Element root) {
 		Array<Element> propertyElems = root.getChildByName("properties").getChildrenByName("property");
-		loadProperties(propertyElems);
+		_loadProperties(propertyElems);
 
 		Array<Element> particleEffectElems = root.getChildByName("particle_effects").getChildrenByName("particle_effect");
-		loadParticleEffects(particleEffectElems);
+		_loadParticleEffects(particleEffectElems);
 	}
 	
-	private void loadProperties(Array<Element> propertyElems) {
+	private void _loadProperties(Array<Element> propertyElems) {
 		for(Element propertyElem : propertyElems) {
 			ParticleEffectProperty property = new ParticleEffectProperty(propertyElem);
 			PROPERTY_MAP.put(property.name, property);
 		}
 	}
 	
-	private void loadParticleEffects(Array<Element> particleEffectElems) {
+	private void _loadParticleEffects(Array<Element> particleEffectElems) {
 		for(Element particleEffectElem : particleEffectElems) {
 			String particleEffectName = particleEffectElem.get("name");
 			
@@ -63,22 +63,22 @@ public final class ParticleEffectLoader {
 				propertyValueMap.put(propertyName, value);
 			}
 			
-			loadParticleEffect(particleEffectName, propertyValueMap);
+			_loadParticleEffect(particleEffectName, propertyValueMap);
 		}
 	}
 	
-	private void loadParticleEffect(String particleEffectName, HashMap<String, String> propertyValueMap) {
+	private void _loadParticleEffect(String particleEffectName, HashMap<String, String> propertyValueMap) {
 		ParticleEffect particleEffect = new ParticleEffect();
 		for(Entry<String, String> entry : propertyValueMap.entrySet()) {
 			String propertyName = entry.getKey();
 			String value = entry.getValue();
-			setProperty(particleEffect, propertyName, value);
+			_setProperty(particleEffect, propertyName, value);
 		}
 		
 		Globals.getParticleEffectManager().addParticleEffect(particleEffectName, particleEffect);
 	}
 	
-	private void setProperty(ParticleEffect particleEffect, String propertyName, String valueStr) {
+	private void _setProperty(ParticleEffect particleEffect, String propertyName, String valueStr) {
 		ParticleEffectProperty property = PROPERTY_MAP.get(propertyName);
 		String type = property.type;
 		String methodName = property.methodName;
@@ -90,19 +90,19 @@ public final class ParticleEffectLoader {
     			method.invoke(particleEffect, valueStr);
 			} else if(type.equals("Boolean")) {
     			method = ParticleEffect.class.getMethod(methodName, Boolean.class);  
-    			method.invoke(particleEffect, toBoolean(valueStr));
+    			method.invoke(particleEffect, _toBoolean(valueStr));
     		} else if(type.equals("Integer")) {
     			method = ParticleEffect.class.getMethod(methodName, Integer.class); 
-    			method.invoke(particleEffect, toInteger(valueStr));
+    			method.invoke(particleEffect, _toInteger(valueStr));
     		} else if(type.equals("Float")) {
     			method = ParticleEffect.class.getMethod(methodName, Float.class);  
-    			method.invoke(particleEffect, toFloat(valueStr));
+    			method.invoke(particleEffect, _toFloat(valueStr));
     		} else if(type.equals("Color")) {
     			method = ParticleEffect.class.getMethod(methodName, Color.class);  
-    			method.invoke(particleEffect, toColor(valueStr));
+    			method.invoke(particleEffect, _toColor(valueStr));
     		} else if(type.equals("Vector2")) {
     			method = ParticleEffect.class.getMethod(methodName, Float.class, Float.class);  
-    			Vector2 vector2 = toVector2(valueStr);
+    			Vector2 vector2 = _toVector2(valueStr);
     			method.invoke(particleEffect, vector2.x, vector2.y);
     		} else {
     			throw new NullPointerException("Particle effect property of type '" + type + "' is not valid");
@@ -112,19 +112,19 @@ public final class ParticleEffectLoader {
 		}
 	}
 	
-	private Boolean toBoolean(String value) {
+	private Boolean _toBoolean(String value) {
 		return Boolean.valueOf(value);
 	}
 	
-	private Integer toInteger(String value) {
+	private Integer _toInteger(String value) {
 		return Integer.valueOf(value);
 	}
 	
-	private Float toFloat(String value) {
+	private Float _toFloat(String value) {
 		return Float.valueOf(value);
 	}
 	
-	private Color toColor(String value) {
+	private Color _toColor(String value) {
 		String[] components = value.split(", ");
 		
 		Color color = new Color();
@@ -136,7 +136,7 @@ public final class ParticleEffectLoader {
 		return color;
 	}
 	
-	private Vector2 toVector2(String value) {
+	private Vector2 _toVector2(String value) {
 		String[] components = value.split(", ");
 		
 		Vector2 vector2 = new Vector2();

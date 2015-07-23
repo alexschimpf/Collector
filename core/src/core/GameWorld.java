@@ -21,16 +21,16 @@ public final class GameWorld implements IRender, IUpdate {
 	
 	public static GameWorld instance;
 	
-	private final World PHYSICS_WORLD = new World(new Vector2(0, DEFAULT_GRAVITY), true);
+	private final World _physicsWorld = new World(new Vector2(0, DEFAULT_GRAVITY), true);
 	
-	private Player player;
-	private GameRoom currRoom;
-	private String lobbyTileMapName;
+	private Player _player;
+	private GameRoom _currRoom;
+	private String _lobbyTileMapName;
 	
 	private GameWorld() {		
 		World.setVelocityThreshold(0.5f);
 		
-		PHYSICS_WORLD.setContactListener(new CollisionListener());
+		_physicsWorld.setContactListener(new CollisionListener());
 	}
 	
 	public static GameWorld getInstance() {
@@ -43,30 +43,30 @@ public final class GameWorld implements IRender, IUpdate {
 	
 	@Override
 	public void render(SpriteBatch spriteBatch) {
-		currRoom.render(spriteBatch);
+		_currRoom.render(spriteBatch);
 		
-		player.render(spriteBatch);
+		_player.render(spriteBatch);
 	}
 	
 	@Override
 	public boolean update() {
-		PHYSICS_WORLD.step(1 / 45.0f, 5, 5);
+		_physicsWorld.step(1 / 45.0f, 5, 5);
 
-		currRoom.update();
+		_currRoom.update();
 		
 		return false;
 	}
 
 	@Override
 	public void done() {
-		PHYSICS_WORLD.dispose();
+		_physicsWorld.dispose();
 	}
 	
 	public void clearPhysicsWorld() {
 		Iterator<Body> bodiesIter = getBodies().iterator();
 		while(bodiesIter.hasNext()) {
 			Body body = bodiesIter.next();
-			PHYSICS_WORLD.destroyBody(body);
+			_physicsWorld.destroyBody(body);
 		}
 	}
 	
@@ -77,37 +77,37 @@ public final class GameWorld implements IRender, IUpdate {
 		gameWorldLoader.load();
 		
 		if(isLobby) {
-			lobbyTileMapName = tileMapName;
+			_lobbyTileMapName = tileMapName;
 		}
 	}
 	
 	public void loadLobbyRoom() {
-		loadRoom(lobbyTileMapName, true);
+		loadRoom(_lobbyTileMapName, true);
 	}
 
 	public void setCurrentRoom(GameRoom room) {
-		currRoom = room;
+		_currRoom = room;
 	}
 
 	public GameRoom getCurrentRoom() {
-		return currRoom;
+		return _currRoom;
 	}
 
 	public void setPlayer(Player player) {
-		this.player = player;
+		this._player = player;
 	}
 	
 	public Player getPlayer() {
-		return player;
+		return _player;
 	}
 	
 	public World getWorld() {
-		return PHYSICS_WORLD;
+		return _physicsWorld;
 	}
 	
 	public Array<Body> getBodies() {
 		Array<Body> bodies = new Array<Body>();
-		PHYSICS_WORLD.getBodies(bodies);
+		_physicsWorld.getBodies(bodies);
 		return bodies;
 	}
 

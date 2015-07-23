@@ -13,29 +13,29 @@ import entity.special.Player;
 
 public class SmoothMovingEntity extends Entity implements IMovingEntity {
 
-	protected final boolean LOOP;
-	protected final Array<Vector2> PATH;
-	protected final boolean IS_FATAL;
+	protected final boolean _loop;
+	protected final Array<Vector2> _path;
+	protected final boolean _isFatal;
 	
-	protected int pathPos = 0;
-	protected boolean started = false;
-	protected float[] intervals;
+	protected int _pathPos = 0;
+	protected boolean _started = false;
+	protected float[] _intervals;
 	
 	public SmoothMovingEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);
 		
-		intervals = Utils.getPropertyFloatArray(object, "intervals", ",");
-		LOOP = Utils.getPropertyBoolean(object, "loop");
+		_intervals = Utils.getPropertyFloatArray(object, "intervals", ",");
+		_loop = Utils.getPropertyBoolean(object, "loop");
 		
 		String[] path = Utils.getPropertyStringArray(object, "path", " ");
-		PATH = buildPath(path);
+		_path = _buildPath(path);
 		
-		IS_FATAL = Utils.getPropertyBoolean(object, "is_fatal");
+		_isFatal = Utils.getPropertyBoolean(object, "is_fatal");
 
-		started = Utils.getPropertyBoolean(object, "start_on_create");
+		_started = Utils.getPropertyBoolean(object, "start_on_create");
 		
-		if(started) {
-			updateVelocity();
+		if(_started) {
+			_updateVelocity();
 		}
 	}
 	
@@ -46,11 +46,11 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 
 	@Override
 	public boolean update(){
-		if(!started || (atLastPos() && !LOOP)) {
+		if(!_started || (_atLastPos() && !_loop)) {
 			return super.update();
 		}
 
-		checkNextPosReached();
+		_checkNextPosReached();
 		
 		return super.update();
 	}
@@ -58,7 +58,7 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 	@Override
 	public void onBeginContact(Contact contact, Entity entity) {
 		Player player = Globals.getPlayer();
-		if(IS_FATAL && Utils.isPlayer(entity) && player.getTop() <= getBottom()) {
+		if(_isFatal && Utils.isPlayer(entity) && player.getTop() <= getBottom()) {
 			// TODO: Need a known respawn point.
 			player.respawn(true, null);
 		}
@@ -71,30 +71,30 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 	
 	@Override
 	public void start() {
-		pathPos = 0;
-		updateVelocity();
-		started = true;
+		_pathPos = 0;
+		_updateVelocity();
+		_started = true;
 	}
 	
 	@Override
 	public void pause() {
-		started = false;
+		_started = false;
 		setLinearVelocity(0, 0);
 	}
 	
 	@Override
 	public void setPath(String[] serializedPath) {
-		pathPos = 0;
-		PATH.clear();
-		PATH.addAll(buildPath(serializedPath));
+		_pathPos = 0;
+		_path.clear();
+		_path.addAll(_buildPath(serializedPath));
 	}
 	
 	@Override
 	public void setIntervals(float[] intervals) {
-		this.intervals = intervals;
+		this._intervals = intervals;
 	}
 	
-	protected Array<Vector2> buildPath(String[] serializedPath) {
+	protected Array<Vector2> _buildPath(String[] serializedPath) {
 		Array<Vector2> path = new Array<Vector2>();
 		
 		float x = getLeft();
@@ -110,7 +110,7 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 			path.add(new Vector2(x, y));
 		}
 		
-		if(LOOP) {
+		if(_loop) {
 			for(int i = path.size - 2; i > 0; i--) {
 				path.add(path.get(i));
 			}
@@ -119,48 +119,48 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 		return path;
 	}
 	
-	protected void checkNextPosReached() {
+	protected void _checkNextPosReached() {
 		float vx = getLinearVelocity().x;
 		float vy = getLinearVelocity().y;
 		
 		float x = getLeft();
 		float y = getTop();
 		
-		Vector2 nextPos = PATH.get(getNextPathPos());
+		Vector2 nextPos = _path.get(_getNextPathPos());
 		if((vx == 0 || (vx > 0 && x >= nextPos.x) || (vx < 0 && x <= nextPos.x)) &&
 		   (vy == 0 || (vy > 0 && y >= nextPos.y) || (vy < 0 && y <= nextPos.y))) {
-			pathPos = getNextPathPos();
-			updateVelocity();
+			_pathPos = _getNextPathPos();
+			_updateVelocity();
 		}
 	}
 	
-	protected void updateVelocity() {
-		if(atLastPos() && !LOOP) {
+	protected void _updateVelocity() {
+		if(_atLastPos() && !_loop) {
 			setLinearVelocity(0, 0);
 			return;
 		}
 		
-		Vector2 a = PATH.get(pathPos);
-		Vector2 b = PATH.get(getNextPathPos());		
+		Vector2 a = _path.get(_pathPos);
+		Vector2 b = _path.get(_getNextPathPos());		
 		
-		int intervalPos = pathPos;
-		if(LOOP && atLastPos()) {
+		int intervalPos = _pathPos;
+		if(_loop && _atLastPos()) {
 			intervalPos = 0;
 		}
-		float intervalSeconds = intervals[intervalPos] / 1000;
+		float intervalSeconds = _intervals[intervalPos] / 1000;
 		float vx = (b.x - a.x) / intervalSeconds;
 		float vy = (b.y - a.y) / intervalSeconds;
 		
 		setLinearVelocity(vx, vy);		
 	}
 	
-	protected boolean atLastPos() {
-		return pathPos >= PATH.size - 1;
+	protected boolean _atLastPos() {
+		return _pathPos >= _path.size - 1;
 	}
 	
-	protected int getNextPathPos() {
-		int nextIdx = pathPos + 1;
-		if(LOOP && nextIdx > PATH.size - 1) {
+	protected int _getNextPathPos() {
+		int nextIdx = _pathPos + 1;
+		if(_loop && nextIdx > _path.size - 1) {
 			nextIdx = 0;
 		}
 		

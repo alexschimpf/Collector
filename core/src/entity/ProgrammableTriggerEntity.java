@@ -16,24 +16,24 @@ public final class ProgrammableTriggerEntity extends Entity implements IInteract
 		RESET, MOVE
 	}
 	
-	private final TriggerType TRIGGER_TYPE;
-	private final String[] TARGET_IDS;
+	private final TriggerType _triggerType;
+	private final String[] _targetIds;
 	
-	private Animation animation;
+	private Animation _animation;
 	
 	public ProgrammableTriggerEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);
 		
 		String triggerTypeStr = Utils.getPropertyString(object, "trigger_type");
 		if(triggerTypeStr.equals("reset")) {
-			TRIGGER_TYPE = TriggerType.RESET;
+			_triggerType = TriggerType.RESET;
 		} else if(triggerTypeStr.equals("move")) {
-			TRIGGER_TYPE = TriggerType.MOVE;
+			_triggerType = TriggerType.MOVE;
 		} else {
 			throw new NullPointerException("Trigger type '" + triggerTypeStr + "' is not valid");
 		}
 		
-		TARGET_IDS = Utils.getPropertyStringArray(object, "target_ids", ",");
+		_targetIds = Utils.getPropertyStringArray(object, "target_ids", ",");
 	}
 	
 	@Override
@@ -43,18 +43,18 @@ public final class ProgrammableTriggerEntity extends Entity implements IInteract
 	
 	@Override
 	public boolean update() {
-		animation.update();
-		sprite = animation.getSprite();
-		sprite.setFlip(false, true);
+		_animation.update();
+		_sprite = _animation.getSprite();
+		_sprite.setFlip(false, true);
 		
 		return super.update();
 	}
 	
 	@Override
 	public void onInteraction() {
-		animation.play();
+		_animation.play();
 		
-		for(String targetId : TARGET_IDS) {
+		for(String targetId : _targetIds) {
 			ProgrammableEntity target = (ProgrammableEntity)Globals.getCurrentRoom().getEntityById(targetId);
 			if(target.isActivated()) {
 				target.move();
@@ -63,11 +63,11 @@ public final class ProgrammableTriggerEntity extends Entity implements IInteract
 	}
 	
 	@Override
-	protected void createSprite(EntityBodyDef bodyDef, TextureRegion textureRegion) {
-		super.createSprite(bodyDef, textureRegion);
+	protected void _createSprite(EntityBodyDef bodyDef, TextureRegion textureRegion) {
+		super._createSprite(bodyDef, textureRegion);
 		
 		Vector2 pos = bodyDef.position;
 		Vector2 size = bodyDef.size;		
-		animation = new Animation.Builder("programmable_trigger", pos, size, 0.2f).build();
+		_animation = new Animation.Builder("programmable_trigger", pos, size, 0.2f).build();
 	}
 }

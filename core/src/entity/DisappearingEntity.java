@@ -12,28 +12,28 @@ import com.badlogic.gdx.utils.Timer.Task;
 
 public final class DisappearingEntity extends Entity {
 
-	private EntityBodyDef ENTITY_BODY_DEF;
-	private TextureMapObject MAP_OBJECT;
-	private MapObject BODY_SKELETON;
-	private final float DISAPPEAR_DURATION;
-	private final float RECREATE_DELAY;
-	private final boolean DISAPPEAR_ON_TOUCH;
-	private final boolean RECREATE;
+	private EntityBodyDef _entityBodyDef;
+	private TextureMapObject _mapObject;
+	private MapObject _bodySkeleton;
+	private final float _disappearDuration;
+	private final float _recreateDelay;
+	private final boolean disappearOnTouch;
+	private final boolean _recreate;
 	
-	private long disappearStartTime;
-	private boolean disappearing = false;
+	private long _disappearStartTime;
+	private boolean _disappearing = false;
 	
 	public DisappearingEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);
 		
-		ENTITY_BODY_DEF = bodyDef;
-		MAP_OBJECT = object;
-		BODY_SKELETON = bodySkeleton;
+		_entityBodyDef = bodyDef;
+		_mapObject = object;
+		_bodySkeleton = bodySkeleton;
 		
-		DISAPPEAR_DURATION = Utils.getPropertyFloat(object, "disappear_duration");
-		RECREATE_DELAY = Utils.getPropertyFloat(object, "recreate_delay");
-		DISAPPEAR_ON_TOUCH = Utils.getPropertyBoolean(object, "disappear_on_touch");
-		RECREATE = Utils.getPropertyBoolean(object, "recreate");
+		_disappearDuration = Utils.getPropertyFloat(object, "disappear_duration");
+		_recreateDelay = Utils.getPropertyFloat(object, "recreate_delay");
+		disappearOnTouch = Utils.getPropertyBoolean(object, "disappear_on_touch");
+		_recreate = Utils.getPropertyBoolean(object, "recreate");
 	}
 	
 	@Override
@@ -43,12 +43,12 @@ public final class DisappearingEntity extends Entity {
 	
 	@Override
 	public boolean update() {
-		if(disappearing) {
-			float timeSinceDisappearStart = TimeUtils.millis() - disappearStartTime;			
-			sprite.setAlpha(1 - (timeSinceDisappearStart / DISAPPEAR_DURATION));
+		if(_disappearing) {
+			float timeSinceDisappearStart = TimeUtils.millis() - _disappearStartTime;			
+			_sprite.setAlpha(1 - (timeSinceDisappearStart / _disappearDuration));
 			
-			if(timeSinceDisappearStart > DISAPPEAR_DURATION) {
-				disappearing = false;
+			if(timeSinceDisappearStart > _disappearDuration) {
+				_disappearing = false;
 				markDone();
 			}
 		}
@@ -58,8 +58,8 @@ public final class DisappearingEntity extends Entity {
 	
 	@Override
 	public void done() {
-		if(RECREATE) {
-			recreate();
+		if(_recreate) {
+			_recreate();
 		}
 		
 		super.done();
@@ -67,8 +67,8 @@ public final class DisappearingEntity extends Entity {
 
 	@Override
 	public void onBeginContact(Contact contact, Entity entity) {
-		if(DISAPPEAR_ON_TOUCH && Utils.isPlayer(entity)) {
-			disappear();
+		if(disappearOnTouch && Utils.isPlayer(entity)) {
+			_disappear();
 		}
 	}	
 	
@@ -77,14 +77,14 @@ public final class DisappearingEntity extends Entity {
 		return false;
 	}
 	
-	private void disappear() {
-		if(!disappearing) {
-			disappearing = true;
-			disappearStartTime = TimeUtils.millis();
+	private void _disappear() {
+		if(!_disappearing) {
+			_disappearing = true;
+			_disappearStartTime = TimeUtils.millis();
 		}
 	}
 	
-	private void recreate() {
+	private void _recreate() {
 		Timer timer = new Timer();
 		timer.scheduleTask(new Task() {
 			@Override
@@ -94,10 +94,10 @@ public final class DisappearingEntity extends Entity {
 //					player.respawnPlayer();
 //				}
 				
-				DisappearingEntity entity = new DisappearingEntity(ENTITY_BODY_DEF, MAP_OBJECT, BODY_SKELETON);
+				DisappearingEntity entity = new DisappearingEntity(_entityBodyDef, _mapObject, _bodySkeleton);
 				entity.setBodyData();
 				Globals.getCurrentRoom().addEntity(entity);
 			}			
-		}, RECREATE_DELAY / 1000);	
+		}, _recreateDelay / 1000);	
 	}
 }

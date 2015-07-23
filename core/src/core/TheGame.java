@@ -12,13 +12,13 @@ public final class TheGame extends Game {
 	public static boolean PRINT_FPS = false;
 	public static boolean PACK_TEXTURES = false;
 	
-	private GameScreen gameScreen;
+	private GameScreen _gameScreen;
 	
 	@Override
 	public void create() {
-		gameScreen = new GameScreen(this);
+		_gameScreen = new GameScreen(this);
 		
-		setScreen(gameScreen);
+		setScreen(_gameScreen);
 	}
 
 	@Override

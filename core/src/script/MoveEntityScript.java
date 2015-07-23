@@ -10,22 +10,22 @@ import entity.SmoothMovingEntity;
 
 public final class MoveEntityScript extends Script {
 
-	private final String TARGET_ID;
+	private final String _targetId;
 	
-	private String[] serializedPath;
-	private float[] intervals;
+	private String[] _serializedPath;
+	private float[] _intervals;
 	
 	protected MoveEntityScript(MapObject object) {
 		super(object);
 		
-		TARGET_ID = Utils.getPropertyString(object, "target_id");
+		_targetId = Utils.getPropertyString(object, "target_id");
 		
 		if(Utils.propertyExists(object, "path")) {
-			serializedPath = Utils.getPropertyStringArray(object, "path", " ");
+			_serializedPath = Utils.getPropertyStringArray(object, "path", " ");
 		}
 		
 		if(Utils.propertyExists(object, "intervals")) {
-			intervals = Utils.getPropertyFloatArray(object, "intervals", ",");
+			_intervals = Utils.getPropertyFloatArray(object, "intervals", ",");
 		}
 	}
 
@@ -36,14 +36,14 @@ public final class MoveEntityScript extends Script {
 	
 	@Override
 	public void onStart() {
-		IMovingEntity entity = (IMovingEntity)Globals.getCurrentRoom().getEntityById(TARGET_ID);
+		IMovingEntity entity = (IMovingEntity)Globals.getCurrentRoom().getEntityById(_targetId);
 		
-		if(serializedPath != null) {
-			entity.setPath(serializedPath);
+		if(_serializedPath != null) {
+			entity.setPath(_serializedPath);
 		}
 		
-		if(intervals != null) {
-			entity.setIntervals(intervals);
+		if(_intervals != null) {
+			entity.setIntervals(_intervals);
 		}
 		
 		entity.start();

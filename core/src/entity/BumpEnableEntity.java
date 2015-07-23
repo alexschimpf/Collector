@@ -17,7 +17,7 @@ public final class BumpEnableEntity extends Entity {
 		super(bodyDef, object, bodySkeleton);
 		
 		boolean enabled = Utils.getPropertyBoolean(object, "enabled");	
-		setEnabled(enabled);
+		_setEnabled(enabled);
 	}
 	
 	@Override
@@ -37,21 +37,21 @@ public final class BumpEnableEntity extends Entity {
 			Gdx.app.postRunnable(new Runnable() {
 				@Override
 				public void run() {
-					Fixture fixture = body.getFixtureList().get(0);
-					setEnabled(fixture.isSensor());
+					Fixture fixture = _body.getFixtureList().get(0);
+					_setEnabled(fixture.isSensor());
 				}				
 			});
 		}
 	}
 	
-	private void setEnabled(boolean enabled) {
-		isActive = enabled;
+	private void _setEnabled(boolean enabled) {
+		_isActive = enabled;
 		
 		int index = enabled ? 2 : 1;
-		sprite.setRegion(Globals.getImageTexture("bump_enable", index));
-		sprite.setFlip(false, true);
+		_sprite.setRegion(Globals.getImageTexture("bump_enable", index));
+		_sprite.setFlip(false, true);
 		
-		Fixture fixture = body.getFixtureList().get(0);
+		Fixture fixture = _body.getFixtureList().get(0);
 		fixture.setSensor(!enabled);
 	}
 }

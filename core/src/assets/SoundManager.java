@@ -12,7 +12,7 @@ public final class SoundManager {
 
 	private static SoundManager instance;
 	
-	private final HashMap<String, Sound> SOUND_MAP = new HashMap<String, Sound>();
+	private final HashMap<String, Sound> _soundMap = new HashMap<String, Sound>();
 	
 	public static SoundManager getInstance() {
 		if(instance == null) {
@@ -32,22 +32,22 @@ public final class SoundManager {
 	
 		for(FileHandle file : soundFiles) {
 			String filename = file.name();
-			addSound(filename);
+			_addSound(filename);
 		}
 	}
 	
 	public Sound getSound(String key) {
-		return SOUND_MAP.get(key);
+		return _soundMap.get(key);
 	}
 	
 	public void playSound(String key) {
-		Sound sound = SOUND_MAP.get(key);
+		Sound sound = _soundMap.get(key);
 		sound.play();
 	}
 	
-	private void addSound(String filename) {
+	private void _addSound(String filename) {
 		Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/" + filename));
 		String key = filename.substring(0, filename.lastIndexOf('.'));
-		SOUND_MAP.put(key, sound);
+		_soundMap.put(key, sound);
 	}
 }

@@ -14,12 +14,12 @@ public final class CollisionListener implements ContactListener {
 
 	@Override
 	public void beginContact(Contact contact) {
-		onContact(contact, true);
+		_onContact(contact, true);
 	}
 
 	@Override
 	public void endContact(Contact contact) {
-		onContact(contact, false);
+		_onContact(contact, false);
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public final class CollisionListener implements ContactListener {
 
 	}
 	
-	private void onContact(Contact contact, boolean beginContact) {
+	private void _onContact(Contact contact, boolean beginContact) {
 		Fixture fixA = contact.getFixtureA();
 		Fixture fixB = contact.getFixtureB();
 		
@@ -42,7 +42,7 @@ public final class CollisionListener implements ContactListener {
 		BodyData dataB = (BodyData)bodyB.getUserData();
 		Entity a = dataA.getEntity();
 		Entity b = dataB.getEntity();
-		checkPlayerFootContacts(contact, a, b, beginContact);
+		_checkPlayerFootContacts(contact, a, b, beginContact);
 		
 		if(a == null || b == null) {
 			if(Utils.isPlayerShot(a)) {
@@ -70,7 +70,7 @@ public final class CollisionListener implements ContactListener {
 		}		
 	}
 	
-	private void checkPlayerFootContacts(Contact contact, Entity a, Entity b, boolean beginContact) {
+	private void _checkPlayerFootContacts(Contact contact, Entity a, Entity b, boolean beginContact) {
 		Fixture fixA = contact.getFixtureA();
 		Fixture fixB = contact.getFixtureB();
 		if((fixA.isSensor() && Utils.isPlayer(a) && !fixB.isSensor()) ||

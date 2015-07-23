@@ -18,48 +18,48 @@ public final class Animation implements IRender, IUpdate, IAnimate {
 		PLAYING, PAUSED, STOPPED, FINISHED
 	}
 	
-	private final Sprite SPRITE = new Sprite();
+	private final boolean _loop;
+	private final Sprite _sprite = new Sprite();
 	
-	private float stateTime = 0;
-	private State state;
-	private final boolean loop;
-	private String key;
-	private com.badlogic.gdx.graphics.g2d.Animation rawAnimation;
+	private float _stateTime = 0;
+	private State _state;
+	private String _key;
+	private com.badlogic.gdx.graphics.g2d.Animation _rawAnimation;
 		
 	private Animation(Builder builder) {
-		key = builder.animationKey;
-		loop = builder.loop;
+		_key = builder._animationKey;
+		_loop = builder._looped;
 		
-		Array<AtlasRegion> regions = Globals.getAnimationTextures(builder.animationKey);
-		float frameDuration = builder.totalDuration / regions.size;
-		rawAnimation = new com.badlogic.gdx.graphics.g2d.Animation(frameDuration, regions);
+		Array<AtlasRegion> regions = Globals.getAnimationTextures(builder._animationKey);
+		float frameDuration = builder._totalDuration / regions.size;
+		_rawAnimation = new com.badlogic.gdx.graphics.g2d.Animation(frameDuration, regions);
 		
-		SPRITE.setPosition(builder.x, builder.y);
-		SPRITE.setSize(builder.width, builder.height);
-		SPRITE.setOrigin(builder.width / 2, builder.height / 2);
+		_sprite.setPosition(builder._x, builder._y);
+		_sprite.setSize(builder._width, builder._height);
+		_sprite.setOrigin(builder._width / 2, builder._height / 2);
 		
-		if(builder.playOnCreate) {
-			state = State.PLAYING;
+		if(builder._playOnCreate) {
+			_state = State.PLAYING;
 		} else {
-			state = State.STOPPED;
+			_state = State.STOPPED;
 		}
 	}
 	
 	@Override
 	public void render(SpriteBatch spriteBatch) {
-		SPRITE.draw(spriteBatch);
+		_sprite.draw(spriteBatch);
 	}
 	
 	@Override
 	public boolean update() {
 		if(isPlaying()) {
-			stateTime += Gdx.graphics.getDeltaTime();
+			_stateTime += Gdx.graphics.getDeltaTime();
 		}
 		
-		updateSprite();
+		_updateSprite();
 		
-		if(!loop && rawAnimation.isAnimationFinished(stateTime)) {
-			state = State.FINISHED;
+		if(!_loop && _rawAnimation.isAnimationFinished(_stateTime)) {
+			_state = State.FINISHED;
 		}
 		
 		return false;
@@ -71,124 +71,124 @@ public final class Animation implements IRender, IUpdate, IAnimate {
 	
 	@Override
 	public Sprite getSprite() {
-		return SPRITE;
+		return _sprite;
 	}
 	
 	public Sprite getSprite(int frame) {
-		TextureRegion textureRegion = rawAnimation.getKeyFrames()[frame];
-		SPRITE.setRegion(textureRegion);
-		SPRITE.setFlip(false, true);
+		TextureRegion textureRegion = _rawAnimation.getKeyFrames()[frame];
+		_sprite.setRegion(textureRegion);
+		_sprite.setFlip(false, true);
 		
-		return SPRITE;
+		return _sprite;
 	}
 	
 	public void flipSprite(boolean hor, boolean vert) {
-		SPRITE.setFlip(hor, vert);
+		_sprite.setFlip(hor, vert);
 	}
 	
 	public float getX() {
-		return SPRITE.getX();
+		return _sprite.getX();
 	}
 	
 	public float getY() {
-		return SPRITE.getY();
+		return _sprite.getY();
 	}
 	
 	public float getWidth() {
-		return SPRITE.getWidth();
+		return _sprite.getWidth();
 	}
 	
 	public float getHeight() {
-		return SPRITE.getHeight();
+		return _sprite.getHeight();
 	}
 	
 	@Override
 	public void play() {
-		stateTime = 0;
-		state = State.PLAYING;
+		_stateTime = 0;
+		_state = State.PLAYING;
 	}
 	
 	@Override
 	public void resume() {
-		state = State.PLAYING;
+		_state = State.PLAYING;
 	}
 	
 	@Override
 	public void pause() {
-		state = State.PAUSED;
+		_state = State.PAUSED;
 	}
 	
 	@Override
 	public void stop() {
-		stateTime = 0;
-		state = State.STOPPED;
+		_stateTime = 0;
+		_state = State.STOPPED;
 	}
  
 	@Override
 	public State getState() {
-		return state;
+		return _state;
 	}
 	
 	@Override
 	public boolean isPlaying() {
-		return state == State.PLAYING;
+		return _state == State.PLAYING;
 	}
 	
 	@Override
 	public boolean isPaused() {
-		return state == State.PAUSED;
+		return _state == State.PAUSED;
 	}
 	
 	public boolean isStopped() {
-		return state == State.STOPPED;
+		return _state == State.STOPPED;
 	}
 	
 	@Override
 	public boolean isFinished() {
-		return state == State.FINISHED;
+		return _state == State.FINISHED;
 	}
 	
 	public String getKey() {
-		return key;
+		return _key;
 	}
 	
 	public void setKey(String key) {
-		this.key = key;
+		this._key = key;
 	}
 	
-	private void updateSprite() {
-		TextureRegion textureRegion = rawAnimation.getKeyFrame(stateTime, loop);
-		SPRITE.setRegion(textureRegion);
+	private void _updateSprite() {
+		TextureRegion textureRegion = _rawAnimation.getKeyFrame(_stateTime, _loop);
+		_sprite.setRegion(textureRegion);
 	}
 	
 	public static class Builder {
 
-		private final String animationKey;
-		private final float totalDuration; 
-		private final float x;
-		private final float y;
-		private final float width;
-		private final float height;
+		private final String _animationKey;
+		private final float _totalDuration; 
+		private final float _x;
+		private final float _y;
+		private final float _width;
+		private final float _height;
 
-		private boolean loop = false;
-		private boolean playOnCreate = false;
+		private boolean _looped = false;
+		private boolean _playOnCreate = false;
 		
 		public Builder(String animationKey, Vector2 pos, Vector2 size, float totalDuration) {
-			this.animationKey = animationKey;
-			this.totalDuration = totalDuration;
-			this.x = pos.x;
-			this.y = pos.y;
-			this.width = size.x;
-			this.height = size.y;
+			this._animationKey = animationKey;
+			this._totalDuration = totalDuration;
+			this._x = pos.x;
+			this._y = pos.y;
+			this._width = size.x;
+			this._height = size.y;
 		}
 		
 		public Builder loop(boolean loop) {
-			this.loop = loop;
+			_looped = loop;
 			return this;
 		}
 		
 		public Builder playOnCreate(boolean playOnCreate) {
-			this.playOnCreate = playOnCreate;
+			this._playOnCreate = playOnCreate;
 			return this;
 		}
 		

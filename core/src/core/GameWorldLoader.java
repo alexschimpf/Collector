@@ -35,14 +35,14 @@ import entity.special.Player;
 
 public final class GameWorldLoader {
 	
-	private final HashMap<String, MapObject> BODY_SKELETON_MAP = new HashMap<String, MapObject>();
+	private final HashMap<String, MapObject> _bodySkeletonMap = new HashMap<String, MapObject>();
 	
-	private final TiledMap TILE_MAP;
-	private final GameRoom ROOM;
+	private final TiledMap _tileMap;
+	private final GameRoom _room;
 	
 	public GameWorldLoader(TiledMap tileMap, boolean isLobby) {
-		TILE_MAP = tileMap;
-		ROOM = new GameRoom(isLobby);
+		_tileMap = tileMap;
+		_room = new GameRoom(isLobby);
 		
 		Globals.getPhysicsWorld();
 	}
@@ -50,10 +50,10 @@ public final class GameWorldLoader {
 	public void load() {
 		Globals.getGameWorld().clearPhysicsWorld();
 		
-		Globals.getGameWorld().setCurrentRoom(ROOM);		
+		Globals.getGameWorld().setCurrentRoom(_room);		
 		
 		LinkedList<MapLayer> orderedLayers = new LinkedList<MapLayer>();
-		for(MapLayer layer : TILE_MAP.getLayers()) {
+		for(MapLayer layer : _tileMap.getLayers()) {
 			if(layer.getName().equals("Bodies")) {
 				orderedLayers.addFirst(layer);
 			} else {
@@ -62,11 +62,11 @@ public final class GameWorldLoader {
 		}
 		
 		for(MapLayer layer : orderedLayers) {
-			loadLayer(layer);
+			_loadLayer(layer);
 		}
 	}
 	
-	private void loadLayer(MapLayer layer) {
+	private void _loadLayer(MapLayer layer) {
 		Array<MapObject> bodyObjects = new Array<MapObject>();
 		Array<TextureMapObject> entityObjects = new Array<TextureMapObject>();
 		Array<MapObject> animationObjects = new Array<MapObject>();
@@ -95,7 +95,7 @@ public final class GameWorldLoader {
 				if(type == null) {
 					bodyObjects.add(object);
 				} else if(type.equals("body_skeleton")) {
-					BODY_SKELETON_MAP.put(object.getName(), object);
+					_bodySkeletonMap.put(object.getName(), object);
 				} else if(type.equals("animation")) {
 					animationObjects.add(object);
 				} else {
@@ -104,28 +104,28 @@ public final class GameWorldLoader {
 			}
 		}
 		
-		loadBodies(bodyObjects);
-		loadEntities(entityObjects, BODY_SKELETON_MAP);
-		loadAnimations(animationObjects);
+		_loadBodies(bodyObjects);
+		_loadEntities(entityObjects, _bodySkeletonMap);
+		_loadAnimations(animationObjects);
 	}
 	
-	private void loadBodies(Array<MapObject> objects) {
+	private void _loadBodies(Array<MapObject> objects) {
 		for(MapObject object : objects) {
 			if(object instanceof RectangleMapObject) {
-				loadBodyFromRectangle(object);
+				_loadBodyFromRectangle(object);
 			} else if(object instanceof PolylineMapObject) {
-				loadBodyFromPolyline(object);
+				_loadBodyFromPolyline(object);
 			} else if(object instanceof CircleMapObject) {
-				loadBodyFromCircle(object);
+				_loadBodyFromCircle(object);
 			} else if(object instanceof EllipseMapObject) {
-				loadBodyFromEllipse(object);
+				_loadBodyFromEllipse(object);
 			} else if(object instanceof PolygonMapObject) {
-				loadBodyFromPolygon(object);
+				_loadBodyFromPolygon(object);
 			}
 		}
 	}
 	
-	private void loadEntities(Array<TextureMapObject> objects, HashMap<String, MapObject> bodySkeletonMap) {
+	private void _loadEntities(Array<TextureMapObject> objects, HashMap<String, MapObject> bodySkeletonMap) {
 		for(TextureMapObject object : objects) {
 			MapProperties properties = object.getProperties();
 			String type = Utils.getPropertyString(object, "type");
@@ -134,7 +134,7 @@ public final class GameWorldLoader {
 			}
 			
 			if(properties.containsKey("is_script") && Utils.getPropertyBoolean(object, "is_script")) {
-				ROOM.addScriptTemplate(object);
+				_room.addScriptTemplate(object);
 				continue;
 			}
 			
@@ -166,7 +166,7 @@ public final class GameWorldLoader {
 				bodySkeleton = object;
 			}
 			
-			EntityBodyDef bodyDef = getBodyDef(object);
+			EntityBodyDef bodyDef = _getBodyDef(object);
 			Entity entity = validator.getEntity(bodyDef, object, bodySkeleton);
 			entity.setBodyData();
 			
@@ -174,11 +174,11 @@ public final class GameWorldLoader {
 				Globals.getGameWorld().setPlayer((Player)entity);
 			}
 
-			ROOM.addEntity(entity);
+			_room.addEntity(entity);
 		}
 	}
 	
-	private void loadAnimations(Array<MapObject> animationObjects) {
+	private void _loadAnimations(Array<MapObject> animationObjects) {
 		for(MapObject object : animationObjects) {
 			MapProperties properties = object.getProperties();
 			if(!properties.containsKey("animation_key")) {
@@ -195,7 +195,7 @@ public final class GameWorldLoader {
 			Float totalDuration = Utils.getPropertyFloat(object, "total_duration");	
 			Boolean loop = Utils.getPropertyBoolean(object, "loop");
 			Globals.getGameScreen().addAnimation(
-        		new Animation.Builder(animationKey, getObjectPosition(object), getObjectSize(object), totalDuration)
+        		new Animation.Builder(animationKey, _getObjectPosition(object), _getObjectSize(object), totalDuration)
         		.loop(loop != null ? loop : true)
         		.playOnCreate(true)
         		.build()
@@ -203,7 +203,7 @@ public final class GameWorldLoader {
 		}
 	}
 	
-	private void loadBodyFromRectangle(MapObject object) {
+	private void _loadBodyFromRectangle(MapObject object) {
 		Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
 		
 		float unitScale = Globals.getCamera().getTileMapScale();	
@@ -234,7 +234,7 @@ public final class GameWorldLoader {
 		fixtureDef.shape.dispose();
 	}
 	
-	private void loadBodyFromPolyline(MapObject object) {
+	private void _loadBodyFromPolyline(MapObject object) {
 		BodyDef bodyDef = new BodyDef();
 	    bodyDef.position.set(0, 0);
 	    bodyDef.type = BodyType.StaticBody;
@@ -249,7 +249,7 @@ public final class GameWorldLoader {
 		fixtureDef.shape.dispose();
 	}
 
-    private void loadBodyFromCircle(MapObject object) {
+    private void _loadBodyFromCircle(MapObject object) {
     	Circle circle = ((CircleMapObject)object).getCircle();
     	
     	float unitScale = Globals.getCamera().getTileMapScale();
@@ -272,7 +272,7 @@ public final class GameWorldLoader {
     }
     
     // Just assume the ellipse is a circle.
-    private void loadBodyFromEllipse(MapObject object) {
+    private void _loadBodyFromEllipse(MapObject object) {
     	Ellipse circle = ((EllipseMapObject)object).getEllipse();
     	
     	float unitScale = Globals.getCamera().getTileMapScale();
@@ -294,7 +294,7 @@ public final class GameWorldLoader {
 		fixtureDef.shape.dispose();
     }
     
-    private void loadBodyFromPolygon(MapObject object) {
+    private void _loadBodyFromPolygon(MapObject object) {
     	BodyDef bodyDef = new BodyDef();
 	    bodyDef.position.set(0, 0);
 	    bodyDef.type = BodyType.StaticBody;
@@ -309,7 +309,7 @@ public final class GameWorldLoader {
 		fixtureDef.shape.dispose();
     }
     
-    private EntityBodyDef getBodyDef(MapObject object) {
+    private EntityBodyDef _getBodyDef(MapObject object) {
     	MapProperties properties = object.getProperties();
     	if(!properties.containsKey("body_type")) {
     		throw new NullPointerException("TextureMapObject does not contain property 'body_type'");
@@ -327,10 +327,10 @@ public final class GameWorldLoader {
     		throw new NullPointerException("TextureMapObject does not contain valid 'body_type' property");
     	}
  
-    	return new EntityBodyDef(getObjectPosition(object), getObjectSize(object), bodyType);
+    	return new EntityBodyDef(_getObjectPosition(object), _getObjectSize(object), bodyType);
     }
     
-    private Vector2 getObjectSize(MapObject object) {
+    private Vector2 _getObjectSize(MapObject object) {
     	float unitScale = Globals.getCamera().getTileMapScale();
     	float width = Utils.getPropertyFloat(object, "width") * unitScale;
     	float height = Utils.getPropertyFloat(object, "height") * unitScale;
@@ -338,7 +338,7 @@ public final class GameWorldLoader {
     	return new Vector2(width, height);
     }
     
-    private Vector2 getObjectPosition(MapObject object) {
+    private Vector2 _getObjectPosition(MapObject object) {
     	float unitScale = Globals.getCamera().getTileMapScale();
     	float width = Utils.getPropertyFloat(object, "width") * unitScale;
     	float height = Utils.getPropertyFloat(object, "height") * unitScale;

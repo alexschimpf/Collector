@@ -21,15 +21,15 @@ import entity.special.Player;
 
 public class GameRoom implements IRender, IUpdate {
 
-	private final ConcurrentHashMap<String, Entity> ENTITY_MAP = new ConcurrentHashMap<String, Entity>();
-	private final ConcurrentHashMap<String, MapObject> SCRIPT_TEMPLATE_MAP = new ConcurrentHashMap<String, MapObject>();
-	private final Array<Script> ACTIVE_SCRIPTS = new Array<Script>();
-	private final HashMap<String, Rectangle> ROOM_ENTRANCE_LOCATION_MAP = new HashMap<String, Rectangle>();
+	private final ConcurrentHashMap<String, Entity> _entityMap = new ConcurrentHashMap<String, Entity>();
+	private final ConcurrentHashMap<String, MapObject> _scriptTemplateMap = new ConcurrentHashMap<String, MapObject>();
+	private final Array<Script> _activeScripts = new Array<Script>();
+	private final HashMap<String, Rectangle> _roomEntranceLocationMap = new HashMap<String, Rectangle>();
 	
-	private boolean isLobby;
+	private boolean _isLobby;
 	
 	public GameRoom(boolean isLobby) {	
-		this.isLobby = isLobby;
+		this._isLobby = isLobby;
 	}
 
 	@Override
@@ -43,8 +43,8 @@ public class GameRoom implements IRender, IUpdate {
 	
 	@Override
 	public boolean update() {
-		updateScripts();
-		updateEntities();
+		_updateScripts();
+		_updateEntities();
 		
 		return false;
 	}
@@ -55,56 +55,56 @@ public class GameRoom implements IRender, IUpdate {
 	}
 	
 	public boolean isLobby() {
-		return isLobby;
+		return _isLobby;
 	}
 	
 	public Collection<Entity> getEntities() {
-		return ENTITY_MAP.values();
+		return _entityMap.values();
 	}
 	
 	public Entity getEntityById(String id) {
-		return ENTITY_MAP.get(id);
+		return _entityMap.get(id);
 	}
 	
 	public Script createScriptById(String id) {
-		MapObject template = SCRIPT_TEMPLATE_MAP.get(id);
+		MapObject template = _scriptTemplateMap.get(id);
 		return Script.build(template);	
 	}
 	
 	public void startScript(String id) {
 		Script script = createScriptById(id);
 		script.onStart();
-		ACTIVE_SCRIPTS.add(script);
+		_activeScripts.add(script);
 	}
 	
 	public void removeEntityById(String id) {
-		ENTITY_MAP.remove(id);
+		_entityMap.remove(id);
 	}
 	
 	public void removeEntity(Entity entity) {
-		ENTITY_MAP.remove(entity.getId());
+		_entityMap.remove(entity.getId());
 	}
 	
 	public void addEntity(Entity entity) {
-		ENTITY_MAP.put(entity.getId(), entity);
+		_entityMap.put(entity.getId(), entity);
 	}
 	
 	public void addScriptTemplate(MapObject object) {
-		SCRIPT_TEMPLATE_MAP.put(object.getName(), object);
+		_scriptTemplateMap.put(object.getName(), object);
 	}
 
 	public boolean entityIdExists(String id) {
-		return ENTITY_MAP.containsKey(id);
+		return _entityMap.containsKey(id);
 	}
 	
 	public void addRoomEntranceLocation(String tileMapName, Rectangle location) {
-		ROOM_ENTRANCE_LOCATION_MAP.put(tileMapName, location);
+		_roomEntranceLocationMap.put(tileMapName, location);
 	}
 	
 	public String checkForRoomEntrance() {
 		Player player = Globals.getGameWorld().getPlayer();
 		Rectangle playerRect = new Rectangle(player.getLeft(), player.getTop(), player.getWidth(), player.getHeight());
-		for(Entry<String, Rectangle> entry : ROOM_ENTRANCE_LOCATION_MAP.entrySet()) {
+		for(Entry<String, Rectangle> entry : _roomEntranceLocationMap.entrySet()) {
 			String tileMapName = entry.getKey();
 			Rectangle roomEntranceRect = entry.getValue();
 			
@@ -116,8 +116,8 @@ public class GameRoom implements IRender, IUpdate {
 		return null;
 	}
 	
-	private void updateEntities() {
-		Iterator<Entry<String, Entity>> entitiesIter = ENTITY_MAP.entrySet().iterator();
+	private void _updateEntities() {
+		Iterator<Entry<String, Entity>> entitiesIter = _entityMap.entrySet().iterator();
 		while(entitiesIter.hasNext()) {
 			Entity entity = entitiesIter.next().getValue();
 			if(entity.update()) {
@@ -127,8 +127,8 @@ public class GameRoom implements IRender, IUpdate {
  		}
 	}
 	
-	private void updateScripts() {
-		Iterator<Script> scriptsIter = ACTIVE_SCRIPTS.iterator();
+	private void _updateScripts() {
+		Iterator<Script> scriptsIter = _activeScripts.iterator();
 		while(scriptsIter.hasNext()) {
 			Script script = scriptsIter.next();
 			if(script.update()) {
@@ -139,28 +139,28 @@ public class GameRoom implements IRender, IUpdate {
 	}
 
 	public boolean isEntityAt(float left, float bottom, float width, float height) {
-		return isEntityAt(left, bottom, width, height, null, null, null, null);
+		return _isEntityAt(left, bottom, width, height, null, null, null, null);
 	}
 
 	public boolean isEntityAt(float left, float bottom, float width, float height, Entity ignoreEntity) {
-		return isEntityAt(left, bottom, width, height, null, null, ignoreEntity, null);
+		return _isEntityAt(left, bottom, width, height, null, null, ignoreEntity, null);
 	}
 	
 	public boolean isEntityAt2(float left, float bottom, float width, float height, Entity includeEntity) {
 		Array<Entity> includeEntities = new Array<Entity>();
 		includeEntities.add(includeEntity);
-		return isEntityAt(left, bottom, width, height, includeEntities, null, null, null);
+		return _isEntityAt(left, bottom, width, height, includeEntities, null, null, null);
 	}
 
 	public boolean isEntityAt(float left, float bottom, float width, float height, String ignoreType) {
-		return isEntityAt(left, bottom, width, height, null, null, null, ignoreType);
+		return _isEntityAt(left, bottom, width, height, null, null, null, ignoreType);
 	}
 	
 	public boolean isEntityAt(float left, float bottom, float width, float height, Array<String> includeTypes) {
-		return isEntityAt(left, bottom, width, height, null, includeTypes, null, null);
+		return _isEntityAt(left, bottom, width, height, null, includeTypes, null, null);
 	}
 	
-	private boolean isEntityAt(float left, float bottom, float width, float height, Array<Entity> includeEntities, 
+	private boolean _isEntityAt(float left, float bottom, float width, float height, Array<Entity> includeEntities, 
 			                   Array<String> includeTypes, Entity ignoreEntity, String ignoreType) {
 		Rectangle a = new Rectangle(left, bottom, width, height);
 		Rectangle b = new Rectangle();

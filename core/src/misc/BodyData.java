@@ -4,17 +4,17 @@ import entity.Entity;
 
 public final class BodyData {
 
-	private Entity entity;
+	private Entity _entity;
 
 	public BodyData(Entity entity) {
-		this.entity = entity;;
+		_entity = entity;;
 	}
 
 	public void markEntityDone() {
-		entity.markDone();
+		_entity.markDone();
 	}
 	
 	public Entity getEntity() {
-		return this.entity;
+		return _entity;
 	}
 }
