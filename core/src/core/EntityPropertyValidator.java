@@ -68,7 +68,7 @@ public final class EntityPropertyValidator {
 		EntityProperties entityProperties = _entityPropertiesMap.get(entityType);
 		
 		// Fill in override property values.
-		for(Entry<String, String> override : entityProperties.OVERRIDE_MAP.entrySet()) {
+		for(Entry<String, String> override : entityProperties.overrideMap.entrySet()) {
 			String name = override.getKey();
 			String value = override.getValue();
 			mapProperties.put(name, value);
@@ -186,18 +186,18 @@ public final class EntityPropertyValidator {
 	
 	public final class EntityProperties {
 		
-		public final HashMap<String, EntityProperty> REQUIRED_PROPERTY_MAP = new HashMap<String, EntityProperty>();
-		public final HashMap<String, EntityProperty> OPTIONAL_PROPERTY_MAP = new HashMap<String, EntityProperty>();
-		public final HashMap<String, String> OVERRIDE_MAP = new HashMap<String, String>();
+		public final HashMap<String, EntityProperty> requiredPropertyMap = new HashMap<String, EntityProperty>();
+		public final HashMap<String, EntityProperty> optionalPropertyMap = new HashMap<String, EntityProperty>();
+		public final HashMap<String, String> overrideMap = new HashMap<String, String>();
 		
 		public EntityProperties() {		
 		}
 		
 		public EntityProperty getProperty(String name) {
-			if(REQUIRED_PROPERTY_MAP.containsKey(name)) {
-				return REQUIRED_PROPERTY_MAP.get(name);
-			} else if(OPTIONAL_PROPERTY_MAP.containsKey(name)) {
-				return OPTIONAL_PROPERTY_MAP.get(name);
+			if(requiredPropertyMap.containsKey(name)) {
+				return requiredPropertyMap.get(name);
+			} else if(optionalPropertyMap.containsKey(name)) {
+				return optionalPropertyMap.get(name);
 			} else {
 				throw new NullPointerException("Entity property '" + name + "' is not valid!");
 			}
@@ -205,13 +205,13 @@ public final class EntityPropertyValidator {
 		
 		public boolean isPropertyNameValid(String name) {
 			// TODO: Create ignore_properties node in entity_properties.xml
-			return REQUIRED_PROPERTY_MAP.containsKey(name) || OPTIONAL_PROPERTY_MAP.containsKey(name) ||
+			return requiredPropertyMap.containsKey(name) || optionalPropertyMap.containsKey(name) ||
 				   name.equals("body_skeleton_id") || name.equals("image_key");
 		}
 		
 		public Array<String> getRequiredPropertyNames() {
 			Array<String> names = new Array<String>();
-			for(String name : REQUIRED_PROPERTY_MAP.keySet()) {
+			for(String name : requiredPropertyMap.keySet()) {
 				names.add(name);
 			}
 			
@@ -220,7 +220,7 @@ public final class EntityPropertyValidator {
 		
 		public Array<String> getOptionalPropertyNames() {
 			Array<String> names = new Array<String>();
-			for(String name : OPTIONAL_PROPERTY_MAP.keySet()) {
+			for(String name : optionalPropertyMap.keySet()) {
 				names.add(name);
 			}
 			
@@ -229,7 +229,7 @@ public final class EntityPropertyValidator {
 		
 		public Array<String> getOverridePropertyNames() {
 			Array<String> names = new Array<String>();
-			for(String name : OVERRIDE_MAP.keySet()) {
+			for(String name : overrideMap.keySet()) {
 				names.add(name);
 			}
 
@@ -237,14 +237,14 @@ public final class EntityPropertyValidator {
 		}
 		
 		public void addOverride(String name, String value) {
-			OVERRIDE_MAP.put(name, value);
+			overrideMap.put(name, value);
 		}
 		
 		public void addProperty(EntityProperty property) {
 			if(property.required) {
-				REQUIRED_PROPERTY_MAP.put(property.name, property);
+				requiredPropertyMap.put(property.name, property);
 			} else {
-				OPTIONAL_PROPERTY_MAP.put(property.name, property);
+				optionalPropertyMap.put(property.name, property);
 			}
 		}
 	}
