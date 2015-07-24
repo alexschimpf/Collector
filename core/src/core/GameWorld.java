@@ -71,6 +71,8 @@ public final class GameWorld implements IRender, IUpdate {
 	}
 	
 	public void loadRoom(String tileMapName, boolean isLobby) {
+		Globals.getWeatherSystem().reset(true);
+		
 		TileMap tileMap = new TileMap(tileMapName);
 		Globals.getGameScreen().setTileMap(tileMap);
 		GameWorldLoader gameWorldLoader = new GameWorldLoader(tileMap.getRawTileMap(), isLobby);
@@ -82,6 +84,8 @@ public final class GameWorld implements IRender, IUpdate {
 	}
 	
 	public void loadLobbyRoom() {
+		Globals.getWeatherSystem().reset(false);
+		
 		loadRoom(_lobbyTileMapName, true);
 	}
 

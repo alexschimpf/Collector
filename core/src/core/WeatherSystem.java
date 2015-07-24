@@ -22,6 +22,7 @@ public class WeatherSystem implements IRender, IUpdate {
 	
 	private float _time = 0;
 	private float _light = 1;
+	private boolean _enabled = true;
 	
 	public static WeatherSystem getInstance() {
 		if(instance == null) {
@@ -39,13 +40,21 @@ public class WeatherSystem implements IRender, IUpdate {
 	
 	@Override
 	public void render(SpriteBatch spriteBatch) {
-//		for(ParticleEffect cloud : CLOUDS) {
-//			cloud.render(spriteBatch);
-//		}
+		if(!_enabled) {
+			return;
+		}		
+		
+		for(ParticleEffect cloud : _clouds) {
+			cloud.render(spriteBatch);
+		}
 	}
 	
 	@Override
-	public boolean update() {
+	public boolean update() {	
+		if(!_enabled) {
+			return false;
+		}
+		
 //		time += TIME_SCALE * Gdx.graphics.getDeltaTime();		
 //		light = Math.min(Math.max(Math.abs(MathUtils.sin(time)), 0.3f), 1f);
 		
@@ -65,7 +74,15 @@ public class WeatherSystem implements IRender, IUpdate {
 
 	@Override
 	public void done() {
-
+	}
+	
+	public void reset(boolean enabled) {
+		_clouds.clear();
+		
+		if(enabled) {
+			_enabled = true;
+			_tryCreateClouds(true);
+		}
 	}
 	
 	public float getLight() {
@@ -77,8 +94,8 @@ public class WeatherSystem implements IRender, IUpdate {
 		while(_clouds.size < gameWorld.getWidth() * gameWorld.getHeight() / Globals.getCamera().getViewportWidth() / 20) {
 			float screenWidth = Globals.getCamera().getViewportWidth();
 			float screenHeight = Globals.getCamera().getViewportHeight();
-			float x = MathUtils.random(gameWorld.getLeft() - (screenWidth / 2), gameWorld.getRight());
-			float y = MathUtils.random(gameWorld.getTop(), gameWorld.getBottom() - (24 * Globals.getTileSize()));
+			float x = MathUtils.random(gameWorld.getLeft(), gameWorld.getRight());
+			float y = MathUtils.random(gameWorld.getTop(), gameWorld.getBottom());
 			ParticleEffect cloud = Globals.getParticleEffectManager().getParticleEffect("cloud", x, y);
 			cloud.minMaxSize(screenWidth * 0.8f, screenWidth);
 			cloud.fadeIn(randomFadeIn ? Utils.choose(true, false) : true);

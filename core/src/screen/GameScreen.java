@@ -60,6 +60,7 @@ public final class GameScreen implements Screen {
 		Globals.setGameScreen(this);
 		
 		Globals.getGameWorld().loadRoom("world_1/world_start_tile_map.tmx", true);
+		Globals.getWeatherSystem().reset(false);
 		
 		if(TheGame.MUSIC) {
 			// TODO: How to implement music?
@@ -137,7 +138,7 @@ public final class GameScreen implements Screen {
 		float light = weatherSystem.getLight();
 		
 //		Gdx.gl.glClearColor(224 / 255.0f, 245 / 255.0f, 255 / 255.0f, 1);
-		Gdx.gl.glClearColor(240 / 255.0f, 250 / 255.0f, 255 / 255.0f, 1);
+		Gdx.gl.glClearColor((240 / 255.0f) * 0.8f, (250 / 255.0f) * 0.8f, (255 / 255.0f) * 0.8f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		OrthographicCamera camera = Globals.getCamera().getRawCamera();

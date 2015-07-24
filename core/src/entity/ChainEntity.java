@@ -69,6 +69,11 @@ public final class ChainEntity extends Entity {
 		}
 	}
 	
+	@Override
+	public boolean isValidForPlayerRespawn() {
+		return false;
+	}
+	
 	public void activate() {	
 		if(_isChainStart() && _state == 0) {
 			_sprite.setColor(_chainStartColor);
