@@ -107,6 +107,16 @@ public final class Utils {
 		return properties.get(key).toString();
 	}
 	
+	public static Vector2 getPropertyVector2(MapObject mapObject, String key) {
+		if(getPropertyString(mapObject, key).isEmpty()) {
+			return new Vector2();
+		}
+		
+		float[] vals = getPropertyFloatArray(mapObject, key, ",");
+		return new Vector2(vals[0], vals[1]);
+		
+	}
+	
 	public static boolean[] getPropertyBooleanArray(MapObject mapObject, String key, String delim) {
 		String full = getPropertyString(mapObject, key);
 		

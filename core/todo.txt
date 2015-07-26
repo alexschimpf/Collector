@@ -31,6 +31,7 @@ Design Route
 ---------------------------------------------------------------------------------------------------------------
 
 New room ideas:
+- The entities change depending on your movement and location
 - Water
 - Invisible terrain
 - Terrain that disappears piece by piece over time, instead of all at once
@@ -53,7 +54,8 @@ Room 4:
 
 ---------------------------------------------------------------------------------------------------------------
 
-- Add more entityExistsAt functions
+- Figure out a simple way to allow for entities that have a non-regular size
+- Improve cloud placement
 - How to do smooth scrolling with non-unit movement path pieces?
 	- Break non-unit pieces into multiple unit movements?
 - How to check for collisions with terrain?

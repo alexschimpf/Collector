@@ -98,6 +98,7 @@
 				<property name="loop" default="true" />
 				<property name="start_on_create" default="false" />
 				<property name="is_fatal" default="false" />
+				<property name="respawn_pos" default="" note="dx,dy from starting position"/>
             </optional>
             <override>
                 <property name="body_type" value="kinematic" />

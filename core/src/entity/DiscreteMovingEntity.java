@@ -79,6 +79,11 @@ public class DiscreteMovingEntity extends Entity implements IMovingEntity {
 		this._intervals = intervals;
 	}
 	
+	@Override
+	public boolean isValidForPlayerRespawn() {
+		return false;
+	}
+	
 	protected Array<Vector2> _buildPath(String[] serializedPath) {
 		Array<Vector2> path = new Array<Vector2>();
 		
@@ -112,13 +117,23 @@ public class DiscreteMovingEntity extends Entity implements IMovingEntity {
 			int nextPathPos = _getNextPathPos();
 			
 			Vector2 nextPos = _path.get(nextPathPos);
-			if(!Globals.getCurrentRoom().isEntityAt(nextPos.x, nextPos.y, getWidth(), getHeight())) {
-				setPosition(nextPos.x + (getWidth() / 2), nextPos.y + (getHeight() / 2));				
+			float nextX = nextPos.x + (getWidth() / 2);
+			float nextY = nextPos.y + (getHeight() / 2);
+			if(!Globals.getCurrentRoom().isEntityAt(nextX, nextY, getWidth(), getHeight(), "player")) {
+				setPosition(nextX, nextY);				
 				_pathPos = nextPathPos;
 				_lastMoveTime = TimeUtils.millis();
+				
+				// HACK: Setting the position breaks the simulation and may
+				//       leave playing hanging in mid-air.
+				if(Globals.getPlayer().getLinearVelocity().isZero()) {
+					Globals.getPlayer().setLinearVelocity(0, 0.00001f);
+				}
 			} else if(_restartOnBlocked) {
 				nextPos = _path.get(0);
-				setPosition(nextPos.x + (getWidth() / 2), nextPos.y + (getHeight() / 2));				
+				nextX = nextPos.x + (getWidth() / 2);
+				nextY = nextPos.y + (getHeight() / 2);
+				setPosition(nextX, nextY);				
 				_pathPos = 0;
 				_lastMoveTime = TimeUtils.millis();
 			}

@@ -53,6 +53,9 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 			case Keys.C:
 				Globals.getCamera().getRawCamera().zoom = 1;
 				break;
+			case Keys.V:
+				Globals.getWeatherSystem().resetClouds(true);
+				break;
 		}
 		
 		return true;

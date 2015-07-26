@@ -45,19 +45,19 @@ public final class CollisionListener implements ContactListener {
 		_checkPlayerFootContacts(contact, a, b, beginContact);
 		
 		if(a == null || b == null) {
-			if(Utils.isPlayerShot(a)) {
-				if(beginContact) {
-					a.onBeginContact(contact, b);
-				} else {
-					a.onEndContact(contact, b);
-				}
-			} else if(Utils.isPlayerShot(b)) {
-				if(beginContact) {
-					b.onBeginContact(contact, a);
-				} else {
-					b.onEndContact(contact, a);
-				}
-			}
+//			if(Utils.isPlayerShot(a)) {
+//				if(beginContact) {
+//					a.onBeginContact(contact, b);
+//				} else {
+//					a.onEndContact(contact, b);
+//				}
+//			} else if(Utils.isPlayerShot(b)) {
+//				if(beginContact) {
+//					b.onBeginContact(contact, a);
+//				} else {
+//					b.onEndContact(contact, a);
+//				}
+//			}
 			return;
 		}
 

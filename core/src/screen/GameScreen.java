@@ -60,7 +60,8 @@ public final class GameScreen implements Screen {
 		Globals.setGameScreen(this);
 		
 		Globals.getGameWorld().loadRoom("world_1/world_start_tile_map.tmx", true);
-		Globals.getWeatherSystem().reset(false);
+		Globals.getWeatherSystem().setEnabled(true);
+		Globals.getWeatherSystem().resetClouds(true);
 		
 		if(TheGame.MUSIC) {
 			// TODO: How to implement music?

@@ -12,7 +12,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.vSyncEnabled = true;
 		config.resizable = false;
-		config.title = "The Grid";
+		config.title = "Collector";
 		
 		if(TheGame.PACK_TEXTURES) {
 			Settings settings = new Settings();

@@ -76,13 +76,26 @@ public class WeatherSystem implements IRender, IUpdate {
 	public void done() {
 	}
 	
-	public void reset(boolean enabled) {
+	public void setEnabled(boolean enabled){
+		_enabled = enabled;
+	}
+	
+	public void resetClouds(boolean randomFadeIn) {
+		clearClouds();
+		_tryCreateClouds(randomFadeIn);
+	}
+	
+	public void setClouds(Array<ParticleEffect> clouds) {
+		clearClouds();
+		_clouds.addAll(clouds);
+	}
+	
+	public void clearClouds() {
 		_clouds.clear();
-		
-		if(enabled) {
-			_enabled = true;
-			_tryCreateClouds(true);
-		}
+	}
+	
+	public Array<ParticleEffect> getClouds() {
+		return _clouds;
 	}
 	
 	public float getLight() {

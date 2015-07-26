@@ -20,6 +20,7 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 	protected int _pathPos = 0;
 	protected boolean _started = false;
 	protected float[] _intervals;
+	protected Vector2 _respawnPos;
 	
 	public SmoothMovingEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);
@@ -31,6 +32,9 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 		_path = _buildPath(path);
 		
 		_isFatal = Utils.getPropertyBoolean(object, "is_fatal");
+		
+		Vector2 respawnOffset = Utils.getPropertyVector2(object, "respawn_pos");
+		_respawnPos = respawnOffset.scl(Globals.getTileSize()).add(getCenter());
 
 		_started = Utils.getPropertyBoolean(object, "start_on_create");
 		
@@ -58,9 +62,13 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 	@Override
 	public void onBeginContact(Contact contact, Entity entity) {
 		Player player = Globals.getPlayer();
-		if(_isFatal && Utils.isPlayer(entity) && player.getTop() <= getBottom()) {
+		boolean isPlayerUnderneath = player.getTop() >= getBottom() - (getHeight() / 10) &&
+				                     ((player.getRight() > getLeft() && player.getLeft() < getLeft()) ||
+					                  (player.getLeft() > getLeft() && player.getRight() > getRight()) ||
+					                  (player.getLeft() >= getLeft() && player.getRight() <= getRight()));	
+		if(_isFatal && Utils.isPlayer(entity) && getLinearVelocity().y > 0 && isPlayerUnderneath) {
 			// TODO: Need a known respawn point.
-			player.respawn(true, null);
+			player.respawn(true, _respawnPos);
 		}
 	}
 	
