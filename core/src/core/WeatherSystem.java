@@ -10,19 +10,17 @@ import particle.ParticleEffect;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 public class WeatherSystem implements IRender, IUpdate {
-	
-	public float TIME_SCALE = 0.02f;
-	
+
 	public static WeatherSystem instance;
 	
 	private final Array<ParticleEffect> _clouds = new Array<ParticleEffect>();
 	
-	private float _time = 0;
-	private float _light = 1;
-	private boolean _enabled = true;
+	private boolean _enabled = true;	
+	private ParticleEffect[][] _cloudMap;
 	
 	public static WeatherSystem getInstance() {
 		if(instance == null) {
@@ -33,9 +31,11 @@ public class WeatherSystem implements IRender, IUpdate {
 	}
 	
 	public WeatherSystem() {
-		_time = MathUtils.random(0.0f, 1.0f);
+		_resetCloudMap();
 		
-		_tryCreateClouds(true);
+		if(!Globals.getCurrentRoom().isLobby()) {
+			_tryCreateClouds(true);
+		}		
 	}
 	
 	@Override
@@ -54,14 +54,13 @@ public class WeatherSystem implements IRender, IUpdate {
 		if(!_enabled) {
 			return false;
 		}
-		
-//		time += TIME_SCALE * Gdx.graphics.getDeltaTime();		
-//		light = Math.min(Math.max(Math.abs(MathUtils.sin(time)), 0.3f), 1f);
-		
+
 		Iterator<ParticleEffect> cloudIter = _clouds.iterator();
 		while(cloudIter.hasNext()) {
 			ParticleEffect cloud = cloudIter.next();
 			if(cloud.update()) {
+				_removeCloudFromMap(cloud);
+				
 				cloud.done();
 				cloudIter.remove();
 			}
@@ -81,16 +80,14 @@ public class WeatherSystem implements IRender, IUpdate {
 	}
 	
 	public void resetClouds(boolean randomFadeIn) {
+		_resetCloudMap();
+		
 		clearClouds();
 		_tryCreateClouds(randomFadeIn);
 	}
-	
-	public void setClouds(Array<ParticleEffect> clouds) {
-		clearClouds();
-		_clouds.addAll(clouds);
-	}
-	
+
 	public void clearClouds() {
+		_resetCloudMap();
 		_clouds.clear();
 	}
 	
@@ -98,23 +95,50 @@ public class WeatherSystem implements IRender, IUpdate {
 		return _clouds;
 	}
 	
-	public float getLight() {
-		return _light;
+	private void _resetCloudMap() {
+		int numRows = MathUtils.ceil(Globals.getGameWorld().getHeight() / (Globals.getCamera().getViewportHeight() / 3));
+		int numCols = MathUtils.ceil(Globals.getGameWorld().getWidth() / (Globals.getCamera().getViewportWidth() / 3));
+		_cloudMap = new ParticleEffect[numRows][numCols];
+		for(int i = 0; i < _cloudMap.length; i++) {
+			for(int j = 0; j < _cloudMap[0].length; j++) {
+				_cloudMap[i][j] = null;
+			}
+		}
+	}
+
+	private void _tryCreateClouds(boolean randomFadeIn) {
+		int maxNumClouds = _cloudMap.length * _cloudMap[0].length / MathUtils.random(3, 8);
+		while(_clouds.size < maxNumClouds) {
+			Vector2 pos = null;
+			while(pos == null) {
+				int row = MathUtils.random(_cloudMap.length - 1);
+				int col = MathUtils.random(_cloudMap[0].length - 1);
+				if(_cloudMap[row][col] == null) {
+					pos = _getCloudPosition(row, col);
+					ParticleEffect cloud = Globals.getParticleEffectManager().getParticleEffect("cloud", pos.x, pos.y);
+					cloud.minMaxSize(Globals.getCamera().getViewportWidth() * 0.5f, Globals.getCamera().getViewportWidth());
+					cloud.fadeIn(randomFadeIn ? Utils.choose(true, false) : true);
+		            cloud.buildParticles();
+					
+					_cloudMap[row][col] = cloud;
+					_clouds.add(cloud);
+				}
+			}
+		}
 	}
 	
-	private void _tryCreateClouds(boolean randomFadeIn) {
-		GameWorld gameWorld = Globals.getGameWorld();
-		while(_clouds.size < gameWorld.getWidth() * gameWorld.getHeight() / Globals.getCamera().getViewportWidth() / 20) {
-			float screenWidth = Globals.getCamera().getViewportWidth();
-			float screenHeight = Globals.getCamera().getViewportHeight();
-			float x = MathUtils.random(gameWorld.getLeft(), gameWorld.getRight());
-			float y = MathUtils.random(gameWorld.getTop(), gameWorld.getBottom());
-			ParticleEffect cloud = Globals.getParticleEffectManager().getParticleEffect("cloud", x, y);
-			cloud.minMaxSize(screenWidth * 0.8f, screenWidth);
-			cloud.fadeIn(randomFadeIn ? Utils.choose(true, false) : true);
-            cloud.buildParticles();
-			
-			_clouds.add(cloud);
+	private void _removeCloudFromMap(ParticleEffect cloud) {
+		for(int i = 0; i < _cloudMap.length; i++) {
+			for(int j = 0; j < _cloudMap[0].length; j++) {
+				if(_cloudMap[i][j] == cloud) {
+					_cloudMap[i][j] = null;
+				}
+			}
 		}
+	}
+	
+	private Vector2 _getCloudPosition(int mapRow, int mapCol) {
+		return new Vector2(mapCol * (Globals.getCamera().getViewportWidth() / 2), 
+				           mapRow * (Globals.getCamera().getViewportHeight() / 2));
 	}
 }

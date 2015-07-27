@@ -27,8 +27,6 @@ public final class Globals {
 	};
 	
 	public static final short PLAYER_NO_COLLIDE_MASK = 0x0002;
-	public static final int NUM_TILE_MAP_ROWS = 32;
-	public static final int NUM_TILE_MAP_COLS = 32;
 	
 	public static State state = State.RUNNING;
 	

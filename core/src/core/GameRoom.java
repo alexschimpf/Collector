@@ -25,11 +25,14 @@ public class GameRoom implements IRender, IUpdate {
 	private final ConcurrentHashMap<String, MapObject> _scriptTemplateMap = new ConcurrentHashMap<String, MapObject>();
 	private final Array<Script> _activeScripts = new Array<Script>();
 	private final HashMap<String, Rectangle> _roomEntranceLocationMap = new HashMap<String, Rectangle>();
+	private final int _numRows;
+	private final int _numCols;	
+	private final boolean _isLobby;
 	
-	private boolean _isLobby;
-	
-	public GameRoom(boolean isLobby) {	
-		this._isLobby = isLobby;
+	public GameRoom(boolean isLobby, int numRows, int numCols) {	
+		_isLobby = isLobby;
+		_numRows = numRows;
+		_numCols = numCols;
 	}
 
 	@Override
@@ -56,6 +59,14 @@ public class GameRoom implements IRender, IUpdate {
 	
 	public boolean isLobby() {
 		return _isLobby;
+	}
+	
+	public int getNumRows() {
+		return _numRows;
+	}
+	
+	public int getNumCols() {
+		return _numCols;
 	}
 	
 	public Collection<Entity> getEntities() {

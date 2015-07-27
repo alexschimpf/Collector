@@ -1,4 +1,4 @@
-package entity.special;
+	package entity.special;
 
 import misc.Globals;
 import misc.Globals.State;
@@ -26,8 +26,10 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
+import core.GameRoom;
 import entity.Entity;
 import entity.EntityBodyDef;
+import entity.SmoothMovingEntity;
 
 public final class Player extends Entity {
 	
@@ -88,11 +90,10 @@ public final class Player extends Entity {
 		_sprite = _animationSystem.getSprite();
 		_animationSystem.flipSprite(isFacingLeft(), true);
 		
-		// TODO: Remove this... maybe.
 		if(getLinearVelocity().y > 50) {
 			respawn(false, null);
 		}
-			
+
 		return super.update();
 	}
 	
@@ -101,7 +102,11 @@ public final class Player extends Entity {
 			return false;
 		}
 
-		// TODO: Vertically moving block hack
+		// HACK: If moving vertically, set vy to 0 to reduce jump height.
+		float vy = getLinearVelocity().y;
+		if(vy > 0.01f || vy < -0.01f) {
+			setLinearVelocity(getLinearVelocity().x, 0);
+		}
 
 		Globals.getSoundManager().playSound("jump");
 		
@@ -257,6 +262,10 @@ public final class Player extends Entity {
 		return _isFacingRight ? getLeft() : getRight();
 	}
 	
+	public int getNumFootContacts() {
+		return _numFootContacts;
+	}
+
 	public void incrementFootContacts(Contact contact) {
 		_numFootContacts++;
 		_isJumping = _numFootContacts < 1;

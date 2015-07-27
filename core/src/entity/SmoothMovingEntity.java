@@ -62,12 +62,7 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 	@Override
 	public void onBeginContact(Contact contact, Entity entity) {
 		Player player = Globals.getPlayer();
-		boolean isPlayerUnderneath = player.getTop() >= getBottom() - (getHeight() / 10) &&
-				                     ((player.getRight() > getLeft() && player.getLeft() < getLeft()) ||
-					                  (player.getLeft() > getLeft() && player.getRight() > getRight()) ||
-					                  (player.getLeft() >= getLeft() && player.getRight() <= getRight()));	
-		if(_isFatal && Utils.isPlayer(entity) && getLinearVelocity().y > 0 && isPlayerUnderneath) {
-			// TODO: Need a known respawn point.
+		if(_isFatal && Utils.isPlayer(entity) && getLinearVelocity().y > 0 && _isPlayerBelow()) {
 			player.respawn(true, _respawnPos);
 		}
 	}
@@ -149,7 +144,7 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 		}
 		
 		Vector2 a = _path.get(_pathPos);
-		Vector2 b = _path.get(_getNextPathPos());		
+		Vector2 b = _path.get(_getNextPathPos());
 		
 		int intervalPos = _pathPos;
 		if(_loop && _atLastPos()) {
@@ -157,9 +152,18 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 		}
 		float intervalSeconds = _intervals[intervalPos] / 1000;
 		float vx = (b.x - a.x) / intervalSeconds;
-		float vy = (b.y - a.y) / intervalSeconds;
+		float vy = (b.y - a.y) / intervalSeconds;	
+		if(getLinearVelocity().epsilonEquals(vx, vy, 0)) {
+			return;
+		}
 		
-		setLinearVelocity(vx, vy);		
+		// HACK: Make player stick to this when changing directions.
+		Player player = Globals.getPlayer();
+		if(getLinearVelocity().y < 0 && vy > 0 && _isPlayerAbove() && !player.isJumping()) {
+			player.setLinearVelocity(player.getLinearVelocity().x, vy);
+		}
+		
+		setLinearVelocity(vx, vy);	
 	}
 	
 	protected boolean _atLastPos() {
@@ -173,5 +177,23 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 		}
 		
 		return nextIdx;
+	}
+	
+	protected boolean _isPlayerAbove() {
+		Player player = Globals.getPlayer();
+		return _isPlayerAboveOrBelow() && player.getBottom() <= getTop() + (getHeight() / 10);
+	}
+	
+	protected boolean _isPlayerBelow() {
+		Player player = Globals.getPlayer();
+		return _isPlayerAboveOrBelow() && player.getTop() >= getBottom() - (getHeight() / 10);
+	}
+	
+	protected boolean _isPlayerAboveOrBelow() {
+		Player player = Globals.getPlayer();
+		float correction = player.getWidth() / 10;
+		return (player.getRight() - correction > getLeft() && player.getLeft() < getLeft()) ||
+               (player.getLeft() - correction > getLeft() && player.getRight() > getRight()) ||
+               (player.getLeft() >= getLeft() && player.getRight() <= getRight());		
 	}
 }

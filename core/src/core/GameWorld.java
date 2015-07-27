@@ -71,15 +71,6 @@ public final class GameWorld implements IRender, IUpdate {
 	}
 	
 	public void loadRoom(String tileMapName, boolean isLobby) {
-		WeatherSystem weatherSystem = Globals.getWeatherSystem();
-		if(isLobby) {
-			weatherSystem.setEnabled(false);
-			weatherSystem.clearClouds();
-		} else {
-			weatherSystem.setEnabled(true);
-			weatherSystem.resetClouds(true);
-		}
-		
 		TileMap tileMap = new TileMap(tileMapName);
 		Globals.getGameScreen().setTileMap(tileMap);
 		GameWorldLoader gameWorldLoader = new GameWorldLoader(tileMap.getRawTileMap(), isLobby);
@@ -87,6 +78,15 @@ public final class GameWorld implements IRender, IUpdate {
 		
 		if(isLobby) {
 			_lobbyTileMapName = tileMapName;
+		}
+		
+		WeatherSystem weatherSystem = Globals.getWeatherSystem();
+		if(isLobby) {
+			weatherSystem.setEnabled(false);
+			weatherSystem.clearClouds();
+		} else {
+			weatherSystem.setEnabled(true);
+			weatherSystem.resetClouds(true);
 		}
 	}
 	
@@ -125,7 +125,7 @@ public final class GameWorld implements IRender, IUpdate {
 	}
 	
 	public float getRight() {
-		return Globals.getTileSize() * Globals.NUM_TILE_MAP_COLS;
+		return Globals.getTileSize() * _currRoom.getNumCols();
 	}
 	
 	public float getTop() {
@@ -133,7 +133,7 @@ public final class GameWorld implements IRender, IUpdate {
 	}
 	
 	public float getBottom() {
-		return Globals.getTileSize() * Globals.NUM_TILE_MAP_ROWS;
+		return Globals.getTileSize() * _currRoom.getNumRows();
 	}
 	
 	public float getWidth() {
