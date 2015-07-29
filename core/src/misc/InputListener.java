@@ -13,6 +13,7 @@ import entity.special.Player;
 public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputListener implements IUpdate {
 
 	public InputListener() {
+		Gdx.input.setCatchBackKey(true);
 	}
 	
 	@Override
@@ -27,6 +28,9 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 		
 		Player player = Globals.getPlayer();
 		switch(keyCode) {
+			case Keys.BACK:
+				Globals.getGameWorld().loadLobbyRoom();
+				break;
 			case Keys.SPACE:
 				player.jump();
 				break;

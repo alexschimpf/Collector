@@ -41,13 +41,13 @@ public final class SoundManager {
 	}
 	
 	public void playSound(String key) {
-		Sound sound = _soundMap.get(key);
-		sound.play();
+//		Sound sound = _soundMap.get(key);
+//		sound.play();
 	}
 	
 	private void _addSound(String filename) {
-		Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/" + filename));
-		String key = filename.substring(0, filename.lastIndexOf('.'));
-		_soundMap.put(key, sound);
+//		Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/" + filename));
+//		String key = filename.substring(0, filename.lastIndexOf('.'));
+//		_soundMap.put(key, sound);
 	}
 }

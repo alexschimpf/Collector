@@ -112,8 +112,8 @@ public final class HUD implements IRender, IUpdate {
 	}
 	
 	private void createMoveButton(Skin skin) {
-		float screenWidth = Globals.getCamera().getViewportWidth();
-		float screenHeight = Globals.getCamera().getViewportHeight();
+		float screenWidth = Gdx.graphics.getWidth();
+		float screenHeight = Gdx.graphics.getHeight();
 		
 		_moveButton = new Button(skin);
 		_moveButton.setColor(1, 1, 1, 0.3f);
@@ -135,8 +135,8 @@ public final class HUD implements IRender, IUpdate {
 	}
 	
 	private void createJumpButton(Skin skin) {
-		float screenWidth = Globals.getCamera().getViewportWidth();
-		float screenHeight = Globals.getCamera().getViewportHeight();
+		float screenWidth = Gdx.graphics.getWidth();
+		float screenHeight = Gdx.graphics.getHeight();
 		
 		_jumpButton = new Button(skin);
 		_jumpButton.setColor(1, 1, 1, 0.3f);
@@ -167,8 +167,8 @@ public final class HUD implements IRender, IUpdate {
 	}
 	
 	private void createInteractButton(Skin skin) {
-		float screenWidth = Globals.getCamera().getViewportWidth();
-		float screenHeight = Globals.getCamera().getViewportHeight();
+		float screenWidth = Gdx.graphics.getWidth();
+		float screenHeight = Gdx.graphics.getHeight();
 		
 		_interactButton = new Button(skin);
 		_interactButton.setColor(1, 1, 1, 0.3f);

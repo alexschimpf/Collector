@@ -134,8 +134,6 @@ public final class GameScreen implements Screen {
 
 		_tileMap.setView(camera);
 		_spriteBatch.setProjectionMatrix(camera.combined);
-		
-		Globals.getHUD().render(_spriteBatch);
 
 		_renderLayers();
 		
@@ -143,6 +141,8 @@ public final class GameScreen implements Screen {
 			_debugMatrix.set(camera.combined);
 			_debugRenderer.render(Globals.getPhysicsWorld(), _debugMatrix);
 		}
+		
+		Globals.getHUD().render(_spriteBatch);
 	}
 	
 	private void _renderLayers() {

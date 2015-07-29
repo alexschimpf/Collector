@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="32" tilewidth="64" tileheight="64" nextobjectid="89">
+ <tileset firstgid="1" name="tiles_1" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="tiles_1.png" trans="ff00ff" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="226" name="entities" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="../entities.png" trans="ff00ff" width="1024" height="1024"/>
+ </tileset>
+ <layer name="Background" width="64" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAgHcDIAAAAQ==
+  </data>
+ </layer>
+ <layer name="Enclosing" width="64" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAgHcDIAAAAQ==
+  </data>
+ </layer>
+ <layer name="Normal" width="64" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzt1rENwjAQheHrErpsQBNaMgFMABOQCWACMkGyNWfZZQqQkZ5O/j/pdZb1TpYtmwFAXJ2n9xzURQAAABpzVBcAIHVRFxBb1QXEWp7/7JnVJSCTzv/t2XYy7az9Zl0kJ8v3f1QXEWr5/UuYP6ab5bcr5V6xT9T5n56h5FWxT9T5H56lpOYPE3X+f7mqC/zoA+oyEQY=
+  </data>
+ </layer>
+ <objectgroup name="Entities">
+  <object id="1" name="c1_1" type="chain" gid="232" x="448" y="1856" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1200"/>
+    <property name="chain_ids" value="c1_2,c1_3,c1_4,c1_5"/>
+    <property name="chain_start_id" value="c1_1"/>
+    <property name="state_machine" value="c1_2"/>
+   </properties>
+  </object>
+  <object id="7" name="c1_2" type="chain" gid="232" x="576" y="1856" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1200"/>
+    <property name="chain_ids" value="c1_1,c1_3,c1_4,c1_5"/>
+    <property name="chain_start_id" value="c1_1"/>
+    <property name="state_machine" value="c1_3,c1_3"/>
+   </properties>
+  </object>
+  <object id="8" name="c1_3" type="chain" gid="232" x="896" y="1856" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1200"/>
+    <property name="chain_ids" value="c1_2,c1_1,c1_4,c1_5"/>
+    <property name="chain_start_id" value="c1_1"/>
+    <property name="state_machine" value="c1_2,c1_4,c1_4"/>
+   </properties>
+  </object>
+  <object id="9" name="c1_4" type="chain" gid="232" x="1024" y="1728" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1200"/>
+    <property name="chain_ids" value="c1_2,c1_3,c1_1,c1_5"/>
+    <property name="chain_start_id" value="c1_1"/>
+    <property name="state_machine" value="c1_5,c1_5"/>
+   </properties>
+  </object>
+  <object id="10" name="c1_5" type="chain" gid="232" x="1152" y="1600" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1200"/>
+    <property name="chain_ids" value="c1_2,c1_3,c1_4,c1_1"/>
+    <property name="chain_start_id" value="c1_1"/>
+    <property name="state_machine" value="c1_3,c1_s"/>
+   </properties>
+  </object>
+  <object id="11" name="player" type="player" gid="226" x="192" y="1792" width="48" height="64">
+   <properties>
+    <property name="body_height" value="60"/>
+    <property name="body_width" value="44"/>
+   </properties>
+  </object>
+  <object id="16" name="c1_s" type="move_entity" gid="241" x="0" y="64" width="64" height="64">
+   <properties>
+    <property name="is_script" value="true"/>
+    <property name="target_id" value="m1"/>
+   </properties>
+  </object>
+  <object id="19" name="m1" type="smooth_moving" gid="31" x="1280" y="1472" width="64" height="64">
+   <properties>
+    <property name="intervals" value="350,700"/>
+    <property name="loop" value="false"/>
+    <property name="path" value="(1,0) (0,-2)"/>
+   </properties>
+  </object>
+  <object id="25" name="c2_3" type="chain" gid="232" x="1920" y="1472" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1000"/>
+    <property name="chain_ids" value="c2_2,c2_1,c2_4,c2_5"/>
+    <property name="chain_start_id" value="c2_1"/>
+    <property name="state_machine" value="c2_4,c2_2"/>
+   </properties>
+  </object>
+  <object id="27" name="c2_1" type="chain" gid="232" x="1536" y="1472" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1000"/>
+    <property name="chain_ids" value="c2_2,c2_3,c2_4,c2_5"/>
+    <property name="chain_start_id" value="c2_1"/>
+    <property name="state_machine" value="c2_2,c2_2,c2_5"/>
+   </properties>
+  </object>
+  <object id="28" name="c2_4" type="chain" gid="232" x="2048" y="1472" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1000"/>
+    <property name="chain_ids" value="c2_2,c2_3,c2_1,c2_5"/>
+    <property name="chain_start_id" value="c2_1"/>
+    <property name="state_machine" value="c2_3"/>
+   </properties>
+  </object>
+  <object id="29" name="c2_2" type="chain" gid="232" x="1664" y="1472" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1000"/>
+    <property name="chain_ids" value="c2_1,c2_3,c2_4,c2_5"/>
+    <property name="chain_start_id" value="c2_1"/>
+    <property name="state_machine" value="c2_3,c2_1,c2_1"/>
+   </properties>
+  </object>
+  <object id="31" name="c2_5" type="chain" gid="232" x="1600" y="1216" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="2500"/>
+    <property name="chain_ids" value="c2_2,c2_3,c2_4,c2_1"/>
+    <property name="chain_start_id" value="c2_1"/>
+    <property name="state_machine" value="c2_s"/>
+   </properties>
+  </object>
+  <object id="46" name="m2" type="smooth_moving" gid="31" x="1792" y="1728" width="64" height="64">
+   <properties>
+    <property name="intervals" value="4000"/>
+    <property name="path" value="(0,-8)"/>
+    <property name="start_on_create" value="true"/>
+   </properties>
+  </object>
+  <object id="62" type="collectable" gid="227" x="3212.48" y="97.697" width="28" height="28"/>
+  <object id="69" name="c3_1" type="chain" gid="232" x="1344" y="832" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1000"/>
+    <property name="chain_ids" value="c3_2,c3_3,c3_4,c3_5,c3_6,c3_7,c3_8"/>
+    <property name="chain_start_id" value="c3_1"/>
+    <property name="state_machine" value="c3_2"/>
+   </properties>
+  </object>
+  <object id="77" name="c3_s" type="move_entity" gid="241" x="128" y="64" width="64" height="64">
+   <properties>
+    <property name="is_script" value="true"/>
+    <property name="target_id" value="m3"/>
+   </properties>
+  </object>
+  <object id="78" name="m3" type="smooth_moving" gid="31" x="3008" y="256" width="64" height="64">
+   <properties>
+    <property name="intervals" value="1000"/>
+    <property name="loop" value="false"/>
+    <property name="path" value="(0,3)"/>
+   </properties>
+  </object>
+  <object id="79" name="c3_2" type="chain" gid="232" x="1472" y="704" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1000"/>
+    <property name="chain_ids" value="c3_1,c3_3,c3_4,c3_5,c3_6,c3_7,c3_8"/>
+    <property name="chain_start_id" value="c3_1"/>
+    <property name="state_machine" value="c3_3"/>
+   </properties>
+  </object>
+  <object id="80" name="c3_3" type="chain" gid="232" x="1600" y="576" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1000"/>
+    <property name="chain_ids" value="c3_2,c3_1,c3_4,c3_5,c3_6,c3_7,c3_8"/>
+    <property name="chain_start_id" value="c3_1"/>
+    <property name="state_machine" value="c3_4"/>
+   </properties>
+  </object>
+  <object id="81" name="c3_4" type="chain" gid="232" x="1728" y="576" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1000"/>
+    <property name="chain_ids" value="c3_2,c3_3,c3_1,c3_5,c3_6,c3_7,c3_8"/>
+    <property name="chain_start_id" value="c3_1"/>
+    <property name="state_machine" value="c3_5"/>
+   </properties>
+  </object>
+  <object id="82" name="c3_5" type="chain" gid="232" x="1920" y="576" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1000"/>
+    <property name="chain_ids" value="c3_2,c3_3,c3_4,c3_1,c3_6,c3_7,c3_8"/>
+    <property name="chain_start_id" value="c3_1"/>
+    <property name="state_machine" value="c3_6"/>
+   </properties>
+  </object>
+  <object id="83" name="c3_6" type="chain" gid="232" x="2176" y="576" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1000"/>
+    <property name="chain_ids" value="c3_2,c3_3,c3_4,c3_5,c3_1,c3_7,c3_8"/>
+    <property name="chain_start_id" value="c3_1"/>
+    <property name="state_machine" value="c3_7"/>
+   </properties>
+  </object>
+  <object id="84" name="c3_7" type="chain" gid="232" x="2496" y="576" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1200"/>
+    <property name="chain_ids" value="c3_2,c3_3,c3_4,c3_5,c3_6,c3_1,c3_8"/>
+    <property name="chain_start_id" value="c3_1"/>
+    <property name="state_machine" value="c3_8"/>
+   </properties>
+  </object>
+  <object id="85" name="c3_8" type="chain" gid="232" x="2880" y="576" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1300"/>
+    <property name="chain_ids" value="c3_2,c3_3,c3_4,c3_5,c3_6,c3_7,c3_1"/>
+    <property name="chain_start_id" value="c3_1"/>
+    <property name="state_machine" value="c3_s"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="Foreground" width="64" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztzjERADAIBDCksHFX/wIrgfEZEgWpAgAAAADYTTpwQKcDRL10AABg8QGriABy
+  </data>
+ </layer>
+ <objectgroup name="Bodies">
+  <object id="12" x="128" y="1792" width="256" height="192"/>
+  <object id="42" x="1920" y="1472" width="448" height="64"/>
+  <object id="47" x="1280" y="1152">
+   <polyline points="0,0 0,192 -64,192 -64,256 64,256 64,0 0,0"/>
+  </object>
+  <object id="48" x="1728" y="1472">
+   <polyline points="0,0 -512,0 -512,64 -448,64 -448,576 -384,576 -384,64 0,64 0,0"/>
+  </object>
+  <object id="50" name="c2_s" type="move_entity" gid="241" x="64" y="64" width="64" height="64">
+   <properties>
+    <property name="intervals" value="1400"/>
+    <property name="is_script" value="true"/>
+    <property name="path" value="(0,-4)"/>
+    <property name="target_id" value="m1"/>
+   </properties>
+  </object>
+  <object id="52" x="1216" y="896" width="64" height="64"/>
+  <object id="86" x="3136.25" y="279.5" width="191.75" height="20.75"/>
+ </objectgroup>
+</map>

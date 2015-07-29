@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="32" tilewidth="64" tileheight="64" nextobjectid="32">
+ <tileset firstgid="1" name="tiles_1" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="tiles_1.png" trans="ff00ff" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="226" name="entities" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="../entities.png" trans="ff00ff" width="1024" height="1024"/>
+ </tileset>
+ <layer name="Background" width="64" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAgHcDIAAAAQ==
+  </data>
+ </layer>
+ <layer name="Enclosing" width="64" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAgHcDIAAAAQ==
+  </data>
+ </layer>
+ <layer name="Normal" width="64" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzt1kENgDAQRNFKwAEOwAgoAAWgABzgAqkdBXsBdhL6X/JvPUzTS0sBAAAAgHcM6goaH54H4NG7B8CK92+b3v92b8jE3wQA/mVSR9Dsm5ZiU13Q7puWovX7L+oMWn3T8LEKeewX0Q==
+  </data>
+ </layer>
+ <objectgroup name="Entities">
+  <object id="1" type="discrete_moving" gid="232" x="448" y="1664" width="64" height="64">
+   <properties>
+    <property name="intervals" value="800,800,800,800"/>
+    <property name="path" value="(-4,0) (0,-2) (4,0)"/>
+    <property name="start_on_create" value="true"/>
+   </properties>
+  </object>
+  <object id="3" name="player" type="player" gid="226" x="192" y="1728" width="48" height="64">
+   <properties>
+    <property name="body_height" value="60"/>
+    <property name="body_width" value="44"/>
+   </properties>
+  </object>
+  <object id="6" type="smooth_moving" gid="31" x="64" y="1600" width="64" height="64">
+   <properties>
+    <property name="intervals" value="1000"/>
+    <property name="loop" value="true"/>
+    <property name="path" value="(8,0)"/>
+    <property name="start_on_create" value="true"/>
+   </properties>
+  </object>
+  <object id="8" type="smooth_moving" gid="31" x="768" y="1280" width="64" height="64">
+   <properties>
+    <property name="intervals" value="1000"/>
+    <property name="loop" value="true"/>
+    <property name="path" value="(6,0)"/>
+    <property name="start_on_create" value="true"/>
+   </properties>
+  </object>
+  <object id="11" type="smooth_moving" gid="31" x="1152" y="1152" width="64" height="64">
+   <properties>
+    <property name="intervals" value="1250"/>
+    <property name="loop" value="true"/>
+    <property name="path" value="(-6,0)"/>
+    <property name="start_on_create" value="true"/>
+   </properties>
+  </object>
+  <object id="12" type="bump_enable" gid="231" x="960" y="960" width="64" height="64">
+   <properties>
+    <property name="enabled" value="true"/>
+   </properties>
+  </object>
+  <object id="15" type="discrete_moving" gid="232" x="576" y="960" width="64" height="64">
+   <properties>
+    <property name="intervals" value="500,500,500,500,500,500,500"/>
+    <property name="path" value="(2,0) (2,0) (2,0) (2,0) (2,0) (2,0)"/>
+    <property name="restart_on_blocked" value="true"/>
+    <property name="start_on_create" value="true"/>
+   </properties>
+  </object>
+  <object id="27" type="smooth_moving" gid="233" x="1600" y="640" width="64" height="64">
+   <properties>
+    <property name="intervals" value="1000"/>
+    <property name="is_fatal" value="true"/>
+    <property name="loop" value="true"/>
+    <property name="path" value="(0,2)"/>
+    <property name="respawn_pos" value="-1,2"/>
+    <property name="start_on_create" value="true"/>
+   </properties>
+  </object>
+  <object id="28" type="smooth_moving" gid="233" x="1792" y="512" width="64" height="64">
+   <properties>
+    <property name="intervals" value="900"/>
+    <property name="is_fatal" value="true"/>
+    <property name="loop" value="true"/>
+    <property name="path" value="(0,4)"/>
+    <property name="respawn_pos" value="-4,4"/>
+    <property name="start_on_create" value="true"/>
+   </properties>
+  </object>
+  <object id="29" type="smooth_moving" gid="233" x="1920" y="640" width="64" height="64">
+   <properties>
+    <property name="intervals" value="800"/>
+    <property name="is_fatal" value="true"/>
+    <property name="loop" value="true"/>
+    <property name="path" value="(0,2)"/>
+    <property name="respawn_pos" value="-6,2"/>
+    <property name="start_on_create" value="true"/>
+   </properties>
+  </object>
+  <object id="30" type="smooth_moving" gid="233" x="2048" y="576" width="64" height="64">
+   <properties>
+    <property name="intervals" value="900"/>
+    <property name="is_fatal" value="true"/>
+    <property name="loop" value="true"/>
+    <property name="path" value="(0,3)"/>
+    <property name="respawn_pos" value="-8,3"/>
+    <property name="start_on_create" value="true"/>
+   </properties>
+  </object>
+  <object id="31" type="smooth_moving" gid="233" x="1728" y="576" width="64" height="64">
+   <properties>
+    <property name="intervals" value="900"/>
+    <property name="is_fatal" value="true"/>
+    <property name="loop" value="true"/>
+    <property name="path" value="(0,3)"/>
+    <property name="respawn_pos" value="-3,3"/>
+    <property name="start_on_create" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="Foreground" width="64" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAgHcDIAAAAQ==
+  </data>
+ </layer>
+ <objectgroup name="Bodies">
+  <object id="2" x="64" y="1728" width="576" height="256"/>
+  <object id="4" x="704" y="1344" width="576" height="64"/>
+  <object id="9" x="960" y="1152" width="64" height="64"/>
+  <object id="16" x="960" y="1024" width="64" height="64"/>
+  <object id="17" x="960" y="1280" width="64" height="64"/>
+  <object id="18" x="1536" y="768" width="576" height="64"/>
+  <object id="19" x="2304" y="768" width="576" height="64"/>
+ </objectgroup>
+</map>

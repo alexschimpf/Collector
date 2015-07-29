@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="64" tileheight="64" nextobjectid="55">
+ <tileset firstgid="1" name="tiles_1" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="tiles_1.png" trans="ff00ff" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="226" name="entities" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="../entities.png" trans="ff00ff" width="1024" height="1024"/>
+ </tileset>
+ <layer name="Background" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAADwbhAAAAE=
+  </data>
+ </layer>
+ <layer name="Enclosing" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAADwbhAAAAE=
+  </data>
+ </layer>
+ <layer name="Normal" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMAoGFvgAcSWNsS8e+7OAWIDGOBuP32ltNwxjC4NoIK6iE47BEQaDBZwD4vM0FsMH7gLxPRqLoQN65D18eRCU/uiV/rGlP1UG+uV/FSz2w8JgpOe9UTAKRgH9AACGRkxS
+  </data>
+ </layer>
+ <objectgroup name="Entities">
+  <object id="41" name="player" type="player" gid="226" x="832" y="1280" width="48" height="64">
+   <properties>
+    <property name="body_height" value="60"/>
+    <property name="body_width" value="44"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="Foreground" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztzbkJACAABEFL8QHtv0MrMDE4EGfCTbYUAPjXCr7modfAuwUecKMHHiPwAHjBBjYSANQ=
+  </data>
+ </layer>
+ <objectgroup name="Bodies">
+  <object id="39" x="128" y="1280">
+   <polyline points="0,0 1792,0 1792,128 1728,128 1728,256 64,256 64,128 0,128 0,0"/>
+  </object>
+  <object id="48" type="room_entrance" x="363.667" y="1220.42" width="40" height="60">
+   <properties>
+    <property name="room_tile_map" value="world_1/room_1_tile_map.tmx"/>
+   </properties>
+  </object>
+  <object id="49" type="room_entrance" x="683.667" y="1220" width="40" height="60">
+   <properties>
+    <property name="room_tile_map" value="world_1/room_2_tile_map.tmx"/>
+   </properties>
+  </object>
+  <object id="50" type="room_entrance" x="1004.33" y="1219.67" width="40" height="60">
+   <properties>
+    <property name="room_tile_map" value="world_1/room_3_tile_map.tmx"/>
+   </properties>
+  </object>
+  <object id="51" type="room_entrance" x="1324" y="1220" width="40" height="60">
+   <properties>
+    <property name="room_tile_map" value="world_1/room_4_tile_map.tmx"/>
+   </properties>
+  </object>
+  <object id="52" type="room_entrance" x="1643.33" y="1219.67" width="40" height="60">
+   <properties>
+    <property name="room_tile_map" value="world_1/room_5_tile_map.tmx"/>
+   </properties>
+  </object>
+  <object id="54" x="128" y="1088">
+   <polyline points="0,0 1792,0 1792,-128 1728,-128 1728,-256 64,-256 64,-128 0,-128 0,0"/>
+  </object>
+ </objectgroup>
+</map>
