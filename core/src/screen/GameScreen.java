@@ -26,11 +26,11 @@ import core.WeatherSystem;
 public final class GameScreen implements Screen {
 
 	private final TheGame _theGame;
+	private final Stage _HUDStage;
+	private final Matrix4 _debugMatrix = new Matrix4();
+	private final InputListener _inputListener = new InputListener();
 	private final SpriteBatch _spriteBatch = new SpriteBatch();
 	private final Box2DDebugRenderer _debugRenderer = new Box2DDebugRenderer();
-	private final Matrix4 _debugMatrix = new Matrix4();
-	private final Stage _HUDStage;
-	private final InputListener _inputListener = new InputListener();
 	private final Array<ParticleEffect> _particleEffects = new Array<ParticleEffect>();
 	private final Array<Animation> _animations = new Array<Animation>();	
 	

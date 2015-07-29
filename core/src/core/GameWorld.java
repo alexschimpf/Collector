@@ -8,6 +8,7 @@ import misc.IRender;
 import misc.IUpdate;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -71,13 +72,23 @@ public final class GameWorld implements IRender, IUpdate {
 	}
 	
 	public void loadRoom(String tileMapName, boolean isLobby) {
-		TileMap tileMap = new TileMap(tileMapName);
-		Globals.getGameScreen().setTileMap(tileMap);
-		GameWorldLoader gameWorldLoader = new GameWorldLoader(tileMap.getRawTileMap(), isLobby);
-		gameWorldLoader.load();
-		
+		String prevTileMapName = null;
 		if(isLobby) {
 			_lobbyTileMapName = tileMapName;
+			
+			if(_currRoom != null) {
+				prevTileMapName = _currRoom.getTileMapName();
+			}
+		}
+		
+		TileMap tileMap = new TileMap(tileMapName);
+		Globals.getGameScreen().setTileMap(tileMap);
+		GameWorldLoader gameWorldLoader = new GameWorldLoader(tileMap.getRawTileMap(), tileMapName, isLobby);
+		gameWorldLoader.load();
+		
+		if(prevTileMapName != null) {
+			Rectangle entrance = _currRoom.getRoomEntranceLocation(prevTileMapName); 
+			Globals.getPlayer().setPosition(entrance.getX() + (entrance.getWidth() / 2), Globals.getPlayer().getCenterY());
 		}
 		
 		WeatherSystem weatherSystem = Globals.getWeatherSystem();

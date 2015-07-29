@@ -13,6 +13,7 @@ import script.Script;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
@@ -24,15 +25,17 @@ public class GameRoom implements IRender, IUpdate {
 	private final ConcurrentHashMap<String, Entity> _entityMap = new ConcurrentHashMap<String, Entity>();
 	private final ConcurrentHashMap<String, MapObject> _scriptTemplateMap = new ConcurrentHashMap<String, MapObject>();
 	private final Array<Script> _activeScripts = new Array<Script>();
-	private final HashMap<String, Rectangle> _roomEntranceLocationMap = new HashMap<String, Rectangle>();
+	private final HashMap<String, Rectangle> _roomEntranceLocationMap = new HashMap<String, Rectangle>(); // just for lobby
 	private final int _numRows;
 	private final int _numCols;	
 	private final boolean _isLobby;
+	private final String _tileMapName;
 	
-	public GameRoom(boolean isLobby, int numRows, int numCols) {	
+	public GameRoom(boolean isLobby, MapProperties properties, String tileMapName) {	
 		_isLobby = isLobby;
-		_numRows = numRows;
-		_numCols = numCols;
+		_numRows = Integer.parseInt(properties.get("height").toString());
+		_numCols = Integer.parseInt(properties.get("width").toString());
+		_tileMapName = tileMapName;
 	}
 
 	@Override
@@ -67,6 +70,10 @@ public class GameRoom implements IRender, IUpdate {
 	
 	public int getNumCols() {
 		return _numCols;
+	}
+	
+	public String getTileMapName() {
+		return _tileMapName;
 	}
 	
 	public Collection<Entity> getEntities() {
@@ -110,6 +117,10 @@ public class GameRoom implements IRender, IUpdate {
 	
 	public void addRoomEntranceLocation(String tileMapName, Rectangle location) {
 		_roomEntranceLocationMap.put(tileMapName, location);
+	}
+	
+	public Rectangle getRoomEntranceLocation(String tileMapName) {
+		return _roomEntranceLocationMap.get(tileMapName);
 	}
 	
 	public String checkForRoomEntrance() {

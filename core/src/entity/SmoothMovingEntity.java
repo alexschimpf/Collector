@@ -157,11 +157,11 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 			return;
 		}
 		
-		// HACK: Make player stick to this when changing directions.
-		Player player = Globals.getPlayer();
-		if(getLinearVelocity().y < 0 && vy > 0 && _isPlayerAbove() && !player.isJumping()) {
-			player.setLinearVelocity(player.getLinearVelocity().x, vy);
-		}
+//		// HACK: Make player stick to this when changing directions.
+//		Player player = Globals.getPlayer();
+//		if(getLinearVelocity().y < 0 && vy > 0 && _isPlayerAbove() && !player.isJumping() && player.getNumFootContacts() > 0) {
+//			player.setLinearVelocity(player.getLinearVelocity().x, vy);
+//		}
 		
 		setLinearVelocity(vx, vy);	
 	}
@@ -191,7 +191,7 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 	
 	protected boolean _isPlayerAboveOrBelow() {
 		Player player = Globals.getPlayer();
-		float correction = player.getWidth() / 10;
+		float correction = player.getWidth() / 20;
 		return (player.getRight() - correction > getLeft() && player.getLeft() < getLeft()) ||
                (player.getLeft() - correction > getLeft() && player.getRight() > getRight()) ||
                (player.getLeft() >= getLeft() && player.getRight() <= getRight());		

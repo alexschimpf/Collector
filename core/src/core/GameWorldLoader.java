@@ -40,13 +40,11 @@ public final class GameWorldLoader {
 	private final TiledMap _tileMap;
 	private final GameRoom _room;
 	
-	public GameWorldLoader(TiledMap tileMap, boolean isLobby) {
+	public GameWorldLoader(TiledMap tileMap, String tileMapName, boolean isLobby) {
 		_tileMap = tileMap;
 		
 		MapProperties properties = tileMap.getProperties();
-		int numRows = Integer.parseInt(properties.get("height").toString());
-		int numCols = Integer.parseInt(properties.get("width").toString());
-		_room = new GameRoom(isLobby, numRows, numCols);
+		_room = new GameRoom(isLobby, properties, tileMapName);
 		
 		Globals.getPhysicsWorld();
 	}
