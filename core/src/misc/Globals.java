@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import core.EntityPropertyValidator;
 import core.GameRoom;
 import core.GameWorld;
+import core.HUD;
 import core.TheCamera;
 import core.WeatherSystem;
 import entity.special.Player;
@@ -39,6 +40,10 @@ public final class Globals {
 	
 	public static GameScreen getGameScreen() {
 		return gameScreen;
+	}
+	
+	public static HUD getHUD() {
+		return HUD.getInstance();
 	}
 	
 	public static GameWorld getGameWorld() {
@@ -123,5 +128,13 @@ public final class Globals {
 	
 	public static ParticleEffect getParticleEffect(String particleEffectKey, float x, float y) {
 		return getParticleEffectManager().getParticleEffect(particleEffectKey, x, y);
+	}
+	
+	public static boolean isGameRunning() {
+		return state == State.RUNNING;
+	}
+	
+	public static boolean isGamePaused() {
+		return state == State.PAUSED;
 	}
 }

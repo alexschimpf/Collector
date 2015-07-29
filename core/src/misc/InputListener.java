@@ -21,7 +21,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 			Gdx.app.exit();
 		}
 		
-		if(Globals.state != State.RUNNING) {
+		if(!Globals.isGameRunning()) {
 			return true;
 		}
 		
@@ -63,7 +63,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 	
 	@Override
 	public boolean keyUp(InputEvent event, int keyCode) {
-		if(Globals.state != State.RUNNING) {
+		if(!Globals.isGameRunning()) {
 			return true;
 		}
 		
@@ -79,8 +79,8 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 
 	@Override
 	public boolean update() {
-		if(Globals.state != State.RUNNING) {
-			return false;
+		if(!Globals.isGameRunning()) {
+			return true;
 		}
 		
 		Player player = Globals.getPlayer();

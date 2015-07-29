@@ -26,9 +26,7 @@ import core.WeatherSystem;
 public final class GameScreen implements Screen {
 
 	private final TheGame _theGame;
-	private final Stage _HUDStage;
 	private final Matrix4 _debugMatrix = new Matrix4();
-	private final InputListener _inputListener = new InputListener();
 	private final SpriteBatch _spriteBatch = new SpriteBatch();
 	private final Box2DDebugRenderer _debugRenderer = new Box2DDebugRenderer();
 	private final Array<ParticleEffect> _particleEffects = new Array<ParticleEffect>();
@@ -49,10 +47,6 @@ public final class GameScreen implements Screen {
 		Globals.getMusicManager();
 		Globals.getTextureManager();	
 		new ParticleEffectLoader().load();
-		
-		_HUDStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-		_HUDStage.addListener(_inputListener);
-		Gdx.input.setInputProcessor(_HUDStage);
 	}
 	
 	@Override
@@ -81,8 +75,8 @@ public final class GameScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		TheCamera.getInstance().resizeViewport(width, height);		
-		_HUDStage.getViewport().update(width, height, false);
+		Globals.getCamera().resizeViewport(width, height);		
+		Globals.getHUD().resize(width, height);
 	}
 
 	@Override
@@ -102,7 +96,7 @@ public final class GameScreen implements Screen {
 	}
 	
 	public void setTileMap(TileMap tileMap) {
-		this._tileMap = tileMap;
+		_tileMap = tileMap;
 	}
 	
 	public void addParticleEffect(ParticleEffect particleEffect) {
@@ -114,9 +108,8 @@ public final class GameScreen implements Screen {
 	}
 	
 	private void _update() {
-		_inputListener.update();
 		Globals.getGameWorld().update();
-		_HUDStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		Globals.getHUD().update();
 		
 		for(Animation animation : _animations) {
 			if(animation.update()) {
@@ -141,6 +134,8 @@ public final class GameScreen implements Screen {
 
 		_tileMap.setView(camera);
 		_spriteBatch.setProjectionMatrix(camera.combined);
+		
+		Globals.getHUD().render(_spriteBatch);
 
 		_renderLayers();
 		
