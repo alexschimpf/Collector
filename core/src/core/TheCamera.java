@@ -77,7 +77,7 @@ public final class TheCamera implements IUpdate {
 	}
 	
 	public float getLeft() {
-		return _camera.position.x + (getViewportWidth() / 2);
+		return _camera.position.x - (getViewportWidth() / 2);
 	}
 	
 	public float getRight() {

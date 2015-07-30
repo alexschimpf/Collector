@@ -26,10 +26,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
-import core.GameRoom;
 import entity.Entity;
 import entity.EntityBodyDef;
-import entity.SmoothMovingEntity;
 
 public final class Player extends Entity {
 	

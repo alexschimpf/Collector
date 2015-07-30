@@ -6,7 +6,6 @@ import misc.Utils;
 import com.badlogic.gdx.maps.MapObject;
 
 import entity.IMovingEntity;
-import entity.SmoothMovingEntity;
 
 public final class MoveEntityScript extends Script {
 

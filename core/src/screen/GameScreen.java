@@ -1,10 +1,10 @@
 package screen;
 
 import misc.Globals;
-import misc.InputListener;
 import particle.ParticleEffect;
 import particle.ParticleEffectLoader;
 import animation.Animation;
+import background.RepeatingBackground;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -13,15 +13,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import core.TheCamera;
 import core.TheGame;
 import core.TileMap;
 import core.TileMap.TileMapLayerType;
-import core.WeatherSystem;
 
 public final class GameScreen implements Screen {
 
@@ -33,6 +29,7 @@ public final class GameScreen implements Screen {
 	private final Array<Animation> _animations = new Array<Animation>();	
 	
 	private TileMap _tileMap;
+	private RepeatingBackground _background;
 
 	public GameScreen(TheGame theGame) {
 		_theGame = theGame;
@@ -47,6 +44,8 @@ public final class GameScreen implements Screen {
 		Globals.getMusicManager();
 		Globals.getTextureManager();	
 		new ParticleEffectLoader().load();
+		
+		_background = new RepeatingBackground("background", 0.5f);
 	}
 	
 	@Override
@@ -131,9 +130,13 @@ public final class GameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		OrthographicCamera camera = Globals.getCamera().getRawCamera();
-
+		
 		_tileMap.setView(camera);
 		_spriteBatch.setProjectionMatrix(camera.combined);
+		
+		_spriteBatch.begin();		
+		_background.render(_spriteBatch);	
+		_spriteBatch.end();
 
 		_renderLayers();
 		

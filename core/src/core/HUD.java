@@ -7,7 +7,6 @@ import misc.InputListener;
 import misc.Utils;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
