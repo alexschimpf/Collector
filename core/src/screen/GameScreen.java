@@ -4,7 +4,7 @@ import misc.Globals;
 import particle.ParticleEffect;
 import particle.ParticleEffectLoader;
 import animation.Animation;
-import background.RepeatingBackground;
+import background.ParallaxBackground;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -29,7 +29,7 @@ public final class GameScreen implements Screen {
 	private final Array<Animation> _animations = new Array<Animation>();	
 	
 	private TileMap _tileMap;
-	private RepeatingBackground _background;
+	private ParallaxBackground _background;
 
 	public GameScreen(TheGame theGame) {
 		_theGame = theGame;
@@ -45,7 +45,7 @@ public final class GameScreen implements Screen {
 		Globals.getTextureManager();	
 		new ParticleEffectLoader().load();
 		
-		_background = new RepeatingBackground("background", 0.5f);
+		_background = new ParallaxBackground("background", 0.5f);
 	}
 	
 	@Override

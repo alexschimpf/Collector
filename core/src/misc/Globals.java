@@ -19,7 +19,7 @@ import core.GameWorld;
 import core.HUD;
 import core.TheCamera;
 import core.WeatherSystem;
-import entity.special.Player;
+import entity.Player;
 
 public final class Globals {
 

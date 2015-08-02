@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
-import entity.special.Player;
+import entity.Player;
 
 public final class GameWorld implements IRender, IUpdate {
 	
@@ -82,6 +82,10 @@ public final class GameWorld implements IRender, IUpdate {
 			
 			if(_currRoom != null) {
 				prevTileMapName = _currRoom.getTileMapName();
+			}
+			
+			if(prevTileMapName == tileMapName) {
+				return;
 			}
 		}
 		

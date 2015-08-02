@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 
-public class RepeatingBackground implements IRender {
+public class ParallaxBackground implements IRender {
 
 	protected final Vector2 _pos = new Vector2();
 	protected final Vector2 _cachedCameraPos = new Vector2();
@@ -19,7 +19,7 @@ public class RepeatingBackground implements IRender {
 	protected float _parallaxRatio;
 	protected TextureRegion _texture;
 	
-	public RepeatingBackground(String textureKey, float parallaxRatio) {
+	public ParallaxBackground(String textureKey, float parallaxRatio) {
 		_texture = Globals.getTextureManager().getImageTexture(textureKey);
 		_parallaxRatio = parallaxRatio;
 	}

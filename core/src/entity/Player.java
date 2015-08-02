@@ -1,4 +1,4 @@
-	package entity.special;
+	package entity;
 
 import misc.Globals;
 import misc.Globals.State;
@@ -25,9 +25,6 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
-
-import entity.Entity;
-import entity.EntityBodyDef;
 
 public final class Player extends Entity {
 	

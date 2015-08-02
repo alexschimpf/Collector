@@ -9,8 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.utils.Array;
 
-import entity.special.Player;
-
 public class SmoothMovingEntity extends Entity implements IMovingEntity {
 
 	protected final boolean _loop;

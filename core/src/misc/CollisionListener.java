@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 import entity.Entity;
-import entity.special.Player;
+import entity.Player;
 
 public final class CollisionListener implements ContactListener {
 

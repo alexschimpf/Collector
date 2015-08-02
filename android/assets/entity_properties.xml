@@ -18,7 +18,7 @@
     <entity_properties>
         
         <!-- Player -->
-        <entity type="player" class="entity.special.Player">
+        <entity type="player" class="entity.Player">
             <override>
                 <property name="body_type" value="dynamic" />
             </override>           

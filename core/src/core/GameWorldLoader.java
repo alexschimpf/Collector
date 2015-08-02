@@ -33,7 +33,7 @@ import com.badlogic.gdx.utils.Timer.Task;
 
 import entity.Entity;
 import entity.EntityBodyDef;
-import entity.special.Player;
+import entity.Player;
 
 public final class GameWorldLoader {
 	

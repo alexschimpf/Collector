@@ -7,31 +7,51 @@ import misc.InputListener;
 import misc.Utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import entity.special.Player;
+import entity.Player;
 
 public final class HUD implements IRender, IUpdate {
 
 	private static HUD instance;
 	
+	private final Label _textLabel;
+	private final Skin _skin;
 	private final Stage _stage;
-	private final InputListener _inputListener = new InputListener();
+	private final InputListener _inputListener = new InputListener();	
 	
 	private Button _moveButton;
 	private Button _jumpButton;
 	private Button _interactButton;	
 	private Integer _movePointer;
 	
+	private long _showTextStartTime;
+	private float _showTextDuration;
+	       
 	private HUD() {
 		_stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		_stage.addListener(_inputListener);
 		Gdx.input.setInputProcessor(_stage);
+		
+		_skin = new Skin(Gdx.files.internal("uiskin.json"));
+		
+		_textLabel = new Label("", _skin);		
+		_setTextLabel();
 		
 		if(Utils.usingAndroidContext()) {
 			buildMobileUI();
@@ -53,6 +73,8 @@ public final class HUD implements IRender, IUpdate {
 		} else {
 			_inputListener.update();
 		}
+		
+		_updateText();
 		
 		_stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		
@@ -84,6 +106,61 @@ public final class HUD implements IRender, IUpdate {
 		return _inputListener;
 	}
 	
+	public void showText(String text, float duration) {
+		_showTextStartTime = TimeUtils.millis();
+		_showTextDuration = duration;		
+		showText(text);
+	}
+	
+	public void showText(String text) {
+		_textLabel.getStyle().background = _skin.newDrawable("default-pane", 0, 0, 0, 0.2f);
+		_textLabel.setText(text);
+	}
+	
+	public void clearText() {
+		_textLabel.getStyle().background = null;
+		_textLabel.setText("");
+	}
+	
+	private void _setTextLabel() {
+		float screenWidth = Gdx.graphics.getWidth();
+		float screenHeight = Gdx.graphics.getHeight();
+		
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = (int)(screenWidth / 25);
+		BitmapFont font = generator.generateFont(parameter);
+		LabelStyle labelStyle = new LabelStyle(font, Color.WHITE);	
+		
+		_textLabel.setAlignment(Align.center);
+		_textLabel.setWrap(true);
+		_textLabel.setPosition(0, 0.8f * screenHeight);
+		_textLabel.setStyle(labelStyle);
+		_textLabel.setColor(Color.WHITE);
+		_textLabel.setSize(screenWidth, screenHeight / 5);
+		_stage.addActor(_textLabel);
+	}
+	
+	private void _updateText() {
+		if(_showTextStartTime == 0) {
+			return;
+		}
+		
+		float timeSinceStart = TimeUtils.timeSinceMillis(_showTextStartTime);
+		if(timeSinceStart > _showTextDuration) {
+			clearText();
+			_showTextStartTime = 0;
+		} else {
+			float ratio = timeSinceStart / _showTextDuration;
+			Color color = _textLabel.getColor();
+			if(ratio < 0.2f) {
+				_textLabel.setColor(color.r, color.g, color.b, ratio * 5);
+			} else if(ratio > 0.8f) {
+				_textLabel.setColor(color.r, color.g, color.b, (1 - ratio) * 5);
+			}
+		}
+	}
+	
 	private void checkPressedButtons() {
 		if(_movePointer == null) {
 			return;
@@ -103,18 +180,17 @@ public final class HUD implements IRender, IUpdate {
 		}
 	}
 	
-	private void buildMobileUI() {
-		Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
-		createMoveButton(skin);
-		createJumpButton(skin);
-		createInteractButton(skin);
+	private void buildMobileUI() {	
+		createMoveButton();
+		createJumpButton();
+		createInteractButton();
 	}
 	
-	private void createMoveButton(Skin skin) {
+	private void createMoveButton() {
 		float screenWidth = Gdx.graphics.getWidth();
 		float screenHeight = Gdx.graphics.getHeight();
 		
-		_moveButton = new Button(skin);
+		_moveButton = new Button(_skin);
 		_moveButton.setColor(1, 1, 1, 0.3f);
 		_moveButton.setSize(screenWidth / 2.75f, screenHeight / 5f);
 		_moveButton.setPosition(0, screenHeight / 32f);
@@ -133,11 +209,11 @@ public final class HUD implements IRender, IUpdate {
 		_stage.addActor(_moveButton);
 	}
 	
-	private void createJumpButton(Skin skin) {
+	private void createJumpButton() {
 		float screenWidth = Gdx.graphics.getWidth();
 		float screenHeight = Gdx.graphics.getHeight();
 		
-		_jumpButton = new Button(skin);
+		_jumpButton = new Button(_skin);
 		_jumpButton.setColor(1, 1, 1, 0.3f);
 		_jumpButton.setSize(screenWidth / 7f, screenHeight / 5f);
 		float buttonWidth = _jumpButton.getWidth();
@@ -165,11 +241,11 @@ public final class HUD implements IRender, IUpdate {
 		_stage.addActor(_jumpButton);
 	}
 	
-	private void createInteractButton(Skin skin) {
+	private void createInteractButton() {
 		float screenWidth = Gdx.graphics.getWidth();
 		float screenHeight = Gdx.graphics.getHeight();
 		
-		_interactButton = new Button(skin);
+		_interactButton = new Button(_skin);
 		_interactButton.setColor(1, 1, 1, 0.3f);
 		_interactButton.setSize(screenWidth / 7f, screenHeight / 5f);
 		float buttonWidth = _interactButton.getWidth();

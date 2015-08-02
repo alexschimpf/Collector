@@ -9,8 +9,6 @@ import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
-import entity.special.Player;
-
 public final class BumpEnableEntity extends Entity {
 
 	public BumpEnableEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {

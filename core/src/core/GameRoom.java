@@ -18,7 +18,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 import entity.Entity;
-import entity.special.Player;
+import entity.Player;
 
 public class GameRoom implements IRender, IUpdate {
 
