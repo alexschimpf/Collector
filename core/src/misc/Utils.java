@@ -54,19 +54,23 @@ public final class Utils {
 		return Gdx.app.getType() == ApplicationType.Desktop;
 	}
 	
-	public static boolean choose(boolean a, boolean b) {
+	public static Object chooseRandom(Object[] objects) {
+		return objects[MathUtils.random(0, objects.length - 1)];
+	}
+	
+	public static boolean chooseRandom(boolean a, boolean b) {
 		return MathUtils.random() < 0.5f ? a : b;
 	}
 	
-	public static float choose(float a, float b) {
+	public static float chooseRandom(float a, float b) {
 		return MathUtils.random() < 0.5f ? a : b;
 	}
 	
-	public static int choose(int a, int b) {
+	public static int chooseRandom(int a, int b) {
 		return MathUtils.random() < 0.5f ? a : b;
 	}
 	
-	public static String choose(String a, String b) {
+	public static String chooseRandom(String a, String b) {
 		return MathUtils.random() < 0.5f ? a : b;
 	}
 	
@@ -79,7 +83,18 @@ public final class Utils {
 			return MathUtils.random(a, b);
 		}
 		
-		return Utils.choose(MathUtils.random(a, -split), MathUtils.random(split, b));
+		return Utils.chooseRandom(MathUtils.random(a, -split), MathUtils.random(split, b));
+	}
+	
+	public static void shuffleArray(Object[] array) {
+	    int index;
+	    Object temp;
+	    for (int i = array.length - 1; i > 0; i--) {
+	        index = MathUtils.random(0,  i);
+	        temp = array[index];
+	        array[index] = array[i];
+	        array[i] = temp;
+	    }
 	}
 	
 	public static boolean propertyExists(MapObject mapObject, String key) {

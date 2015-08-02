@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -28,6 +29,14 @@ import entity.Player;
 
 public final class HUD implements IRender, IUpdate {
 
+	private static final String[] NARRATION_TEXT = new String[] {
+		"There is so much more...",
+		"You've only just begun, you know.",
+		"Purpose is what moves you forward.",
+		"You exist to continue.",
+		"Before there is tomorrow, there is now."
+	};
+	
 	private static HUD instance;
 	
 	private final Label _textLabel;
@@ -38,10 +47,11 @@ public final class HUD implements IRender, IUpdate {
 	private Button _moveButton;
 	private Button _jumpButton;
 	private Button _interactButton;	
-	private Integer _movePointer;
-	
+	private Integer _movePointer;	
 	private long _showTextStartTime;
 	private float _showTextDuration;
+	private long _nextRandomNarrationTime = TimeUtils.millis() + getRandomNarrationDelay();
+	private int _narrationTextIndex = 0;
 	       
 	private HUD() {
 		_stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -56,6 +66,8 @@ public final class HUD implements IRender, IUpdate {
 		if(Utils.usingAndroidContext()) {
 			buildMobileUI();
 		}
+		
+		Utils.shuffleArray(NARRATION_TEXT);
 	}
 	
 	public static HUD getInstance() {
@@ -106,6 +118,13 @@ public final class HUD implements IRender, IUpdate {
 		return _inputListener;
 	}
 	
+	public void showRandomText(float duration) {
+		String text = NARRATION_TEXT[_narrationTextIndex];
+		showText(text, duration);
+		
+		_narrationTextIndex = (_narrationTextIndex + 1) % NARRATION_TEXT.length;
+	}
+	
 	public void showText(String text, float duration) {
 		_showTextStartTime = TimeUtils.millis();
 		_showTextDuration = duration;		
@@ -142,6 +161,8 @@ public final class HUD implements IRender, IUpdate {
 	}
 	
 	private void _updateText() {
+		_trySetRandomText();
+		
 		if(_showTextStartTime == 0) {
 			return;
 		}
@@ -150,6 +171,8 @@ public final class HUD implements IRender, IUpdate {
 		if(timeSinceStart > _showTextDuration) {
 			clearText();
 			_showTextStartTime = 0;
+			_nextRandomNarrationTime = TimeUtils.millis() + getRandomNarrationDelay();
+			
 		} else {
 			float ratio = timeSinceStart / _showTextDuration;
 			Color color = _textLabel.getColor();
@@ -159,6 +182,12 @@ public final class HUD implements IRender, IUpdate {
 				_textLabel.setColor(color.r, color.g, color.b, (1 - ratio) * 5);
 			}
 		}
+	}
+	
+	private void _trySetRandomText() {
+		if(_showTextStartTime == 0 && TimeUtils.millis() >= _nextRandomNarrationTime) {
+			showRandomText(5000);
+		}		
 	}
 	
 	private void checkPressedButtons() {
@@ -271,5 +300,9 @@ public final class HUD implements IRender, IUpdate {
 		});
 
 		_stage.addActor(_interactButton);
+	}
+	
+	private int getRandomNarrationDelay() {
+		return MathUtils.random(5 * 60000, 8 * 60000);
 	}
 }

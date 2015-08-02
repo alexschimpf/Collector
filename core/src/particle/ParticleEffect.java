@@ -110,8 +110,8 @@ public class ParticleEffect implements IRender, IUpdate {
 	public void buildParticles() {
 		float numParticles = MathUtils.round(Utils.getRandomFromRange(minMaxParticles));
 		for(int i = 0; i < numParticles; i++) {
-			float offsetX = Utils.getRandomFromRange(minOffsets.x, maxOffsets.x, 0) * Utils.choose(1, -1);
-			float offsetY = Utils.getRandomFromRange(minOffsets.y, maxOffsets.y, 0) * Utils.choose(1, -1);	
+			float offsetX = Utils.getRandomFromRange(minOffsets.x, maxOffsets.x, 0) * Utils.chooseRandom(1, -1);
+			float offsetY = Utils.getRandomFromRange(minOffsets.y, maxOffsets.y, 0) * Utils.chooseRandom(1, -1);	
 
 			Particle particle = PARTICLE_POOL.obtain();
 			particle.sprite = Globals.getSprite(imageKey);
