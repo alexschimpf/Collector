@@ -36,16 +36,17 @@ public class ParticleEffect implements IRender, IUpdate {
 	public Vector2 maxVelocity     = new Vector2();
 	
 	// Optional
-	public boolean fadeIn          = false;
-	public boolean keepCenter      = false;
-	public boolean keepProportions = true;
-	public Color   startColor      = null;
-	public Color   endColor        = null;
-	public Vector2 startEndAlphas  = new Vector2(1, 0);
-	public Vector2 sizeScale       = new Vector2(1, 1);
-	public Vector2 velocitySplits  = new Vector2(0, 0);
-	public Vector2 minOffsets      = new Vector2(0, 0);
-	public Vector2 maxOffsets      = new Vector2(0, 0);
+	public boolean fadeIn                = false;
+	public boolean keepCenter            = false;
+	public boolean keepProportions       = true;
+	public Color   startColor            = null;
+	public Color   endColor              = null;
+	public Vector2 startEndAlphas        = new Vector2(1, 0);
+	public Vector2 sizeScale             = new Vector2(1, 1);
+	public Vector2 velocitySplits        = new Vector2(0, 0);
+	public Vector2 minOffsets            = new Vector2(0, 0);
+	public Vector2 maxOffsets            = new Vector2(0, 0);
+	public Vector2 minMaxAngularVelocity = new Vector2(0, 0);
 	
 	public ParticleEffect() {
 		
@@ -71,6 +72,7 @@ public class ParticleEffect implements IRender, IUpdate {
 		particleEffect.velocitySplits.set(velocitySplits);
 		particleEffect.minOffsets.set(minOffsets);
 		particleEffect.maxOffsets.set(maxOffsets);
+		particleEffect.minMaxAngularVelocity.set(minMaxAngularVelocity);
 		
 		return particleEffect;
 	}
@@ -142,7 +144,10 @@ public class ParticleEffect implements IRender, IUpdate {
 			particle.scaleY = sizeScale.y;			
 			particle.vx = Utils.getRandomFromRange(minVelocity.x, maxVelocity.x, velocitySplits.x);
 			particle.vy = Utils.getRandomFromRange(minVelocity.y, maxVelocity.y, velocitySplits.y);			
+			particle.angularVelocity = Utils.getRandomFromRange(minMaxAngularVelocity);
 			particle.startTime = TimeUtils.millis();
+			
+			particle.sprite.setOriginCenter();
 
 			PARTICLES.add(particle);
 		}
@@ -185,7 +190,11 @@ public class ParticleEffect implements IRender, IUpdate {
 	}
 	
 	public void velocitySplits(Float x, Float y) {
-		this.velocitySplits.set(x, y);
+		velocitySplits.set(x, y);
+	}
+	
+	public void minMaxAngularVelocity(Float x, Float y) {
+		minMaxAngularVelocity.set(x, y);
 	}
 
 	public void fadeIn(Boolean fadeIn) {
@@ -207,26 +216,4 @@ public class ParticleEffect implements IRender, IUpdate {
 	public void endColor(Color endColor) {
 		this.endColor = endColor;
 	}
-	
-	public void print() {
-		System.out.println();
-		System.out.println("IMAGE_KEY: " + imageKey);    
-        System.out.println("POSITION: " + position);     
-        System.out.println("MIN_MAX_SIZE: " + minMaxSize);     
-        System.out.println("MIN_MAX_DURATION: " + minMaxDuration); 
-        System.out.println("MIN_MAX_PARTICLES: " + minMaxParticles); 
-        System.out.println("MIN_VELOCITY: " + minVelocity); 
-        System.out.println("MAX_VELOCITY: " + maxVelocity);   
-        System.out.println("FADE_IN: " + fadeIn); 
-        System.out.println("KEEP_CENTER: " + keepCenter);      
-        System.out.println("KEEP_PROPORTIONS: " + keepProportions); 
-        System.out.println("START_COLOR: " + startColor); 
-        System.out.println("END_COLOR: " + endColor);       
-        System.out.println("START_END_ALPHAS: " + startEndAlphas);  
-        System.out.println("SIZE_SCALE: " + sizeScale); 
-        System.out.println("VELOCITY_SPLITS: " + velocitySplits);  
-        System.out.println("MIN_OFFSETS: " + minOffsets);  
-        System.out.println("MAX_OFFSETS: " + maxOffsets);
-        System.out.println();
-	} 
 }

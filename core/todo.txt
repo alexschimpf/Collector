@@ -54,15 +54,19 @@ Room 4:
 
 ---------------------------------------------------------------------------------------------------------------
 
-- Figure out a simple way to allow for entities that have a non-regular size
-- How to check for collisions with terrain?
-- Think about cleaning up Utils/Globals
-	- Move some Globals stuff to Utils maybe?
-	- Add more methods like getEntityById()
-- Text/narration display system
-- Add 'accepted values' check in EntityPropertyValidator
-- Add rotation functionality to particle effects
+[High-Priority]
+1. Text/narration display system
+2. How to check for collisions with terrain?
+
+[Low-Priority]
 - Fix texture-flipping issue
+- Add 'accepted values' check in EntityPropertyValidator
 - Validating particle effect properties
 - More interesting animation when obtaining a collectable
 - Support for sensor locations
+- Think about cleaning up Utils/Globals
+	- Move some Globals stuff to Utils maybe?
+	- Add more methods like getEntityById()
+
+
+

@@ -1,229 +1,229 @@
 
 game.png
-size: 1024,256
+size: 256,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 background
   rotate: false
-  xy: 131, 8
-  size: 100, 57
-  orig: 100, 57
+  xy: 131, 86
+  size: 19, 21
+  orig: 19, 21
   offset: 0, 0
   index: -1
 bump_enable
   rotate: false
-  xy: 401, 133
+  xy: 141, 439
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 1
 bump_enable
   rotate: false
-  xy: 467, 133
+  xy: 141, 373
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 2
 cloud
   rotate: false
-  xy: 261, 145
+  xy: 1, 451
   size: 138, 52
   orig: 138, 52
   offset: 0, 0
   index: 1
 cloud
   rotate: false
-  xy: 261, 91
+  xy: 1, 397
   size: 138, 52
   orig: 138, 52
   offset: 0, 0
   index: 2
 collectable
   rotate: false
-  xy: 533, 133
+  xy: 131, 307
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 797, 133
+  xy: 207, 439
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: -1
-player_blink
-  rotate: false
-  xy: 797, 133
-  size: 46, 64
-  orig: 46, 64
-  offset: 0, 0
-  index: 5
 player_jump
   rotate: false
-  xy: 797, 133
-  size: 46, 64
-  orig: 46, 64
-  offset: 0, 0
-  index: 5
-player_blink
-  rotate: false
-  xy: 797, 133
-  size: 46, 64
-  orig: 46, 64
-  offset: 0, 0
-  index: 1
-player_jump
-  rotate: false
-  xy: 797, 133
+  xy: 207, 439
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 1
 player_blink
   rotate: false
-  xy: 845, 133
+  xy: 207, 439
+  size: 46, 64
+  orig: 46, 64
+  offset: 0, 0
+  index: 1
+player_jump
+  rotate: false
+  xy: 207, 439
+  size: 46, 64
+  orig: 46, 64
+  offset: 0, 0
+  index: 5
+player_blink
+  rotate: false
+  xy: 207, 439
+  size: 46, 64
+  orig: 46, 64
+  offset: 0, 0
+  index: 5
+player_blink
+  rotate: false
+  xy: 207, 373
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 2
 player_blink
   rotate: false
-  xy: 845, 133
+  xy: 207, 373
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 4
 player_blink
   rotate: false
-  xy: 893, 133
+  xy: 197, 307
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 3
 player_jump
   rotate: false
-  xy: 941, 133
+  xy: 197, 241
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 2
 player_jump
   rotate: false
-  xy: 941, 133
+  xy: 197, 241
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 4
 player_jump
   rotate: false
-  xy: 401, 67
+  xy: 197, 175
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 3
 player_move
   rotate: false
-  xy: 449, 67
+  xy: 1, 1
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 1
 player_move
   rotate: false
-  xy: 497, 67
+  xy: 49, 1
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 2
 player_shoot
   rotate: false
-  xy: 545, 67
+  xy: 97, 1
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 1
 player_shoot
   rotate: false
-  xy: 593, 67
+  xy: 197, 109
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 2
 player_shoot
   rotate: false
-  xy: 641, 67
+  xy: 145, 20
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 3
 player_shoot
   rotate: false
-  xy: 689, 67
+  xy: 193, 43
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 4
 player_shot
   rotate: false
-  xy: 599, 133
+  xy: 131, 241
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 programmable
   rotate: false
-  xy: 1, 133
+  xy: 1, 331
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 1
 programmable
   rotate: false
-  xy: 1, 67
+  xy: 1, 265
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 2
 programmable
   rotate: false
-  xy: 131, 133
+  xy: 1, 199
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 3
 programmable
   rotate: false
-  xy: 1, 1
+  xy: 1, 133
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 4
 programmable
   rotate: false
-  xy: 131, 67
+  xy: 1, 67
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 5
 programmable_trigger
   rotate: false
-  xy: 665, 133
+  xy: 131, 175
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 1
 programmable_trigger
   rotate: false
-  xy: 665, 133
+  xy: 131, 175
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 3
 programmable_trigger
   rotate: false
-  xy: 731, 133
+  xy: 131, 109
   size: 64, 64
   orig: 64, 64
   offset: 0, 0

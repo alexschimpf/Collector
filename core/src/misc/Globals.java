@@ -24,7 +24,7 @@ import entity.special.Player;
 public final class Globals {
 
 	public static enum State {
-		RUNNING, PAUSED
+		RUNNING, PAUSED, LOADING
 	};
 	
 	public static final short PLAYER_NO_COLLIDE_MASK = 0x0002;
@@ -136,5 +136,9 @@ public final class Globals {
 	
 	public static boolean isGamePaused() {
 		return state == State.PAUSED;
+	}
+	
+	public static boolean isGameLoading() {
+		return state == State.LOADING;
 	}
 }

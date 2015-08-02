@@ -28,6 +28,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 
 import entity.Entity;
 import entity.EntityBodyDef;
@@ -50,6 +52,8 @@ public final class GameWorldLoader {
 	}
 	
 	public void load() {
+		Globals.state = Globals.State.LOADING;
+		
 		Globals.getGameWorld().clearPhysicsWorld();
 		
 		Globals.getGameWorld().setCurrentRoom(_room);		
@@ -66,6 +70,8 @@ public final class GameWorldLoader {
 		for(MapLayer layer : orderedLayers) {
 			_loadLayer(layer);
 		}
+		
+		Globals.state = Globals.State.RUNNING;
 	}
 	
 	private void _loadLayer(MapLayer layer) {

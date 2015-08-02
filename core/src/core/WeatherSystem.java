@@ -22,6 +22,18 @@ public class WeatherSystem implements IRender, IUpdate {
 	private boolean _enabled = true;	
 	private ParticleEffect[][] _cloudMap;
 	
+	private WeatherSystem() {
+		_resetCloudMap();
+		
+		if(!Globals.getCurrentRoom().isLobby()) {
+			_tryCreateClouds(true);
+		}		
+	}
+	
+	private WeatherSystem(WeatherSystem weatherSystem) {
+		set(weatherSystem);
+	}
+	
 	public static WeatherSystem getInstance() {
 		if(instance == null) {
 			instance = new WeatherSystem();
@@ -30,12 +42,8 @@ public class WeatherSystem implements IRender, IUpdate {
 		return instance;
 	}
 	
-	public WeatherSystem() {
-		_resetCloudMap();
-		
-		if(!Globals.getCurrentRoom().isLobby()) {
-			_tryCreateClouds(true);
-		}		
+	public WeatherSystem clone() {
+		return new WeatherSystem(this);
 	}
 	
 	@Override
@@ -73,6 +81,12 @@ public class WeatherSystem implements IRender, IUpdate {
 
 	@Override
 	public void done() {
+	}
+	
+	public void set(WeatherSystem weatherSystem) {
+		clearClouds();
+		_clouds.addAll(weatherSystem._clouds);
+		_cloudMap = weatherSystem._cloudMap;
 	}
 	
 	public void setEnabled(boolean enabled){
@@ -117,7 +131,7 @@ public class WeatherSystem implements IRender, IUpdate {
 					pos = _getCloudPosition(row, col);
 					ParticleEffect cloud = Globals.getParticleEffectManager().getParticleEffect("cloud", pos.x, pos.y);
 					cloud.minMaxSize(Globals.getCamera().getViewportWidth() * 0.5f, Globals.getCamera().getViewportWidth());
-					cloud.fadeIn(randomFadeIn ? Utils.choose(true, false) : true);
+					cloud.fadeIn(randomFadeIn ? MathUtils.randomBoolean(0.35f) : true);
 		            cloud.buildParticles();
 					
 					_cloudMap[row][col] = cloud;

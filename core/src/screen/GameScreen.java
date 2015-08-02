@@ -54,10 +54,6 @@ public final class GameScreen implements Screen {
 		
 		Globals.getGameWorld().loadRoom("world_1/world_start_tile_map.tmx", true);
 		Globals.getWeatherSystem().setEnabled(false);
-		
-		if(TheGame.MUSIC) {
-			// TODO: How to implement music?
-		}
 	}
 
 	@Override
@@ -65,6 +61,11 @@ public final class GameScreen implements Screen {
 		if(TheGame.PRINT_FPS) {
 			Gdx.app.log("FPS", "" + Gdx.graphics.getFramesPerSecond());
 		}	
+		
+		if(Globals.isGameLoading()) {
+			clearScreen();
+			return;
+		}
 		
 		Globals.getCamera().update();
 		
@@ -126,8 +127,7 @@ public final class GameScreen implements Screen {
 	}
 	
 	private void _render(float delta) {
-		Gdx.gl.glClearColor((240 / 255.0f) * 0.8f, (250 / 255.0f) * 0.8f, (255 / 255.0f) * 0.8f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		clearScreen();
 
 		OrthographicCamera camera = Globals.getCamera().getRawCamera();
 		
@@ -202,5 +202,10 @@ public final class GameScreen implements Screen {
 	
 	private void _renderForeground() {
 		_tileMap.render(TileMapLayerType.FOREGROUND, _spriteBatch);
+	}
+	
+	private void clearScreen() {
+		Gdx.gl.glClearColor((240 / 255.0f) * 0.8f, (250 / 255.0f) * 0.8f, (255 / 255.0f) * 0.8f, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 }

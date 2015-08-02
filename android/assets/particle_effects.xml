@@ -9,16 +9,17 @@
         <property name="max_velocity"      required="true" type="Vector2" method="maxVelocity" />
         
         <!-- Optional -->
-        <property name="fade_in"          required="false" type="Boolean" method="fadeIn" />
-        <property name="keep_center"      required="false" type="Boolean" method="keepCenter" />
-        <property name="keep_proportions" required="false" type="Boolean" method="keepProportions" />
-        <property name="start_color"      required="false" type="Color"   method="startColor" />
-        <property name="end_color"        required="false" type="Color"   method="endColor" />
-        <property name="start_end_alphas" required="false" type="Vector2" method="startEndAlphas" />
-        <property name="size_scale"       required="false" type="Vector2" method="sizeScale" />
-        <property name="velocity_splits"  required="false" type="Vector2" method="velocitySplits" />
-        <property name="min_offsets"      required="false" type="Vector2" method="minOffsets" />
-        <property name="max_offsets"      required="false" type="Vector2" method="maxOffsets" />
+        <property name="fade_in"                  required="false" type="Boolean" method="fadeIn" />
+        <property name="keep_center"              required="false" type="Boolean" method="keepCenter" />
+        <property name="keep_proportions"         required="false" type="Boolean" method="keepProportions" />
+        <property name="start_color"              required="false" type="Color"   method="startColor" />
+        <property name="end_color"                required="false" type="Color"   method="endColor" />
+        <property name="start_end_alphas"         required="false" type="Vector2" method="startEndAlphas" />
+        <property name="size_scale"               required="false" type="Vector2" method="sizeScale" />
+        <property name="velocity_splits"          required="false" type="Vector2" method="velocitySplits" />
+        <property name="min_offsets"              required="false" type="Vector2" method="minOffsets" />
+        <property name="max_offsets"              required="false" type="Vector2" method="maxOffsets" />
+        <property name="min_max_angular_velocity" required="false" type="Vector2" method="minMaxAngularVelocity" />
     </properties>
     
     <particle_effects>
@@ -26,18 +27,18 @@
         <particle_effect name="player_dying">
             <properties>
                 <!-- Preset -->
-                <property name="image_key"         custom="false" value="player_shot" />
-                <property name="min_max_duration"  custom="false" value="500, 800" />
-                <property name="min_max_particles" custom="false" value="7, 8" />
-                <property name="min_velocity"      custom="false" value="-3.5, -3" />
-                <property name="max_velocity"      custom="false" value="3.5, -1" />
-                <property name="velocity_splits"   custom="false" value="1, 0" />
-                <property name="start_color"       custom="false" value="1, 1, 1" />
-                <property name="end_color"         custom="false" value="0.8, 0.8, 0.8" />
+                <property name="image_key"                custom="false" value="player_shot" />
+                <property name="min_max_duration"         custom="false" value="500, 800" />
+                <property name="min_max_particles"        custom="false" value="7, 8" />
+                <property name="min_velocity"             custom="false" value="-3.5, -3" />
+                <property name="max_velocity"             custom="false" value="3.5, -1" />
+                <property name="velocity_splits"          custom="false" value="1, 0" />
+                <property name="start_color"              custom="false" value="1, 1, 1" />
+                <property name="end_color"                custom="false" value="0.8, 0.8, 0.8" />
+                <property name="min_max_angular_velocity" custom="false" value="0, 90" />
                 
                 <!-- Custom -->
                 <property name="min_max_size" custom="true" />
-<!--                 <property name="max_offsets"  custom="true" /> -->
             </properties>                                         
         </particle_effect> 
         

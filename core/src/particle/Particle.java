@@ -18,6 +18,7 @@ public class Particle implements IRender, IUpdate, Poolable {
 	public float startHeight;
 	public float vx;
 	public float vy;
+	public float angularVelocity;
 	public float startAlpha;
 	public float endAlpha;
 	public float scaleX;
@@ -85,6 +86,8 @@ public class Particle implements IRender, IUpdate, Poolable {
 
 			sprite.setAlpha(alpha);
 		}
+		
+		sprite.rotate(Gdx.graphics.getDeltaTime() * angularVelocity);
 		
 		Color currColor = sprite.getColor();
 		if(startColor != null && endColor != null && !currColor.equals(endColor)) {

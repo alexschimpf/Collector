@@ -1,5 +1,6 @@
 package core;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 import misc.CollisionListener;
@@ -13,6 +14,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 
 import entity.special.Player;
 
@@ -23,6 +26,7 @@ public final class GameWorld implements IRender, IUpdate {
 	public static GameWorld instance;
 	
 	private final World _physicsWorld = new World(new Vector2(0, DEFAULT_GRAVITY), true);
+	private final HashMap<String, WeatherSystem> roomWeatherSystemMap = new HashMap<String, WeatherSystem>();
 	
 	private Player _player;
 	private GameRoom _currRoom;
@@ -91,13 +95,20 @@ public final class GameWorld implements IRender, IUpdate {
 			Globals.getPlayer().setPosition(entrance.getX() + (entrance.getWidth() / 2), Globals.getPlayer().getCenterY());
 		}
 		
-		WeatherSystem weatherSystem = Globals.getWeatherSystem();
-		if(isLobby) {
-			weatherSystem.setEnabled(false);
-			weatherSystem.clearClouds();
+		if(roomWeatherSystemMap.containsKey(tileMapName)) {
+			WeatherSystem roomWeatherSystem = roomWeatherSystemMap.get(tileMapName);
+			Globals.getWeatherSystem().set(roomWeatherSystem);
 		} else {
-			weatherSystem.setEnabled(true);
-			weatherSystem.resetClouds(true);
+			WeatherSystem weatherSystem = Globals.getWeatherSystem();
+			if(isLobby) {
+				weatherSystem.setEnabled(false);
+				weatherSystem.clearClouds();
+			} else {
+				weatherSystem.setEnabled(true);
+				weatherSystem.resetClouds(true);
+			}
+			
+			roomWeatherSystemMap.put(tileMapName, weatherSystem.clone());
 		}
 	}
 	
