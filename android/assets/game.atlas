@@ -1,229 +1,201 @@
 
 game.png
-size: 256,512
+size: 512,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 background
   rotate: false
-  xy: 131, 86
+  xy: 271, 98
   size: 19, 21
   orig: 19, 21
   offset: 0, 0
   index: -1
 bump_enable
   rotate: false
-  xy: 141, 439
+  xy: 141, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 1
 bump_enable
   rotate: false
-  xy: 141, 373
+  xy: 207, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 2
 cloud
   rotate: false
-  xy: 1, 451
+  xy: 1, 1
   size: 138, 52
   orig: 138, 52
   offset: 0, 0
   index: 1
 cloud
   rotate: false
-  xy: 1, 397
+  xy: 131, 67
   size: 138, 52
   orig: 138, 52
   offset: 0, 0
   index: 2
 collectable
   rotate: false
-  xy: 131, 307
+  xy: 261, 187
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+particle
+  rotate: false
+  xy: 261, 121
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 207, 439
+  xy: 327, 121
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: -1
 player_jump
   rotate: false
-  xy: 207, 439
+  xy: 327, 121
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 1
 player_blink
   rotate: false
-  xy: 207, 439
+  xy: 327, 121
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 1
+player_blink
+  rotate: false
+  xy: 327, 121
+  size: 46, 64
+  orig: 46, 64
+  offset: 0, 0
+  index: 5
 player_jump
   rotate: false
-  xy: 207, 439
+  xy: 327, 121
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 5
 player_blink
   rotate: false
-  xy: 207, 439
-  size: 46, 64
-  orig: 46, 64
-  offset: 0, 0
-  index: 5
-player_blink
-  rotate: false
-  xy: 207, 373
+  xy: 339, 55
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 2
 player_blink
   rotate: false
-  xy: 207, 373
+  xy: 339, 55
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 4
 player_blink
   rotate: false
-  xy: 197, 307
+  xy: 375, 121
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 3
 player_jump
   rotate: false
-  xy: 197, 241
+  xy: 393, 187
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 2
 player_jump
   rotate: false
-  xy: 197, 241
+  xy: 393, 187
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 4
 player_jump
   rotate: false
-  xy: 197, 175
+  xy: 387, 55
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 3
 player_move
   rotate: false
-  xy: 1, 1
+  xy: 423, 121
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 1
 player_move
   rotate: false
-  xy: 49, 1
+  xy: 441, 187
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 2
-player_shoot
-  rotate: false
-  xy: 97, 1
-  size: 46, 64
-  orig: 46, 64
-  offset: 0, 0
-  index: 1
-player_shoot
-  rotate: false
-  xy: 197, 109
-  size: 46, 64
-  orig: 46, 64
-  offset: 0, 0
-  index: 2
-player_shoot
-  rotate: false
-  xy: 145, 20
-  size: 46, 64
-  orig: 46, 64
-  offset: 0, 0
-  index: 3
-player_shoot
-  rotate: false
-  xy: 193, 43
-  size: 46, 64
-  orig: 46, 64
-  offset: 0, 0
-  index: 4
-player_shot
-  rotate: false
-  xy: 131, 241
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
 programmable
   rotate: false
-  xy: 1, 331
+  xy: 1, 187
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 1
 programmable
   rotate: false
-  xy: 1, 265
+  xy: 1, 121
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 2
 programmable
   rotate: false
-  xy: 1, 199
+  xy: 1, 55
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 3
 programmable
   rotate: false
-  xy: 1, 133
+  xy: 131, 187
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 4
 programmable
   rotate: false
-  xy: 1, 67
+  xy: 131, 121
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 5
 programmable_trigger
   rotate: false
-  xy: 131, 175
+  xy: 273, 32
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 1
 programmable_trigger
   rotate: false
-  xy: 131, 175
+  xy: 273, 32
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 3
 programmable_trigger
   rotate: false
-  xy: 131, 109
+  xy: 327, 187
   size: 64, 64
   orig: 64, 64
   offset: 0, 0

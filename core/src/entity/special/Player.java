@@ -33,7 +33,6 @@ public final class Player extends Entity {
 	
 	public static final float MOVE_SPEED = 10;
 	public static final float JUMP_IMPULSE = -98;
-	public static final float SHOOT_PERIOD = 150;
 	public static final float MOVE_PARTICLE_DELAY = 100;
 	public static final float MASS = 5.69f;
 	public static final float FALL_HEIGHT_LIMIT = Globals.getTileSize() * 6f;
@@ -44,7 +43,6 @@ public final class Player extends Entity {
 	private boolean _isFacingRight = true;
 	private boolean _isRespawning = false;
 	private int _numFootContacts = 0;
-	private long _lastShotTime = 0;
 	private long _lastBlinkTime = TimeUtils.millis();
 	private float _blinkPeriod = MathUtils.random(5000, 10000);
 	private Vector2 _lastValidPos = new Vector2();
@@ -134,27 +132,11 @@ public final class Player extends Entity {
 	public void stopMove() {
 		setLinearVelocity(0, getLinearVelocity().y);
 		
-		if(!_isJumpAnimationPlaying() && !_isShootAnimationPlaying() && !_isBlinkAnimationPlaying()) {
+		if(!_isJumpAnimationPlaying() && !_isBlinkAnimationPlaying()) {
 			_animationSystem.switchToDefault();
 		}
 	}
-	
-	public void shoot() {
-		if(TimeUtils.timeSinceMillis(_lastShotTime) < SHOOT_PERIOD) {
-			return;
-		}
-		
-		_lastShotTime = TimeUtils.millis();
-		
-		Globals.getSoundManager().playSound("shoot");
-		
-		PlayerShot.shootShot();
-		
-		if(!_isShootAnimationPlaying() && !_isJumpAnimationPlaying()) {
-			_animationSystem.switchAnimation("shoot", false, true);
-		}
-	}
-	
+
 	public void interact() {
 		float dist = Globals.getTileSize() / 4;
 		
@@ -311,12 +293,10 @@ public final class Player extends Entity {
 		Animation blinkAnimation = new Animation.Builder("player_blink", pos, size, 0.5f).build();
 		Animation jumpAnimation = new Animation.Builder("player_jump", pos, size, 0.3f).build();		
 		Animation moveAnimation = new Animation.Builder("player_move", pos, size, 0.2f).loop(true).build();
-		Animation shootAnimation = new Animation.Builder("player_shoot", pos, size, 0.1f).build();
-		
+
 		_animationSystem.addAnimation("blink", blinkAnimation);
 		_animationSystem.addAnimation("jump", jumpAnimation);
 		_animationSystem.addAnimation("move", moveAnimation);
-		_animationSystem.addAnimation("shoot", shootAnimation);
 		
 		_animationSystem.setDefaultSprite("player", size.x, size.y);
 		
@@ -340,11 +320,11 @@ public final class Player extends Entity {
 		
 		setLinearVelocity(vx, getLinearVelocity().y);
 		
-		if(_numFootContacts > 0 && !_isJumping && !_isMoveAnimationPlaying() && !_isJumpAnimationPlaying() && !_isShootAnimationPlaying()) {
+		if(_numFootContacts > 0 && !_isJumping && !_isMoveAnimationPlaying() && !_isJumpAnimationPlaying()) {
 			_animationSystem.switchAnimation("move", false, true);
 		}
 		
-		if(_numFootContacts == 0 && !_isJumpAnimationPlaying() && !_isShootAnimationPlaying() && !_isBlinkAnimationPlaying()) {
+		if(_numFootContacts == 0 && !_isJumpAnimationPlaying() && !_isBlinkAnimationPlaying()) {
 			_animationSystem.switchToDefault();
 		}
 	}
@@ -377,11 +357,7 @@ public final class Player extends Entity {
 	private boolean _isJumpAnimationPlaying() {
 		return _animationSystem.getAnimationKey().equals("jump") && _animationSystem.isPlaying();
 	}
-	
-	private boolean _isShootAnimationPlaying() {
-		return _animationSystem.getAnimationKey().equals("shoot") && _animationSystem.isPlaying();
-	}
-	
+
 	private boolean _isMoveAnimationPlaying() {
 		return _animationSystem.getAnimationKey().equals("move") && _animationSystem.isPlaying();
 	}
