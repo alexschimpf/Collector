@@ -363,7 +363,7 @@ public final class Player extends Entity {
 		float x = getCenterX();
 		float y = getBottom() - getHeight() / 5;
 		ParticleEffect particleEffect = Globals.getParticleEffect("player_dying", x, y);
-		particleEffect.minMaxSize(getWidth() * 0.9f, getWidth());
+		particleEffect.minMaxSize(getWidth() * 0.3f, getWidth() * 0.5f);
 		particleEffect.addToScreen();
 	}
 }

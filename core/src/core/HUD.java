@@ -29,6 +29,8 @@ import entity.Player;
 
 public final class HUD implements IRender, IUpdate {
 
+	public static final int DEFAULT_NARRATION_DURATION = 8000;
+	
 	private static final String[] NARRATION_TEXT = new String[] {
 		"There is so much more...",
 		"You've only just begun, you know.",
@@ -186,7 +188,7 @@ public final class HUD implements IRender, IUpdate {
 	
 	private void _trySetRandomText() {
 		if(_showTextStartTime == 0 && TimeUtils.millis() >= _nextRandomNarrationTime) {
-			showRandomText(5000);
+			showRandomText(DEFAULT_NARRATION_DURATION);
 		}		
 	}
 	
@@ -303,6 +305,6 @@ public final class HUD implements IRender, IUpdate {
 	}
 	
 	private int getRandomNarrationDelay() {
-		return MathUtils.random(5 * 60000, 8 * 60000);
+		return MathUtils.random(3 * 60000, 5 * 60000);
 	}
 }

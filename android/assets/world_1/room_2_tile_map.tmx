@@ -128,7 +128,11 @@
     <property name="start_on_create" value="true"/>
    </properties>
   </object>
-  <object id="62" type="collectable" gid="227" x="3212.48" y="97.697" width="28" height="28"/>
+  <object id="62" type="collectable" gid="227" x="3212.48" y="97.697" width="28" height="28">
+   <properties>
+    <property name="narration_text" value="Good. Continue on."/>
+   </properties>
+  </object>
   <object id="69" name="c3_1" type="chain" gid="232" x="1344" y="832" width="64" height="64">
    <properties>
     <property name="activated_duration" value="1000"/>

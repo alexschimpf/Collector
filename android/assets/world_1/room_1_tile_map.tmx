@@ -45,7 +45,11 @@
     <property name="other_ids" value="p2"/>
    </properties>
   </object>
-  <object id="9" type="collectable" gid="227" x="1044" y="364" width="28" height="28"/>
+  <object id="9" type="collectable" gid="227" x="1044" y="364" width="28" height="28">
+   <properties>
+    <property name="narration_text" value="You are powerful."/>
+   </properties>
+  </object>
   <object id="10" name="p2" type="programmable" gid="228" x="1344" y="960" width="128" height="64">
    <properties>
     <property name="max_down" value="20"/>

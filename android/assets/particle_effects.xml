@@ -29,13 +29,13 @@
                 <!-- Preset -->
                 <property name="image_key"                custom="false" value="particle" />
                 <property name="min_max_duration"         custom="false" value="500, 800" />
-                <property name="min_max_particles"        custom="false" value="7, 8" />
+                <property name="min_max_particles"        custom="false" value="15, 20" />
                 <property name="min_velocity"             custom="false" value="-3.5, -3" />
                 <property name="max_velocity"             custom="false" value="3.5, -1" />
                 <property name="velocity_splits"          custom="false" value="1, 0" />
                 <property name="start_color"              custom="false" value="1, 1, 1" />
                 <property name="end_color"                custom="false" value="0.8, 0.8, 0.8" />
-                <property name="min_max_angular_velocity" custom="false" value="0, 90" />
+                <property name="min_max_angular_velocity" custom="false" value="0, 45" />
                 
                 <!-- Custom -->
                 <property name="min_max_size" custom="true" />

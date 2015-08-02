@@ -25,7 +25,11 @@
         </entity>
         
         <!-- Collectable -->
-        <entity type="collectable" class="entity.CollectableEntity" />
+        <entity type="collectable" class="entity.CollectableEntity">
+            <required>
+            	<property name="narration_text" />
+            </required>
+        </entity>
         
         <!-- Breakable -->
         <entity type="breakable" class="BreakableEntity">

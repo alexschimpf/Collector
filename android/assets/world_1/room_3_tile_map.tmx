@@ -123,7 +123,11 @@
    </properties>
   </object>
   <object id="59" x="4096" y="1472" width="640" height="64"/>
-  <object id="60" type="collectable" gid="227" x="4309.21" y="305.212" width="28" height="28"/>
+  <object id="60" type="collectable" gid="227" x="4309.21" y="305.212" width="28" height="28">
+   <properties>
+    <property name="narration_text" value="This world is yours."/>
+   </properties>
+  </object>
   <object id="61" type="disappearing" gid="232" x="4288" y="960" width="64" height="64">
    <properties>
     <property name="disappear_duration" value="300"/>
