@@ -94,8 +94,6 @@ public class WeatherSystem implements IRender, IUpdate {
 	}
 	
 	public void resetClouds(boolean randomFadeIn) {
-		_resetCloudMap();
-		
 		clearClouds();
 		_tryCreateClouds(randomFadeIn);
 	}
@@ -121,7 +119,7 @@ public class WeatherSystem implements IRender, IUpdate {
 	}
 
 	private void _tryCreateClouds(boolean randomFadeIn) {
-		int maxNumClouds = _cloudMap.length * _cloudMap[0].length / MathUtils.random(3, 8);
+		int maxNumClouds = _cloudMap.length * _cloudMap[0].length / 4;
 		while(_clouds.size < maxNumClouds) {
 			Vector2 pos = null;
 			while(pos == null) {
@@ -131,7 +129,7 @@ public class WeatherSystem implements IRender, IUpdate {
 					pos = _getCloudPosition(row, col);
 					ParticleEffect cloud = Globals.getParticleEffectManager().getParticleEffect("cloud", pos.x, pos.y);
 					cloud.minMaxSize(Globals.getCamera().getViewportWidth() * 0.5f, Globals.getCamera().getViewportWidth());
-					cloud.fadeIn(randomFadeIn ? MathUtils.randomBoolean(0.35f) : true);
+					cloud.fadeIn(randomFadeIn ? MathUtils.randomBoolean(0.3f) : true);
 		            cloud.buildParticles();
 					
 					_cloudMap[row][col] = cloud;

@@ -55,10 +55,9 @@ Room 4:
 ---------------------------------------------------------------------------------------------------------------
 
 [High-Priority]
-1. Add text property to collectables
-2. Lighten outlines 
-3. Better particle effects
-4. How to check for collisions with terrain?
+1. How to check for collisions with terrain?
+2. Fix room loading bug
+	- Handle this more safely
 
 [Low-Priority]
 - Fix texture-flipping issue

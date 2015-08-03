@@ -29,7 +29,6 @@ public final class GameScreen implements Screen {
 	private final Array<Animation> _animations = new Array<Animation>();	
 	
 	private TileMap _tileMap;
-	private ParallaxBackground _background;
 
 	public GameScreen(TheGame theGame) {
 		_theGame = theGame;
@@ -44,8 +43,6 @@ public final class GameScreen implements Screen {
 		Globals.getMusicManager();
 		Globals.getTextureManager();	
 		new ParticleEffectLoader().load();
-		
-		_background = new ParallaxBackground("background", 0.5f);
 	}
 	
 	@Override
@@ -134,10 +131,10 @@ public final class GameScreen implements Screen {
 		_tileMap.setView(camera);
 		_spriteBatch.setProjectionMatrix(camera.combined);
 		
-		_spriteBatch.begin();		
-		_background.render(_spriteBatch);	
+		_spriteBatch.begin();
+		Globals.getCurrentRoom().renderBackground(_spriteBatch);
 		_spriteBatch.end();
-
+		
 		_renderLayers();
 		
 		if(TheGame.PHYSICS_DEBUG) {

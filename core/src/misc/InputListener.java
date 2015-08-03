@@ -49,7 +49,10 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 				}
 				break;
 			case Keys.Q:
-				Globals.getGameWorld().loadLobbyRoom();
+				if(!Globals.isGameLoading()) {
+					Globals.getGameWorld().loadLobbyRoom();
+				}
+				
 				break;
 			case Keys.C:
 				Globals.getCamera().getRawCamera().zoom = 1;

@@ -52,8 +52,6 @@ public final class GameWorldLoader {
 	}
 	
 	public void load() {
-		Globals.state = Globals.State.LOADING;
-		
 		Globals.getGameWorld().clearPhysicsWorld();
 		
 		Globals.getGameWorld().setCurrentRoom(_room);		
@@ -70,8 +68,6 @@ public final class GameWorldLoader {
 		for(MapLayer layer : orderedLayers) {
 			_loadLayer(layer);
 		}
-		
-		Globals.state = Globals.State.RUNNING;
 	}
 	
 	private void _loadLayer(MapLayer layer) {

@@ -31,6 +31,7 @@ public final class GameWorld implements IRender, IUpdate {
 	private Player _player;
 	private GameRoom _currRoom;
 	private String _lobbyTileMapName;
+	private long lastRoomLoadTime = 0;
 	
 	private GameWorld() {		
 		World.setVelocityThreshold(0.5f);
@@ -89,6 +90,8 @@ public final class GameWorld implements IRender, IUpdate {
 			}
 		}
 		
+		Globals.state = Globals.State.LOADING;
+		
 		TileMap tileMap = new TileMap(tileMapName);
 		Globals.getGameScreen().setTileMap(tileMap);
 		GameWorldLoader gameWorldLoader = new GameWorldLoader(tileMap.getRawTileMap(), tileMapName, isLobby);
@@ -99,21 +102,23 @@ public final class GameWorld implements IRender, IUpdate {
 			Globals.getPlayer().setPosition(entrance.getX() + (entrance.getWidth() / 2), Globals.getPlayer().getCenterY());
 		}
 		
-		if(roomWeatherSystemMap.containsKey(tileMapName)) {
-			WeatherSystem roomWeatherSystem = roomWeatherSystemMap.get(tileMapName);
-			Globals.getWeatherSystem().set(roomWeatherSystem);
+		WeatherSystem weatherSystem = Globals.getWeatherSystem();
+		if(isLobby) {
+			weatherSystem.clearClouds();
+			weatherSystem.setEnabled(false);
 		} else {
-			WeatherSystem weatherSystem = Globals.getWeatherSystem();
-			if(isLobby) {
-				weatherSystem.setEnabled(false);
-				weatherSystem.clearClouds();
-			} else {
+			if(roomWeatherSystemMap.containsKey(tileMapName)) {
+				WeatherSystem roomWeatherSystem = roomWeatherSystemMap.get(tileMapName);
+				Globals.getWeatherSystem().set(roomWeatherSystem);
 				weatherSystem.setEnabled(true);
+			} else {				
 				weatherSystem.resetClouds(true);
+				weatherSystem.setEnabled(true);
+				roomWeatherSystemMap.put(tileMapName, weatherSystem.clone());
 			}
-			
-			roomWeatherSystemMap.put(tileMapName, weatherSystem.clone());
 		}
+		
+		Globals.state = Globals.State.RUNNING;
 	}
 	
 	public void loadLobbyRoom() {

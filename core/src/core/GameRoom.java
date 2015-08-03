@@ -10,6 +10,7 @@ import misc.Globals;
 import misc.IRender;
 import misc.IUpdate;
 import script.Script;
+import background.ParallaxBackground;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
@@ -30,12 +31,14 @@ public class GameRoom implements IRender, IUpdate {
 	private final int _numCols;	
 	private final boolean _isLobby;
 	private final String _tileMapName;
+	private final ParallaxBackground _background;
 	
 	public GameRoom(boolean isLobby, MapProperties properties, String tileMapName) {	
 		_isLobby = isLobby;
 		_numRows = Integer.parseInt(properties.get("height").toString());
 		_numCols = Integer.parseInt(properties.get("width").toString());
 		_tileMapName = tileMapName;
+		_background = new ParallaxBackground(properties.get("background").toString(), 0.5f);
 	}
 
 	@Override
@@ -58,6 +61,10 @@ public class GameRoom implements IRender, IUpdate {
 	@Override
 	public void done() {
 		return;
+	}
+	
+	public void renderBackground(SpriteBatch spriteBatch) {
+		_background.render(spriteBatch);	
 	}
 	
 	public boolean isLobby() {

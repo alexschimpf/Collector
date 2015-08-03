@@ -29,7 +29,7 @@ import entity.Player;
 
 public final class HUD implements IRender, IUpdate {
 
-	public static final int DEFAULT_NARRATION_DURATION = 8000;
+	public static final int DEFAULT_NARRATION_DURATION = 5000;
 	
 	private static final String[] NARRATION_TEXT = new String[] {
 		"There is so much more...",
