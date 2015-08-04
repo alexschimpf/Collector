@@ -45,6 +45,7 @@ public final class Player extends Entity {
 	private Vector2 _lastValidPos = new Vector2();
 	private Vector2 _lastActualPos = new Vector2();
 	private boolean _isLastValidDirectionRight = true;
+	private GravityPipeEntity _currGravityPipe = null;
 	
 	public Player(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		TextureRegion textureRegion = object.getTextureRegion();
@@ -113,7 +114,7 @@ public final class Player extends Entity {
 	}
 	
 	public void stopJump() {
-		if(getLinearVelocity().y < 0) {
+		if(!isInGravityPipe() && getLinearVelocity().y < 0) {
 			setLinearVelocity(getLinearVelocity().x, 0.02f);
 		}
 	}
@@ -127,6 +128,10 @@ public final class Player extends Entity {
 	}
 	
 	public void stopMove() {
+		if(isInGravityPipe()) {
+			return;
+		}
+		
 		setLinearVelocity(0, getLinearVelocity().y);
 		
 		if(!_isJumpAnimationPlaying() && !_isBlinkAnimationPlaying()) {
@@ -193,9 +198,7 @@ public final class Player extends Entity {
 		Timer timer = new Timer();
 		timer.scheduleTask(new Task() {
 			@Override
-			public void run() {
-				_isRespawning = false;
-				
+			public void run() {				
 				Globals.getSoundManager().playSound("transport");
 				
 				_isFacingRight = _isLastValidDirectionRight;
@@ -213,6 +216,8 @@ public final class Player extends Entity {
 
 				
 				setVisible(true);
+				
+				_isRespawning = false;
 				
 				Globals.state = State.RUNNING;
 			}
@@ -258,7 +263,7 @@ public final class Player extends Entity {
 			respawn(true, null);
 		} else if(_numFootContacts >= 1 && !fixture.isSensor()) {	 
 			if(bodyType != BodyType.DynamicBody && (bodyType != BodyType.KinematicBody || entity.getBody().getLinearVelocity().isZero()) &&
-			  (entity == null || entity.isValidForPlayerRespawn())) {
+			  (entity == null || entity.isValidForPlayerRespawn()) && !isInGravityPipe()) {
 				_isLastValidDirectionRight = isFacingRight();
 				_lastValidPos.set(getCenterX(), getCenterY());
 			}
@@ -278,6 +283,18 @@ public final class Player extends Entity {
 	
 	public boolean isRespawning() {
 		return _isRespawning;
+	}
+	
+	public void setGravityPipe(GravityPipeEntity gravityPipe) {
+		_currGravityPipe = gravityPipe;
+	}
+	
+	public boolean isInGravityPipe() {
+		return _currGravityPipe != null;
+	}
+	
+	public GravityPipeEntity getGravityPipe() {
+		return _currGravityPipe;
 	}
 	
 	@Override
@@ -363,7 +380,7 @@ public final class Player extends Entity {
 		float x = getCenterX();
 		float y = getBottom() - getHeight() / 5;
 		ParticleEffect particleEffect = Globals.getParticleEffect("player_dying", x, y);
-		particleEffect.minMaxSize(getWidth() * 0.3f, getWidth() * 0.5f);
+		particleEffect.minMaxSize(getWidth() * 0.3f, getWidth() * 0.8f);
 		particleEffect.addToScreen();
 	}
 }

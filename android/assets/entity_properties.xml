@@ -125,5 +125,20 @@
             </override>
         </entity>
         
+        <!-- Gravity Pipe -->
+        <entity type="gravity_pipe" class="entity.GravityPipeEntity" >
+            <required>
+                <property name="gravity" note="x,y" />
+            </required>
+        </entity>
+        
+         <!-- Fatal Area -->
+        <entity type="fatal_area" class="entity.FatalAreaEntity" >
+            <optional>
+                <property name="collision_check" default="overlaps" note="overlaps, contains" />
+                <property name="respawn_pos" default="" note="dx,dy from starting position" />
+            </optional>
+        </entity>
+        
     </entities>
 </properties>

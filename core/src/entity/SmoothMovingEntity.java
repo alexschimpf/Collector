@@ -31,9 +31,13 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 		
 		_isFatal = Utils.getPropertyBoolean(object, "is_fatal");
 		
-		Vector2 respawnOffset = Utils.getPropertyVector2(object, "respawn_pos");
-		_respawnPos = respawnOffset.scl(Globals.getTileSize()).add(getCenter());
-
+		if(!Utils.isPropertyEmpty(object, "respawn_pos")) {
+			Vector2 respawnOffset = Utils.getPropertyVector2(object, "respawn_pos");
+			_respawnPos = respawnOffset.scl(Globals.getTileSize()).add(getCenter());
+		} else {
+			_respawnPos = null;
+		}
+		
 		_started = Utils.getPropertyBoolean(object, "start_on_create");
 		
 		if(_started) {

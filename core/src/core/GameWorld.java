@@ -21,7 +21,7 @@ import entity.Player;
 
 public final class GameWorld implements IRender, IUpdate {
 	
-	private final static float DEFAULT_GRAVITY = 20;
+	public final static float DEFAULT_GRAVITY = 20;
 	
 	public static GameWorld instance;
 	
@@ -31,7 +31,6 @@ public final class GameWorld implements IRender, IUpdate {
 	private Player _player;
 	private GameRoom _currRoom;
 	private String _lobbyTileMapName;
-	private long lastRoomLoadTime = 0;
 	
 	private GameWorld() {		
 		World.setVelocityThreshold(0.5f);

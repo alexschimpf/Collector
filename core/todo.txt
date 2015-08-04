@@ -58,6 +58,7 @@ Room 4:
 1. How to check for collisions with terrain?
 2. Fix room loading bug
 	- Handle this more safely
+3. When loading a room, let the user see item loaded piece by piece to make it more interesting
 
 [Low-Priority]
 - Fix texture-flipping issue
@@ -68,6 +69,8 @@ Room 4:
 - Think about cleaning up Utils/Globals
 	- Move some Globals stuff to Utils maybe?
 	- Add more methods like getEntityById()
+- Make respawning locations better
+- Fix minor spacing issue (at least for moving entities)
 
 
 

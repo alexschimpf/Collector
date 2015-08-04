@@ -102,6 +102,11 @@ public final class Utils {
 		return properties.containsKey(key);
 	}
 	
+	public static boolean isPropertyEmpty(MapObject mapObject, String key) {
+		MapProperties properties = mapObject.getProperties();
+		return !properties.containsKey(key) || properties.get(key).toString().isEmpty();
+	}
+	
 	public static boolean getPropertyBoolean(MapObject mapObject, String key) {
 		MapProperties properties = mapObject.getProperties();
 		return Boolean.parseBoolean(properties.get(key).toString());

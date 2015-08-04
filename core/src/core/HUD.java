@@ -134,7 +134,7 @@ public final class HUD implements IRender, IUpdate {
 	}
 	
 	public void showText(String text) {
-		_textLabel.getStyle().background = _skin.newDrawable("default-pane", 0, 0, 0, 0.2f);
+		_textLabel.getStyle().background = _skin.newDrawable("default-pane", 0, 0, 0, 0.4f);
 		_textLabel.setText(text);
 	}
 	

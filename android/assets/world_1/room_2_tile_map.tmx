@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="32" tilewidth="64" tileheight="64" nextobjectid="89">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="32" tilewidth="64" tileheight="64" nextobjectid="90">
+ <properties>
+  <property name="background" value="world_1_background_1"/>
+ </properties>
  <tileset firstgid="1" name="tiles_1" tilewidth="64" tileheight="64" spacing="2" margin="2">
   <image source="tiles_1.png" trans="ff00ff" width="1024" height="1024"/>
  </tileset>
@@ -130,7 +133,7 @@
   </object>
   <object id="62" type="collectable" gid="227" x="3212.48" y="97.697" width="28" height="28">
    <properties>
-    <property name="narration_text" value="Good. Continue on."/>
+    <property name="narration_text" value="You must continue."/>
    </properties>
   </object>
   <object id="69" name="c3_1" type="chain" gid="232" x="1344" y="832" width="64" height="64">
@@ -208,6 +211,11 @@
     <property name="chain_ids" value="c3_2,c3_3,c3_4,c3_5,c3_6,c3_7,c3_1"/>
     <property name="chain_start_id" value="c3_1"/>
     <property name="state_machine" value="c3_s"/>
+   </properties>
+  </object>
+  <object id="89" type="collectable" gid="227" x="1424.36" y="1289.03" width="28" height="28">
+   <properties>
+    <property name="narration_text" value="To collect is to live."/>
    </properties>
   </object>
  </objectgroup>

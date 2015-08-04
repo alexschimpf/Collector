@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="64" tileheight="64" nextobjectid="55">
+ <properties>
+  <property name="background" value="world_1_background_2"/>
+ </properties>
  <tileset firstgid="1" name="tiles_1" tilewidth="64" tileheight="64" spacing="2" margin="2">
   <image source="tiles_1.png" trans="ff00ff" width="1024" height="1024"/>
  </tileset>
@@ -18,7 +21,7 @@
  </layer>
  <layer name="Normal" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMAoGFvgAcSWNsS8e+7OAWIDGOBuP32ltNwxjC4NoIK6iE47BEQaDBZwD4vM0FsMH7gLxPRqLoQN65D18eRCU/uiV/rGlP1UG+uV/FSz2w8JgpOe9UTAKRgH9AACGRkxS
+   eJxjYBgFo2AUjIJRMApGwSgYeHAQiA+hiW0C4s1oYouBeAma2BQgnorE3wPEe4F4HxDvJ9L+C0B8kUpip4H4DBCfBeJzRNp/H4gfUEnsFhDfBuI7QHwXj50+QFxJJ+yLxf5oIBagE47BYr8qEGfRwe5sIFbBYj8sDKpojLH5fRSMglEwMgEAL186bg==
   </data>
  </layer>
  <objectgroup name="Entities">
@@ -31,7 +34,7 @@
  </objectgroup>
  <layer name="Foreground" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJztzbkJACAABEFL8QHtv0MrMDE4EGfCTbYUAPjXCr7modfAuwUecKMHHiPwAHjBBjYSANQ=
+   eJztzQENAAAIAyCzaP+OtrhzgwJUAQDAjQ4cEzgAPlh6pwBG
   </data>
  </layer>
  <objectgroup name="Bodies">
@@ -62,9 +65,6 @@
    <properties>
     <property name="room_tile_map" value="world_1/room_5_tile_map.tmx"/>
    </properties>
-  </object>
-  <object id="54" x="128" y="1088">
-   <polyline points="0,0 1792,0 1792,-128 1728,-128 1728,-256 64,-256 64,-128 0,-128 0,0"/>
   </object>
  </objectgroup>
 </map>
