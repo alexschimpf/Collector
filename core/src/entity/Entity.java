@@ -221,6 +221,14 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	public Rectangle getBorderRectangle() {
 		return _borderRect.set(getLeft(), getTop(), getWidth(), getHeight());
 	}
+	
+	public boolean overlapsEntity(Entity entity) {
+		return getBorderRectangle().overlaps(entity.getBorderRectangle());
+	}
+	
+	public boolean containsEntity(Entity entity) {
+		return getBorderRectangle().contains(entity.getBorderRectangle());
+	}
 
 	protected void _createSprite(EntityBodyDef bodyDef, TextureRegion textureRegion) {
 		Vector2 position = bodyDef.position;
