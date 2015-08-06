@@ -13,6 +13,8 @@
             <property name="body_type" default="static" />
             <property name="body_width" default="" />
             <property name="body_height" default="" />
+            <property name="valid_for_respawn" default="true" note="just affects BodyData" /> 
+            <property name="rotation" default="0" />
         </optional>
     </global_properties>
     <entity_properties>
@@ -137,6 +139,7 @@
             <optional>
                 <property name="collision_check" default="overlaps" note="overlaps, contains" />
                 <property name="respawn_pos" default="" note="dx,dy from starting position" />
+                <property name="active_duration" default="" />
             </optional>
         </entity>
         

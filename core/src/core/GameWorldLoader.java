@@ -114,17 +114,26 @@ public final class GameWorldLoader {
 	}
 	
 	private void _loadBodies(Array<MapObject> objects) {
-		for(MapObject object : objects) {
+		for(MapObject object : objects) {								
+			Body body = null;
 			if(object instanceof RectangleMapObject) {
-				_loadBodyFromRectangle(object);
+				body = _loadBodyFromRectangle(object);
 			} else if(object instanceof PolylineMapObject) {
-				_loadBodyFromPolyline(object);
+				body = _loadBodyFromPolyline(object);
 			} else if(object instanceof CircleMapObject) {
-				_loadBodyFromCircle(object);
+				body = _loadBodyFromCircle(object);
 			} else if(object instanceof EllipseMapObject) {
-				_loadBodyFromEllipse(object);
+				body = _loadBodyFromEllipse(object);
 			} else if(object instanceof PolygonMapObject) {
-				_loadBodyFromPolygon(object);
+				body = _loadBodyFromPolygon(object);
+			}
+			
+			if(body != null) {
+				boolean validForRespawn = true;			
+				if(Utils.propertyExists(object, "valid_for_respawn")) {
+					validForRespawn = Utils.getPropertyBoolean(object, "valid_for_respawn");
+				}
+				body.setUserData(new BodyData(null, validForRespawn));
 			}
 		}
 	}
@@ -207,7 +216,7 @@ public final class GameWorldLoader {
 		}
 	}
 	
-	private void _loadBodyFromRectangle(MapObject object) {
+	private Body _loadBodyFromRectangle(MapObject object) {
 		Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
 		
 		float unitScale = Globals.getCamera().getTileMapScale();	
@@ -220,7 +229,7 @@ public final class GameWorldLoader {
 			String tileMapName = Utils.getPropertyString(object, "room_tile_map");
 			Rectangle scaledRect = new Rectangle(left, top, width, height);
 			Globals.getCurrentRoom().addRoomEntranceLocation(tileMapName, scaledRect);
-			return;
+			return null;
 		}
 		
 		BodyDef bodyDef = new BodyDef();
@@ -232,13 +241,13 @@ public final class GameWorldLoader {
 		
 		Body body = Globals.getPhysicsWorld().createBody(bodyDef);
 		body.createFixture(fixtureDef);
-		
-		body.setUserData(new BodyData(null));
-		
+
 		fixtureDef.shape.dispose();
+		
+		return body;
 	}
 	
-	private void _loadBodyFromPolyline(MapObject object) {
+	private Body _loadBodyFromPolyline(MapObject object) {
 		BodyDef bodyDef = new BodyDef();
 	    bodyDef.position.set(0, 0);
 	    bodyDef.type = BodyType.StaticBody;
@@ -247,13 +256,13 @@ public final class GameWorldLoader {
 		
 		Body body = Globals.getPhysicsWorld().createBody(bodyDef);
 		body.createFixture(fixtureDef);
-		
-		body.setUserData(new BodyData(null));
-		
+
 		fixtureDef.shape.dispose();
+		
+		return body;
 	}
 
-    private void _loadBodyFromCircle(MapObject object) {
+    private Body _loadBodyFromCircle(MapObject object) {
     	Circle circle = ((CircleMapObject)object).getCircle();
     	
     	float unitScale = Globals.getCamera().getTileMapScale();
@@ -269,14 +278,14 @@ public final class GameWorldLoader {
     			
 		Body body = Globals.getPhysicsWorld().createBody(bodyDef);
 		body.createFixture(fixtureDef);
-		
-		body.setUserData(new BodyData(null));
-		
+
 		fixtureDef.shape.dispose();
+		
+		return body;
     }
     
     // Just assume the ellipse is a circle.
-    private void _loadBodyFromEllipse(MapObject object) {
+    private Body _loadBodyFromEllipse(MapObject object) {
     	Ellipse circle = ((EllipseMapObject)object).getEllipse();
     	
     	float unitScale = Globals.getCamera().getTileMapScale();
@@ -292,13 +301,13 @@ public final class GameWorldLoader {
     			
 		Body body = Globals.getPhysicsWorld().createBody(bodyDef);
 		body.createFixture(fixtureDef);
-		
-		body.setUserData(new BodyData(null));
-		
+
 		fixtureDef.shape.dispose();
+		
+		return body;
     }
     
-    private void _loadBodyFromPolygon(MapObject object) {
+    private Body _loadBodyFromPolygon(MapObject object) {
     	BodyDef bodyDef = new BodyDef();
 	    bodyDef.position.set(0, 0);
 	    bodyDef.type = BodyType.StaticBody;
@@ -307,10 +316,10 @@ public final class GameWorldLoader {
 		
 		Body body = Globals.getPhysicsWorld().createBody(bodyDef);
 		body.createFixture(fixtureDef);
-		
-		body.setUserData(new BodyData(null));
-		
+
 		fixtureDef.shape.dispose();
+		
+		return body;
     }
     
     private EntityBodyDef _getBodyDef(MapObject object) {

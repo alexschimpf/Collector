@@ -1,5 +1,6 @@
 	package entity;
 
+import misc.BodyData;
 import misc.Globals;
 import misc.Globals.State;
 import misc.IInteractive;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -204,8 +206,6 @@ public final class Player extends Entity {
 				_isFacingRight = _isLastValidDirectionRight;
 				_animationSystem.switchToDefault();
 				
-				_body.setActive(true);
-				
 				if(respawnPos != null) {
 					_lastActualPos.set(respawnPos.x, respawnPos.y);
 					setPosition(respawnPos.x, respawnPos.y);
@@ -213,13 +213,17 @@ public final class Player extends Entity {
 					_lastActualPos.set(_lastValidPos.x, _lastValidPos.y);
 					setPosition(_lastValidPos.x, _lastValidPos.y);
 				}
-
-				
-				setVisible(true);
-				
-				_isRespawning = false;
-				
-				Globals.state = State.RUNNING;
+								
+				Gdx.app.postRunnable(new Runnable() {
+					@Override
+					public void run() {
+						_body.setActive(true);						
+						_isRespawning = false;
+						Globals.state = State.RUNNING;
+						
+						setVisible(true);
+					}	
+				});
 			}
 		}, respawnDelay);
 	}
@@ -258,12 +262,14 @@ public final class Player extends Entity {
 		}
 		
 		Entity entity = Utils.getEntity(fixture);
-		BodyType bodyType = fixture.getBody().getType();
+		Body body = fixture.getBody();
+		BodyType bodyType = body.getType();
+		BodyData bodyData = (BodyData)body.getUserData();
 		if(!_isJumping && getCenterY() - _lastActualPos.y > FALL_HEIGHT_LIMIT) {
 			respawn(true, null);
 		} else if(_numFootContacts >= 1 && !fixture.isSensor()) {	 
 			if(bodyType != BodyType.DynamicBody && (bodyType != BodyType.KinematicBody || entity.getBody().getLinearVelocity().isZero()) &&
-			  (entity == null || entity.isValidForPlayerRespawn()) && !isInGravityPipe()) {
+			  (entity == null || entity.isValidForPlayerRespawn()) && !isInGravityPipe() && bodyData.isValidForRespawn()) {
 				_isLastValidDirectionRight = isFacingRight();
 				_lastValidPos.set(getCenterX(), getCenterY());
 			}
@@ -334,7 +340,8 @@ public final class Player extends Entity {
 		
 		setLinearVelocity(vx, getLinearVelocity().y);
 		
-		if(_numFootContacts > 0 && !_isJumping && !_isMoveAnimationPlaying() && !_isJumpAnimationPlaying()) {
+		if(!isInGravityPipe() && _numFootContacts > 0 && !_isJumping && !_isMoveAnimationPlaying() && 
+	       !_isJumpAnimationPlaying()) {
 			_animationSystem.switchAnimation("move", false, true);
 		}
 		

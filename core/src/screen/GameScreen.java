@@ -149,9 +149,9 @@ public final class GameScreen implements Screen {
 		_renderBackgroundTiles();
 		_renderWeather();
 		_renderEnclosingTiles();
-		_renderParticleEffects();
 		_renderNormalTiles();
 		_renderWorldAndAnimations();
+		_renderParticleEffects();
 		_renderForeground();
 	}
 	
