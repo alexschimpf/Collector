@@ -8,6 +8,7 @@ import misc.IUpdate;
 import misc.Utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -32,6 +33,7 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	protected boolean _markedDone = false;
 	protected boolean _isVisible = true;
 	protected boolean _isActive = true;
+	protected boolean _isEnclosing = false;
 	protected Body _body;
 	protected Sprite _sprite;
 	
@@ -53,6 +55,8 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 		
 		MapProperties properties = object.getProperties();
 		
+		_isEnclosing = Utils.getPropertyBoolean(object, "enclosing");
+		
 		TextureRegion textureRegion;
 		if(properties.containsKey("image_key")) {
 			String imageKey = Utils.getPropertyString(object, "image_key");
@@ -62,7 +66,10 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 		}		
 
 		_createSprite(bodyDef, textureRegion);	
-		_createBody(bodyDef, bodySkeleton);
+		_createBody(bodyDef, bodySkeleton, Utils.getPropertyBoolean(object, "fixed_rotation"));
+		
+		float rads = MathUtils.degreesToRadians * Utils.getPropertyFloat(object, "rotation");
+		_body.setTransform(getCenter(), rads);
 	}
 	
 	public abstract String getType();
@@ -80,6 +87,7 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	@Override
 	public boolean update() {
 		_sprite.setPosition(getLeft(), getTop());
+		_sprite.setOriginCenter();
 		_sprite.setRotation(MathUtils.radiansToDegrees * _body.getAngle());
 		
 		return _markedDone;
@@ -143,16 +151,17 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	public Vector2 getLeftTop() {
 		return _leftTop.set(getLeft(), getTop());
 	}
-	
-	/**
-	 * Used in function isEntityAt(...).
-	 */
+
 	public boolean isActive() {
 		return _isActive;
 	}
 	
 	public void setActive(boolean active) {
 		_isActive = active;
+	}
+	
+	public boolean isEnclosing() {
+		return _isEnclosing;
 	}
 	
 	public boolean isVisible() {
@@ -214,6 +223,23 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 		return _sprite;
 	}
 	
+	public void setAlpha(float a) {
+		Color color = _sprite.getColor();
+		setColor(color.r, color.g, color.b, a);
+	}
+	
+	public void setColor(float r, float g, float b, float a) {
+		_sprite.setColor(r, g, b, a);
+	}
+	
+	public Color getColor() {
+		return _sprite.getColor();
+	}
+	
+	public float getAlpha() {
+		return _sprite.getColor().a;
+	}
+	
 	public boolean isValidForPlayerRespawn() {
 		return true;
 	}
@@ -240,19 +266,19 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 		_sprite.setOrigin(size.x / 2, size.y / 2);
 	}
 
-	protected void _createBody(EntityBodyDef bodyDef, MapObject bodySkeleton) {
+	protected void _createBody(EntityBodyDef bodyDef, MapObject bodySkeleton, boolean fixedRotation) {
 		FixtureDef fixtureDef = Utils.getFixtureDefFromBodySkeleton(bodySkeleton);
-		_createBodyFromDef(bodyDef, fixtureDef);
+		_createBodyFromDef(bodyDef, fixtureDef, fixedRotation);
 	}
 	
-	protected void _createBodyFromDef(EntityBodyDef entityBodyDef, FixtureDef fixtureDef) {
+	protected void _createBodyFromDef(EntityBodyDef entityBodyDef, FixtureDef fixtureDef, boolean fixedRotation) {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = entityBodyDef.bodyType;
 		
 		bodyDef.position.set(entityBodyDef.position);
 
 		_body = Globals.getPhysicsWorld().createBody(bodyDef);		
-		_body.setFixedRotation(true);
+		_body.setFixedRotation(fixedRotation);
 
 		_attachFixture(fixtureDef);		
 	}

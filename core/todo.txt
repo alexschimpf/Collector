@@ -58,18 +58,18 @@ Room 4:
 1. How to check for collisions with terrain?
 2. Fix room loading bug
 	- Handle this more safely
-3. When loading a room, let the user see item loaded piece by piece to make it more interesting
+3. Need a system for saving the state of each room
+	- After collecting a collectable, needs to be removed forever from that room
 
 [Low-Priority]
+- When loading a room, let the user see item loaded piece by piece to make it more interesting
 - Fix texture-flipping issue
 - Add 'accepted values' check in EntityPropertyValidator
 - Validating particle effect properties
 - More interesting animation when obtaining a collectable
-- Support for sensor locations
 - Think about cleaning up Utils/Globals
 	- Move some Globals stuff to Utils maybe?
 	- Add more methods like getEntityById()
-- Make respawning locations better
 - Fix minor spacing issue (at least for moving entities)
 
 

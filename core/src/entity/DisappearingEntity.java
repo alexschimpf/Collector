@@ -89,11 +89,6 @@ public final class DisappearingEntity extends Entity {
 		timer.scheduleTask(new Task() {
 			@Override
 			public void run() {
-//				Player player = Globals.getPlayer();
-//				if(Globals.getGameWorld().isEntityAt2(getLeft(), getBottom(), getWidth(), getHeight(), player)) {
-//					player.respawnPlayer();
-//				}
-				
 				DisappearingEntity entity = new DisappearingEntity(_entityBodyDef, _mapObject, _bodySkeleton);
 				entity.setBodyData();
 				Globals.getCurrentRoom().addEntity(entity);

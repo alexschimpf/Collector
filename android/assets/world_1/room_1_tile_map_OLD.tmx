@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="64" tileheight="64" nextobjectid="41">
+ <properties>
+  <property name="background" value="world_1_background_1"/>
+ </properties>
+ <tileset firstgid="1" name="tiles_1" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="tiles_1.png" trans="ff00ff" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="226" name="entities" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="../entities.png" trans="ff00ff" width="1024" height="1024"/>
+ </tileset>
+ <layer name="Background" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAADwbhAAAAE=
+  </data>
+ </layer>
+ <layer name="Enclosing" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAADwbhAAAAE=
+  </data>
+ </layer>
+ <layer name="Normal" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjALSATsQcwAx50A7hE5AfqAdMALAaBiPglGACvSAWH+gHYEEQO7phGJfIFbDosYHiCvxyBMC6kBsS0CNKhBH47ADJF4FxaSGHchukPuzsZiLDjSAOAuHG0gFsDADYQEoriQCk6IWhn2x2I8cZrTGMRSE0ygYBaOAOgAAzi0g1w==
+  </data>
+ </layer>
+ <objectgroup name="Entities">
+  <object id="1" name="player" type="player" gid="226" x="256" y="1472" width="48" height="64">
+   <properties>
+    <property name="body_height" value="60"/>
+    <property name="body_width" value="44"/>
+   </properties>
+  </object>
+  <object id="5" name="pt" type="programmable_trigger" gid="229" x="1472" y="1280" width="64" height="64">
+   <properties>
+    <property name="body_height" value="64"/>
+    <property name="body_width" value="36"/>
+    <property name="target_ids" value="p1,p2"/>
+    <property name="trigger_type" value="move"/>
+   </properties>
+  </object>
+  <object id="6" name="p1" type="programmable" gid="228" x="1088" y="1216" width="128" height="64">
+   <properties>
+    <property name="max_down" value="20"/>
+    <property name="max_left" value="20"/>
+    <property name="max_right" value="20"/>
+    <property name="max_up" value="20"/>
+    <property name="other_ids" value="p2"/>
+   </properties>
+  </object>
+  <object id="9" type="collectable" gid="227" x="1044" y="364" width="28" height="28">
+   <properties>
+    <property name="narration_text" value="You are powerful."/>
+   </properties>
+  </object>
+  <object id="10" name="p2" type="programmable" gid="228" x="1344" y="960" width="128" height="64">
+   <properties>
+    <property name="max_down" value="20"/>
+    <property name="max_left" value="20"/>
+    <property name="max_right" value="20"/>
+    <property name="max_up" value="20"/>
+    <property name="other_ids" value="p1"/>
+   </properties>
+  </object>
+  <object id="28" type="bump_enable" gid="230" x="512" y="832" width="64" height="64"/>
+  <object id="40" type="collectable" gid="227" x="1146.67" y="837.697" width="28" height="28">
+   <properties>
+    <property name="narration_text" value="The world moves with you."/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="Foreground" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztzrENACAMA7Ce0vL/kUzMUIHEYs9RkggAADg3Pu/X5kNddGfjw2vZ6O1kAZYJRYoBSg==
+  </data>
+ </layer>
+ <objectgroup name="Bodies">
+  <object id="3" x="576" y="1216" width="128" height="64"/>
+  <object id="15" x="1408" y="1280">
+   <polyline points="0,0 192,0 192,64 256,64 256,128 0,128 0,0"/>
+  </object>
+  <object id="19" x="192" y="1472">
+   <polyline points="0,0 192,0 192,-64 256,-64 256,-128 320,-128 320,0 1792,0 1792,128 0,128 0,0"/>
+  </object>
+  <object id="26" x="832" y="1280">
+   <polyline points="0,0 256,0 256,64 320,64 320,128 384,128 384,192 256,192 256,128 192,128 192,64 0,64 0,0"/>
+  </object>
+  <object id="29" x="960" y="535.25" width="191.818" height="21"/>
+  <object id="32" x="704" y="640" width="64" height="64"/>
+  <object id="33" x="256" y="832" width="64" height="64"/>
+ </objectgroup>
+</map>

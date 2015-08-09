@@ -53,6 +53,10 @@ public final class GameWorld implements IRender, IUpdate {
 		_player.render(spriteBatch);
 	}
 	
+	public void renderEnclosing(SpriteBatch spriteBatch) {
+		_currRoom.renderEnclosing(spriteBatch);
+	}
+	
 	@Override
 	public boolean update() {
 		_physicsWorld.step(1 / 45.0f, 5, 5);

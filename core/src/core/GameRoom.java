@@ -38,13 +38,21 @@ public class GameRoom implements IRender, IUpdate {
 		_numRows = Integer.parseInt(properties.get("height").toString());
 		_numCols = Integer.parseInt(properties.get("width").toString());
 		_tileMapName = tileMapName;
-		_background = new ParallaxBackground(properties.get("background").toString(), 0.5f);
+		_background = new ParallaxBackground(properties.get("background").toString(), .8f);
 	}
 
 	@Override
 	public void render(SpriteBatch spriteBatch) {
 		for(Entity entity : getEntities()) {
-			if(!entity.getType().equals("player")) {
+			if(!entity.getType().equals("player") && !entity.isEnclosing()) {
+				entity.render(spriteBatch);
+			}
+		}
+	}
+	
+	public void renderEnclosing(SpriteBatch spriteBatch) {
+		for(Entity entity : getEntities()) {
+			if(!entity.getType().equals("player") && entity.isEnclosing()) {
 				entity.render(spriteBatch);
 			}
 		}

@@ -149,9 +149,10 @@ public final class GameScreen implements Screen {
 		_renderBackgroundTiles();
 		_renderWeather();
 		_renderEnclosingTiles();
-		_renderNormalTiles();
-		_renderWorldAndAnimations();
+		_renderEnclosingWorld();
 		_renderParticleEffects();
+		_renderNormalTiles();
+		_renderWorldAndAnimations();	
 		_renderForeground();
 	}
 	
@@ -182,6 +183,12 @@ public final class GameScreen implements Screen {
 			particleEffect.render(_spriteBatch);
 		}
 		
+		_spriteBatch.end();
+	}
+	
+	private void _renderEnclosingWorld() {
+		_spriteBatch.begin();
+		Globals.getGameWorld().renderEnclosing(_spriteBatch);	
 		_spriteBatch.end();
 	}
 	

@@ -16,6 +16,8 @@ public class FatalAreaEntity extends Entity {
 	private final String _collisionCheck; // overlaps or contains
 	private final Vector2 _respawnPos;
 	
+	private boolean _showParticles = false;
+	
 	private long _lastActiveFlipTime;
 	
 	public FatalAreaEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
@@ -34,6 +36,7 @@ public class FatalAreaEntity extends Entity {
 			_activeDuration = null;
 		}	
 		
+		_showParticles = Utils.getPropertyBoolean(object, "show_particles");		
 		_collisionCheck = Utils.getPropertyString(object, "collision_check");
 		
 		Fixture fixture = _body.getFixtureList().get(0);
@@ -49,18 +52,24 @@ public class FatalAreaEntity extends Entity {
 	
 	@Override
 	public boolean update() {
-		if(_activeDuration != null && TimeUtils.timeSinceMillis(_lastActiveFlipTime) > _activeDuration) {
+		float timeSinceLastActiveFlip = TimeUtils.timeSinceMillis(_lastActiveFlipTime);
+		if(_activeDuration != null && timeSinceLastActiveFlip > _activeDuration) {
 			_lastActiveFlipTime = TimeUtils.millis();
+			timeSinceLastActiveFlip = 0;
 			setVisible(!_isActive);
 			setActive(!_isActive);
+		}
+		
+		if(_isActive) {
+			setAlpha(1 - Math.max(timeSinceLastActiveFlip / _activeDuration, 0));
 		}
 
 		Player player = Globals.getPlayer();
 		if(_isActive) {
 			if(_collisionCheck.equals("contains") && containsEntity(player)) {
-				player.respawn(false, _respawnPos);
+				player.respawn(_showParticles, _respawnPos);
 			} else if(_collisionCheck.equals("overlaps") && overlapsEntity(player)) {
-				player.respawn(true, _respawnPos);
+				player.respawn(_showParticles, _respawnPos);
 			}
 		}
 

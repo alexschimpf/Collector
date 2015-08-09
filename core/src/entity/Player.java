@@ -34,7 +34,7 @@ public final class Player extends Entity {
 	public static final float JUMP_IMPULSE = -98;
 	public static final float MOVE_PARTICLE_DELAY = 100;
 	public static final float MASS = 5.69f;
-	public static final float FALL_HEIGHT_LIMIT = Globals.getTileSize() * 6f;
+	public static final float FALL_HEIGHT_LIMIT = Globals.getTileSize() * 8f;
 	
 	private final AnimationSystem _animationSystem = new AnimationSystem();
 	
@@ -52,8 +52,8 @@ public final class Player extends Entity {
 	public Player(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		TextureRegion textureRegion = object.getTextureRegion();
 		_createSprite(bodyDef, textureRegion);	
-		_createBody(bodyDef, bodySkeleton);
-		
+		_createBody(bodyDef, bodySkeleton, false);
+
 		_body.setBullet(true);
 		
 		MassData massData = _body.getMassData();
@@ -88,6 +88,10 @@ public final class Player extends Entity {
 		
 		if(getLinearVelocity().y > 50) {
 			respawn(false, null);
+		}
+		
+		if(_isJumping) {
+			_lastActualPos.y = Math.min(_lastActualPos.y, getCenterY());
 		}
 
 		return super.update();
@@ -196,7 +200,6 @@ public final class Player extends Entity {
 			}		
 		});
 		
-		float respawnDelay = collided ? 1 : 0;
 		Timer timer = new Timer();
 		timer.scheduleTask(new Task() {
 			@Override
@@ -213,6 +216,8 @@ public final class Player extends Entity {
 					_lastActualPos.set(_lastValidPos.x, _lastValidPos.y);
 					setPosition(_lastValidPos.x, _lastValidPos.y);
 				}
+				
+				setLinearVelocity(0, 0);
 								
 				Gdx.app.postRunnable(new Runnable() {
 					@Override
@@ -225,7 +230,7 @@ public final class Player extends Entity {
 					}	
 				});
 			}
-		}, respawnDelay);
+		}, 0.5f);
 	}
 	
 	public boolean isFacingRight() {
@@ -325,9 +330,9 @@ public final class Player extends Entity {
 	}
 	
 	@Override
-	protected void _createBody(EntityBodyDef bodyDef, MapObject bodySkeleton) {
+	protected void _createBody(EntityBodyDef bodyDef, MapObject bodySkeleton, boolean fixedRotation) {
 		FixtureDef fixtureDef = Utils.getScaledFixtureDefFromBodySkeleton(bodySkeleton, 0.98f);
-		_createBodyFromDef(bodyDef, fixtureDef);
+		_createBodyFromDef(bodyDef, fixtureDef, fixedRotation);
 	}
 	
 	private void _move(boolean right) {

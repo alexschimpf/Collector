@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="64" tileheight="64" nextobjectid="41">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="64" tileheight="64" nextobjectid="208">
  <properties>
   <property name="background" value="world_1_background_1"/>
  </properties>
@@ -9,84 +9,311 @@
  <tileset firstgid="226" name="entities" tilewidth="64" tileheight="64" spacing="2" margin="2">
   <image source="../entities.png" trans="ff00ff" width="1024" height="1024"/>
  </tileset>
- <layer name="Background" width="32" height="32">
+ <layer name="Background" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJztwQENAAAAwqD3T20PBxQAAADwbhAAAAE=
+   eJzt0rEJADAMAzD/f2qu6NIhQw8oWAIT704CAAAAAAAA/GJusi499vb27zKP7gcAAAAAAAAAoM8B38cIOw==
   </data>
  </layer>
- <layer name="Enclosing" width="32" height="32">
+ <layer name="Enclosing" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJztwQENAAAAwqD3T20PBxQAAADwbhAAAAE=
+   eJztwTEBAAAAwqD1T20MH6AAAAAAAAAAAAAAAAAAAACAtwFAAAAB
   </data>
  </layer>
- <layer name="Normal" width="32" height="32">
+ <layer name="Normal" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALSATsQcwAx50A7hE5AfqAdMALAaBiPglGACvSAWH+gHYEEQO7phGJfIFbDosYHiCvxyBMC6kBsS0CNKhBH47ADJF4FxaSGHchukPuzsZiLDjSAOAuHG0gFsDADYQEoriQCk6IWhn2x2I8cZrTGMRSE0ygYBaOAOgAAzi0g1w==
+   eJzt1tENgjAQgOEbwQ14MfqmLqBxAJ1AJtAJdALcWhptUmt7xFIoJP+XXEhoAr326CECAAAAAAAAAACgO7XxbGMbGNuPPJcSmjaW3r3KGcvFrrMb54zPT+XnWCljOd+T+/mp7BwqZSyH4+dq6sB+axcpXwdajoeR3leyDtx3h2ogB/fbr517tg5K578K3F/L9xxTVdK95yXzt99gKMxe+b3hH34fidVBLdO3kfh/QpfGu/pjfdZ4ivxzxM9/J791MDexs1Lro1Po933Y/+HQeWnE1sTmfcw6m/zMWXRXYqGMaf8wsR4zNVd555gSN+W5oR7Tt68OYaj858Ls0yMx5nqOAwAAAAAAAACA8l6TmDcF
   </data>
  </layer>
  <objectgroup name="Entities">
-  <object id="1" name="player" type="player" gid="226" x="256" y="1472" width="48" height="64">
+  <object id="42" type="fatal_area" gid="236" x="1988" y="2240" width="56" height="128">
+   <properties>
+    <property name="active_duration" value="500"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="110" name="player" type="player" gid="226" x="1792" y="2304" width="48" height="64">
    <properties>
     <property name="body_height" value="60"/>
     <property name="body_width" value="44"/>
    </properties>
   </object>
-  <object id="5" name="pt" type="programmable_trigger" gid="229" x="1472" y="1280" width="64" height="64">
+  <object id="118" type="gravity_pipe" gid="234" x="3008" y="1792" width="64" height="64">
    <properties>
-    <property name="body_height" value="64"/>
-    <property name="body_width" value="36"/>
-    <property name="target_ids" value="p1,p2"/>
-    <property name="trigger_type" value="move"/>
+    <property name="gravity" value="0,-40"/>
    </properties>
   </object>
-  <object id="6" name="p1" type="programmable" gid="228" x="1088" y="1216" width="128" height="64">
+  <object id="119" type="gravity_pipe" gid="234" x="3008" y="1728" width="192" height="64">
    <properties>
-    <property name="max_down" value="20"/>
-    <property name="max_left" value="20"/>
-    <property name="max_right" value="20"/>
-    <property name="max_up" value="20"/>
-    <property name="other_ids" value="p2"/>
+    <property name="gravity" value="40,0"/>
    </properties>
   </object>
-  <object id="9" type="collectable" gid="227" x="1044" y="364" width="28" height="28">
+  <object id="120" type="gravity_pipe" gid="234" x="3200" y="1792" width="64" height="128">
    <properties>
-    <property name="narration_text" value="You are powerful."/>
+    <property name="gravity" value="0,40"/>
    </properties>
   </object>
-  <object id="10" name="p2" type="programmable" gid="228" x="1344" y="960" width="128" height="64">
+  <object id="121" type="gravity_pipe" gid="234" x="3200" y="1856" width="128" height="64">
    <properties>
-    <property name="max_down" value="20"/>
-    <property name="max_left" value="20"/>
-    <property name="max_right" value="20"/>
-    <property name="max_up" value="20"/>
-    <property name="other_ids" value="p1"/>
+    <property name="gravity" value="-40,0"/>
    </properties>
   </object>
-  <object id="28" type="bump_enable" gid="230" x="512" y="832" width="64" height="64"/>
-  <object id="40" type="collectable" gid="227" x="1146.67" y="837.697" width="28" height="28">
+  <object id="122" type="gravity_pipe" gid="234" x="3136" y="1920" width="64" height="128">
    <properties>
-    <property name="narration_text" value="The world moves with you."/>
+    <property name="gravity" value="0,40"/>
+   </properties>
+  </object>
+  <object id="123" type="gravity_pipe" gid="234" x="3008" y="1984" width="192" height="64">
+   <properties>
+    <property name="gravity" value="-40,0"/>
+   </properties>
+  </object>
+  <object id="124" type="gravity_pipe" gid="234" x="2944" y="2304" width="64" height="384">
+   <properties>
+    <property name="gravity" value="0,40"/>
+   </properties>
+  </object>
+  <object id="135" type="fatal_area" gid="236" x="3328" y="1856" width="64" height="64">
+   <properties>
+    <property name="active_duration" value="750"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="136" type="fatal_area" gid="236" x="3072" y="2176" width="64" height="64">
+   <properties>
+    <property name="active_duration" value="750"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="139" type="smooth_moving" gid="233" x="1984" y="2048" width="64" height="64">
+   <properties>
+    <property name="intervals" value="750"/>
+    <property name="is_fatal" value="true"/>
+    <property name="loop" value="true"/>
+    <property name="path" value="(0,-3)"/>
+    <property name="start_on_create" value="true"/>
+   </properties>
+  </object>
+  <object id="155" type="fatal_area" gid="236" x="1344" y="1856" width="64" height="64">
+   <properties>
+    <property name="active_duration" value="1500"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="156" type="fatal_area" gid="236" x="1344" y="1920" width="64" height="64">
+   <properties>
+    <property name="active_duration" value="1000"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="160" type="fatal_area" gid="236" x="1664" y="1792" width="64" height="64">
+   <properties>
+    <property name="active_duration" value="1000"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="164" type="fatal_area" gid="236" x="1600" y="1920" width="64" height="64">
+   <properties>
+    <property name="active_duration" value="1500"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="169" type="fatal_area" gid="236" x="1536" y="1984" width="64" height="64">
+   <properties>
+    <property name="active_duration" value="1750"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="170" type="fatal_area" gid="236" x="1600" y="1984" width="64" height="64">
+   <properties>
+    <property name="active_duration" value="2000"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="171" type="fatal_area" gid="236" x="1664" y="1920" width="64" height="64">
+   <properties>
+    <property name="active_duration" value="1000"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="175" type="fatal_area" gid="236" x="1664" y="1728" width="64" height="128">
+   <properties>
+    <property name="active_duration" value="1000"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="178" type="fatal_area" gid="236" x="1344" y="1664" width="128" height="64">
+   <properties>
+    <property name="active_duration" value="1000"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="179" type="fatal_area" gid="236" x="1472" y="1664" width="64" height="64">
+   <properties>
+    <property name="active_duration" value="1000"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="189" type="fatal_area" gid="236" x="1344" y="1728" width="64" height="64">
+   <properties>
+    <property name="active_duration" value="600"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="191" type="fatal_area" gid="236" x="1536" y="1856" width="64" height="64">
+   <properties>
+    <property name="active_duration" value="1500"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="192" type="fatal_area" gid="236" x="1600" y="1792" width="64" height="64">
+   <properties>
+    <property name="active_duration" value="1500"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="193" type="fatal_area" gid="236" x="1600" y="1856" width="64" height="64">
+   <properties>
+    <property name="active_duration" value="1000"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="195" type="fatal_area" gid="236" x="1408" y="1984" width="64" height="64">
+   <properties>
+    <property name="active_duration" value="1250"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="207" type="collectable" gid="227" x="1360" y="1358.67" width="28" height="28">
+   <properties>
+    <property name="narration_text" value="What more could one need?"/>
    </properties>
   </object>
  </objectgroup>
- <layer name="Foreground" width="32" height="32">
+ <layer name="Foreground" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJztzrENACAMA7Ce0vL/kUzMUIHEYs9RkggAADg3Pu/X5kNddGfjw2vZ6O1kAZYJRYoBSg==
+   eJzt1UEKgCAQBdCOYgVF979gmxYuTIKkSXxvI+hiPvrBaQIAAAAAAKhbowMMonTPy+cp/meLDvCxvAfztY7Sgz06QJD8zVNh7696yPjWXDlLjWfd9aD1HPqRogPAQ0d0gE7V/hgAAAAAAADGdgJH/ALW
   </data>
  </layer>
  <objectgroup name="Bodies">
-  <object id="3" x="576" y="1216" width="128" height="64"/>
-  <object id="15" x="1408" y="1280">
-   <polyline points="0,0 192,0 192,64 256,64 256,128 0,128 0,0"/>
+  <object id="60" x="1472" y="2304" width="1024" height="256"/>
+  <object id="61" x="1984" y="2240" width="64" height="64">
+   <properties>
+    <property name="valid_for_respawn" value="false"/>
+   </properties>
   </object>
-  <object id="19" x="192" y="1472">
-   <polyline points="0,0 192,0 192,-64 256,-64 256,-128 320,-128 320,0 1792,0 1792,128 0,128 0,0"/>
+  <object id="116" x="3200" y="1728">
+   <polyline points="0,0 -128,0 -128,128 -320,128 -320,704 64,704 64,640 -256,640 -256,192 -64,192 -64,64 0,64 0,0"/>
   </object>
-  <object id="26" x="832" y="1280">
-   <polyline points="0,0 256,0 256,64 320,64 320,128 384,128 384,192 256,192 256,128 192,128 192,64 0,64 0,0"/>
+  <object id="126" type="gravity_pipe" gid="234" x="3328" y="1920" width="64" height="64">
+   <properties>
+    <property name="gravity" value="0,40"/>
+   </properties>
   </object>
-  <object id="29" x="960" y="535.25" width="191.818" height="21"/>
-  <object id="32" x="704" y="640" width="64" height="64"/>
-  <object id="33" x="256" y="832" width="64" height="64"/>
+  <object id="127" type="gravity_pipe" gid="234" x="3328" y="1984" width="64" height="64">
+   <properties>
+    <property name="gravity" value="-40,0"/>
+   </properties>
+  </object>
+  <object id="128" type="gravity_pipe" gid="234" x="3264" y="2048" width="64" height="128">
+   <properties>
+    <property name="gravity" value="0,40"/>
+   </properties>
+  </object>
+  <object id="129" type="gravity_pipe" gid="234" x="3136" y="2112" width="192" height="64">
+   <properties>
+    <property name="gravity" value="-40,0"/>
+   </properties>
+  </object>
+  <object id="130" type="gravity_pipe" gid="234" x="3072" y="2112" width="64" height="64">
+   <properties>
+    <property name="gravity" value="0,40"/>
+   </properties>
+  </object>
+  <object id="131" x="2944" y="1792">
+   <polyline points="0,0 0,-192 384,-192 384,-64 512,-64 512,256 448,256 448,384 192,384 192,320 384,320 384,192 448,192 448,0 320,0 320,-128 64,-128 64,0 0,0"/>
+  </object>
+  <object id="132" x="3200" y="1856">
+   <polyline points="0,0 128,0 128,64 64,64 64,192 -128,192 -128,448 -192,448 -192,128 0,128 0,0"/>
+  </object>
+  <object id="140" x="1920" y="2048" width="192" height="64">
+   <properties>
+    <property name="valid_for_respawn" value="false"/>
+   </properties>
+  </object>
+  <object id="141" x="2176" y="2176" width="64" height="64"/>
+  <object id="182" x="1728" y="1536" width="64" height="320"/>
+  <object id="183" x="1472" y="1856" width="64" height="64">
+   <properties>
+    <property name="valid_for_respawn" value="false"/>
+   </properties>
+  </object>
+  <object id="184" x="1408" y="1728" width="64" height="64">
+   <properties>
+    <property name="valid_for_respawn" value="false"/>
+   </properties>
+  </object>
+  <object id="185" x="1536" y="1664" width="64" height="64">
+   <properties>
+    <property name="valid_for_respawn" value="false"/>
+   </properties>
+  </object>
+  <object id="186" x="1792" y="1920" width="64" height="64"/>
+  <object id="187" x="1792" y="1984">
+   <properties>
+    <property name="valid_for_respawn" value="false"/>
+   </properties>
+   <polyline points="0,0 0,64 -512,64 -512,-384 -448,-384 -448,0 -64,0 -64,-64 0,-64 0,0"/>
+  </object>
+  <object id="188" x="1280" y="1536" width="192" height="64"/>
+  <object id="198" x="1600" y="1600" width="64" height="64">
+   <properties>
+    <property name="valid_for_respawn" value="false"/>
+   </properties>
+  </object>
+  <object id="200" x="2496" y="2240" width="64" height="64"/>
+  <object id="201" x="2560" y="2176" width="64" height="64"/>
+  <object id="202" x="2624" y="2112" width="64" height="64">
+   <properties>
+    <property name="valid_for_respawn" value="false"/>
+   </properties>
+  </object>
+  <object id="203" x="2752" y="1984" width="64" height="64">
+   <properties>
+    <property name="valid_for_respawn" value="false"/>
+   </properties>
+  </object>
+  <object id="204" x="2816" y="1920" width="64" height="64"/>
+  <object id="205" type="fatal_area" gid="236" x="2628" y="2112" width="56" height="16">
+   <properties>
+    <property name="active_duration" value="500"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
+  <object id="206" type="fatal_area" gid="236" x="2756" y="1984" width="56" height="16">
+   <properties>
+    <property name="active_duration" value="1000"/>
+    <property name="body_height" value="4"/>
+    <property name="body_width" value="1024"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

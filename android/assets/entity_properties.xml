@@ -14,7 +14,9 @@
             <property name="body_width" default="" />
             <property name="body_height" default="" />
             <property name="valid_for_respawn" default="true" note="just affects BodyData" /> 
+            <property name="fixed_rotation" default="true" />
             <property name="rotation" default="0" />
+            <property name="enclosing" default="false" />
         </optional>
     </global_properties>
     <entity_properties>
@@ -132,6 +134,9 @@
             <required>
                 <property name="gravity" note="x,y" />
             </required>
+            <override>
+                <property name="enclosing" value="true" />
+            </override>
         </entity>
         
          <!-- Fatal Area -->
@@ -140,7 +145,11 @@
                 <property name="collision_check" default="overlaps" note="overlaps, contains" />
                 <property name="respawn_pos" default="" note="dx,dy from starting position" />
                 <property name="active_duration" default="" />
+                <property name="show_particles" default="false" />
             </optional>
+            <override>
+                <property name="enclosing" value="true" />
+            </override>
         </entity>
         
     </entities>
