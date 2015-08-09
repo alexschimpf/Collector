@@ -121,6 +121,10 @@ public final class GameWorld implements IRender, IUpdate {
 			}
 		}
 		
+		Player player = Globals.getPlayer();
+		Globals.getPhysicsWorld().setGravity(new Vector2(0, GameWorld.DEFAULT_GRAVITY));
+		player.setGravityPipe(null);
+		
 		Globals.state = Globals.State.RUNNING;
 	}
 	

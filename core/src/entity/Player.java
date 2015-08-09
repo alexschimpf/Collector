@@ -52,7 +52,7 @@ public final class Player extends Entity {
 	public Player(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		TextureRegion textureRegion = object.getTextureRegion();
 		_createSprite(bodyDef, textureRegion);	
-		_createBody(bodyDef, bodySkeleton, false);
+		_createBody(bodyDef, bodySkeleton, true);
 
 		_body.setBullet(true);
 		
