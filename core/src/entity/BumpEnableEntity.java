@@ -54,6 +54,8 @@ public final class BumpEnableEntity extends Entity {
 		_sprite.setRegion(Globals.getImageTexture("bump_enable", index));
 		_sprite.setFlip(false, true);
 		
+		_isEnclosing = !enabled;
+		
 		Fixture fixture = _body.getFixtureList().get(0);
 		fixture.setSensor(!enabled);
 	}

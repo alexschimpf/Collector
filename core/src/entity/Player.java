@@ -87,7 +87,7 @@ public final class Player extends Entity {
 		_animationSystem.flipSprite(isFacingLeft(), true);
 		
 		if(getLinearVelocity().y > 50) {
-			respawn(false, null);
+			respawn(null, false, 0, null);
 		}
 		
 		if(_isJumping) {
@@ -176,7 +176,7 @@ public final class Player extends Entity {
 		}, lowerX, getTop() + correction, upperX, getBottom() - correction);
 	}
 	
-	public void respawn(boolean collided, final Vector2 respawnPos) {
+	public void respawn(String soundKey, boolean showParticles, float delay, final Vector2 respawnPos) {
 		if(_isRespawning) {
 			return;
 		}
@@ -185,8 +185,11 @@ public final class Player extends Entity {
 		
 		Globals.state = State.PAUSED;
 		
-		if(collided) {
-			Globals.getSoundManager().playSound("die");
+		if(soundKey != null) {
+			Globals.getSoundManager().playSound(soundKey);
+		}
+		
+		if(showParticles) {
 			_startDieParticleEffect();
 		}
 		
@@ -230,7 +233,7 @@ public final class Player extends Entity {
 					}	
 				});
 			}
-		}, 0.5f);
+		}, delay);
 	}
 	
 	public boolean isFacingRight() {
@@ -271,7 +274,7 @@ public final class Player extends Entity {
 		BodyType bodyType = body.getType();
 		BodyData bodyData = (BodyData)body.getUserData();
 		if(!_isJumping && getCenterY() - _lastActualPos.y > FALL_HEIGHT_LIMIT) {
-			respawn(true, null);
+			respawn("die", true, 0.5f, null);
 		} else if(_numFootContacts >= 1 && !fixture.isSensor()) {	 
 			if(bodyType != BodyType.DynamicBody && (bodyType != BodyType.KinematicBody || entity.getBody().getLinearVelocity().isZero()) &&
 			  (entity == null || entity.isValidForPlayerRespawn()) && !isInGravityPipe() && bodyData.isValidForRespawn()) {

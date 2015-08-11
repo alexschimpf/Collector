@@ -65,7 +65,7 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 	public void onBeginContact(Contact contact, Entity entity) {
 		Player player = Globals.getPlayer();
 		if(_isFatal && Utils.isPlayer(entity) && getLinearVelocity().y > 0 && _isPlayerBelow()) {
-			player.respawn(true, _respawnPos);
+			player.respawn("die", true, 0.5f, _respawnPos);
 		}
 	}
 	

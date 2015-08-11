@@ -118,19 +118,4 @@ public class Particle implements IRender, IUpdate, Poolable {
 		endColor = null;
 		sprite = null;
 	}
-	
-	public void print() {
-		System.out.println();
-		System.out.println("START_POSITION: " + startX + ", " + startX);
-		System.out.println("START_SIZE: " + startWidth + " x " + startHeight);
-		System.out.println("VELOCITY: " + vx + ", " + vy);
-		System.out.println("START_END_ALPHAS: " + startAlpha + ", " + endAlpha);
-		System.out.println("SIZE_SCALE: " + scaleX + ", " + scaleY);
-		System.out.println("DURATION: " + duration);
-		System.out.println("START_END_COLORS: " + startColor + ", " + endColor);
-		System.out.println("FADE_IN: " + fadeIn);
-		System.out.println("KEEP_CENTER: " + keepCenter);
-		System.out.println("START_TIME: " + startTime);
-		System.out.println();
-	}
 }

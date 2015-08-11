@@ -68,7 +68,7 @@ public final class DisappearingEntity extends Entity {
 	@Override
 	public void onBeginContact(Contact contact, Entity entity) {
 		if(disappearOnTouch && Utils.isPlayer(entity)) {
-			_disappear();
+			disappear();
 		}
 	}	
 	
@@ -77,11 +77,15 @@ public final class DisappearingEntity extends Entity {
 		return false;
 	}
 	
-	private void _disappear() {
+	public void disappear() {
 		if(!_disappearing) {
 			_disappearing = true;
 			_disappearStartTime = TimeUtils.millis();
 		}
+	}
+	
+	public boolean isDisappearing() {
+		return _disappearing;
 	}
 	
 	private void _recreate() {

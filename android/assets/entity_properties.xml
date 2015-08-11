@@ -96,6 +96,16 @@
             </optional>
         </entity>
         
+        <!-- Disappearing Trigger -->
+        <entity type="disappearing_trigger" class="entity.DisappearingTriggerEntity" >
+            <required>
+                <property name="target_ids" />
+            </required>
+        </entity>
+        
+        <!-- Invisible -->
+        <entity type="invisible" class="entity.InvisibleEntity" />
+        
         <!-- Smooth Moving -->
         <entity type="smooth_moving" class="entity.SmoothMovingEntity" >
             <required>

@@ -66,10 +66,9 @@ public class FatalAreaEntity extends Entity {
 
 		Player player = Globals.getPlayer();
 		if(_isActive) {
-			if(_collisionCheck.equals("contains") && containsEntity(player)) {
-				player.respawn(_showParticles, _respawnPos);
-			} else if(_collisionCheck.equals("overlaps") && overlapsEntity(player)) {
-				player.respawn(_showParticles, _respawnPos);
+			if((_collisionCheck.equals("contains") && containsEntity(player)) ||
+			   (_collisionCheck.equals("overlaps") && overlapsEntity(player))) {
+				player.respawn("transport", _showParticles, 0.5f, _respawnPos);
 			}
 		}
 

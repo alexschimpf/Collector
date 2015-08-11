@@ -60,6 +60,7 @@ Room 4:
 	- Handle this more safely
 3. Need a system for saving the state of each room
 	- After collecting a collectable, needs to be removed forever from that room
+4. Animation when entering door
 
 [Low-Priority]
 - When loading a room, let the user see item loaded piece by piece to make it more interesting
@@ -71,6 +72,7 @@ Room 4:
 	- Move some Globals stuff to Utils maybe?
 	- Add more methods like getEntityById()
 - Fix minor spacing issue (at least for moving entities)
+- Hierarchy in entity properties
 
 
 
