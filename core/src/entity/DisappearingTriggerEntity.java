@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
 
 public class DisappearingTriggerEntity extends Entity {
 
-	private String[] _targetIds;
+	private final String[] _targetIds;
 	
 	public DisappearingTriggerEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);

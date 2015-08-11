@@ -162,5 +162,13 @@
             </override>
         </entity>
         
+         <!-- Projectile Shooter -->
+        <entity type="projectile_shooter" class="entity.ProjectileShooterEntity" >
+            <required>
+                <property name="shoot_cooldown" />
+                <property name="shoot_velocity" />
+            </required>
+        </entity>
+        
     </entities>
 </properties>

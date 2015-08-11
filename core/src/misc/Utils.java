@@ -54,6 +54,14 @@ public final class Utils {
 		return Gdx.app.getType() == ApplicationType.Desktop;
 	}
 	
+	public static float calcDistance(float x1, float y1, float x2, float y2) {
+		return (float)Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+	}
+	
+	public static float calcDistance(Vector2 p1, Vector2 p2) {
+		return calcDistance(p1.x, p1.y, p2.x, p2.y);
+	}
+	
 	public static Object chooseRandom(Object[] objects) {
 		return objects[MathUtils.random(0, objects.length - 1)];
 	}

@@ -38,12 +38,7 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	protected Sprite _sprite;
 	
 	public Entity() {
-		String id;
-		do {
-			id = String.valueOf(getClass().getName() + MathUtils.random());
-		} while(Globals.getCurrentRoom().entityIdExists(id));
-		
-		_id = id;
+		_id = _getUniqueId();
 	}
 	
 	public Entity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
@@ -70,6 +65,17 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 		
 		float rads = MathUtils.degreesToRadians * Utils.getPropertyFloat(object, "rotation");
 		_body.setTransform(getCenter(), rads);
+	}
+	
+	public Entity(String id, String textureKey, EntityBodyDef bodyDef, FixtureDef fixtureDef) {
+		if(id != null) {
+			_id = id;
+		} else {
+			_id = _getUniqueId();
+		}
+		
+		_createSprite(bodyDef, Globals.getImageTexture(textureKey));
+		_createBodyFromDef(bodyDef, fixtureDef, true);
 	}
 	
 	public abstract String getType();
@@ -286,5 +292,14 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	protected void _attachFixture(FixtureDef fixtureDef) {
 		_body.createFixture(fixtureDef);
 		fixtureDef.shape.dispose();
+	}
+	
+	protected String _getUniqueId() {
+		String id;
+		do {
+			id = String.valueOf(getClass().getName() + MathUtils.random());
+		} while(Globals.getCurrentRoom().entityIdExists(id));
+		
+		return id;
 	}
 }
