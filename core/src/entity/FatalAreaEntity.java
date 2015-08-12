@@ -43,6 +43,9 @@ public class FatalAreaEntity extends Entity {
 		fixture.setSensor(true);
 		
 		_lastActiveFlipTime = TimeUtils.millis();
+		
+		float angularVelocity = Utils.getPropertyFloat(object, "angular_velocity");
+		_body.setAngularVelocity(angularVelocity);
 	}
 	
 	@Override

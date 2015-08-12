@@ -156,9 +156,11 @@
                 <property name="respawn_pos" default="" note="dx,dy from starting position" />
                 <property name="active_duration" default="" />
                 <property name="show_particles" default="false" />
+                <property name="angular_velocity" default="0" />
             </optional>
             <override>
                 <property name="enclosing" value="true" />
+                <property name="body_type" value="kinematic" />
             </override>
         </entity>
         

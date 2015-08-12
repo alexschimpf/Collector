@@ -63,6 +63,8 @@ Room 4:
 4. Animation when entering door
 
 [Low-Priority]
+- Add corner-fillers
+- Make different shaped clouds
 - When loading a room, let the user see item loaded piece by piece to make it more interesting
 - Fix texture-flipping issue
 - Add 'accepted values' check in EntityPropertyValidator
