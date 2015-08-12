@@ -38,8 +38,17 @@ public class OverlapTrackerEntity extends Entity {
 			_done = true;
 		}
 		
-		if(overlapsEntity(Globals.getPlayer()) && _startTime == null) {
-			_startTime = TimeUtils.millis();
+		if(_startTime != null && !_done) {
+			float ratio = Math.min(TimeUtils.timeSinceMillis(_startTime) / _duration, 1);
+			setColor(1 - ratio, 1 - ratio, 1 - ratio, 1);
+		} else if(_startTime == null) {
+			setColor(1, 1, 1, 1);
+		}
+		
+		if(overlapsEntity(Globals.getPlayer())) {
+			if(_startTime == null) {
+				_startTime = TimeUtils.millis();
+			}
 		} else if(_done) {
 			_setSolid(true);
 		} else {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="96" height="32" tilewidth="64" tileheight="64" nextobjectid="73">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="96" height="96" tilewidth="64" tileheight="64" nextobjectid="101">
  <properties>
   <property name="background" value="world_1_background_1"/>
  </properties>
@@ -9,19 +9,19 @@
  <tileset firstgid="226" name="entities" tilewidth="64" tileheight="64" spacing="2" margin="2">
   <image source="../entities.png" trans="ff00ff" width="1024" height="1024"/>
  </tileset>
- <layer name="Background" width="96" height="32">
+ <layer name="Background" width="96" height="96">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20ND6AAAAAAAAAAAAAAAIB3AzAAAAE=
+   eJztwQENAAAAwqD3T20PBxQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwbkAAAAQ==
   </data>
  </layer>
- <layer name="Enclosing" width="96" height="32">
+ <layer name="Enclosing" width="96" height="96">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20ND6AAAAAAAAAAAAAAAIB3AzAAAAE=
+   eJztwQENAAAAwqD3T20PBxQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwbkAAAAQ==
   </data>
  </layer>
- <layer name="Normal" width="96" height="32">
+ <layer name="Normal" width="96" height="96">
   <data encoding="base64" compression="zlib">
-   eJzt17ENgCAURVE6dRndwAl0Ah1ItxYLWjBKePC9J/mdBd6QAM4B+KvFz5mYVbY6+45M3+Ad+mvRX4v+WqFt56f3M0S+QX7sf63Nxe+X9/10L7SWv4rt75b3/ujaeL9Y7R/U/g/W+8/qBSRY7187+mvRX4v+WvTXarl/uOPnmKnw2oOW+1tAf63Y+6T2twvwxZPzS3UuAQAAALDlAnVoKUQ=
+   eJzt2NFNwzAUBVD/QZeBCWCCMgFMUCagE5StawtZqSqgr7LhQXuO9H4qJ7FvnMp2KQAAwG+7qXVba5XdEYALcFfrvdZTdkeu3C67A1fuMbsDAAATrcvHGn9G2Secb+ba3j5h8RBsN5pZf07bK2+Lb6jb1LoPtIvmvz64X8u65zR7zl/KNxTds0bHe9xu98Xvo869Xz+j+q4i8zBLdLzH77Nft5nYl8P7/nc//f/f30f2/P+L2jf5Gmw7Ol75f+65xNYbL4PPkX8u+eeSfy7555L/ou1R3ybXqfMA+S/ammc7uU6tj+SfS/655J9L/rnknyt6zhGt0fMQAAAAAAAAAAAAAAAAAAAAAAAAAAAA5tgDhE5ZUQ==
   </data>
  </layer>
  <objectgroup name="Entities">
@@ -65,20 +65,47 @@
     <property name="disappear_duration" value="300"/>
    </properties>
   </object>
-  <object id="34" type="disappearing" gid="232" x="3648" y="1024" width="64" height="64">
-   <properties>
-    <property name="disappear_duration" value="300"/>
-   </properties>
-  </object>
   <object id="66" type="disappearing" gid="232" x="3840" y="1216" width="64" height="64">
    <properties>
     <property name="disappear_duration" value="300"/>
    </properties>
   </object>
+  <object id="77" type="overlap_tracker" gid="248" x="1216" y="1984" width="64" height="64">
+   <properties>
+    <property name="duration" value="800"/>
+   </properties>
+  </object>
+  <object id="81" type="overlap_tracker" gid="248" x="1344" y="1856" width="64" height="64">
+   <properties>
+    <property name="duration" value="700"/>
+   </properties>
+  </object>
+  <object id="83" type="overlap_tracker" gid="248" x="1792" y="1600" width="64" height="64">
+   <properties>
+    <property name="duration" value="700"/>
+   </properties>
+  </object>
+  <object id="84" type="disappearing" gid="247" x="1536" y="1825" width="256" height="256">
+   <properties>
+    <property name="body_height" value="64"/>
+    <property name="body_width" value="256"/>
+    <property name="disappear_duration" value="500"/>
+   </properties>
+  </object>
+  <object id="86" type="disappearing" gid="232" x="1856" y="1728" width="64" height="64">
+   <properties>
+    <property name="disappear_duration" value="500"/>
+   </properties>
+  </object>
+  <object id="91" type="invisible" gid="137" x="2112" y="1600" width="64" height="64"/>
+  <object id="97" type="invisible" gid="137" x="2368" y="1600" width="64" height="64"/>
+  <object id="98" type="invisible" gid="47" x="2432" y="1600" width="64" height="64"/>
+  <object id="99" type="invisible" gid="46" x="2304" y="1600" width="64" height="64"/>
+  <object id="100" type="invisible" gid="47" x="2176" y="1600" width="64" height="64"/>
  </objectgroup>
- <layer name="Foreground" width="96" height="32">
+ <layer name="Foreground" width="96" height="96">
   <data encoding="base64" compression="zlib">
-   eJzt17kNgEAMBECXAhxP/x2ia8AiwUh4Jl0HG64jgK7Gg5vt9Ra97Ul2lLUAgF7OJLvKWvS0Rr4v5z5daqrwU/6X7/hfAAAAAAAAAGrcjwQBqQ==
+   eJzt2EEKgCAUBNCOYkWLqPufr30rqQlJ31vLMAhf+E4TAAAAwP8trQsMbGtdAACArqzBLHsCI9sDGb3M0BnOu79TvdwTvJGeM0g4WhcY3Fx5rnxZAgAAACCg9p+jVgnnAQAAAAAAAAAAAAAAAAAAAAAAAAAA8MwFj6QCIg==
   </data>
  </layer>
  <objectgroup name="Bodies">
@@ -141,7 +168,7 @@
     <property name="disappear_duration" value="300"/>
    </properties>
   </object>
-  <object id="63" name="player" type="player" gid="226" x="1664" y="1216" width="48" height="64">
+  <object id="63" name="player" type="player" gid="226" x="1536" y="1216" width="48" height="64">
    <properties>
     <property name="body_height" value="60"/>
     <property name="body_width" value="44"/>
@@ -158,13 +185,29 @@
    </properties>
   </object>
   <object id="68" x="4224" y="471.5" width="191.667" height="21"/>
-  <object id="70" x="4160" y="1408">
-   <polyline points="0,0 0,-768 -64,-768 -64,-1280 576,-1280 576,-768 512,-768 512,0 448,0 448,-832 512,-832 512,-1216 0,-1216 0,-832 64,-832 64,0 0,0"/>
-  </object>
   <object id="72" type="collectable" gid="227" x="1510" y="542" width="28" height="28">
    <properties>
     <property name="narration_text" value="Your purpose flows through you."/>
    </properties>
+  </object>
+  <object id="74" x="448" y="1344">
+   <polyline points="0,0 -64,0 -64,192 0,192 0,128 64,128 64,64 0,64 0,0"/>
+  </object>
+  <object id="75" x="448" y="1600">
+   <polyline points="0,0 -64,0 -64,64 -128,64 -128,128 -64,128 -64,192 0,192 0,0"/>
+  </object>
+  <object id="76" x="192" y="2048" width="1408" height="128"/>
+  <object id="80" x="448" y="1728">
+   <polyline points="0,0 576,0 576,-448 640,-448 640,64 0,64"/>
+  </object>
+  <object id="87" x="1664" y="1600">
+   <polyline points="0,0 0,-192 128,-192 128,-128 64,-128 64,0 0,0"/>
+  </object>
+  <object id="88" x="1856" y="1408">
+   <polyline points="0,0 128,0 128,256 64,256 64,64 0,64 0,0"/>
+  </object>
+  <object id="89" x="2112" y="1344">
+   <polyline points="0,0 -64,0 -64,1152 1280,1152 1280,0 192,0 192,-64 128,-64 128,0 64,0 64,64 1216,64 1216,1088 0,1088 0,0"/>
   </object>
  </objectgroup>
 </map>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="32" tilewidth="64" tileheight="64" nextobjectid="106">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="32" tilewidth="64" tileheight="64" nextobjectid="120">
  <properties>
   <property name="background" value="world_1_background_1"/>
  </properties>
@@ -21,50 +21,10 @@
  </layer>
  <layer name="Normal" width="64" height="32">
   <data encoding="base64" compression="zlib">
-   eJzt1rENwjAQheHrErpsQBNaMgFMABOQCWACMkGyNWfZZQqQkZ5O/j/pdZb1TpYtmwFAXJ2n9xzURQAAABpzVBcAIHVRFxBb1QXEWp7/7JnVJSCTzv/t2XYy7az9Zl0kJ8v3f1QXEWr5/UuYP6ab5bcr5V6xT9T5n56h5FWxT9T5H56lpOYPE3X+f7mqC/zoA+oyEQY=
+   eJzt1VEKRVAUBdD75/kzg/fzvhkBI/BGwAgYgTsCZu2conSTKOxOd6/aKVL7hMM5IiK7EslHkqKLEBEREUXmiy5ARFAlugDYiC4AFvP8uaRFlyCYWjJIpk38cgzfiya4vqZ4q+wDdJZe8kMXAYp5/6mY5tfvvQ/OWZ1/3V2a/8l79HsP95rV+TtJtsnR7j5idX79H3m3/0yvsDr/XSp0gYtmooIUsg==
   </data>
  </layer>
  <objectgroup name="Entities">
-  <object id="1" name="c1_1" type="chain" gid="232" x="448" y="1856" width="64" height="64">
-   <properties>
-    <property name="activated_duration" value="1200"/>
-    <property name="chain_ids" value="c1_2,c1_3,c1_4,c1_5"/>
-    <property name="chain_start_id" value="c1_1"/>
-    <property name="state_machine" value="c1_2"/>
-   </properties>
-  </object>
-  <object id="7" name="c1_2" type="chain" gid="232" x="576" y="1856" width="64" height="64">
-   <properties>
-    <property name="activated_duration" value="1200"/>
-    <property name="chain_ids" value="c1_1,c1_3,c1_4,c1_5"/>
-    <property name="chain_start_id" value="c1_1"/>
-    <property name="state_machine" value="c1_3,c1_3"/>
-   </properties>
-  </object>
-  <object id="8" name="c1_3" type="chain" gid="232" x="896" y="1856" width="64" height="64">
-   <properties>
-    <property name="activated_duration" value="1200"/>
-    <property name="chain_ids" value="c1_2,c1_1,c1_4,c1_5"/>
-    <property name="chain_start_id" value="c1_1"/>
-    <property name="state_machine" value="c1_2,c1_4,c1_4"/>
-   </properties>
-  </object>
-  <object id="9" name="c1_4" type="chain" gid="232" x="1024" y="1728" width="64" height="64">
-   <properties>
-    <property name="activated_duration" value="1200"/>
-    <property name="chain_ids" value="c1_2,c1_3,c1_1,c1_5"/>
-    <property name="chain_start_id" value="c1_1"/>
-    <property name="state_machine" value="c1_5,c1_5"/>
-   </properties>
-  </object>
-  <object id="10" name="c1_5" type="chain" gid="232" x="1152" y="1600" width="64" height="64">
-   <properties>
-    <property name="activated_duration" value="1200"/>
-    <property name="chain_ids" value="c1_2,c1_3,c1_4,c1_1"/>
-    <property name="chain_start_id" value="c1_1"/>
-    <property name="state_machine" value="c1_3,c1_s"/>
-   </properties>
-  </object>
   <object id="11" name="player" type="player" gid="226" x="192" y="1792" width="48" height="64">
    <properties>
     <property name="body_height" value="60"/>
@@ -82,38 +42,6 @@
     <property name="intervals" value="350,700"/>
     <property name="loop" value="false"/>
     <property name="path" value="(1,0) (0,-2)"/>
-   </properties>
-  </object>
-  <object id="25" name="c2_3" type="chain" gid="232" x="1920" y="1472" width="64" height="64">
-   <properties>
-    <property name="activated_duration" value="1000"/>
-    <property name="chain_ids" value="c2_2,c2_1,c2_4,c2_5"/>
-    <property name="chain_start_id" value="c2_1"/>
-    <property name="state_machine" value="c2_4,c2_2"/>
-   </properties>
-  </object>
-  <object id="27" name="c2_1" type="chain" gid="232" x="1536" y="1472" width="64" height="64">
-   <properties>
-    <property name="activated_duration" value="1000"/>
-    <property name="chain_ids" value="c2_2,c2_3,c2_4,c2_5"/>
-    <property name="chain_start_id" value="c2_1"/>
-    <property name="state_machine" value="c2_2,c2_2,c2_5"/>
-   </properties>
-  </object>
-  <object id="28" name="c2_4" type="chain" gid="232" x="2048" y="1472" width="64" height="64">
-   <properties>
-    <property name="activated_duration" value="1000"/>
-    <property name="chain_ids" value="c2_2,c2_3,c2_1,c2_5"/>
-    <property name="chain_start_id" value="c2_1"/>
-    <property name="state_machine" value="c2_3"/>
-   </properties>
-  </object>
-  <object id="29" name="c2_2" type="chain" gid="232" x="1664" y="1472" width="64" height="64">
-   <properties>
-    <property name="activated_duration" value="1000"/>
-    <property name="chain_ids" value="c2_1,c2_3,c2_4,c2_5"/>
-    <property name="chain_start_id" value="c2_1"/>
-    <property name="state_machine" value="c2_3,c2_1,c2_1"/>
    </properties>
   </object>
   <object id="31" name="c2_5" type="chain" gid="232" x="1600" y="1216" width="64" height="64">
@@ -218,10 +146,82 @@
     <property name="narration_text" value="To collect is to live."/>
    </properties>
   </object>
+  <object id="106" name="c1_1" type="chain" gid="61" x="448" y="1856" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1200"/>
+    <property name="chain_ids" value="c1_2,c1_3,c1_4,c1_5"/>
+    <property name="chain_start_id" value="c1_1"/>
+    <property name="state_machine" value="c1_2"/>
+   </properties>
+  </object>
+  <object id="107" name="c1_2" type="chain" gid="61" x="576" y="1856" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1200"/>
+    <property name="chain_ids" value="c1_1,c1_3,c1_4,c1_5"/>
+    <property name="chain_start_id" value="c1_1"/>
+    <property name="state_machine" value="c1_3,c1_3"/>
+   </properties>
+  </object>
+  <object id="110" name="c1_3" type="chain" gid="46" x="896" y="1856" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1200"/>
+    <property name="chain_ids" value="c1_2,c1_1,c1_4,c1_5"/>
+    <property name="chain_start_id" value="c1_1"/>
+    <property name="state_machine" value="c1_2,c1_4,c1_4"/>
+   </properties>
+  </object>
+  <object id="111" name="c1_4" type="chain" gid="61" x="1024" y="1728" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1200"/>
+    <property name="chain_ids" value="c1_2,c1_3,c1_1,c1_5"/>
+    <property name="chain_start_id" value="c1_1"/>
+    <property name="state_machine" value="c1_5,c1_5"/>
+   </properties>
+  </object>
+  <object id="112" name="c1_5" type="chain" gid="46" x="1152" y="1600" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1200"/>
+    <property name="chain_ids" value="c1_2,c1_3,c1_4,c1_1"/>
+    <property name="chain_start_id" value="c1_1"/>
+    <property name="state_machine" value="c1_3,c1_s"/>
+   </properties>
+  </object>
+  <object id="116" name="c2_1" type="chain" gid="61" x="1536" y="1472" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1000"/>
+    <property name="chain_ids" value="c2_2,c2_3,c2_4,c2_5"/>
+    <property name="chain_start_id" value="c2_1"/>
+    <property name="state_machine" value="c2_2,c2_2,c2_5"/>
+   </properties>
+  </object>
+  <object id="117" name="c2_2" type="chain" gid="61" x="1664" y="1472" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1000"/>
+    <property name="chain_ids" value="c2_1,c2_3,c2_4,c2_5"/>
+    <property name="chain_start_id" value="c2_1"/>
+    <property name="state_machine" value="c2_3,c2_1,c2_1"/>
+   </properties>
+  </object>
+  <object id="118" name="c2_3" type="chain" gid="61" x="1920" y="1472" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1000"/>
+    <property name="chain_ids" value="c2_2,c2_1,c2_4,c2_5"/>
+    <property name="chain_start_id" value="c2_1"/>
+    <property name="state_machine" value="c2_4,c2_2"/>
+   </properties>
+  </object>
+  <object id="119" name="c2_4" type="chain" gid="61" x="2048" y="1472" width="64" height="64">
+   <properties>
+    <property name="activated_duration" value="1000"/>
+    <property name="chain_ids" value="c2_2,c2_3,c2_1,c2_5"/>
+    <property name="chain_start_id" value="c2_1"/>
+    <property name="state_machine" value="c2_3"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="Foreground" width="64" height="32">
   <data encoding="base64" compression="zlib">
-   eJztzjERADAIBDCksHFX/wIrgfEZEgWpAgAAAADYTTpwQKcDRL10AABg8QGriABy
+   eJzt1DEKgDAQRUGPsmohgvc/nxapAmKlX8IMhGWT5lWZJgAAAACAZ1s64AcqHUDU2u17m9Xdz937COo6SzoCPlTpgKBKB7zkaPPu74ZRnLjbAfU=
   </data>
  </layer>
  <objectgroup name="Bodies">
@@ -243,5 +243,8 @@
   </object>
   <object id="52" x="1216" y="896" width="64" height="64"/>
   <object id="86" x="3136.25" y="279.5" width="191.75" height="20.75"/>
+  <object id="108" x="384" y="1856" width="256" height="64"/>
+  <object id="113" x="960" y="1728" width="128" height="128"/>
+  <object id="114" x="1216" y="1536" width="64" height="64"/>
  </objectgroup>
 </map>
