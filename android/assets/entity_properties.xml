@@ -172,5 +172,15 @@
             </required>
         </entity>
         
+        <!-- Overlap Tracker -->
+        <entity type="overlap_tracker" class="entity.OverlapTrackerEntity" >
+            <required>
+            	<property name="duration" />
+            </required>
+            <override>
+                <property name="enclosing" value="true" />
+            </override>
+        </entity>
+        
     </entities>
 </properties>

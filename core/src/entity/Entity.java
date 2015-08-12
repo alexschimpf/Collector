@@ -166,6 +166,10 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 		_isActive = active;
 	}
 	
+	public void setEnclosing(boolean isEnclosing) {
+		_isEnclosing = isEnclosing;
+	}
+	
 	public boolean isEnclosing() {
 		return _isEnclosing;
 	}
