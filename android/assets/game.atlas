@@ -48,49 +48,49 @@ particle
   index: -1
 player
   rotate: false
-  xy: 339, 55
+  xy: 327, 121
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: -1
 player_blink
   rotate: false
-  xy: 339, 55
+  xy: 327, 121
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 5
 player_jump
   rotate: false
-  xy: 339, 55
+  xy: 327, 121
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 5
 player_blink
   rotate: false
-  xy: 339, 55
+  xy: 327, 121
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 1
 player_jump
   rotate: false
-  xy: 339, 55
+  xy: 327, 121
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 1
 player_blink
   rotate: false
-  xy: 387, 55
+  xy: 375, 121
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 2
 player_blink
   rotate: false
-  xy: 387, 55
+  xy: 375, 121
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
@@ -104,21 +104,21 @@ player_blink
   index: 3
 player_jump
   rotate: false
-  xy: 393, 121
+  xy: 405, 55
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 2
 player_jump
   rotate: false
-  xy: 393, 121
+  xy: 405, 55
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 4
 player_jump
   rotate: false
-  xy: 435, 55
+  xy: 423, 121
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
@@ -132,7 +132,7 @@ player_move
   index: 1
 player_move
   rotate: false
-  xy: 441, 121
+  xy: 453, 55
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
@@ -174,36 +174,43 @@ programmable
   index: 5
 programmable_trigger
   rotate: false
-  xy: 273, 32
+  xy: 273, 5
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 1
 programmable_trigger
   rotate: false
-  xy: 273, 32
+  xy: 273, 5
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 3
 programmable_trigger
   rotate: false
+  xy: 339, 32
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 2
+projectile
+  rotate: false
   xy: 327, 187
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
+  index: -1
+world_1_background
+  rotate: false
+  xy: 271, 71
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
   index: 2
 world_1_background
   rotate: false
-  xy: 271, 98
+  xy: 321, 98
   size: 19, 21
   orig: 19, 21
   offset: 0, 0
   index: 1
-world_1_background
-  rotate: false
-  xy: 327, 121
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 2

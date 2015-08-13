@@ -40,24 +40,15 @@ public final class CollisionListener implements ContactListener {
 		Body bodyB = fixB.getBody();
 		BodyData dataA = (BodyData)bodyA.getUserData();
 		BodyData dataB = (BodyData)bodyB.getUserData();
+		if(dataA == null || dataB == null) {
+			return;
+		}
+		
 		Entity a = dataA.getEntity();
 		Entity b = dataB.getEntity();
 		_checkPlayerFootContacts(contact, a, b, beginContact);
 		
 		if(a == null || b == null) {
-//			if(Utils.isPlayerShot(a)) {
-//				if(beginContact) {
-//					a.onBeginContact(contact, b);
-//				} else {
-//					a.onEndContact(contact, b);
-//				}
-//			} else if(Utils.isPlayerShot(b)) {
-//				if(beginContact) {
-//					b.onBeginContact(contact, a);
-//				} else {
-//					b.onEndContact(contact, a);
-//				}
-//			}
 			return;
 		}
 

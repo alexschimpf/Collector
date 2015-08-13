@@ -182,5 +182,16 @@
             </override>
         </entity>
         
+        <!-- Pressure Button -->
+        <entity type="pressure_button" class="entity.PressureButtonEntity" >
+            <required>
+            	<property name="script_id" />
+            </required>
+            <override>
+                <property name="enclosing" value="true" />
+                <property name="body_type" value="dynamic" />
+            </override>
+        </entity>
+        
     </entities>
 </properties>
