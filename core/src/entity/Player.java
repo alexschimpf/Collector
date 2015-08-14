@@ -336,9 +336,32 @@ public final class Player extends Entity {
 		_lastValidPos.set(pos.x, pos.y);
 	}
 	
+//	@Override
+//	protected void _createBody(EntityBodyDef bodyDef, MapObject bodySkeleton, boolean fixedRotation) {
+//		FixtureDef fixtureDef = Utils.getScaledFixtureDefFromBodySkeleton(bodySkeleton, 0.98f);
+//		_createBodyFromDef(bodyDef, fixtureDef, fixedRotation);
+//	}
+	
 	@Override
 	protected void _createBody(EntityBodyDef bodyDef, MapObject bodySkeleton, boolean fixedRotation) {
-		FixtureDef fixtureDef = Utils.getScaledFixtureDefFromBodySkeleton(bodySkeleton, 0.98f);
+		PolygonShape shape = new PolygonShape();
+		Vector2[] vertices = new Vector2[8];
+		vertices[0] = new Vector2(0.9f, -1.29f);
+		vertices[1] = new Vector2(0.6f, -1.3f);
+		vertices[2] = new Vector2(-0.6f, -1.3f);
+		vertices[3] = new Vector2(-0.9f, -1.29f);
+		vertices[4] = new Vector2(-0.9f, 1.29f);
+		vertices[5] = new Vector2(-0.6f, 1.3f);		
+		vertices[6] = new Vector2(0.6f, 1.3f);
+		vertices[7] = new Vector2(0.9f, 1.29f);
+		shape.set(vertices);
+		
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = shape;
+		fixtureDef.density = 1;
+		fixtureDef.friction = 0f;
+		fixtureDef.restitution = 0;
+		
 		_createBodyFromDef(bodyDef, fixtureDef, fixedRotation);
 	}
 	
@@ -367,14 +390,14 @@ public final class Player extends Entity {
 		
 		float width = bodyDef.size.x;
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(width / 2 * 0.88f, 0.1f, localBottom, 0);
+		shape.setAsBox(width / 2 * 0.83f, 0.12f, localBottom, 0);
 		
 		Fixture fixture = _body.createFixture(shape, 0);
 		fixture.setSensor(true);
 		
 		shape.dispose();
 	}
-	
+
 	private void _tryBlink() {
 		if(!_isJumping && !_isMoveAnimationPlaying() && TimeUtils.timeSinceMillis(_lastBlinkTime) > _blinkPeriod) {
 			_lastBlinkTime = TimeUtils.millis();

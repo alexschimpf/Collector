@@ -32,6 +32,11 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 				player.jump();
 				break;
 			case Keys.A:
+				String tileMapName = Globals.getCurrentRoom().checkForRoomEntrance();
+				if(tileMapName != null) {
+					Globals.getGameWorld().loadRoom(tileMapName, false);
+				}
+				
 				player.interact();
 				break;
 				
@@ -41,12 +46,6 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 				break;
 			case Keys.F:
 				TheGame.PRINT_FPS = !TheGame.PRINT_FPS;
-				break;
-			case Keys.UP:
-				String tileMapName = Globals.getCurrentRoom().checkForRoomEntrance();
-				if(tileMapName != null) {
-					Globals.getGameWorld().loadRoom(tileMapName, false);
-				}
 				break;
 			case Keys.Q:
 				if(!Globals.isGameLoading()) {
