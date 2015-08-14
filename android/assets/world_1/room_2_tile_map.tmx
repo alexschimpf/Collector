@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="32" tilewidth="64" tileheight="64" nextobjectid="120">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="64" tileheight="64" nextobjectid="145">
  <properties>
   <property name="background" value="world_1_background_1"/>
  </properties>
@@ -9,19 +9,22 @@
  <tileset firstgid="226" name="entities" tilewidth="64" tileheight="64" spacing="2" margin="2">
   <image source="../entities.png" trans="ff00ff" width="1024" height="1024"/>
  </tileset>
- <layer name="Background" width="64" height="32">
+ <tileset firstgid="451" name="button" tilewidth="64" tileheight="16">
+  <image source="button.png" trans="ff00ff" width="64" height="16"/>
+ </tileset>
+ <layer name="Background" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAgHcDIAAAAQ==
+   eJztwTEBAAAAwqD1T20MH6AAAAAAAAAAAAAAAAAAAACAtwFAAAAB
   </data>
  </layer>
- <layer name="Enclosing" width="64" height="32">
+ <layer name="Enclosing" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAgHcDIAAAAQ==
+   eJztwTEBAAAAwqD1T20MH6AAAAAAAAAAAAAAAAAAAACAtwFAAAAB
   </data>
  </layer>
- <layer name="Normal" width="64" height="32">
+ <layer name="Normal" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJzt1VEKRVAUBdD75/kzg/fzvhkBI/BGwAgYgTsCZu2conSTKOxOd6/aKVL7hMM5IiK7EslHkqKLEBEREUXmiy5ARFAlugDYiC4AFvP8uaRFlyCYWjJIpk38cgzfiya4vqZ4q+wDdJZe8kMXAYp5/6mY5tfvvQ/OWZ1/3V2a/8l79HsP95rV+TtJtsnR7j5idX79H3m3/0yvsDr/XSp0gYtmooIUsg==
+   eJzt2dEJwjAQxvG8qW9u4IvPOoFOUCfQCewEdoK6tQkYLEcprbQ9Lvf/wVHQKvdhcjQYAgDYtYm1jbXTbgQAAMCZg3YDAFRdtBtQ1mo3oMxz/lOsh3YTUFPFesV6d6r5XuW6uIv3c53XanYBKUsd66jdiCLP8y/xlD/t91q8ZjV/nl2pbiM/k/a7nGtW8z9j7Ts1NLuHWM7fhP7fdAqr+efq+zrT96wpPbfKOeaN1XU7F/L75jk/8+93HpXn177Kz4dVKOfsOkUrrt6UlD/t/e6aHqOk/NmULPnePDNK2P//5C8J+Ze51wryL3OvFXKWDxX/cQEAAAAAYMsHyyUzbQ==
   </data>
  </layer>
  <objectgroup name="Entities">
@@ -218,10 +221,24 @@
     <property name="state_machine" value="c2_3"/>
    </properties>
   </object>
+  <object id="137" type="pressure_button" gid="451" x="704" y="3072" width="64" height="16">
+   <properties>
+    <property name="body_height" value="16"/>
+    <property name="body_width" value="60"/>
+    <property name="script_id" value="p1_s"/>
+   </properties>
+  </object>
+  <object id="141" type="pressure_button" gid="451" x="256" y="3072" width="64" height="16">
+   <properties>
+    <property name="body_height" value="16"/>
+    <property name="body_width" value="60"/>
+    <property name="script_id" value="p2_s"/>
+   </properties>
+  </object>
  </objectgroup>
- <layer name="Foreground" width="64" height="32">
+ <layer name="Foreground" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJzt1DEKgDAQRUGPsmohgvc/nxapAmKlX8IMhGWT5lWZJgAAAACAZ1s64AcqHUDU2u17m9Xdz937COo6SzoCPlTpgKBKB7zkaPPu74ZRnLjbAfU=
+   eJzt2DsOwjAUBMAc5QUKhOCi3BqKpLGEQgqzkTMjWZY/xVbPn2kCAAAAANh2Swc4gEoHIOrajO9LX8383KyPoD7tkg4Bf1TpAEGVDtDJc+m/1e4RtecW5/JIBwAIOXv9W9+jrx/2rm88dwZG4d9iv3l7CwAHt6eWV68QAAAAQBdv+4wD4Q==
   </data>
  </layer>
  <objectgroup name="Bodies">
@@ -246,5 +263,37 @@
   <object id="108" x="384" y="1856" width="256" height="64"/>
   <object id="113" x="960" y="1728" width="128" height="128"/>
   <object id="114" x="1216" y="1536" width="64" height="64"/>
+  <object id="123" x="1280" y="2432">
+   <polyline points="0,0 -320,0 -320,320 0,320 0,256 -256,256 -256,64 0,64 0,0"/>
+  </object>
+  <object id="125" name="p1" type="programmable" gid="228" x="448" y="3008" width="128" height="64">
+   <properties>
+    <property name="max_down" value="1"/>
+    <property name="max_left" value="5"/>
+    <property name="max_right" value="5"/>
+    <property name="max_up" value="8"/>
+   </properties>
+  </object>
+  <object id="134" x="128" y="1984">
+   <polyline points="0,0 0,64 -64,64 -64,128 0,128 0,384 -64,384 -64,448 0,448 0,512 704,512 704,1088 640,1088 640,1152 768,1152 768,448 64,448 64,0"/>
+  </object>
+  <object id="135" x="0" y="2624">
+   <polyline points="0,0 192,0 192,448 256,448 256,512 128,512 128,64 0,64 0,0"/>
+  </object>
+  <object id="138" name="p1_s" type="update_programmable" gid="241" x="256" y="64" width="64" height="64">
+   <properties>
+    <property name="is_script" value="true"/>
+    <property name="target_id" value="p1"/>
+    <property name="update_type" value="move"/>
+   </properties>
+  </object>
+  <object id="140" name="p2_s" type="update_programmable" gid="241" x="384" y="64" width="64" height="64">
+   <properties>
+    <property name="is_script" value="true"/>
+    <property name="target_id" value="p1"/>
+    <property name="update_type" value="reset"/>
+   </properties>
+  </object>
+  <object id="142" x="320" y="3072" width="384" height="64"/>
  </objectgroup>
 </map>
