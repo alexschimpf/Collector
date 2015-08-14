@@ -193,5 +193,15 @@
             </override>
         </entity>
         
+        <!-- Door -->
+        <entity type="door" class="entity.DoorEntity" >
+            <required>
+            	<property name="exit_door_id" />
+            </required>
+            <override>
+                <property name="enclosing" value="true" />
+            </override>
+        </entity>
+        
     </entities>
 </properties>

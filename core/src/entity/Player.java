@@ -97,6 +97,12 @@ public final class Player extends Entity {
 		return super.update();
 	}
 	
+	@Override
+	public void setPosition(float centerX, float centerY) {
+		_lastActualPos.set(centerX, centerY);		
+		super.setPosition(centerX, centerY);
+	}
+	
 	public boolean jump() {
 		if(_isJumping) {
 			return false;
@@ -213,10 +219,8 @@ public final class Player extends Entity {
 				_animationSystem.switchToDefault();
 				
 				if(respawnPos != null) {
-					_lastActualPos.set(respawnPos.x, respawnPos.y);
 					setPosition(respawnPos.x, respawnPos.y);
 				} else {
-					_lastActualPos.set(_lastValidPos.x, _lastValidPos.y);
 					setPosition(_lastValidPos.x, _lastValidPos.y);
 				}
 				
