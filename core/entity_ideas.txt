@@ -7,14 +7,10 @@
 
 [Room 2 - State Machines]
 ----------------------------------------------------------------------
-- Programmables
-	- Constrained inside of a room would be easier to implement
-- Doors
 
 
 [Room 3 - Disappearing]
 ----------------------------------------------------------------------
-- Room of invisible entities
 - Jumping on one makes ANOTHER disappear
 - Have to stay inside box for a specific amount of time, until dot to a certain point
 	- When inside the box, the dot moves at some speed

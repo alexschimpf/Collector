@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="64" tileheight="64" nextobjectid="145">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="64" tileheight="64" nextobjectid="150">
  <properties>
   <property name="background" value="world_1_background_1"/>
  </properties>
@@ -24,7 +24,7 @@
  </layer>
  <layer name="Normal" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJzt2dEJwjAQxvG8qW9u4IvPOoFOUCfQCewEdoK6tQkYLEcprbQ9Lvf/wVHQKvdhcjQYAgDYtYm1jbXTbgQAAMCZg3YDAFRdtBtQ1mo3oMxz/lOsh3YTUFPFesV6d6r5XuW6uIv3c53XanYBKUsd66jdiCLP8y/xlD/t91q8ZjV/nl2pbiM/k/a7nGtW8z9j7Ts1NLuHWM7fhP7fdAqr+efq+zrT96wpPbfKOeaN1XU7F/L75jk/8+93HpXn177Kz4dVKOfsOkUrrt6UlD/t/e6aHqOk/NmULPnePDNK2P//5C8J+Ze51wryL3OvFXKWDxX/cQEAAAAAYMsHyyUzbQ==
+   eJzt2VEKgkAQxvF9q966QS891wnqBHaCOkGeIE9gt24HWpJBREMdduf/g0Eok/nQHVwKAQDytYm1jbWzbgQAAMCZg3UDAExdrBsw1lo3YMxz/lOsh3UTMFPFesV6d6r5HvVzcVffpzqv1ewCJEsd62jdiCHP8094yi/rvVaf5Zo/zS6p28jfyHrXcy3X/M9Y+04Nze4hOedvQv89nSLX/HP1fZ3pOmuS91Y9x7zJ9bmdC/l985yf+ffbj+r9a1+l98MqlLN3naJVR29Kyi9rv/tMjzk3zYoS8idTsqRz08woYf3/k78ksv8be/9KzO/9/pN/mXNzoWf5UPEfFwAAAAAAefkA2Q40GA==
   </data>
  </layer>
  <objectgroup name="Entities">
@@ -235,10 +235,29 @@
     <property name="script_id" value="p2_s"/>
    </properties>
   </object>
+  <object id="145" name="p2" type="programmable" gid="228" x="320" y="3008" width="128" height="64">
+   <properties>
+    <property name="max_down" value="2"/>
+    <property name="max_left" value="6"/>
+    <property name="max_right" value="2"/>
+    <property name="max_up" value="7"/>
+    <property name="other_ids" value="p1"/>
+   </properties>
+  </object>
+  <object id="148" name="d1" type="door" gid="246" x="736" y="2624" width="64" height="64">
+   <properties>
+    <property name="exit_door_id" value="d2"/>
+   </properties>
+  </object>
+  <object id="149" name="d2" type="door" gid="246" x="1056" y="2688" width="64" height="64">
+   <properties>
+    <property name="exit_door_id" value="d1"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="Foreground" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJzt2DsOwjAUBMAc5QUKhOCi3BqKpLGEQgqzkTMjWZY/xVbPn2kCAAAAANh2Swc4gEoHIOrajO9LX8383KyPoD7tkg4Bf1TpAEGVDtDJc+m/1e4RtecW5/JIBwAIOXv9W9+jrx/2rm88dwZG4d9iv3l7CwAHt6eWV68QAAAAQBdv+4wD4Q==
+   eJzt2DEOwjAMBdAexYUBIXpRbg1Ds0SqQodgSN6Tqiithz85cZcFAAAAAKDtlh3gB0R2AFJdq/19X6N6v1bfRxDv55IdAr4osgMkiuwAnWz7etS7R1SfW8zlkR0AIMns/a/Mo88PasuM587AKM78t5i9VxRru4Q/sbVLgEGd6eXRKwQAAADQxQs+6AQ4
   </data>
  </layer>
  <objectgroup name="Bodies">
@@ -266,12 +285,13 @@
   <object id="123" x="1280" y="2432">
    <polyline points="0,0 -320,0 -320,320 0,320 0,256 -256,256 -256,64 0,64 0,0"/>
   </object>
-  <object id="125" name="p1" type="programmable" gid="228" x="448" y="3008" width="128" height="64">
+  <object id="125" name="p1" type="programmable" gid="228" x="512" y="3008" width="128" height="64">
    <properties>
     <property name="max_down" value="1"/>
-    <property name="max_left" value="5"/>
-    <property name="max_right" value="5"/>
+    <property name="max_left" value="4"/>
+    <property name="max_right" value="4"/>
     <property name="max_up" value="8"/>
+    <property name="other_ids" value="p2"/>
    </properties>
   </object>
   <object id="134" x="128" y="1984">
@@ -280,20 +300,22 @@
   <object id="135" x="0" y="2624">
    <polyline points="0,0 192,0 192,448 256,448 256,512 128,512 128,64 0,64 0,0"/>
   </object>
-  <object id="138" name="p1_s" type="update_programmable" gid="241" x="256" y="64" width="64" height="64">
+  <object id="138" name="p1_s" type="update_programmables" gid="241" x="256" y="64" width="64" height="64">
    <properties>
     <property name="is_script" value="true"/>
-    <property name="target_id" value="p1"/>
+    <property name="target_ids" value="p1,p2"/>
     <property name="update_type" value="move"/>
    </properties>
   </object>
-  <object id="140" name="p2_s" type="update_programmable" gid="241" x="384" y="64" width="64" height="64">
+  <object id="140" name="p2_s" type="update_programmables" gid="241" x="384" y="64" width="64" height="64">
    <properties>
     <property name="is_script" value="true"/>
-    <property name="target_id" value="p1"/>
+    <property name="target_ids" value="p1,p2"/>
     <property name="update_type" value="reset"/>
    </properties>
   </object>
   <object id="142" x="320" y="3072" width="384" height="64"/>
+  <object id="146" x="192" y="2816" width="64" height="64"/>
+  <object id="147" x="704" y="2624" width="128" height="64"/>
  </objectgroup>
 </map>
