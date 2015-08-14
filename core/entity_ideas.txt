@@ -9,6 +9,7 @@
 ----------------------------------------------------------------------
 - Programmables
 	- Constrained inside of a room would be easier to implement
+- Doors
 
 
 [Room 3 - Disappearing]

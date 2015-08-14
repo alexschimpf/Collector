@@ -14,6 +14,8 @@ public abstract class Script implements IUpdate {
 		String type = Utils.getPropertyString(object, "type");
 		if(type.equals("move_entity")) {
 			return new MoveEntityScript(object);
+		} else if(type.equals("update_programmable")) {
+			return new UpdateProgrammableScript(object);
 		}
 		
 		throw new NullPointerException("Script type '" + type + "' is not valid");

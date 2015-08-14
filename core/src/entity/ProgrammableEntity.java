@@ -82,7 +82,7 @@ public final class ProgrammableEntity extends Entity {
 		_updateSprite();
 		_deactivateOthers();
 	}
-	
+
 	public void move() {
 		if(!_isMoveValid()) {
 			return;
@@ -110,6 +110,7 @@ public final class ProgrammableEntity extends Entity {
 	public void reset() {
 		_state = MoveState.NONE;
 		setPosition(_origPos.x, _origPos.y);
+		_updateSprite();
 	}
 	
 	public boolean isActivated() {

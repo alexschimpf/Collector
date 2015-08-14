@@ -1,6 +1,7 @@
 package entity;
 
 import misc.Globals;
+import misc.Utils;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
@@ -14,11 +15,15 @@ import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
 
 public class PressureButtonEntity extends Entity {
 
+	private final String _scriptId;
+	
 	private boolean _needsReleased;
 	private Body _anchorBody;
 
 	public PressureButtonEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);
+		
+		_scriptId = Utils.getPropertyString(object, "script_id");
 	}
 	
 	@Override
@@ -29,7 +34,8 @@ public class PressureButtonEntity extends Entity {
 	@Override
 	public boolean update() {
 		if(_isPressed() && !_needsReleased) {
-			_needsReleased = true;
+			_needsReleased = true;		
+			Globals.getCurrentRoom().startScript(_scriptId);
 		}
 		
 		_checkReleased();
@@ -66,7 +72,7 @@ public class PressureButtonEntity extends Entity {
 		Vector2 axis = new Vector2(0, 1);
 		jointDef.initialize(_anchorBody, _body, _body.getWorldCenter(), axis);		
 		jointDef.motorSpeed = -1000;
-		jointDef.maxMotorForce = .75f * Globals.getPlayer().getBody().getMass() * Globals.getPhysicsWorld().getGravity().y;
+		jointDef.maxMotorForce = .42f * Globals.getPlayer().getBody().getMass() * Globals.getPhysicsWorld().getGravity().y;
 		jointDef.enableMotor = true;
 		jointDef.lowerTranslation = 0;
 		jointDef.upperTranslation = getHeight();
