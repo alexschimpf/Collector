@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="96" height="96" tilewidth="64" tileheight="64" nextobjectid="101">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="96" height="96" tilewidth="64" tileheight="64" nextobjectid="150">
  <properties>
   <property name="background" value="world_1_background_1"/>
  </properties>
@@ -21,7 +21,7 @@
  </layer>
  <layer name="Normal" width="96" height="96">
   <data encoding="base64" compression="zlib">
-   eJzt2NFNwzAUBVD/QZeBCWCCMgFMUCagE5StawtZqSqgr7LhQXuO9H4qJ7FvnMp2KQAAwG+7qXVba5XdEYALcFfrvdZTdkeu3C67A1fuMbsDAAATrcvHGn9G2Secb+ba3j5h8RBsN5pZf07bK2+Lb6jb1LoPtIvmvz64X8u65zR7zl/KNxTds0bHe9xu98Xvo869Xz+j+q4i8zBLdLzH77Nft5nYl8P7/nc//f/f30f2/P+L2jf5Gmw7Ol75f+65xNYbL4PPkX8u+eeSfy7555L/ou1R3ybXqfMA+S/ammc7uU6tj+SfS/655J9L/rnknyt6zhGt0fMQAAAAAAAAAAAAAAAAAAAAAAAAAAAA5tgDhE5ZUQ==
+   eJzt2dFNAkEQAND9E6uwA6hAK9AKpAKs4KhAu3YvhNyPBys7MnK8l8wPWXLLZPYyO5QCAABc20ONVY3H7I0ALMC6xleNt+yN3LnP7A3cuZfsDQAABHothx4/ItwTfi+yt3dPmDw3ruvN2fE54115X34+F8PM50s+Q7sam4Z1l+b/qfP7c5ZyhlrvrL2/Nzv/xxnVqWipwyy9+duF7GKylPq/1vs/u/7/o/FMfjSulf+/8V7a+o1t53PkP1d0vlrPLQfqP5f855L/yThLG4Lj3Dwguv+/5ff/2PPsg+Ncf6T+c8l/LvOHXOo/l/znap1zzP03Ez0PAQAAAAAAAAAAAAAAAAAAAAAAAAAAIMY3rbhV0Q==
   </data>
  </layer>
  <objectgroup name="Entities">
@@ -80,21 +80,14 @@
     <property name="duration" value="700"/>
    </properties>
   </object>
-  <object id="83" type="overlap_tracker" gid="248" x="1792" y="1600" width="64" height="64">
+  <object id="83" type="overlap_tracker" gid="248" x="1728" y="1600" width="64" height="64">
    <properties>
     <property name="duration" value="700"/>
    </properties>
   </object>
-  <object id="84" type="disappearing" gid="247" x="1536" y="1825" width="256" height="256">
+  <object id="86" type="disappearing" gid="232" x="1792" y="1728" width="64" height="64">
    <properties>
-    <property name="body_height" value="64"/>
-    <property name="body_width" value="256"/>
-    <property name="disappear_duration" value="500"/>
-   </properties>
-  </object>
-  <object id="86" type="disappearing" gid="232" x="1856" y="1728" width="64" height="64">
-   <properties>
-    <property name="disappear_duration" value="500"/>
+    <property name="disappear_duration" value="400"/>
    </properties>
   </object>
   <object id="91" type="invisible" gid="137" x="2112" y="1600" width="64" height="64"/>
@@ -102,10 +95,38 @@
   <object id="98" type="invisible" gid="47" x="2432" y="1600" width="64" height="64"/>
   <object id="99" type="invisible" gid="46" x="2304" y="1600" width="64" height="64"/>
   <object id="100" type="invisible" gid="47" x="2176" y="1600" width="64" height="64"/>
+  <object id="101" type="disappearing" gid="232" x="1600" y="1728" width="64" height="64">
+   <properties>
+    <property name="disappear_duration" value="400"/>
+   </properties>
+  </object>
+  <object id="104" type="invisible" gid="62" x="2624" y="1472" width="64" height="64"/>
+  <object id="110" type="invisible" gid="62" x="2624" y="1664" width="64" height="64"/>
+  <object id="114" type="invisible" gid="61" x="2624" y="1600" width="64" height="64"/>
+  <object id="115" type="invisible" gid="31" x="2752" y="1792" width="64" height="64"/>
+  <object id="117" type="invisible" gid="46" x="3200" y="1856" width="64" height="64"/>
+  <object id="118" type="invisible" gid="137" x="3264" y="1856" width="64" height="64"/>
+  <object id="119" type="invisible" gid="46" x="3264" y="2112" width="64" height="64"/>
+  <object id="121" type="overlap_tracker" gid="248" x="2176" y="2368" width="64" height="64">
+   <properties>
+    <property name="duration" value="700"/>
+   </properties>
+  </object>
+  <object id="124" type="invisible" gid="61" x="2688" y="2304" width="64" height="64"/>
+  <object id="125" type="invisible" gid="136" x="2688" y="2368" width="64" height="64"/>
+  <object id="126" type="invisible" gid="136" x="2688" y="2432" width="64" height="64"/>
+  <object id="127" type="invisible" gid="31" x="2880" y="2368" width="64" height="64"/>
+  <object id="144" type="collectable" gid="227" x="2128" y="2153" width="28" height="28">
+   <properties>
+    <property name="narration_text" value="Satisfaction is death."/>
+   </properties>
+  </object>
+  <object id="148" type="invisible" gid="47" x="2112" y="2112" width="64" height="64"/>
+  <object id="149" type="invisible" gid="47" x="2112" y="2304" width="64" height="64"/>
  </objectgroup>
  <layer name="Foreground" width="96" height="96">
   <data encoding="base64" compression="zlib">
-   eJzt2EEKgCAUBNCOYkWLqPufr30rqQlJ31vLMAhf+E4TAAAAwP8trQsMbGtdAACArqzBLHsCI9sDGb3M0BnOu79TvdwTvJGeM0g4WhcY3Fx5rnxZAgAAACCg9p+jVgnnAQAAAAAAAAAAAAAAAAAAAAAAAAAA8MwFj6QCIg==
+   eJzt2csKgCAQBVA/pQctevz/97UPBAtjMs9Zigx3M6JjSgAAAADtm6IDdGyJDgAAwK/MFWt5J9CzNbO+3ajxlx46ogNAB/QZX7RHB+jcWLhveDMEzdG3AG2off93/gOlzB+AKKVzjtzfzNXwMAcAAAAAAAAAAAAAAAAAAAAAAAAAAAB1nf8JAt4=
   </data>
  </layer>
  <objectgroup name="Bodies">
@@ -168,7 +189,7 @@
     <property name="disappear_duration" value="300"/>
    </properties>
   </object>
-  <object id="63" name="player" type="player" gid="226" x="1088" y="1216" width="48" height="64">
+  <object id="63" name="player" type="player" gid="226" x="1040" y="1216" width="48" height="64">
    <properties>
     <property name="body_height" value="60"/>
     <property name="body_width" value="44"/>
@@ -200,14 +221,9 @@
   <object id="80" x="448" y="1728">
    <polyline points="0,0 576,0 576,-448 640,-448 640,64 0,64"/>
   </object>
-  <object id="87" x="1664" y="1600">
-   <polyline points="0,0 0,-192 128,-192 128,-128 64,-128 64,0 0,0"/>
-  </object>
-  <object id="88" x="1856" y="1408">
-   <polyline points="0,0 128,0 128,256 64,256 64,64 0,64 0,0"/>
-  </object>
   <object id="89" x="2112" y="1344">
    <polyline points="0,0 -64,0 -64,1152 1280,1152 1280,0 192,0 192,-64 128,-64 128,0 64,0 64,64 1216,64 1216,1088 0,1088 0,0"/>
   </object>
+  <object id="102" x="1920" y="1408" width="64" height="64"/>
  </objectgroup>
 </map>

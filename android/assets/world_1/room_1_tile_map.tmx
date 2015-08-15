@@ -21,11 +21,11 @@
  </layer>
  <layer name="Normal" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJzt1tFtwjAQgOEbgQ3yguAN2gGoGABYgJQB2gmaCejW2CIWxlwckZgYS/8nnRLFku2LL3ZEAAAAAAAAAAAA4nYm/k2slbbNxHPJ4WxiHjyrvLZU3Hv2Y5+w/6HCHKtIW8pxUvc/lJtDFWlLYdteDyY+2/tvyV8HsRy/JhovZx34Y2s1kIL/7Z/aZ34d5M5/oTxfynXe2rnwDNvHb8e42v3UjvK4L7uo5fFseMbKRCO3/A+i10E9Yoyp2Fy6/hP6nINr2DbmHb+j8L8pzP9D7musRF17pfa9x9a/JG5dtf3SsrnPpNz87fz/IjHraW/aCGvanTHvnv+PXHMcEtoZ57j/KP+sGXuuvsKr8i+FXZ9mYJS6jwMAAAAAAAAAgPwupbk6aQ==
+   eJzt1tsNgjAUgOEzghvwYvTNywBeBlAXEB1AJ5AJdGvbSGNTS4lQqU3+LzkB2oT2wKFFBAAAAAAAAAAAIGyn4qFi7ulbDTyXFO4qxk5bYfXFYp6zHfuI9+/KzbEI9MUcJ/b9uzJzKAJ9MWzr40HFsj4/Sfo6COW4Hmi8lHVgj+2rgRjsb/9ct9l1kDr/iad9Kq95+/aFb+g8rw3j+s6HdpTPddlEKZ97wzcWKip5538Qfx2UPcYYykya/xPa3J2j29fnGf+jjXPt5q/rwq6xHDWtlXrNcL/30PvPiXmvvvVS07mPJN/89fxvgRi19Fd1uDVt9ph/z/8irxy7hG+PM8x/lL3X9N1Xf+FX+edCv5+qY+S6jgMAAAAAAAAAgPSentA6cQ==
   </data>
  </layer>
  <objectgroup name="Entities">
-  <object id="42" type="fatal_area" gid="236" x="1988" y="2240" width="56" height="128">
+  <object id="42" type="fatal_area" gid="236" x="1984" y="2240" width="64" height="128">
    <properties>
     <property name="active_duration" value="500"/>
    </properties>
@@ -161,12 +161,12 @@
     <property name="narration_text" value="What more could one need?"/>
    </properties>
   </object>
-  <object id="212" type="fatal_area" gid="236" x="2628" y="2112" width="56" height="16">
+  <object id="212" type="fatal_area" gid="236" x="2624" y="2112" width="64" height="64">
    <properties>
     <property name="active_duration" value="500"/>
    </properties>
   </object>
-  <object id="213" type="fatal_area" gid="236" x="2756" y="1984" width="56" height="16">
+  <object id="213" type="fatal_area" gid="236" x="2752" y="1984" width="64" height="64">
    <properties>
     <property name="active_duration" value="1000"/>
    </properties>
