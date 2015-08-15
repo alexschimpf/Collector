@@ -31,16 +31,9 @@ Design Route
 ---------------------------------------------------------------------------------------------------------------
 
 New room ideas:
-- The entities change depending on your movement and location
 - Water
-- Invisible terrain
-- Terrain that disappears piece by piece over time, instead of all at once
-- Moving heavy blocks around
 - Keys to unlock doors
-- Different variations of moving blocks, and ones that can crush you
-- Diff state machine variations
-- Fatal lasers
-- 
+
 
 Room 4:
 - Fixed-movement entities, that can reverse when blocked

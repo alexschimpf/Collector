@@ -128,6 +128,7 @@ public class WeatherSystem implements IRender, IUpdate {
 				if(_cloudMap[row][col] == null) {
 					pos = _getCloudPosition(row, col);
 					ParticleEffect cloud = Globals.getParticleEffectManager().getParticleEffect("cloud", pos.x, pos.y);
+					cloud.imageKey("cloud_" + MathUtils.random(1, 3));
 					cloud.minMaxSize(Globals.getCamera().getViewportWidth() * 0.5f, Globals.getCamera().getViewportWidth());
 					cloud.fadeIn(randomFadeIn ? MathUtils.randomBoolean(0.3f) : true);
 		            cloud.buildParticles();

@@ -101,6 +101,9 @@ public final class Player extends Entity {
 	public void setPosition(float centerX, float centerY) {
 		_lastActualPos.set(centerX, centerY);		
 		super.setPosition(centerX, centerY);
+		
+		// HACK: Player may get suspended in mid air.
+		setLinearVelocity(0, 0.00001f);
 	}
 	
 	public boolean jump() {

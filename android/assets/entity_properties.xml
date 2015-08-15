@@ -58,15 +58,7 @@
                 <property name="body_type" value="kinematic" />
             </override>
         </entity>
-        
-        <!-- Programmable Trigger -->
-        <entity type="programmable_trigger" class="entity.ProgrammableTriggerEntity">
-            <required>
-                <property name="target_ids" />
-                <property name="trigger_type" note="allowed: 'reset' or 'move'" />
-            </required>
-        </entity>
-        
+ 
         <!-- Bump Enable -->
         <entity type="bump_enable" class="entity.BumpEnableEntity">
             <optional>

@@ -46,7 +46,6 @@
         <particle_effect name="cloud">
             <properties>
                 <!-- Preset -->
-                <property name="image_key"         custom="false" value="cloud_1" />
                 <property name="min_max_duration"  custom="false" value="30000, 150000" />
                 <property name="min_max_particles" custom="false" value="1, 1" />
                 <property name="min_velocity"      custom="false" value="-0.6, 0" />
@@ -54,6 +53,7 @@
                 <property name="velocity_splits"   custom="false" value="0.05, 0" />
                 
                 <!-- Custom -->
+                <property name="image_key" custom="true" />
                 <property name="min_max_size" custom="true" />
             </properties>                                         
         </particle_effect>   

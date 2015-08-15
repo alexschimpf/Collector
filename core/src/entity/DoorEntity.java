@@ -31,7 +31,8 @@ public class DoorEntity extends Entity implements IInteractive {
 		Player player = Globals.getPlayer();
 		if(overlapsEntity(player)) {
 			DoorEntity door = (DoorEntity)Globals.getCurrentRoom().getEntityById(_exitDoorId);
-			player.setPosition(door.getCenterX(), door.getCenterY());
+			float y = door.getBottom() - (player.getHeight() / 2);
+			player.setPosition(door.getCenterX(), y);
 		}
 	}
 }
