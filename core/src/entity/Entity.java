@@ -27,7 +27,7 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 
 	protected final String _id;
 	protected final Vector2 _leftTop = new Vector2();
-	private final Rectangle _borderRect = new Rectangle();
+	protected final Rectangle _borderRect = new Rectangle();
 	
 	protected int _numContacts = 0;
 	protected boolean _markedDone = false;

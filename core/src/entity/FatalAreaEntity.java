@@ -5,9 +5,11 @@ import misc.Utils;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class FatalAreaEntity extends Entity {
@@ -76,5 +78,14 @@ public class FatalAreaEntity extends Entity {
 		}
 
 		return super.update();
+	}
+	
+	@Override
+	public Rectangle getBorderRectangle() {
+		float width = getWidth() - (Globals.getPlayer().getWidth() * 0.15f);
+		float height = getHeight() - (Globals.getPlayer().getWidth() * 0.15f);
+		float offsetX = (getWidth() - width) / 2;
+		float offsetY = (getHeight() - height) / 2;
+		return _borderRect.set(getLeft() + offsetX, getTop() + offsetY, width, height);
 	}
 }

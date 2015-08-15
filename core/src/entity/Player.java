@@ -339,12 +339,6 @@ public final class Player extends Entity {
 		_lastValidPos.set(pos.x, pos.y);
 	}
 	
-//	@Override
-//	protected void _createBody(EntityBodyDef bodyDef, MapObject bodySkeleton, boolean fixedRotation) {
-//		FixtureDef fixtureDef = Utils.getScaledFixtureDefFromBodySkeleton(bodySkeleton, 0.98f);
-//		_createBodyFromDef(bodyDef, fixtureDef, fixedRotation);
-//	}
-	
 	@Override
 	protected void _createBody(EntityBodyDef bodyDef, MapObject bodySkeleton, boolean fixedRotation) {
 		PolygonShape shape = new PolygonShape();
