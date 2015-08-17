@@ -1,5 +1,6 @@
 package particle;
 
+import misc.Globals;
 import misc.IRender;
 import misc.IUpdate;
 
@@ -117,5 +118,9 @@ public class Particle implements IRender, IUpdate, Poolable {
 		startColor = null;
 		endColor = null;
 		sprite = null;
+	}
+	
+	public boolean isVisible() {
+		return Globals.getCamera().isVisible(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
 	}
 }

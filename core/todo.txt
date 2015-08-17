@@ -58,6 +58,7 @@ Room 4:
 
 [Low-Priority]
 - Add corner-fillers
+- Minimize number of physics bodies
 - Make different shaped clouds
 - When loading a room, let the user see item loaded piece by piece to make it more interesting
 - Fix texture-flipping issue

@@ -80,7 +80,9 @@ public class ParticleEffect implements IRender, IUpdate {
 	@Override
 	public void render(SpriteBatch spriteBatch) {
 		for(Particle particle : PARTICLES) {
-			particle.render(spriteBatch);
+			if(particle.isVisible()) {
+				particle.render(spriteBatch);
+			}
 		}
 	}
 	

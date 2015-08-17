@@ -121,21 +121,30 @@ public class WeatherSystem implements IRender, IUpdate {
 	private void _tryCreateClouds(boolean randomFadeIn) {
 		int maxNumClouds = _cloudMap.length * _cloudMap[0].length / 4;
 		while(_clouds.size < maxNumClouds) {
-			Vector2 pos = null;
-			while(pos == null) {
-				int row = MathUtils.random(_cloudMap.length - 1);
-				int col = MathUtils.random(_cloudMap[0].length - 1);
-				if(_cloudMap[row][col] == null) {
-					pos = _getCloudPosition(row, col);
-					ParticleEffect cloud = Globals.getParticleEffectManager().getParticleEffect("cloud", pos.x, pos.y);
-					cloud.imageKey("cloud_" + MathUtils.random(1, 3));
-					cloud.minMaxSize(Globals.getCamera().getViewportWidth() * 0.5f, Globals.getCamera().getViewportWidth());
-					cloud.fadeIn(randomFadeIn ? MathUtils.randomBoolean(0.3f) : true);
-		            cloud.buildParticles();
-					
-					_cloudMap[row][col] = cloud;
-					_clouds.add(cloud);
-				}
+			_createCloud(randomFadeIn);
+		}
+	}
+	
+	private void _createCloud(boolean randomFadeIn) {
+		Vector2 pos = null;
+		while(pos == null) {
+			int row = MathUtils.random(_cloudMap.length - 1);
+			int col = MathUtils.random(_cloudMap[0].length - 1);
+			if(_cloudMap[row][col] == null) {
+				pos = _getCloudPosition(row, col);
+				
+				float offsetY = MathUtils.random(-Globals.getCamera().getViewportWidth() / 8, 
+						                          Globals.getCamera().getViewportWidth() / 8);
+				pos.add(0, offsetY);
+				
+				ParticleEffect cloud = Globals.getParticleEffectManager().getParticleEffect("cloud", pos.x, pos.y);
+				cloud.imageKey("cloud_" + MathUtils.random(1, 3));
+				cloud.minMaxSize(Globals.getCamera().getViewportWidth() * 0.5f, Globals.getCamera().getViewportWidth());
+				cloud.fadeIn(randomFadeIn ? MathUtils.randomBoolean(0.3f) : true);
+	            cloud.buildParticles();
+				
+				_cloudMap[row][col] = cloud;
+				_clouds.add(cloud);
 			}
 		}
 	}
