@@ -6,6 +6,7 @@ import misc.Utils;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
@@ -22,6 +23,7 @@ public final class DisappearingEntity extends Entity {
 	
 	private long _disappearStartTime;
 	private boolean _disappearing = false;
+	private boolean _waitingForPlayer = false;
 	
 	public DisappearingEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);
@@ -53,6 +55,10 @@ public final class DisappearingEntity extends Entity {
 			}
 		}
 		
+		if(_waitingForPlayer && !Globals.getPlayer().overlapsEntity(this)) {
+			_setWaitingForPlayer(false);
+		}
+		
 		return super.update();
 	}
 	
@@ -67,7 +73,7 @@ public final class DisappearingEntity extends Entity {
 
 	@Override
 	public void onBeginContact(Contact contact, Entity entity) {
-		if(disappearOnTouch && Utils.isPlayer(entity)) {
+		if(!_waitingForPlayer && disappearOnTouch && Utils.isPlayer(entity)) {
 			disappear();
 		}
 	}	
@@ -88,6 +94,14 @@ public final class DisappearingEntity extends Entity {
 		return _disappearing;
 	}
 	
+	private void _setWaitingForPlayer(boolean waiting) {
+		_waitingForPlayer = waiting;
+		
+		Fixture fixture = _body.getFixtureList().get(0);
+		fixture.setSensor(waiting);
+		_sprite.setAlpha(waiting ? 0 : 1);
+	}
+	
 	private void _recreate() {
 		Timer timer = new Timer();
 		timer.scheduleTask(new Task() {
@@ -95,6 +109,7 @@ public final class DisappearingEntity extends Entity {
 			public void run() {
 				DisappearingEntity entity = new DisappearingEntity(_entityBodyDef, _mapObject, _bodySkeleton);
 				entity.setBodyData();
+				entity._setWaitingForPlayer(true);
 				Globals.getCurrentRoom().addEntity(entity);
 			}			
 		}, _recreateDelay / 1000);	
