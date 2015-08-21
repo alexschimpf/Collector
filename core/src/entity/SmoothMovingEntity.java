@@ -68,12 +68,7 @@ public class SmoothMovingEntity extends Entity implements IMovingEntity {
 			player.respawn("die", true, 0.5f, _respawnPos);
 		}
 	}
-	
-	@Override
-	public boolean isValidForPlayerRespawn() {
-		return false;
-	}
-	
+
 	@Override
 	public void start() {
 		_pathPos = 0;

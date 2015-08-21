@@ -32,4 +32,9 @@ public class InvisibleEntity extends Entity {
 			_sprite.setAlpha(0);
 		}
 	}
+	
+	@Override
+	public boolean isValidForPlayerRespawn() {
+		return true;
+	}
 }

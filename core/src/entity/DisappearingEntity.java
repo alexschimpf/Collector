@@ -78,11 +78,6 @@ public final class DisappearingEntity extends Entity {
 		}
 	}	
 	
-	@Override
-	public boolean isValidForPlayerRespawn() {
-		return false;
-	}
-	
 	public void disappear() {
 		if(!_disappearing) {
 			_disappearing = true;

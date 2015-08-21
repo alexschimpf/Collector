@@ -42,11 +42,6 @@ public final class BumpEnableEntity extends Entity {
 		}
 	}
 	
-	@Override
-	public boolean isValidForPlayerRespawn() {
-		return false;
-	}
-	
 	private void _setEnabled(boolean enabled) {
 		_isActive = enabled;
 		

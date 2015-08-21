@@ -79,11 +79,6 @@ public class DiscreteMovingEntity extends Entity implements IMovingEntity {
 		this._intervals = intervals;
 	}
 	
-	@Override
-	public boolean isValidForPlayerRespawn() {
-		return false;
-	}
-	
 	protected Array<Vector2> _buildPath(String[] serializedPath) {
 		Array<Vector2> path = new Array<Vector2>();
 		

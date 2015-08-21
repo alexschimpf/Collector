@@ -251,7 +251,7 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	}
 	
 	public boolean isValidForPlayerRespawn() {
-		return true;
+		return false;
 	}
 	
 	public Rectangle getBorderRectangle() {

@@ -44,9 +44,4 @@ public class CollectableEntity extends Entity {
 		
 		markDone();
 	}
-	
-	@Override
-	public boolean isValidForPlayerRespawn() {
-		return false;
-	}
 }

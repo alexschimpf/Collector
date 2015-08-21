@@ -91,7 +91,7 @@ public final class Utils {
 			return MathUtils.random(a, b);
 		}
 		
-		return Utils.chooseRandom(MathUtils.random(a, -split), MathUtils.random(split, b));
+		return chooseRandom(MathUtils.random(a, -split), MathUtils.random(split, b));
 	}
 	
 	public static void shuffleArray(Object[] array) {
