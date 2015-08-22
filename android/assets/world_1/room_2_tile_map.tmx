@@ -240,10 +240,10 @@
   </object>
   <object id="145" name="p2" type="programmable" gid="228" x="384" y="2688" width="128" height="64">
    <properties>
-    <property name="max_down" value="2"/>
-    <property name="max_left" value="6"/>
-    <property name="max_right" value="2"/>
-    <property name="max_up" value="7"/>
+    <property name="max_down" value="7"/>
+    <property name="max_left" value="3"/>
+    <property name="max_right" value="5"/>
+    <property name="max_up" value="2"/>
     <property name="other_ids" value="p1"/>
    </properties>
   </object>
@@ -296,8 +296,8 @@
   <object id="125" name="p1" type="programmable" gid="228" x="512" y="3008" width="128" height="64">
    <properties>
     <property name="max_down" value="1"/>
-    <property name="max_left" value="4"/>
-    <property name="max_right" value="4"/>
+    <property name="max_left" value="5"/>
+    <property name="max_right" value="3"/>
     <property name="max_up" value="8"/>
     <property name="other_ids" value="p2"/>
    </properties>

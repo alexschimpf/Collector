@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="96" height="96" tilewidth="64" tileheight="64" nextobjectid="150">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="96" height="96" tilewidth="64" tileheight="64" nextobjectid="154">
  <properties>
   <property name="background" value="world_1_background_1"/>
  </properties>
@@ -21,7 +21,7 @@
  </layer>
  <layer name="Normal" width="96" height="96">
   <data encoding="base64" compression="zlib">
-   eJzt2dFNAkEQAND9E6uwA6hAK9AKpAKs4KhAu3YvhNyPBys7MnK8l8wPWXLLZPYyO5QCAABc20ONVY3H7I0ALMC6xleNt+yN3LnP7A3cuZfsDQAABHothx4/ItwTfi+yt3dPmDw3ruvN2fE54115X34+F8PM50s+Q7sam4Z1l+b/qfP7c5ZyhlrvrL2/Nzv/xxnVqWipwyy9+duF7GKylPq/1vs/u/7/o/FMfjSulf+/8V7a+o1t53PkP1d0vlrPLQfqP5f855L/yThLG4Lj3Dwguv+/5ff/2PPsg+Ncf6T+c8l/LvOHXOo/l/znap1zzP03Ez0PAQAAAAAAAAAAAAAAAAAAAAAAAAAAIMY3rbhV0Q==
+   eJzt2dFRwkAQAND7U/+sRCvQCrACrQArgAq0a3ODmfx4cpANy4T3ZvYHAjl29m52QykAAMCl3Q1xP8RD9kIAVuBpiO8h3rIXcuO+shdw416zFwAAEGhTDj1+RJgTThfZ25sTJi+d183N2XifOivvy9/7Ytd4fc17aDvEc8d15+Z/fDbxeebnW9ayh3pn1rm/Nzpfp37fWAf/RU8dZpmbv23IKiZrqf9Lnf/Z9X+N6p7sPZflfxnvpa/f+Jh5H/nPFZ2v6H7qWtQ5d4neWv33qX3KErUl/33kf3n1jNk14vE3Wu+34tiZ5fyf1J5nHxzH+iPzVy7nTy71n0v955L/XL3POVr/zUQ/DwEAAAAAAAAAAAAAAAAAAAAAAAAAACDGD5LeV70=
   </data>
  </layer>
  <objectgroup name="Entities">
@@ -72,7 +72,7 @@
   </object>
   <object id="77" type="overlap_tracker" gid="248" x="1216" y="1984" width="64" height="64">
    <properties>
-    <property name="duration" value="800"/>
+    <property name="duration" value="700"/>
    </properties>
   </object>
   <object id="81" type="overlap_tracker" gid="248" x="1344" y="1856" width="64" height="64">
@@ -116,17 +116,22 @@
   <object id="125" type="invisible" gid="136" x="2688" y="2368" width="64" height="64"/>
   <object id="126" type="invisible" gid="136" x="2688" y="2432" width="64" height="64"/>
   <object id="127" type="invisible" gid="31" x="2880" y="2368" width="64" height="64"/>
-  <object id="144" type="collectable" gid="227" x="2128" y="2153" width="28" height="28">
+  <object id="144" type="collectable" gid="227" x="2128" y="2220" width="28" height="28">
    <properties>
     <property name="narration_text" value="Satisfaction is death."/>
    </properties>
   </object>
-  <object id="148" type="invisible" gid="47" x="2112" y="2112" width="64" height="64"/>
+  <object id="148" type="invisible" gid="47" x="2112" y="2176" width="64" height="64"/>
   <object id="149" type="invisible" gid="47" x="2112" y="2304" width="64" height="64"/>
+  <object id="153" type="overlap_tracker" gid="248" x="512" y="1984" width="64" height="64">
+   <properties>
+    <property name="duration" value="700"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="Foreground" width="96" height="96">
   <data encoding="base64" compression="zlib">
-   eJzt2csKgCAQBVA/pQctevz/97UPBAtjMs9Zigx3M6JjSgAAAADtm6IDdGyJDgAAwK/MFWt5J9CzNbO+3ajxlx46ogNAB/QZX7RHB+jcWLhveDMEzdG3AG2off93/gOlzB+AKKVzjtzfzNXwMAcAAAAAAAAAAAAAAAAAAAAAAAAAAAB1nf8JAt4=
+   eJzt2UEOhCAMAECegrvxoOv/37d3ExMwSFVmjoTQHijQkBIAAADA832iExjYHJ0AAACv8m24lj6BkS0H42vFGm+poa1TnF+nOHBHveoMajiXY02F8/KVSfA46hagrZzK7+RIzv86+i9GZv8DUUrfVEd/M3v5ZB4AAAAAAAAAAAAAAAAAAAAAAAAAAAC09QekYgNK
   </data>
  </layer>
  <objectgroup name="Bodies">
@@ -224,6 +229,7 @@
   <object id="89" x="2112" y="1344">
    <polyline points="0,0 -64,0 -64,1152 1280,1152 1280,0 192,0 192,-64 128,-64 128,0 64,0 64,64 1216,64 1216,1088 0,1088 0,0"/>
   </object>
-  <object id="102" x="1920" y="1408" width="64" height="64"/>
+  <object id="151" x="1920" y="1408" width="128" height="64"/>
+  <object id="152" x="640" y="1856" width="128" height="192"/>
  </objectgroup>
 </map>
