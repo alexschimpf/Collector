@@ -51,7 +51,7 @@ public final class EntityPropertyValidator {
 			Class<?> c = Class.forName(className);
 			Constructor<?> constructor = c.getConstructor(EntityBodyDef.class, TextureMapObject.class, MapObject.class);
 			Entity entity = (Entity)constructor.newInstance(bodyDef, object, bodySkeleton);
-			entity.onPostCreate();
+			entity.onPostCreate(bodyDef, object, bodySkeleton);
 			
 			return entity;
 		} catch(Exception e) {

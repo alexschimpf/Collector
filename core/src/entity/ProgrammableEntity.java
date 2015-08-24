@@ -6,6 +6,7 @@ import misc.Utils;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -18,10 +19,7 @@ public final class ProgrammableEntity extends Entity {
 		LEFT, RIGHT, UP, DOWN, NONE
 	}
 	
-	private final float _leftLimit;
-	private final float _rightLimit;
-	private final float _upLimit;
-	private final float _downLimit;
+	private final String _areaId;
 	private final Vector2 _origPos = new Vector2();
 	private final String[] _otherIds;
 	
@@ -30,15 +28,7 @@ public final class ProgrammableEntity extends Entity {
 	public ProgrammableEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);
 
-		int maxLeft = Utils.getPropertyInt(object, "max_left");
-		int maxRight = Utils.getPropertyInt(object, "max_right");
-		int maxUp = Utils.getPropertyInt(object, "max_up");
-		int maxDown = Utils.getPropertyInt(object, "max_down");
-		
-		_leftLimit = getLeft() - (maxLeft * Globals.getTileSize());
-		_rightLimit = getLeft() + (maxRight * Globals.getTileSize());
-		_upLimit = getTop() - (maxUp * Globals.getTileSize());
-		_downLimit = getTop() + (maxDown * Globals.getTileSize());
+		_areaId = Utils.getPropertyString(object, "area_id");
 		
 		_state = MoveState.NONE;		
 		_origPos.set(bodyDef.position);
@@ -65,7 +55,7 @@ public final class ProgrammableEntity extends Entity {
 		if(!Utils.isPlayer(entity)) {
 			return;
 		}
-		
+
 		float LEFT = getLeft();
 		float width = getWidth();
 		float playerX = entity.getCenterX();
@@ -123,25 +113,52 @@ public final class ProgrammableEntity extends Entity {
 	}
 
 	private boolean _isMoveValid() {
+		return _isMoveClearOfEntities() && _isMoveWithinArea();
+	}
+	
+	private boolean _isMoveClearOfEntities() {
 		GameRoom currRoom = Globals.getCurrentRoom();
 		
 		float newTop, newLeft;
 		switch(_state) {
 			case DOWN:
 				newTop = getTop() + Globals.getTileSize();
-				return !currRoom.isEntityAt(getLeft(), newTop, getWidth(), getHeight(), this) && newTop <= _downLimit;
+				return !currRoom.isEntityAt(getLeft(), newTop, getWidth(), getHeight(), this);
 			case LEFT:
 				newLeft = getLeft() - Globals.getTileSize();
-				return !currRoom.isEntityAt(newLeft, getTop(), getWidth(), getHeight(), this) && newLeft >= _leftLimit;
+				return !currRoom.isEntityAt(newLeft, getTop(), getWidth(), getHeight(), this);
 			case RIGHT:
 				newLeft = getLeft() + Globals.getTileSize();
-				return !currRoom.isEntityAt(newLeft, getTop(), getWidth(), getHeight(), this) && newLeft <= _rightLimit;
+				return !currRoom.isEntityAt(newLeft, getTop(), getWidth(), getHeight(), this);
 			case UP:
-				newTop = getTop() - Globals.getTileSize();
-				return !currRoom.isEntityAt(getLeft(), newTop, getWidth(), getHeight(), this) && newTop >= _upLimit;
+				newTop = getTop() - Globals.getTileSize() * 0f;
+				return !currRoom.isEntityAt(getLeft(), getBottom() - Globals.getTileSize(), getWidth(), getHeight(), this);
 			default:
 				return false;
 		}
+	}
+	
+	private boolean _isMoveWithinArea() {
+		BasicEntity area = _getArea();
+		Rectangle newBorderRect = new Rectangle(getBorderRectangle());
+		switch(_state) {
+			case DOWN:
+				newBorderRect.y += Globals.getTileSize();
+				break;
+			case LEFT:
+				newBorderRect.x -= Globals.getTileSize();
+				break;
+			case RIGHT:
+				newBorderRect.x += Globals.getTileSize();
+				break;
+			case UP:
+				newBorderRect.y -= Globals.getTileSize();
+				break;
+			default:
+				break;
+		}
+		
+		return area.getBorderRectangle().contains(newBorderRect);
 	}
 	
 	private int _getStateIndex() {
@@ -178,5 +195,9 @@ public final class ProgrammableEntity extends Entity {
     	Player player = Globals.getPlayer();
     	Fixture fixture = getBody().getFixtureList().get(0);
     	return fixture.testPoint(player.getCenterX(), player.getBottom());
+    }
+    
+    private BasicEntity _getArea() {
+    	return (BasicEntity)Globals.getCurrentRoom().getEntityById(_areaId);
     }
 }

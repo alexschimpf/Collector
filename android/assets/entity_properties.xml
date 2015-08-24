@@ -17,9 +17,17 @@
             <property name="fixed_rotation" default="true" />
             <property name="rotation" default="0" />
             <property name="enclosing" default="false" />
+            <property name="is_visible" default="true" />
         </optional>
     </global_properties>
     <entity_properties>
+        
+        <!-- Basic -->
+        <entity type="basic" class="entity.BasicEntity">
+        	<optional>
+        	    <property name="is_sensor" default="true" />
+        	</optional>      
+        </entity>
         
         <!-- Player -->
         <entity type="player" class="entity.Player">
@@ -45,10 +53,7 @@
         <!-- Programmable -->
         <entity type="programmable" class="entity.ProgrammableEntity">
             <required>
-                <property name="max_left" />
-                <property name="max_right" />
-                <property name="max_up" />
-                <property name="max_down" />
+                <property name="area_id" />
             </required>
             <optional>
                 <property name="other_ids" default="" />
