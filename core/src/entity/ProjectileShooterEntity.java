@@ -13,10 +13,11 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class ProjectileShooterEntity extends Entity{
 
+	private static final float SIZE = Globals.getTileSize() / 2;
+	
 	protected final float _shootCooldown;
 	protected final Vector2 _shootVelocity;
 	protected final EntityBodyDef _entityBodyDef;
-	protected final FixtureDef _fixtureDef;
 	
 	protected long _lastShootTime = 0;
 	
@@ -27,16 +28,8 @@ public class ProjectileShooterEntity extends Entity{
 		_shootVelocity = Utils.getPropertyVector2(object, "shoot_velocity");
 				
 		Vector2 pos = new Vector2();
-		Vector2 size = new Vector2();
+		Vector2 size = new Vector2(SIZE, SIZE);
 		_entityBodyDef = new EntityBodyDef(pos, size, BodyType.KinematicBody);
-		
-		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(Globals.getTileSize() / 4, Globals.getTileSize() / 4);
-		_fixtureDef = new FixtureDef();
-		_fixtureDef.density = 1;
-		_fixtureDef.friction = 0;
-		_fixtureDef.restitution = 0;
-		_fixtureDef.shape = shape;	
 		
 		if(_shootVelocity.x > 0) {
 			_entityBodyDef.position.set(getCenterX() + getWidth(), getCenterY());
@@ -70,7 +63,17 @@ public class ProjectileShooterEntity extends Entity{
 	}
 	
 	protected void shoot() {
-		ProjectileEntity projectile = new ProjectileEntity("projectile", _entityBodyDef, _fixtureDef, _shootVelocity);
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(SIZE / 2, SIZE / 2);
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.density = 1;
+		fixtureDef.friction = 0;
+		fixtureDef.restitution = 0;
+		fixtureDef.shape = shape;	
+		
+		ProjectileEntity projectile = new ProjectileEntity("projectile", _entityBodyDef, fixtureDef, _shootVelocity);
+		projectile.onPostCreate(null, null, null);
+		Globals.getCurrentRoom().addEntity(projectile);
 		projectile.shoot();
 	}
 }

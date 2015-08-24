@@ -81,6 +81,7 @@ public abstract class Entity implements IRender, IUpdate, ICollide {
 	public abstract String getType();
 	
 	public void onPostCreate(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
+		setBodyData();
 		setVisible(Utils.getPropertyBoolean(object, "is_visible"));
 	}
 	

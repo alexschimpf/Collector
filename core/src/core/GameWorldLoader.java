@@ -181,7 +181,6 @@ public final class GameWorldLoader {
 			
 			EntityBodyDef bodyDef = _getBodyDef(object);
 			Entity entity = validator.getEntity(bodyDef, object, bodySkeleton);
-			entity.setBodyData();
 			
 			if(type.equals("player")) {
 				Globals.getGameWorld().setPlayer((Player)entity);

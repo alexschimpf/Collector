@@ -3,6 +3,8 @@ package entity;
 import misc.Globals;
 import misc.Utils;
 
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -20,6 +22,11 @@ public class ProjectileEntity extends Entity {
 		super(null, textureKey, bodyDef, fixtureDef);
 		
 		_velocity = velocity;
+	}
+	
+	public void onPostCreate(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
+		setBodyData();
+		setVisible(true);
 	}
 	
 	@Override
