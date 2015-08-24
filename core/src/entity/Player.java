@@ -82,6 +82,10 @@ public final class Player extends Entity {
 	public boolean update() {
 		_tryBlink();
 		
+		if(!_isJumpAnimationPlaying() && isInGravityPipe()) {
+			_animationSystem.switchToDefault();
+		}
+		
 		_animationSystem.update();
 		_sprite = _animationSystem.getSprite();
 		_animationSystem.flipSprite(isFacingLeft(), true);
@@ -90,7 +94,7 @@ public final class Player extends Entity {
 			respawn(null, false, 0, null);
 		}
 		
-		if(_isJumping) {
+		if(_isJumping && !isInGravityPipe()) {
 			_lastActualPos.y = Math.min(_lastActualPos.y, getCenterY());
 		}
 
@@ -99,7 +103,7 @@ public final class Player extends Entity {
 	
 	@Override
 	public void setPosition(float centerX, float centerY) {
-		_lastActualPos.set(centerX, centerY);		
+		_lastActualPos.set(centerX, centerY);
 		super.setPosition(centerX, centerY);
 		
 		// HACK: Player may get suspended in mid air.
@@ -221,13 +225,13 @@ public final class Player extends Entity {
 				_isFacingRight = _isLastValidDirectionRight;
 				_animationSystem.switchToDefault();
 				
+				setLinearVelocity(0, 0);
+				
 				if(respawnPos != null) {
 					setPosition(respawnPos.x, respawnPos.y);
 				} else {
 					setPosition(_lastValidPos.x, _lastValidPos.y);
 				}
-				
-				setLinearVelocity(0, 0);
 								
 				Gdx.app.postRunnable(new Runnable() {
 					@Override
