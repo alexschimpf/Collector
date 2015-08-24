@@ -42,7 +42,7 @@
             </properties>                                         
         </particle_effect> 
         
-        <!-- Cloud-->
+        <!-- Cloud -->
         <particle_effect name="cloud">
             <properties>
                 <!-- Preset -->
@@ -75,5 +75,24 @@
                 <property name="min_max_size" custom="true" />
             </properties>                                         
         </particle_effect>    
+        
+        <!-- Projectile Shooting -->
+        <particle_effect name="projectile_shooting">
+            <properties>
+                <!-- Preset -->
+                <property name="image_key"                custom="false" value="particle" />
+                <property name="min_max_duration"         custom="false" value="500, 800" />
+                <property name="min_max_particles"        custom="false" value="7, 10" />
+                <property name="velocity_splits"          custom="false" value="0.5, 0.5" />
+                <property name="start_color"              custom="false" value="0.7, 0.7, 0.7" />
+                <property name="end_color"                custom="false" value="0.5, 0.5, 0.5" />
+                <property name="min_max_angular_velocity" custom="false" value="0, 45" />
+                
+                <!-- Custom -->
+                <property name="min_max_size" custom="true" />
+                <property name="min_velocity" custom="true" />
+                <property name="max_velocity" custom="true" />
+            </properties>                                         
+        </particle_effect> 
     </particle_effects>
 </particle_effect_data>

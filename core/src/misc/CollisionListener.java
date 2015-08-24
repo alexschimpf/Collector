@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 
 import entity.Entity;
 import entity.Player;
+import entity.ProjectileEntity;
 
 public final class CollisionListener implements ContactListener {
 
@@ -48,7 +49,7 @@ public final class CollisionListener implements ContactListener {
 		Entity b = dataB.getEntity();
 		_checkPlayerFootContacts(contact, a, b, beginContact);
 		
-		if(a == null || b == null) {
+		if(_checkProjectileContact(contact, a, b, beginContact) || a == null || b == null) {
 			return;
 		}
 
@@ -73,5 +74,27 @@ public final class CollisionListener implements ContactListener {
         		player.decrementFootContacts(contact);
         	}
 		} 
+	}
+	
+	private boolean _checkProjectileContact(Contact contact, Entity a, Entity b, boolean beginContact) {
+		Entity projectile;
+		Entity other;
+		if(a != null && a instanceof ProjectileEntity) {
+			projectile = a;
+			other = b;
+		} else if(b != null && b instanceof ProjectileEntity) {
+			projectile = b;
+			other = a;
+		} else {
+			return false;
+		}
+
+		if(beginContact) {
+			projectile.onBeginContact(contact, other);
+		} else {
+			projectile.onEndContact(contact, other);
+		}
+		
+		return true;
 	}
 }

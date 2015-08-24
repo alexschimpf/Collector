@@ -22,6 +22,9 @@ public class ProjectileEntity extends Entity {
 		super(null, textureKey, bodyDef, fixtureDef);
 		
 		_velocity = velocity;
+		
+		_body.setGravityScale(0);
+		_body.setBullet(true);
 	}
 	
 	public void onPostCreate(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {

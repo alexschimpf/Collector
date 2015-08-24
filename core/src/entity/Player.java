@@ -256,7 +256,7 @@ public final class Player extends Entity {
 	}
 	
 	public boolean isJumping() {
-		return _isJumping;
+		return _isJumping && !isRespawning();
 	}
 	
 	public float getFrontX() {

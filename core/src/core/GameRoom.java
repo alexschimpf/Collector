@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.Array;
 
 import entity.Entity;
 import entity.Player;
+import entity.ProjectileEntity;
 
 public class GameRoom implements IRender, IUpdate {
 
