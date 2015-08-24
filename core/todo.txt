@@ -57,6 +57,7 @@ Room 4:
 4. Animation when entering door
 
 [Low-Priority]
+- Remove debug button input handling
 - Add corner-fillers
 - Minimize number of physics bodies
 - Make different shaped clouds

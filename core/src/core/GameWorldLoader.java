@@ -185,6 +185,7 @@ public final class GameWorldLoader {
 			
 			if(type.equals("player")) {
 				Globals.getGameWorld().setPlayer((Player)entity);
+				_room.setPlayerStartPosition(entity.getCenterX(), entity.getCenterY());
 			}
 
 			_room.addEntity(entity);

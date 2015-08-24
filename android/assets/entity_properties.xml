@@ -187,9 +187,10 @@
         
         <!-- Door -->
         <entity type="door" class="entity.DoorEntity" >
-            <required>
-            	<property name="exit_door_id" />
-            </required>
+            <optional>
+                <property name="exit_door_id" default="" />
+                <property name="is_lobby_door" default="false" />
+            </optional>
             <override>
                 <property name="enclosing" value="true" />
             </override>

@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import entity.Entity;
@@ -32,6 +33,7 @@ public class GameRoom implements IRender, IUpdate {
 	private final boolean _isLobby;
 	private final String _tileMapName;
 	private final ParallaxBackground _background;
+	private final Vector2 _playerStartPos = new Vector2();
 	
 	public GameRoom(boolean isLobby, MapProperties properties, String tileMapName) {	
 		_isLobby = isLobby;
@@ -85,6 +87,14 @@ public class GameRoom implements IRender, IUpdate {
 	
 	public int getNumCols() {
 		return _numCols;
+	}
+	
+	public void restart() {
+		Globals.getPlayer().setPosition(_playerStartPos.x, _playerStartPos.y);
+	}
+	
+	public void setPlayerStartPosition(float x, float y) {
+		_playerStartPos.set(x, y);
 	}
 	
 	public String getTileMapName() {

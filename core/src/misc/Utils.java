@@ -37,11 +37,19 @@ public final class Utils {
 	}
 	
 	public static boolean isFromEntity(Fixture fixture) {
+		if(fixture == null || fixture.getBody() == null || fixture.getBody().getUserData() == null) {
+			return false;
+		}
+		
 		BodyData bodyData = ((BodyData)fixture.getBody().getUserData());
 		return bodyData.getEntity() != null;		
 	}
 	
 	public static Entity getEntity(Fixture fixture) {
+		if(fixture == null || fixture.getBody() == null || fixture.getBody().getUserData() == null) {
+			return null;
+		}
+		
 		BodyData bodyData = ((BodyData)fixture.getBody().getUserData());
 		return bodyData.getEntity();
 	}

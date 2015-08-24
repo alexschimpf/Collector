@@ -39,6 +39,12 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 				
 				player.interact();
 				break;
+			case Keys.Q:
+				if(!Globals.isGameLoading() && !Globals.getCurrentRoom().isLobby()) {
+					Globals.getCurrentRoom().restart();
+				}
+				
+				break;
 				
 			// For testing:
 			case Keys.D:
@@ -46,12 +52,6 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 				break;
 			case Keys.F:
 				TheGame.PRINT_FPS = !TheGame.PRINT_FPS;
-				break;
-			case Keys.Q:
-				if(!Globals.isGameLoading()) {
-					Globals.getGameWorld().loadLobbyRoom();
-				}
-				
 				break;
 			case Keys.C:
 				Globals.getCamera().getRawCamera().zoom = 1;
