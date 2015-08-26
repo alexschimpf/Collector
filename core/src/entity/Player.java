@@ -102,12 +102,17 @@ public final class Player extends Entity {
 	}
 	
 	@Override
-	public void setPosition(float centerX, float centerY) {
-		_lastActualPos.set(centerX, centerY);
-		super.setPosition(centerX, centerY);
-		
-		// HACK: Player may get suspended in mid air.
-		setLinearVelocity(0, 0.00001f);
+	public void setPosition(final float centerX, final float centerY) {
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				_lastActualPos.set(centerX, centerY);
+				_body.setTransform(centerX, centerY, _body.getAngle());
+				
+				// HACK: Player may get suspended in mid air.
+				setLinearVelocity(0, 0.00001f);
+			}
+		});
 	}
 	
 	public boolean jump() {

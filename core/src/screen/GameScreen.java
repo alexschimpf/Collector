@@ -142,6 +142,11 @@ public final class GameScreen implements Screen {
 			Globals.getHUD().render(_spriteBatch);
 		} else {
 			_doFlash();
+			if(Globals.getPlayer() != null) {
+				_spriteBatch.begin();
+				Globals.getPlayer().render(_spriteBatch);
+				_spriteBatch.end();
+			}
 		}
 	}
 	
