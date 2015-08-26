@@ -92,9 +92,9 @@ public final class GameWorld implements IRender, IUpdate {
 				return;
 			}
 		}
-		
+
 		Globals.state = Globals.State.LOADING;
-		
+
 		TileMap tileMap = new TileMap(tileMapName);
 		Globals.getGameScreen().setTileMap(tileMap);
 		GameWorldLoader gameWorldLoader = new GameWorldLoader(tileMap.getRawTileMap(), tileMapName, isLobby);
@@ -102,7 +102,7 @@ public final class GameWorld implements IRender, IUpdate {
 		
 		if(prevTileMapName != null) {
 			Rectangle entrance = _currRoom.getRoomEntranceLocation(prevTileMapName); 
-			Globals.getPlayer().setPosition(entrance.getX() + (entrance.getWidth() / 2), Globals.getPlayer().getCenterY());
+			Globals.getPlayer().setPosition(entrance.getX() + (entrance.getWidth() / 2), entrance.getY() + entrance.getHeight());
 		}
 		
 		WeatherSystem weatherSystem = Globals.getWeatherSystem();
@@ -124,8 +124,6 @@ public final class GameWorld implements IRender, IUpdate {
 		Player player = Globals.getPlayer();
 		Globals.getPhysicsWorld().setGravity(new Vector2(0, GameWorld.DEFAULT_GRAVITY));
 		player.setGravityPipe(null);
-		
-		Globals.state = Globals.State.RUNNING;
 	}
 	
 	public void loadLobbyRoom() {

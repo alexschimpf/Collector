@@ -36,7 +36,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 				if(tileMapName != null) {
 					Globals.getGameWorld().loadRoom(tileMapName, false);
 				}
-				
+
 				player.interact();
 				break;
 			case Keys.Q:

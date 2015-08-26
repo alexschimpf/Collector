@@ -8,6 +8,7 @@ import background.ParallaxBackground;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,7 +27,7 @@ public final class GameScreen implements Screen {
 	private final SpriteBatch _spriteBatch = new SpriteBatch();
 	private final Box2DDebugRenderer _debugRenderer = new Box2DDebugRenderer();
 	private final Array<ParticleEffect> _particleEffects = new Array<ParticleEffect>();
-	private final Array<Animation> _animations = new Array<Animation>();	
+	private final Array<Animation> _animations = new Array<Animation>();
 	
 	private TileMap _tileMap;
 
@@ -58,11 +59,6 @@ public final class GameScreen implements Screen {
 		if(TheGame.PRINT_FPS) {
 			Gdx.app.log("FPS", "" + Gdx.graphics.getFramesPerSecond());
 		}	
-		
-		if(Globals.isGameLoading()) {
-			clearScreen();
-			return;
-		}
 		
 		Globals.getCamera().update();
 		
@@ -125,24 +121,28 @@ public final class GameScreen implements Screen {
 	
 	private void _render(float delta) {
 		clearScreen();
-
-		OrthographicCamera camera = Globals.getCamera().getRawCamera();
 		
+		OrthographicCamera camera = Globals.getCamera().getRawCamera();
+
 		_tileMap.setView(camera);
 		_spriteBatch.setProjectionMatrix(camera.combined);
 		
 		_spriteBatch.begin();
 		Globals.getCurrentRoom().renderBackground(_spriteBatch);
 		_spriteBatch.end();
-		
-		_renderLayers();
-		
-		if(TheGame.PHYSICS_DEBUG) {
-			_debugMatrix.set(camera.combined);
-			_debugRenderer.render(Globals.getPhysicsWorld(), _debugMatrix);
+			
+		if(!Globals.isGameLoading()) {
+			_renderLayers();
+			
+			if(TheGame.PHYSICS_DEBUG) {
+				_debugMatrix.set(camera.combined);
+				_debugRenderer.render(Globals.getPhysicsWorld(), _debugMatrix);
+			}
+			
+			Globals.getHUD().render(_spriteBatch);
+		} else {
+			_doFlash();
 		}
-		
-		Globals.getHUD().render(_spriteBatch);
 	}
 	
 	private void _renderLayers() {
@@ -211,5 +211,26 @@ public final class GameScreen implements Screen {
 	private void clearScreen() {
 		Gdx.gl.glClearColor((255 / 255.0f), (255 / 255.0f), (255 / 255.0f), 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	}
+	
+	// TODO: REFACTOR THIS UGLY FLASHING CRAP.
+	private float flashAlpha = 1;
+	private boolean once = false;
+	private void _doFlash() {
+		if(!once && flashAlpha > 0) {
+			flashAlpha -= Gdx.graphics.getDeltaTime() * 2; 
+		} else {
+			once = true;
+			flashAlpha += Gdx.graphics.getDeltaTime() * 2;
+		}
+
+		flashAlpha = Math.max(Math.min(flashAlpha, 1), 0);
+		_spriteBatch.setColor(flashAlpha, flashAlpha, flashAlpha, 1);
+		_tileMap.getBatch().setColor(flashAlpha, flashAlpha, flashAlpha, 1);
+		
+		if(once && flashAlpha >= 1) {
+			once = false;
+			Globals.state = Globals.State.RUNNING;
+		}
 	}
 }

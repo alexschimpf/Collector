@@ -23,28 +23,10 @@
 
 ------------------------------------------------------
 
+EMBRACE RANDOMNESS.
+
 Room transitions.
-
-Make projectiles look a little better.
-
-Remove clouds?
-
-2 background layers
-	- both are similar patterns
-	- but each have "holes" where diagonals should be and the other shows through
-	- maybe one has larger chunks
-	
-Collectables should spin around slowly and slowly fade between 2 colors repeatedly
-
-Lobby doors should be all over the place to reflect the game's "randomness"
-
-Embrace randomness.
 
 Maybe a white rectangle around door to make it look like it's an opening into a wall.
 
-Make gravity pipe part all one track.
-
 Projectiles should have a particle trail.
-
-Colored corners on random pieces terrain.
-	- Use foreground to vary up terrain.

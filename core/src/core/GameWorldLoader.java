@@ -224,7 +224,7 @@ public final class GameWorldLoader {
 		float top = rectangle.y * unitScale;
 		float width = rectangle.width * unitScale;
 		float height = rectangle.height * unitScale;
-		
+
 		if(Utils.propertyExists(object, "type") && Utils.getPropertyString(object, "type").equals("room_entrance")) {
 			String tileMapName = Utils.getPropertyString(object, "room_tile_map");
 			Rectangle scaledRect = new Rectangle(left, top, width, height);
