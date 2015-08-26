@@ -11,6 +11,7 @@ import misc.IRender;
 import misc.IUpdate;
 import script.Script;
 import background.ParallaxBackground;
+import background.ParallaxLayer;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
@@ -41,7 +42,15 @@ public class GameRoom implements IRender, IUpdate {
 		_numRows = Integer.parseInt(properties.get("height").toString());
 		_numCols = Integer.parseInt(properties.get("width").toString());
 		_tileMapName = tileMapName;
-		_background = new ParallaxBackground(properties.get("background").toString(), .8f);
+		
+		_background = new ParallaxBackground();
+		
+		float parallaxRatio = 0.4f;
+		String[] textureKeys = properties.get("background").toString().split(",");
+		for(String textureKey : textureKeys) {
+			parallaxRatio += 0.1f;
+			_background.addLayer(new ParallaxLayer(textureKey, parallaxRatio));
+		}
 	}
 
 	@Override

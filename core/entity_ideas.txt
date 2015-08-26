@@ -1,22 +1,50 @@
 [Room 1 - Fatals]
 ----------------------------------------------------------------------
-- Lava pools
 - Rotating fatals
-- Fired projectiles
-- 
+- Things that can crush you
+
 
 [Room 2 - State Machines]
 ----------------------------------------------------------------------
+- Have to connect dots in a grid
 
 
 [Room 3 - Disappearing]
 ----------------------------------------------------------------------
 - Jumping on one makes ANOTHER disappear
-- Have to stay inside box for a specific amount of time, until dot to a certain point
-	- When inside the box, the dot moves at some speed
-	- Have to stay inside box (and get out) in order to precisely line the dot up
-	- Different variations of this
+
 
 [Room 4 - Movement]
 ----------------------------------------------------------------------
+- Cart
+- Springy catapults
+- Springy platforms
 - 
+
+------------------------------------------------------
+
+Room transitions.
+
+Make projectiles look a little better.
+
+Remove clouds?
+
+2 background layers
+	- both are similar patterns
+	- but each have "holes" where diagonals should be and the other shows through
+	- maybe one has larger chunks
+	
+Collectables should spin around slowly and slowly fade between 2 colors repeatedly
+
+Lobby doors should be all over the place to reflect the game's "randomness"
+
+Embrace randomness.
+
+Maybe a white rectangle around door to make it look like it's an opening into a wall.
+
+Make gravity pipe part all one track.
+
+Projectiles should have a particle trail.
+
+Colored corners on random pieces terrain.
+	- Use foreground to vary up terrain.

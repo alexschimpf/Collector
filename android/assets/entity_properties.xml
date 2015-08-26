@@ -41,6 +41,10 @@
             <required>
             	<property name="narration_text" />
             </required>
+            <override>
+                <property name="body_type" value="kinematic" />
+                <property name="fixed_rotation" value="false" />
+            </override>
         </entity>
         
         <!-- Breakable -->

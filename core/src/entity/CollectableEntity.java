@@ -12,12 +12,15 @@ import core.HUD;
 
 public class CollectableEntity extends Entity {
 
-	private final String _narrationText;
+	private static final float ANGULAR_VELOCITY = 2;
 	
+	private final String _narrationText;
+
 	public CollectableEntity(EntityBodyDef bodyDef, TextureMapObject object, MapObject bodySkeleton) {
 		super(bodyDef, object, bodySkeleton);
 		
 		_narrationText = Utils.getPropertyString(object, "narration_text");
+		_body.setAngularVelocity(ANGULAR_VELOCITY);
 	}
 	
 	@Override

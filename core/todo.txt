@@ -38,7 +38,6 @@ New room ideas:
 Room 4:
 - Fixed-movement entities, that can reverse when blocked
 - Switches that can change a moving entity's path
-- Moving entities that can crush you
 - Blocking a moving entity to force it to stick there, then using it as a stepping stone
 - Moving blocks that can fit through a space, but you have to get off and get back on when it next isn't blocked off
 - Moving blocks that rotate as they move, discretely or continuously
