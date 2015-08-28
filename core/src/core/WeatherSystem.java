@@ -119,7 +119,7 @@ public class WeatherSystem implements IRender, IUpdate {
 	}
 
 	private void _tryCreateClouds(boolean randomFadeIn) {
-		int maxNumClouds = _cloudMap.length * _cloudMap[0].length / 4;
+		int maxNumClouds = _cloudMap.length * _cloudMap[0].length / 6;
 		while(_clouds.size < maxNumClouds) {
 			_createCloud(randomFadeIn);
 		}
@@ -133,8 +133,8 @@ public class WeatherSystem implements IRender, IUpdate {
 			if(_cloudMap[row][col] == null) {
 				pos = _getCloudPosition(row, col);
 				
-				float offsetY = MathUtils.random(-Globals.getCamera().getViewportWidth() / 8, 
-						                          Globals.getCamera().getViewportWidth() / 8);
+				float offsetY = MathUtils.random(-Globals.getCamera().getViewportWidth() / 16, 
+						                          Globals.getCamera().getViewportWidth() / 16);
 				pos.add(0, offsetY);
 				
 				ParticleEffect cloud = Globals.getParticleEffectManager().getParticleEffect("cloud", pos.x, pos.y);

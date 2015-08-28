@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import misc.CollisionListener;
 import misc.Globals;
+import misc.Globals.State;
 import misc.IRender;
 import misc.IUpdate;
 
@@ -124,6 +125,11 @@ public final class GameWorld implements IRender, IUpdate {
 		Player player = Globals.getPlayer();
 		Globals.getPhysicsWorld().setGravity(new Vector2(0, GameWorld.DEFAULT_GRAVITY));
 		player.setGravityPipe(null);
+		
+		// HACK: Avoids a fade transition when first loading up.
+		if(prevTileMapName == null && _currRoom.isLobby()) {
+			Globals.state = State.RUNNING;
+		}
 	}
 	
 	public void loadLobbyRoom() {

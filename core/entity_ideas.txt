@@ -25,8 +25,4 @@
 
 EMBRACE RANDOMNESS.
 
-Room transitions.
-
-Maybe a white rectangle around door to make it look like it's an opening into a wall.
-
 Projectiles should have a particle trail.
