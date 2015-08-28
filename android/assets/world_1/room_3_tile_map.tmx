@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="96" height="96" tilewidth="64" tileheight="64" nextobjectid="154">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="96" height="96" tilewidth="64" tileheight="64" nextobjectid="219">
  <properties>
   <property name="background" value="world_1_background_1"/>
  </properties>
@@ -8,6 +8,9 @@
  </tileset>
  <tileset firstgid="226" name="entities" tilewidth="64" tileheight="64" spacing="2" margin="2">
   <image source="../entities.png" trans="ff00ff" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="451" name="door" tilewidth="128" tileheight="128">
+  <image source="door.png" trans="ff00ff" width="128" height="128"/>
  </tileset>
  <layer name="Background" width="96" height="96">
   <data encoding="base64" compression="zlib">
@@ -21,7 +24,7 @@
  </layer>
  <layer name="Normal" width="96" height="96">
   <data encoding="base64" compression="zlib">
-   eJzt2dFRwkAQAND7U/+sRCvQCrACrQArgAq0a3ODmfx4cpANy4T3ZvYHAjl29m52QykAAMCl3Q1xP8RD9kIAVuBpiO8h3rIXcuO+shdw416zFwAAEGhTDj1+RJgTThfZ25sTJi+d183N2XifOivvy9/7Ytd4fc17aDvEc8d15+Z/fDbxeebnW9ayh3pn1rm/Nzpfp37fWAf/RU8dZpmbv23IKiZrqf9Lnf/Z9X+N6p7sPZflfxnvpa/f+Jh5H/nPFZ2v6H7qWtQ5d4neWv33qX3KErUl/33kf3n1jNk14vE3Wu+34tiZ5fyf1J5nHxzH+iPzVy7nTy71n0v955L/XL3POVr/zUQ/DwEAAAAAAAAAAAAAAAAAAAAAAAAAACDGD5LeV70=
+   eJzt3ctNw0AQAFDfgBsd0AFUABVABVBBqCCpALrGK2EFLC9e/MlY6/ekueTnzWg8GSfSpmkAAIBLu2rjuo2b6IUAVOC+jc82XqIXsnMf0QvYuafoBQBQlW6+6sKcFWuPc9Zz87sG58Tc+t1j/pd8z3Nfq6b8PxY+bu577o6TevmpGT4vjpnb+5GeX8tnwKGNh4LHTc1/99n5PvH5ObWcA6XXrFvrGf99vf4MNRQldRhlbv4Oi6zirJb6v1T/j67/LUrnZGlflv91vDZlM8fbzOPIf6yl87X0PLUV6Tp3jdla/ZdJc8oatSX/ZeR/fanHHDNx+x25+3Mx1rP0/7M085wWjrH5yPVXLP0nlvqPpf5jyX+s0u85cr/NLP19CAAAAAAAAAAAAAAAAAAAAABQh7/2tt7yntYw1V30AiBY6d71rMMebLHkf10/58qhObK/p55ZE8gZ+w8m/YNafQG4oWgL
   </data>
  </layer>
  <objectgroup name="Entities">
@@ -72,17 +75,17 @@
   </object>
   <object id="77" type="overlap_tracker" gid="248" x="1216" y="1984" width="64" height="64">
    <properties>
-    <property name="duration" value="700"/>
+    <property name="duration" value="850"/>
    </properties>
   </object>
   <object id="81" type="overlap_tracker" gid="248" x="1344" y="1856" width="64" height="64">
    <properties>
-    <property name="duration" value="700"/>
+    <property name="duration" value="800"/>
    </properties>
   </object>
   <object id="83" type="overlap_tracker" gid="248" x="1728" y="1600" width="64" height="64">
    <properties>
-    <property name="duration" value="700"/>
+    <property name="duration" value="800"/>
    </properties>
   </object>
   <object id="86" type="disappearing" gid="232" x="1792" y="1728" width="64" height="64">
@@ -109,7 +112,7 @@
   <object id="119" type="invisible" gid="46" x="3264" y="2112" width="64" height="64"/>
   <object id="121" type="overlap_tracker" gid="248" x="2176" y="2368" width="64" height="64">
    <properties>
-    <property name="duration" value="700"/>
+    <property name="duration" value="850"/>
    </properties>
   </object>
   <object id="124" type="invisible" gid="61" x="2688" y="2304" width="64" height="64"/>
@@ -128,10 +131,131 @@
     <property name="duration" value="700"/>
    </properties>
   </object>
+  <object id="155" type="invisible" gid="62" x="3008" y="1856" width="64" height="64"/>
+  <object id="156" type="invisible" gid="136" x="3008" y="1792" width="64" height="64"/>
+  <object id="157" type="invisible" gid="61" x="3008" y="1728" width="64" height="64"/>
+  <object id="158" type="invisible" gid="31" x="3008" y="1600" width="64" height="64"/>
+  <object id="160" type="door" gid="451" x="1088" y="1216" width="128" height="128">
+   <properties>
+    <property name="is_lobby_door" value="true"/>
+   </properties>
+  </object>
+  <object id="161" name="door1" type="door" gid="451" x="3072" y="1344" width="128" height="128">
+   <properties>
+    <property name="exit_door_id" value="door2"/>
+   </properties>
+  </object>
+  <object id="163" name="door2" type="door" gid="451" x="128" y="6016" width="128" height="128">
+   <properties>
+    <property name="exit_door_id" value="door1"/>
+   </properties>
+  </object>
+  <object id="167" name="d3" type="disappearing" gid="232" x="704" y="5888" width="64" height="64">
+   <properties>
+    <property name="disappear_duration" value="500"/>
+    <property name="disappear_on_touch" value="false"/>
+    <property name="recreate_delay" value="500"/>
+   </properties>
+  </object>
+  <object id="168" name="d2" type="disappearing" gid="232" x="704" y="5824" width="64" height="64">
+   <properties>
+    <property name="disappear_duration" value="750"/>
+    <property name="disappear_on_touch" value="false"/>
+    <property name="recreate_delay" value="750"/>
+   </properties>
+  </object>
+  <object id="169" name="d1" type="disappearing" gid="232" x="704" y="5760" width="64" height="64">
+   <properties>
+    <property name="disappear_duration" value="1000"/>
+    <property name="disappear_on_touch" value="false"/>
+    <property name="recreate_delay" value="1000"/>
+   </properties>
+  </object>
+  <object id="178" name="door3" type="door" gid="451" x="896" y="5824" width="128" height="128">
+   <properties>
+    <property name="exit_door_id" value="door4"/>
+   </properties>
+  </object>
+  <object id="179" name="door4" type="door" gid="451" x="1472" y="5824" width="128" height="128">
+   <properties>
+    <property name="exit_door_id" value="door3"/>
+   </properties>
+  </object>
+  <object id="182" name="d4" type="disappearing" gid="232" x="1152" y="5760" width="64" height="64">
+   <properties>
+    <property name="disappear_duration" value="500"/>
+    <property name="disappear_on_touch" value="false"/>
+    <property name="recreate_delay" value="500"/>
+   </properties>
+  </object>
+  <object id="183" name="d5" type="disappearing" gid="232" x="1152" y="5696" width="64" height="64">
+   <properties>
+    <property name="disappear_duration" value="750"/>
+    <property name="disappear_on_touch" value="false"/>
+    <property name="recreate_delay" value="650"/>
+   </properties>
+  </object>
+  <object id="196" type="smooth_moving" gid="31" x="896" y="5056" width="64" height="64">
+   <properties>
+    <property name="intervals" value="4000"/>
+    <property name="path" value="(0,6)"/>
+    <property name="start_on_create" value="true"/>
+   </properties>
+  </object>
+  <object id="210" type="disappearing_trigger" gid="262" x="512" y="5952" width="64" height="64">
+   <properties>
+    <property name="target_ids" value="d1,d2,d3"/>
+   </properties>
+  </object>
+  <object id="212" type="disappearing_trigger" gid="262" x="1792" y="5824" width="64" height="64">
+   <properties>
+    <property name="target_ids" value="d4,d5"/>
+   </properties>
+  </object>
+  <object id="213" name="d6" type="disappearing" gid="232" x="2048" y="5312" width="64" height="64">
+   <properties>
+    <property name="disappear_duration" value="1000"/>
+    <property name="disappear_on_touch" value="false"/>
+    <property name="recreate_delay" value="1000"/>
+   </properties>
+  </object>
+  <object id="214" name="d7" type="disappearing" gid="232" x="2048" y="5248" width="64" height="64">
+   <properties>
+    <property name="disappear_duration" value="1000"/>
+    <property name="disappear_on_touch" value="false"/>
+    <property name="recreate_delay" value="1000"/>
+   </properties>
+  </object>
+  <object id="215" name="d8" type="disappearing" gid="232" x="2048" y="5184" width="64" height="64">
+   <properties>
+    <property name="disappear_duration" value="1000"/>
+    <property name="disappear_on_touch" value="false"/>
+    <property name="recreate_delay" value="1000"/>
+   </properties>
+  </object>
+  <object id="216" name="d9" type="disappearing" gid="232" x="2048" y="5120" width="64" height="64">
+   <properties>
+    <property name="disappear_duration" value="1000"/>
+    <property name="disappear_on_touch" value="false"/>
+    <property name="recreate_delay" value="1000"/>
+   </properties>
+  </object>
+  <object id="217" name="d10" type="disappearing" gid="232" x="2240" y="5312" width="64" height="64">
+   <properties>
+    <property name="disappear_duration" value="500"/>
+    <property name="disappear_on_touch" value="false"/>
+    <property name="recreate_delay" value="2000"/>
+   </properties>
+  </object>
+  <object id="218" type="disappearing_trigger" gid="262" x="1728" y="5312" width="64" height="64">
+   <properties>
+    <property name="target_ids" value="d6,d7,d8,d9,d10"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="Foreground" width="96" height="96">
   <data encoding="base64" compression="zlib">
-   eJzt2UEOhCAMAECegrvxoOv/37d3ExMwSFVmjoTQHijQkBIAAADA832iExjYHJ0AAACv8m24lj6BkS0H42vFGm+poa1TnF+nOHBHveoMajiXY02F8/KVSfA46hagrZzK7+RIzv86+i9GZv8DUUrfVEd/M3v5ZB4AAAAAAAAAAAAAAAAAAAAAAAAAAAC09QekYgNK
+   eJzt3EkOhCAQAECeghoPzsz/3+fdxASM0jJUHQlLH2iWkJASAAAAQP/m6AAGtkYHAAA8yjmL1pYb+zJ/Gdl2Uv6paP8vOfRrNM630TjwRq3yDGpYl2NNhfXyk0HQHXkLcK+cyvfkSNb/Ou5fjMz8B6KUnqnO3maO8sU4AAAAAAAAAAAAAAAAAAAAAAAAAKBWD/8UA0CkHRjXA7Y=
   </data>
  </layer>
  <objectgroup name="Bodies">
@@ -181,7 +305,7 @@
   <object id="59" x="4096" y="1472" width="640" height="64"/>
   <object id="60" type="collectable" gid="227" x="4309.21" y="305.212" width="28" height="28">
    <properties>
-    <property name="narration_text" value="This world is yours."/>
+    <property name="narration_text" value="The world is yours."/>
    </properties>
   </object>
   <object id="61" type="disappearing" gid="232" x="4288" y="960" width="64" height="64">
@@ -194,7 +318,7 @@
     <property name="disappear_duration" value="300"/>
    </properties>
   </object>
-  <object id="63" name="player" type="player" gid="226" x="1040" y="1216" width="48" height="64">
+  <object id="63" name="player" type="player" gid="226" x="1128" y="1216" width="48" height="64">
    <properties>
     <property name="body_height" value="60"/>
     <property name="body_width" value="44"/>
@@ -224,6 +348,9 @@
   </object>
   <object id="76" x="192" y="2048" width="1408" height="128"/>
   <object id="80" x="448" y="1728">
+   <properties>
+    <property name="valid_for_respawn" value="false"/>
+   </properties>
    <polyline points="0,0 576,0 576,-448 640,-448 640,64 0,64"/>
   </object>
   <object id="89" x="2112" y="1344">
@@ -231,5 +358,14 @@
   </object>
   <object id="151" x="1920" y="1408" width="128" height="64"/>
   <object id="152" x="640" y="1856" width="128" height="192"/>
+  <object id="162" x="64" y="6016" width="576" height="64"/>
+  <object id="164" x="3264" y="1344">
+   <polyline points="0,0 0,-192 -256,-192 -256,-256 64,-256 64,0"/>
+  </object>
+  <object id="170" x="832" y="5824" width="256" height="64"/>
+  <object id="184" x="1280" y="5504" width="64" height="64"/>
+  <object id="191" x="1344" y="5632" width="64" height="256"/>
+  <object id="192" x="1408" y="5824" width="256" height="64"/>
+  <object id="197" x="1472" y="5376" width="512" height="64"/>
  </objectgroup>
 </map>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="64" tileheight="64" nextobjectid="227">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="64" tileheight="64" nextobjectid="272">
  <properties>
   <property name="background" value="world_1_background_1"/>
  </properties>
@@ -9,6 +9,9 @@
  <tileset firstgid="226" name="entities" tilewidth="64" tileheight="64" spacing="2" margin="2">
   <image source="../entities.png" trans="ff00ff" width="1024" height="1024"/>
  </tileset>
+ <tileset firstgid="451" name="door" tilewidth="128" tileheight="128">
+  <image source="door.png" trans="ff00ff" width="128" height="128"/>
+ </tileset>
  <layer name="Background" width="64" height="64">
   <data encoding="base64" compression="zlib">
    eJztwTEBAAAAwqD1T20MH6AAAAAAAAAAAAAAAAAAAACAtwFAAAAB
@@ -16,12 +19,12 @@
  </layer>
  <layer name="Enclosing" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20MH6AAAAAAAAAAAAAAAAAAAACAtwFAAAAB
+   eJztzgEJAAAIA7DHN7YpjghbgiUAAAAAAAAA8MdcBwAAAAAAAAAAShbVvwCJ
   </data>
  </layer>
  <layer name="Normal" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJzt1tsNgjAUgOEzghvwYvTNywBeBlAXEB1AJ5AJdGvbSGNTS4lQqU3+LzkB2oT2wKFFBAAAAAAAAAAAIGyn4qFi7ulbDTyXFO4qxk5bYfXFYp6zHfuI9+/KzbEI9MUcJ/b9uzJzKAJ9MWzr40HFsj4/Sfo6COW4Hmi8lHVgj+2rgRjsb/9ct9l1kDr/iad9Kq95+/aFb+g8rw3j+s6HdpTPddlEKZ97wzcWKip5538Qfx2UPcYYykya/xPa3J2j29fnGf+jjXPt5q/rwq6xHDWtlXrNcL/30PvPiXmvvvVS07mPJN/89fxvgRi19Fd1uDVt9ph/z/8irxy7hG+PM8x/lL3X9N1Xf+FX+edCv5+qY+S6jgMAAAAAAAAAgPSentA6cQ==
+   eJztmO1RwzAMhj1CN8ifHvzjYwA+BqDtAEAGKBOUCdpNGYPoEt8JVTZxEluGvs+drqkd13pjRZbrHAAAAAAAAGApHqwdMOZo7YAx0D+e//iupOj/yOaFHVL/V+Tex5yOGLG3dsCYUPzfdHbq7LagLxZcev5/df06T7VDZ5viXtcD5Y+Vu9xn4PVPeQY+x5wmjK0Frn9OHJTKQy8unNen1HeUPz6ZvY0Y49d9x9pK6ad51qKtyeCDf87cZGwcA9c5kfM0kb4l59HaLPU3kb4leB4+t53dD9fv7mcc1LD+nBz1fSwOrPVrMbAE/N1vhzYeB9b6r5T2a9f7PbfeJ53aOVnTumfzldIfq3dp75J7Qwp3rt8Dvf6t0+PA75EW6z+WOec/Lb5531rpr01/Ck/iu9RPccFjTN4nr2sklCspZ8j3Pbb+oXE16vfrquVLgjRQzT9WP48DyhOtMqYk5P8hYqtf+kM1v99jUjRZ6JdntxSL/Rfs66iU/1ba85/JTi79fwV5dk2xMedcAAAAAAAAAAAAAAAAAAAAjW+/YmV6
   </data>
  </layer>
  <objectgroup name="Entities">
@@ -30,7 +33,7 @@
     <property name="active_duration" value="500"/>
    </properties>
   </object>
-  <object id="110" name="player" type="player" gid="226" x="1792" y="2304" width="48" height="64">
+  <object id="110" name="player" type="player" gid="226" x="1640" y="2304" width="48" height="64">
    <properties>
     <property name="body_height" value="60"/>
     <property name="body_width" value="44"/>
@@ -191,10 +194,62 @@
     <property name="gravity" value="0,40"/>
    </properties>
   </object>
+  <object id="228" type="gravity_pipe" gid="234" x="3264" y="2368" width="320" height="64">
+   <properties>
+    <property name="gravity" value="40,0"/>
+   </properties>
+  </object>
+  <object id="230" type="fatal_area" gid="236" x="3584" y="1856" width="128" height="64">
+   <properties>
+    <property name="active_duration" value="600"/>
+   </properties>
+  </object>
+  <object id="231" type="gravity_pipe" gid="234" x="3584" y="1664" width="128" height="64">
+   <properties>
+    <property name="gravity" value="0,-40"/>
+   </properties>
+  </object>
+  <object id="240" type="gravity_pipe" gid="234" x="3584" y="2368" width="128" height="512">
+   <properties>
+    <property name="gravity" value="0,-40"/>
+   </properties>
+  </object>
+  <object id="241" type="gravity_pipe" gid="234" x="3584" y="1536" width="128" height="64">
+   <properties>
+    <property name="gravity" value="-20,0"/>
+   </properties>
+  </object>
+  <object id="254" type="collectable" gid="227" x="3471.33" y="1903.33" width="28" height="28">
+   <properties>
+    <property name="narration_text" value="Excellent. You're doing well."/>
+   </properties>
+  </object>
+  <object id="255" type="fatal_area" gid="236" x="3584" y="1600" width="128" height="64">
+   <properties>
+    <property name="active_duration" value="1400"/>
+   </properties>
+  </object>
+  <object id="262" type="projectile_shooter" gid="245" x="1600" y="1152" width="64" height="64">
+   <properties>
+    <property name="shoot_cooldown" value="1000"/>
+    <property name="shoot_velocity" value="40,0"/>
+   </properties>
+  </object>
+  <object id="265" type="projectile_shooter" gid="244" x="2176" y="1024" width="64" height="64">
+   <properties>
+    <property name="shoot_cooldown" value="1000"/>
+    <property name="shoot_velocity" value="-40,0"/>
+   </properties>
+  </object>
+  <object id="270" type="door" gid="451" x="1600" y="2304" width="128" height="128">
+   <properties>
+    <property name="is_lobby_door" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="Foreground" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJzt1UEKhDAMBVCPEh1QvIT3P5YMOOBCu2qNQ9/bFBpIPzXqMAAAAAAAAJR9sgN04uqep8dTvM+cHeBh5zkYj7WXOViyAyQ5P/O42HurWhmjUp8WxkItKvT/9vi933dzUOMc/lNkB2ggsgMkiuwADa2Fmu/Yve1YS/8aAAAAAAAA+rQDiBsD+Q==
+   eJzt19EKgjAUBmAfZRUUUQ/aY0cXgoia4TpHx/ddTjf/ueNkXQcAAABEemQHoLpndgBIdNrY/1wlxbFtfYctUEfq4FctrPmcy0Rby/Nd65odINiwDvr9oa+DV3CWaLfsAEmGa14m2vaqVsay8r6Ms9fSP7pUGP8zRv99z9VBjedwTCU7wB+U4H57UoL7RbovXLOPfec8CAAAAAAAwNgb/iUFzQ==
   </data>
  </layer>
  <objectgroup name="Bodies">
@@ -245,7 +300,7 @@
     <property name="valid_for_respawn" value="false"/>
    </properties>
   </object>
-  <object id="210" x="3072" y="2368" width="192" height="64"/>
+  <object id="210" x="3072" y="2368" width="704" height="64"/>
   <object id="211" x="3072" y="1728">
    <polyline points="0,0 128,0 128,64 64,64 64,192 -128,192 -128,704 -192,704 -192,128 0,128 0,0"/>
   </object>
@@ -263,5 +318,42 @@
     <property name="valid_for_respawn" value="false"/>
    </properties>
   </object>
+  <object id="232" x="3264" y="2240" width="320" height="64"/>
+  <object id="234" x="3520" y="1536" width="64" height="704"/>
+  <object id="235" x="3712" y="1408" width="64" height="960"/>
+  <object id="238" x="3584" y="1920" width="64" height="64">
+   <properties>
+    <property name="valid_for_respawn" value="false"/>
+   </properties>
+  </object>
+  <object id="243" x="3520" y="1408" width="192" height="64"/>
+  <object id="244" x="3392" y="1536" width="128" height="64"/>
+  <object id="251" type="fatal_area" gid="236" x="3584" y="1728" width="128" height="64">
+   <properties>
+    <property name="active_duration" value="1000"/>
+   </properties>
+  </object>
+  <object id="252" type="gravity_pipe" gid="234" x="3584" y="1792" width="128" height="64">
+   <properties>
+    <property name="gravity" value="0,-40"/>
+   </properties>
+  </object>
+  <object id="253" x="3456" y="2176" width="64" height="64"/>
+  <object id="256" x="2688" y="1280">
+   <polyline points="0,0 -128,0 -128,320 192,320 192,192 128,192 128,128 64,128 64,64 0,64 0,0"/>
+  </object>
+  <object id="259" x="1536" y="1280" width="1024" height="64"/>
+  <object id="260" x="1536" y="704" width="64" height="576"/>
+  <object id="263" x="1920" y="1152" width="192" height="64">
+   <properties>
+    <property name="valid_for_respawn" value="false"/>
+   </properties>
+  </object>
+  <object id="266" x="1792" y="1024" width="64" height="64">
+   <properties>
+    <property name="valid_for_respawn" value=""/>
+   </properties>
+  </object>
+  <object id="268" x="2240" y="896" width="64" height="192"/>
  </objectgroup>
 </map>

@@ -280,28 +280,13 @@ public final class Player extends Entity {
 		_numFootContacts++;
 		_isJumping = _numFootContacts < 1;
 
-		Fixture fixture = contact.getFixtureA();
-		if(fixture.getBody().equals(_body)) {
-			fixture = contact.getFixtureB();
-		}
-		
-		Entity entity = Utils.getEntity(fixture);
-		Body body = fixture.getBody();
-		BodyType bodyType = body.getType();
-		BodyData bodyData = (BodyData)body.getUserData();
 		if(!_isJumping && getCenterY() - _lastActualPos.y > FALL_HEIGHT_LIMIT) {
 			respawn("die", true, 0.5f, null);
-		} else if(_numFootContacts >= 1 && !fixture.isSensor()) {	 
-			if(bodyType != BodyType.DynamicBody && (bodyType != BodyType.KinematicBody || entity.getBody().getLinearVelocity().isZero()) &&
-			  (entity == null || entity.isValidForPlayerRespawn()) && !isInGravityPipe() && bodyData.isValidForRespawn()) {
-				_isLastValidDirectionRight = isFacingRight();
-				_lastValidPos.set(getCenterX(), getCenterY());
-			}
-			
-			_lastActualPos.set(getCenterX(), getCenterY());
+		} else {
+			_tryUpdateLastValidPos(contact);
 		}
 	}
-	
+
 	public void decrementFootContacts(Contact contact) {
 		_numFootContacts--;
 		if(_numFootContacts < 0) {
@@ -388,6 +373,27 @@ public final class Player extends Entity {
 		
 		if(_numFootContacts == 0 && !_isJumpAnimationPlaying() && !_isBlinkAnimationPlaying()) {
 			_animationSystem.switchToDefault();
+		}
+	}
+	
+	private void _tryUpdateLastValidPos(Contact contact) {
+		Fixture fixture = contact.getFixtureA();
+		if(fixture.getBody().equals(_body)) {
+			fixture = contact.getFixtureB();
+		}
+		
+		Entity entity = Utils.getEntity(fixture);
+		Body body = fixture.getBody();
+		BodyType bodyType = body.getType();
+		BodyData bodyData = (BodyData)body.getUserData();
+		if(_numFootContacts >= 1 && !fixture.isSensor()) {	 
+			if(bodyType != BodyType.DynamicBody && (bodyType != BodyType.KinematicBody || entity.getBody().getLinearVelocity().isZero()) &&
+			  (entity == null || entity.isValidForPlayerRespawn()) && !isInGravityPipe() && bodyData.isValidForRespawn()) {
+				_isLastValidDirectionRight = isFacingRight();
+				_lastValidPos.set(getCenterX(), getCenterY());
+			}
+			
+			_lastActualPos.set(getCenterX(), getCenterY());
 		}
 	}
 	

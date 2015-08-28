@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="64" tileheight="64" nextobjectid="154">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="64" tileheight="64" nextobjectid="168">
  <properties>
   <property name="background" value="world_1_background_1"/>
  </properties>
@@ -12,8 +12,8 @@
  <tileset firstgid="451" name="button" tilewidth="64" tileheight="16">
   <image source="button.png" trans="ff00ff" width="64" height="16"/>
  </tileset>
- <tileset firstgid="452" name="door" tilewidth="96" tileheight="96">
-  <image source="door.png" trans="ff00ff" width="96" height="96"/>
+ <tileset firstgid="452" name="door" tilewidth="128" tileheight="128">
+  <image source="door.png" trans="ff00ff" width="128" height="128"/>
  </tileset>
  <layer name="Background" width="64" height="64">
   <data encoding="base64" compression="zlib">
@@ -27,11 +27,11 @@
  </layer>
  <layer name="Normal" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJzt2VEKgkAQxnHfqrdu0EvPdYI6gZ2gTpAnyBPYrduFlmQQWUMdZuf/g0Eok/nQHVyqKgCwaxNqG2qn3QgAAIAzB+0GAKi6aDegrNNuQJnn/KdQD+0moKYO9Qr17lX7Pcrn4i6+T3Veq9kFxCxNqKN2I4o8z7/IU/643hvxmdX8aXbFumX+Jq53Odes5n+G2vdqbHaPsZy/rYbv6RRW88/V93Wm66wpvrfKOeaN1ed2LuT3zXN+5t9vPyr3r0OV3g/rqpy9a5KzDjpxLEnO+0tJ+ePa7z/TOeemWVFC/mRKlnRumhklrP9/8pck7v9y71+J+b3ff/Ivc64VcpaPFf9xAQAAAABgywflyzTe
+   eJzt2dGJwkAQxvG8qW924IvPWoFWoBVoBVqBqSB27Q44EAaJqyQZZvf/gyFwl5P5LtlhF5sGAOJapFqmWnk3AgAAUJmNdwMAXB28G3DWeTfgrOb8u1RX7ybg5pTqkerZq/Z9te/Fxfxeaz9XsxOQLPdUW+9GHNU8/0RN+WW9383PoubX2SV1zvwbWe92rkXNf0u17tXQ7B4SOX/bfH6mv4iaf6y+jyN9zpxk32rnWG2ivrdjIX/das7/bf7J3qh/RsvdH0Wi51F7fv20/9F3xf5fIp9dVc466My1JDn7l5Lyy9rPWdN6n5TOihLyq1+y6L06M0pY///kL4mc/3KfYYn5a3/+5J/m3ijsLB8qvuMCAAAAACCWF9dJNpc=
   </data>
  </layer>
  <objectgroup name="Entities">
-  <object id="11" name="player" type="player" gid="226" x="192" y="1792" width="48" height="64">
+  <object id="11" name="player" type="player" gid="226" x="232" y="1792" width="48" height="64">
    <properties>
     <property name="body_height" value="60"/>
     <property name="body_width" value="44"/>
@@ -240,10 +240,7 @@
   </object>
   <object id="145" name="p2" type="programmable" gid="228" x="384" y="2688" width="128" height="64">
    <properties>
-    <property name="max_down" value="7"/>
-    <property name="max_left" value="3"/>
-    <property name="max_right" value="5"/>
-    <property name="max_up" value="2"/>
+    <property name="area_id" value="area_1"/>
     <property name="other_ids" value="p1"/>
    </properties>
   </object>
@@ -252,20 +249,30 @@
     <property name="narration_text" value="You continue to impress."/>
    </properties>
   </object>
-  <object id="151" name="d1" type="door" gid="452" x="720" y="2624" width="96" height="96">
+  <object id="159" type="door" gid="452" x="192" y="1792" width="128" height="128">
    <properties>
-    <property name="exit_door_id" value="d2"/>
+    <property name="is_lobby_door" value="true"/>
    </properties>
   </object>
-  <object id="152" name="d2" type="door" gid="452" x="1040" y="2688" width="96" height="96">
+  <object id="160" name="area_1" type="basic" gid="436" x="294" y="3024" width="437" height="425">
    <properties>
-    <property name="exit_door_id" value="d1"/>
+    <property name="is_visible" value="false"/>
+   </properties>
+  </object>
+  <object id="163" name="door1" type="door" gid="452" x="704" y="2624" width="128" height="128">
+   <properties>
+    <property name="exit_door_id" value="door2"/>
+   </properties>
+  </object>
+  <object id="164" name="door2" type="door" gid="452" x="1024" y="2688" width="128" height="128">
+   <properties>
+    <property name="exit_door_id" value="door1"/>
    </properties>
   </object>
  </objectgroup>
  <layer name="Foreground" width="64" height="64">
   <data encoding="base64" compression="zlib">
-   eJzt2DEOwjAMBdAexYUBAb3/+WBolkhV6BAMyXtSFaX18Ccn7rIAAAAAALTdsgP8gMgOQKprtb/va1Tv1+r7COL9XLJDwBdFdoBEkR2gk21fj3r3iOpzi7k8swMAJJm9/5V59PFBbZnx3BkYxZn/FrP3imJtl/AntnYJMKgzvTx6hQAAAAC6eAGeQgPZ
+   eJzt100KwjAQBtAeZaoLUXv/8ylYN4M1dBFH43sQQvMD36aTZJoAAAAAANpO1QG+QFQHoNQxfZ/XPtL4nOZHEPd2qA4BHxTVAQpFdYBOlrXfqt0jyucW/+VaHQCgyLv6l8/GEd84z/fo5cVcbOxxZ2AUe/5pd6WHub2EH7G0lwCD2lPLo1cIAAAAoIsbqD8EHA==
   </data>
  </layer>
  <objectgroup name="Bodies">
@@ -295,15 +302,9 @@
   </object>
   <object id="125" name="p1" type="programmable" gid="228" x="512" y="3008" width="128" height="64">
    <properties>
-    <property name="max_down" value="1"/>
-    <property name="max_left" value="5"/>
-    <property name="max_right" value="3"/>
-    <property name="max_up" value="8"/>
+    <property name="area_id" value="area_1"/>
     <property name="other_ids" value="p2"/>
    </properties>
-  </object>
-  <object id="134" x="128" y="1984">
-   <polyline points="0,0 0,64 -64,64 -64,128 0,128 0,384 -64,384 -64,448 0,448 0,512 704,512 704,1088 640,1088 640,1152 768,1152 768,448 64,448 64,0"/>
   </object>
   <object id="135" x="0" y="2624">
    <polyline points="0,0 192,0 192,448 256,448 256,512 128,512 128,64 0,64 0,0"/>
@@ -323,8 +324,11 @@
    </properties>
   </object>
   <object id="142" x="320" y="3072" width="384" height="64"/>
-  <object id="146" x="192" y="2816" width="64" height="64"/>
-  <object id="147" x="704" y="2624" width="128" height="64"/>
+  <object id="146" x="192" y="2816" width="128" height="64"/>
+  <object id="147" x="640" y="2624" width="192" height="64"/>
   <object id="153" x="256" y="2496" width="64" height="128"/>
+  <object id="167" x="768" y="3072">
+   <polyline points="0,0 0,64 128,64 128,-704 -192,-704 -192,-640 -576,-640 -576,-1088 -640,-1088 -640,-1024 -704,-1024 -704,-960 -640,-960 -640,-704 -704,-704 -704,-640 -640,-640 -640,-576 -128,-576 -128,-640 64,-640 64,0 0,0"/>
+  </object>
  </objectgroup>
 </map>
