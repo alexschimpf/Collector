@@ -252,6 +252,10 @@ public final class Player extends Entity {
 		}, delay);
 	}
 	
+	public void setFacingRight(boolean isFacingRight) {
+		_isFacingRight = isFacingRight;
+	}
+	
 	public boolean isFacingRight() {
 		return _isFacingRight;
 	}

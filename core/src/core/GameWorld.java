@@ -93,6 +93,11 @@ public final class GameWorld implements IRender, IUpdate {
 				return;
 			}
 		}
+		
+		boolean isPlayerFacingRight = true;
+		if(Globals.getPlayer() != null) {
+			isPlayerFacingRight = Globals.getPlayer().isFacingRight();
+		}
 
 		Globals.state = Globals.State.LOADING;
 
@@ -122,8 +127,10 @@ public final class GameWorld implements IRender, IUpdate {
 			}
 		}
 		
-		Player player = Globals.getPlayer();
 		Globals.getPhysicsWorld().setGravity(new Vector2(0, GameWorld.DEFAULT_GRAVITY));
+		
+		Player player = Globals.getPlayer();
+		player.setFacingRight(isPlayerFacingRight);
 		player.setGravityPipe(null);
 		
 		// HACK: Avoids a fade transition when first loading up.

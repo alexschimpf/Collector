@@ -30,6 +30,7 @@ import entity.Player;
 public final class HUD implements IRender, IUpdate {
 
 	public static final int DEFAULT_NARRATION_DURATION = 5000;
+	private static final float BUTTON_ALPHA = 0.5f;
 	
 	private static final String[] NARRATION_TEXT = new String[] {
 		"There is so much more...",
@@ -193,7 +194,7 @@ public final class HUD implements IRender, IUpdate {
 	}
 	
 	private void checkPressedButtons() {
-		if(_movePointer == null) {
+		if(_movePointer == null || !Globals.isGameRunning()) {
 			return;
 		}
 		
@@ -222,7 +223,7 @@ public final class HUD implements IRender, IUpdate {
 		float screenHeight = Gdx.graphics.getHeight();
 		
 		_moveButton = new Button(_skin);
-		_moveButton.setColor(1, 1, 1, 0.3f);
+		_moveButton.setColor(1, 1, 1, BUTTON_ALPHA);
 		_moveButton.setSize(screenWidth / 2.75f, screenHeight / 5f);
 		_moveButton.setPosition(0, screenHeight / 32f);
 		
@@ -245,7 +246,7 @@ public final class HUD implements IRender, IUpdate {
 		float screenHeight = Gdx.graphics.getHeight();
 		
 		_jumpButton = new Button(_skin);
-		_jumpButton.setColor(1, 1, 1, 0.3f);
+		_jumpButton.setColor(1, 1, 1, BUTTON_ALPHA);
 		_jumpButton.setSize(screenWidth / 7f, screenHeight / 5f);
 		float buttonWidth = _jumpButton.getWidth();
 		
@@ -277,7 +278,7 @@ public final class HUD implements IRender, IUpdate {
 		float screenHeight = Gdx.graphics.getHeight();
 		
 		_interactButton = new Button(_skin);
-		_interactButton.setColor(1, 1, 1, 0.3f);
+		_interactButton.setColor(1, 1, 1, BUTTON_ALPHA);
 		_interactButton.setSize(screenWidth / 7f, screenHeight / 5f);
 		float buttonWidth = _interactButton.getWidth();
 		

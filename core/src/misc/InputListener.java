@@ -85,7 +85,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 		if(!Globals.isGameRunning()) {
 			return true;
 		}
-		
+
 		Player player = Globals.getPlayer();
 		if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			player.moveRight();

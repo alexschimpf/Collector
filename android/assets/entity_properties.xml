@@ -189,6 +189,7 @@
             	<property name="script_id" />
             </required>
             <override>
+                <property name="image_key" value="pressure_button" />
                 <property name="enclosing" value="true" />
                 <property name="body_type" value="dynamic" />
             </override>
@@ -201,6 +202,7 @@
                 <property name="is_lobby_door" default="false" />
             </optional>
             <override>
+                <property name="image_key" value="door" />
                 <property name="enclosing" value="true" />
             </override>
         </entity>
