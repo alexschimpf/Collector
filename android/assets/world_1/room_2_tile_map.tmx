@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="64" tileheight="64" nextobjectid="168">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="64" tileheight="64" nextobjectid="174">
  <properties>
   <property name="background" value="world_1_background_1"/>
  </properties>
@@ -8,12 +8,6 @@
  </tileset>
  <tileset firstgid="226" name="entities" tilewidth="64" tileheight="64" spacing="2" margin="2">
   <image source="../entities.png" trans="ff00ff" width="1024" height="1024"/>
- </tileset>
- <tileset firstgid="451" name="button" tilewidth="64" tileheight="16">
-  <image source="button.png" trans="ff00ff" width="64" height="16"/>
- </tileset>
- <tileset firstgid="452" name="door" tilewidth="128" tileheight="128">
-  <image source="door.png" trans="ff00ff" width="128" height="128"/>
  </tileset>
  <layer name="Background" width="64" height="64">
   <data encoding="base64" compression="zlib">
@@ -224,20 +218,6 @@
     <property name="state_machine" value="c2_3"/>
    </properties>
   </object>
-  <object id="137" type="pressure_button" gid="451" x="704" y="3072" width="64" height="16">
-   <properties>
-    <property name="body_height" value="16"/>
-    <property name="body_width" value="60"/>
-    <property name="script_id" value="p1_s"/>
-   </properties>
-  </object>
-  <object id="141" type="pressure_button" gid="451" x="256" y="3072" width="64" height="16">
-   <properties>
-    <property name="body_height" value="16"/>
-    <property name="body_width" value="60"/>
-    <property name="script_id" value="p2_s"/>
-   </properties>
-  </object>
   <object id="145" name="p2" type="programmable" gid="228" x="384" y="2688" width="128" height="64">
    <properties>
     <property name="area_id" value="area_1"/>
@@ -249,24 +229,38 @@
     <property name="narration_text" value="You continue to impress."/>
    </properties>
   </object>
-  <object id="159" type="door" gid="452" x="192" y="1792" width="128" height="128">
-   <properties>
-    <property name="is_lobby_door" value="true"/>
-   </properties>
-  </object>
   <object id="160" name="area_1" type="basic" gid="436" x="294" y="3024" width="437" height="425">
    <properties>
     <property name="is_visible" value="false"/>
    </properties>
   </object>
-  <object id="163" name="door1" type="door" gid="452" x="704" y="2624" width="128" height="128">
+  <object id="168" type="door" gid="249" x="192" y="1792" width="128" height="128">
+   <properties>
+    <property name="is_lobby_door" value="true"/>
+   </properties>
+  </object>
+  <object id="169" name="door1" type="door" gid="249" x="704" y="2624" width="128" height="128">
    <properties>
     <property name="exit_door_id" value="door2"/>
    </properties>
   </object>
-  <object id="164" name="door2" type="door" gid="452" x="1024" y="2688" width="128" height="128">
+  <object id="170" name="door2" type="door" gid="249" x="1024" y="2688" width="128" height="128">
    <properties>
     <property name="exit_door_id" value="door1"/>
+   </properties>
+  </object>
+  <object id="171" type="pressure_button" gid="250" x="256" y="3072" width="64" height="16">
+   <properties>
+    <property name="body_height" value="16"/>
+    <property name="body_width" value="60"/>
+    <property name="script_id" value="p2_s"/>
+   </properties>
+  </object>
+  <object id="173" type="pressure_button" gid="250" x="704" y="3072" width="64" height="16">
+   <properties>
+    <property name="body_height" value="16"/>
+    <property name="body_width" value="60"/>
+    <property name="script_id" value="p1_s"/>
    </properties>
   </object>
  </objectgroup>

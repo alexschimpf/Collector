@@ -26,7 +26,9 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 		Player player = Globals.getPlayer();
 		switch(keyCode) {
 			case Keys.BACK:
-				Globals.getGameWorld().loadLobbyRoom();
+				if(!Globals.isGameLoading() && !Globals.getCurrentRoom().isLobby()) {
+					Globals.getCurrentRoom().restart();
+				}
 				break;
 			case Keys.SPACE:
 				player.jump();
