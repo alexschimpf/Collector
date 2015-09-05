@@ -15,6 +15,9 @@ import com.badlogic.gdx.utils.Array;
 
 public class WeatherSystem implements IRender, IUpdate {
 
+	public static final float CLOUDS_CELL_WIDTH = Globals.getCamera().getViewportWidth() * 0.8f;
+	public static final float CLOUDS_CELL_HEIGHT = Globals.getCamera().getViewportHeight() * 0.7f;
+	
 	public static WeatherSystem instance;
 	
 	private final Array<ParticleEffect> _clouds = new Array<ParticleEffect>();
@@ -108,8 +111,8 @@ public class WeatherSystem implements IRender, IUpdate {
 	}
 	
 	private void _resetCloudMap() {
-		int numRows = MathUtils.ceil(Globals.getGameWorld().getHeight() / (Globals.getCamera().getViewportHeight() / 3));
-		int numCols = MathUtils.ceil(Globals.getGameWorld().getWidth() / (Globals.getCamera().getViewportWidth() / 3));
+		int numRows = MathUtils.ceil(Globals.getGameWorld().getHeight() / CLOUDS_CELL_HEIGHT);
+		int numCols = MathUtils.ceil(Globals.getGameWorld().getWidth() / CLOUDS_CELL_WIDTH);
 		_cloudMap = new ParticleEffect[numRows][numCols];
 		for(int i = 0; i < _cloudMap.length; i++) {
 			for(int j = 0; j < _cloudMap[0].length; j++) {
@@ -119,7 +122,7 @@ public class WeatherSystem implements IRender, IUpdate {
 	}
 
 	private void _tryCreateClouds(boolean randomFadeIn) {
-		int maxNumClouds = _cloudMap.length * _cloudMap[0].length / 6;
+		int maxNumClouds = (int)(_cloudMap.length * _cloudMap[0].length * 0.75f);
 		while(_clouds.size < maxNumClouds) {
 			_createCloud(randomFadeIn);
 		}
@@ -133,13 +136,12 @@ public class WeatherSystem implements IRender, IUpdate {
 			if(_cloudMap[row][col] == null) {
 				pos = _getCloudPosition(row, col);
 				
-				float offsetY = MathUtils.random(-Globals.getCamera().getViewportWidth() / 16, 
-						                          Globals.getCamera().getViewportWidth() / 16);
+				float offsetY = MathUtils.random(-CLOUDS_CELL_HEIGHT / 4, CLOUDS_CELL_HEIGHT / 4);
 				pos.add(0, offsetY);
 				
 				ParticleEffect cloud = Globals.getParticleEffectManager().getParticleEffect("cloud", pos.x, pos.y);
-				cloud.imageKey("cloud_" + MathUtils.random(1, 3));
-				cloud.minMaxSize(Globals.getCamera().getViewportWidth() * 0.5f, Globals.getCamera().getViewportWidth());
+				cloud.imageKey("cloud_" + MathUtils.random(1, 1));
+				cloud.minMaxSize(Globals.getCamera().getViewportWidth() * 0.8f, Globals.getCamera().getViewportWidth());
 				cloud.fadeIn(randomFadeIn ? MathUtils.randomBoolean(0.3f) : true);
 	            cloud.buildParticles();
 				
@@ -160,7 +162,6 @@ public class WeatherSystem implements IRender, IUpdate {
 	}
 	
 	private Vector2 _getCloudPosition(int mapRow, int mapCol) {
-		return new Vector2(mapCol * (Globals.getCamera().getViewportWidth() / 2), 
-				           mapRow * (Globals.getCamera().getViewportHeight() / 2));
+		return new Vector2(mapCol * CLOUDS_CELL_WIDTH, mapRow * CLOUDS_CELL_HEIGHT);
 	}
 }

@@ -128,7 +128,7 @@ public final class GameScreen implements Screen {
 		_spriteBatch.setProjectionMatrix(camera.combined);
 		
 		_spriteBatch.begin();
-		Globals.getCurrentRoom().renderBackground(_spriteBatch);
+		//Globals.getCurrentRoom().renderBackground(_spriteBatch);
 		_spriteBatch.end();
 			
 		if(!Globals.isGameLoading()) {
@@ -213,8 +213,9 @@ public final class GameScreen implements Screen {
 		_tileMap.render(TileMapLayerType.FOREGROUND, _spriteBatch);
 	}
 	
+    private float r = (240 / 255.0f), g = (250 / 255.0f), b = (250 / 255.0f);
 	private void clearScreen() {
-		Gdx.gl.glClearColor((0 / 255.0f), (0 / 255.0f), (0 / 255.0f), 1);
+		Gdx.gl.glClearColor(r, g, b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 	
@@ -230,6 +231,9 @@ public final class GameScreen implements Screen {
 		}
 
 		flashAlpha = Math.max(Math.min(flashAlpha, 1), 0);
+		r = (240 / 255.0f) * flashAlpha;
+		g = (250 / 255.0f) * flashAlpha;
+		b = (250 / 255.0f) * flashAlpha;
 		_spriteBatch.setColor(flashAlpha, flashAlpha, flashAlpha, 1);
 		_tileMap.getBatch().setColor(flashAlpha, flashAlpha, flashAlpha, 1);
 		

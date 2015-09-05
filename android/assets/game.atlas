@@ -62,91 +62,91 @@ particle
   index: -1
 player
   rotate: false
-  xy: 861, 149
+  xy: 927, 149
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: -1
 player_blink
   rotate: false
-  xy: 861, 149
+  xy: 927, 149
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 1
 player_blink
   rotate: false
-  xy: 861, 149
+  xy: 927, 149
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 5
 player_jump
   rotate: false
-  xy: 861, 149
+  xy: 927, 149
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 1
 player_jump
   rotate: false
-  xy: 861, 149
+  xy: 927, 149
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 5
 player_blink
   rotate: false
-  xy: 909, 149
+  xy: 975, 149
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 2
 player_blink
   rotate: false
-  xy: 909, 149
+  xy: 975, 149
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 4
 player_blink
   rotate: false
-  xy: 957, 149
+  xy: 271, 17
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 3
-player_jump
-  rotate: false
-  xy: 271, 17
-  size: 46, 64
-  orig: 46, 64
-  offset: 0, 0
-  index: 2
-player_jump
-  rotate: false
-  xy: 271, 17
-  size: 46, 64
-  orig: 46, 64
-  offset: 0, 0
-  index: 4
 player_jump
   rotate: false
   xy: 319, 17
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
+  index: 2
+player_jump
+  rotate: false
+  xy: 319, 17
+  size: 46, 64
+  orig: 46, 64
+  offset: 0, 0
+  index: 4
+player_jump
+  rotate: false
+  xy: 531, 83
+  size: 46, 64
+  orig: 46, 64
+  offset: 0, 0
   index: 3
 player_move
   rotate: false
-  xy: 531, 83
+  xy: 579, 83
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
   index: 1
 player_move
   rotate: false
-  xy: 579, 83
+  xy: 627, 83
   size: 46, 64
   orig: 46, 64
   offset: 0, 0
@@ -202,7 +202,14 @@ projectile
   index: -1
 world_1_background
   rotate: false
-  xy: 627, 115
+  xy: 861, 149
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 2
+world_1_background
+  rotate: false
+  xy: 675, 115
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

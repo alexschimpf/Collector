@@ -77,7 +77,7 @@
   </object>
   <object id="81" type="overlap_tracker" gid="248" x="1344" y="1856" width="64" height="64">
    <properties>
-    <property name="duration" value="800"/>
+    <property name="duration" value="750"/>
    </properties>
   </object>
   <object id="83" type="overlap_tracker" gid="248" x="1728" y="1600" width="64" height="64">

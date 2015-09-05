@@ -30,12 +30,18 @@ Design Route
 
 ---------------------------------------------------------------------------------------------------------------
 
-New room ideas:
-- Water
-- Keys to unlock doors
+[Teleportation / Portals]
+- Portals that change where they transport you
+- Portals that move
+- Things that you have to avoid that respawn you
 
 
-Room 4:
+
+
+
+
+---------------------------------------------------------------------
+
 - Fixed-movement entities, that can reverse when blocked
 - Switches that can change a moving entity's path
 - Blocking a moving entity to force it to stick there, then using it as a stepping stone
